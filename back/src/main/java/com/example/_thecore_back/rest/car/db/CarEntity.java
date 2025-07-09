@@ -8,7 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-@Entity(name = "car")
+@Entity
+@Table(name = "CAR")
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,17 +19,19 @@ public class CarEntity {
 
     private String brand; // 브랜드명
 
+    @Column(name = "\"YEAR\"")
     private String year; // 연식
 
-    @Enumerated(EnumType.STRING)
-    private CarStatus status; // 차량 상태
+//    @Enumerated(EnumType.STRING)
+//    private CarStatus status; // 차량 상태
+    private String status;
 
-    String carType; // 차종
+    private String carType; // 차종
 
-    String carNumber; // 차량 번호
+    private String carNumber; // 차량 번호
 
-    float sumDist; // 총 거리
+    private Float sumDist; // 총 거리
 
-    int emulatorId; // 연결된 애뮬레이터 아이디
+    private Integer emulatorId; // 연결된 애뮬레이터 아이디
 
 }
