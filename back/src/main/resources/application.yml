@@ -1,0 +1,14 @@
+# application.yml
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb  # ???? DB
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true          # ?????? DB ?? ??
+  jpa:
+    hibernate:
+      ddl-auto: update       # Entity? ??? ?? ??/??
+    show-sql: true           # SQL ?? ??
