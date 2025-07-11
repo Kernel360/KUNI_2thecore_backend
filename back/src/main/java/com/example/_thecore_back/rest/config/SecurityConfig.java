@@ -10,9 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-// deprecated로 인한 실행 오류 수정
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @RequiredArgsConstructor
@@ -35,11 +32,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/swagger-resources/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui.html")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll()
+                        // 오류 수정
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
