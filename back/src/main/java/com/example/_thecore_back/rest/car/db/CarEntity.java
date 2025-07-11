@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 @ToString
 @Entity(name = "Car")
+
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,7 @@ public class CarEntity {
 
     private String brand; // 브랜드명
 
+
     @Column(name = "car_year")
     private Integer carYear; // 연식
 
@@ -28,12 +30,14 @@ public class CarEntity {
     @Column(length = 40)
     private CarStatus status; // 차량 상태
 
+
     private String carType; // 차종
 
     private String carNumber; // 차량 번호
 
     private double sumDist; // 총 거리
 
-    private int emulatorId; // 연결된 애뮬레이터 아이디
+    private Integer emulatorId; // 연결된 애뮬레이터 아이디
+
 
 }
