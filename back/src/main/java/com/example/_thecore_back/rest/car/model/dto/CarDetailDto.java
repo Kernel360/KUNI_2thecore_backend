@@ -1,5 +1,6 @@
-package com.example._thecore_back.rest.car.db;
+package com.example._thecore_back.rest.car.model.dto;
 
+import com.example._thecore_back.rest.car.db.CarEntity;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;

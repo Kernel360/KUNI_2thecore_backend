@@ -1,7 +1,10 @@
 package com.example._thecore_back.rest.car.service;
 
+import com.example._thecore_back.rest.car.model.dto.CarDetailDto;
+import com.example._thecore_back.rest.car.model.dto.CarSearchDto;
+import com.example._thecore_back.rest.car.model.dto.CarSummaryDto;
 import com.example._thecore_back.rest.car.db.*;
-import jakarta.persistence.EntityNotFoundException;
+import com.example._thecore_back.rest.car.exception.CarNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,7 @@ public class CarService {
     private final CarRepository carRepository;
 
     public CarDetailDto getCar(String carNumber){
-        var entity =  carRepository.findByCarNumber(carNumber).orElseThrow(() -> new EntityNotFoundException("Car not found"));
+        var entity =  carRepository.findByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(carNumber));
         return CarDetailDto.EntityToDto(entity);
     }
 

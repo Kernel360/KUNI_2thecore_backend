@@ -1,6 +1,7 @@
-package com.example._thecore_back.rest.car.db;
+package com.example._thecore_back.rest.car.model.dto;
 
 
+import com.example._thecore_back.rest.car.db.CarEntity;
 import lombok.*;
 
 @Getter

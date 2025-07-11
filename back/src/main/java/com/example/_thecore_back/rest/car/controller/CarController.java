@@ -1,8 +1,8 @@
 package com.example._thecore_back.rest.car.controller;
 
-import com.example._thecore_back.rest.car.db.CarDetailDto;
-import com.example._thecore_back.rest.car.db.CarSearchDto;
-import com.example._thecore_back.rest.car.db.CarSummaryDto;
+import com.example._thecore_back.rest.car.model.dto.CarDetailDto;
+import com.example._thecore_back.rest.car.model.dto.CarSearchDto;
+import com.example._thecore_back.rest.car.model.dto.CarSummaryDto;
 import com.example._thecore_back.rest.car.model.CarResponse;
 import com.example._thecore_back.rest.car.service.CarService;
 import lombok.RequiredArgsConstructor;

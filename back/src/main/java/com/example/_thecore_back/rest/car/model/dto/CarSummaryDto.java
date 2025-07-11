@@ -1,9 +1,7 @@
-package com.example._thecore_back.rest.car.db;
+package com.example._thecore_back.rest.car.model.dto;
 
 
 import lombok.*;
-
-import java.util.Map;
 
 @Getter
 @Setter
