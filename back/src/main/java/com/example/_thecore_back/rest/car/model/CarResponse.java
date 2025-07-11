@@ -1,6 +1,7 @@
 package com.example._thecore_back.rest.car.model;
 
 import com.example._thecore_back.rest.car.db.CarEntity;
+import com.example._thecore_back.rest.car.db.CarStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -22,7 +23,7 @@ public class CarResponse {
     private Integer carYear;
 
     @NotBlank
-    private String status;
+    private CarStatus status;
 
     @NotBlank
     private String carType;
@@ -42,7 +43,7 @@ public class CarResponse {
                 .model(carEntity.getModel())
                 .carYear(carEntity.getCarYear())
 //                .status(carEntity.getStatus().getDisplayName()) // enum -> 한글 문자열
-                .status(carEntity.getStatus().name())
+                .status(carEntity.getStatus())
                 .carType(carEntity.getCarType())
                 .carNumber(carEntity.getCarNumber())
                 .sumDist(carEntity.getSumDist())

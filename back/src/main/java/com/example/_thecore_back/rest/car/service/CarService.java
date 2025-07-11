@@ -73,7 +73,7 @@ public class CarService {
         var entity = CarEntity.builder()
                 .brand(carRequest.getBrand())
                 .model(carRequest.getModel())
-                .year(carRequest.getCarYear())
+                .carYear(carRequest.getCarYear())
 //                .status(CarStatus.IDLE) // default값 : 대기 중
                 .status(carRequest.getStatus())
                 .carType(carRequest.getCarType())
@@ -101,14 +101,13 @@ public class CarService {
             entity.setModel(carRequest.getModel());
         }
 
-        if(carRequest.getYear() != null && !carRequest.getYear().isBlank()) {
-            entity.setYear(carRequest.getYear());
+        if(carRequest.getCarYear() != null && !carRequest.getCarYear().equals(0)) {
+            entity.setCarYear(carRequest.getCarYear());
         }
 
-        if(carRequest.getStatus() != null && !carRequest.getStatus().isBlank()) {
-            var status = CarStatus.fromDisplayName(carRequest.getStatus());
-//            entity.setStatus(status);
-            entity.setStatus(carRequest.getStatus());
+        if(carRequest.getStatus() != null && !carRequest.getStatus().name().isBlank()) {
+            var status = CarStatus.fromDisplayName(carRequest.getStatus().getDisplayName());
+            entity.setStatus(status);
         }
 
         if(carRequest.getCarType() != null && !carRequest.getCarType().isBlank()) {
@@ -119,7 +118,7 @@ public class CarService {
             entity.setCarNumber(carRequest.getCarNumber());
         }
 
-        if (carRequest.getSumDist() != null) {
+        if (carRequest.getSumDist() >= 0) {
             entity.setSumDist(carRequest.getSumDist());
         }
 

@@ -2,6 +2,7 @@ package com.example._thecore_back.rest.car.exception;
 
 
 import com.example._thecore_back.rest.car.controller.CarController;
+import com.example._thecore_back.rest.car.model.ApiResponse;
 import com.example._thecore_back.rest.car.model.CarExceptionResponse;
 import com.example._thecore_back.rest.car.model.CarResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class CarExceptionHandler {
 
 
     @ExceptionHandler(CarNotFoundException.class)
-    public CarResponse<CarExceptionResponse> handleCarNotFoundException(Exception e, HttpServletRequest request) {
+    public ApiResponse<CarExceptionResponse> handleCarNotFoundException(Exception e, HttpServletRequest request) {
 
         var response = CarExceptionResponse.builder()
                 .timestamp(LocalDateTime.now())
@@ -31,11 +32,7 @@ public class CarExceptionHandler {
                 .path(request.getRequestURI())
                 .build();
 
-        return CarResponse.<CarExceptionResponse>builder()
-                .result(HttpStatus.BAD_REQUEST.toString())
-                .message(e.getMessage())
-                .data(response).build();
-
+        return ApiResponse.success(response);
     }
 
 }

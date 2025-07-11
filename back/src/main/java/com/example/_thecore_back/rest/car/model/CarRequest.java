@@ -1,5 +1,6 @@
 package com.example._thecore_back.rest.car.model;
 
+import com.example._thecore_back.rest.car.db.CarStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -17,10 +18,9 @@ public class CarRequest {
     @NotBlank(groups = CreateGroup.class)
     private String model;
 
-    @NotBlank(groups = CreateGroup.class)
-    private String year;
+    private Integer carYear;
 
-    private String status;
+    private CarStatus status;
 
     @NotBlank(groups = CreateGroup.class)
     private String carType;
@@ -29,7 +29,7 @@ public class CarRequest {
     private String carNumber;
 
     @NotNull(groups = CreateGroup.class)
-    private Float sumDist;
+    private double sumDist;
 
     @NotNull(groups = CreateGroup.class)
     private Integer emulatorId;

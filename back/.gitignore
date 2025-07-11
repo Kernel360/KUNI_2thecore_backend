@@ -56,3 +56,6 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+# macos Finder 설정 파일
+.DS_Store
+
