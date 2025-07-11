@@ -1,7 +1,6 @@
 package com.example._thecore_back.rest.car.model;
 
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +21,4 @@ public class CarExceptionResponse {
     private String message;
 
     private String path;
-
-
 }
