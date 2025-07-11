@@ -1,5 +1,6 @@
 package com.example._thecore_back.rest.auth.controller;
 
+import com.example._thecore_back.common.dto.ApiResponse; // ApiResponse 추가
 import com.example._thecore_back.rest.auth.jwt.JwtTokenProvider;
 import com.example._thecore_back.rest.auth.model.LoginRequest;
 import com.example._thecore_back.rest.auth.model.RefreshRequest;
@@ -27,7 +28,7 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginRequest request){
+    public ResponseEntity<ApiResponse<TokenDto>> login(@RequestBody LoginRequest request) {
         // 인증 시도
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
@@ -45,17 +46,24 @@ public class AuthController {
         String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
         String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
 
-        return ResponseEntity.ok(TokenDto.builder()
+        TokenDto tokenDto = TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .expiredAt(accessExpireAt)
-                .build());
+                .build();
+
+        // ApiResponse를 활용해 일관된 응답 포맷으로 반환
+        return ResponseEntity.ok(ApiResponse.success("로그인 성공", tokenDto));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenDto> refresh(@RequestBody RefreshRequest request){
-        if (!jwtTokenProvider.validateToken(request.getRefreshToken())){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<ApiResponse<TokenDto>> refresh(@RequestBody RefreshRequest request) {
+        // 리프레시 토큰 검증
+        ApiResponse<Boolean> validation = jwtTokenProvider.validateToken(request.getRefreshToken());
+        if (!validation.isResult() || Boolean.FALSE.equals(validation.getData())) {
+            // 실패 응답일 경우에도 동일한 응답 형식 유지
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ApiResponse.fail(validation.getMessage()));
         }
 
         String email = jwtTokenProvider.getSubject(request.getRefreshToken());
@@ -65,10 +73,13 @@ public class AuthController {
 
         String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
 
-        return ResponseEntity.ok(TokenDto.builder()
+        TokenDto tokenDto = TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(request.getRefreshToken())
                 .expiredAt(accessExpireAt)
-                .build());
+                .build();
+
+        // 새 accessToken을 성공적으로 발급했을 때 응답
+        return ResponseEntity.ok(ApiResponse.success("엑세스 토큰 갱신 성공", tokenDto));
     }
 }
