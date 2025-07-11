@@ -1,6 +1,7 @@
 package com.example._thecore_back.rest.auth.jwt;
 
 
+import com.example._thecore_back.common.dto.ApiResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -36,19 +37,20 @@ public class JwtTokenProvider {
     }
 
     // JWT 유효성 검증
-    public boolean validateToken(String token){
+    public ApiResponse<Boolean> validateToken(String token){
         try {
             Jwts.parserBuilder() // 토큰을 파싱하면서 검증 시도
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
-            return true;
+            return ApiResponse.success("토큰 유효함", true);
         } catch (ExpiredJwtException e){ // 토큰이 만료됐을 시
             log.warn("Token expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            return ApiResponse.fail("토큰 만료됨");
+        } catch (JwtException e) {
             log.warn("Invalid token: {}", e.getMessage());
+            return ApiResponse.fail("유효하지 않은 토큰");
         }
-        return false;
     }
 
     // 사용자 ID OR EMAIL 같은 claim에서 subject 추출
