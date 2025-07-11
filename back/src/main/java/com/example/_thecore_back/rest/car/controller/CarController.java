@@ -1,12 +1,9 @@
 package com.example._thecore_back.rest.car.controller;
+import com.example._thecore_back.rest.car.model.*;
 import com.example._thecore_back.rest.car.model.dto.CarDetailDto;
 import com.example._thecore_back.rest.car.model.dto.CarSearchDto;
 import com.example._thecore_back.rest.car.model.dto.CarSummaryDto;
 import com.example._thecore_back.rest.car.model.CarResponse;
-import com.example._thecore_back.rest.car.model.Api;
-import com.example._thecore_back.rest.car.model.CarRequest;
-import com.example._thecore_back.rest.car.model.CarResponse;
-import com.example._thecore_back.rest.car.model.CreateGroup;
 import com.example._thecore_back.rest.car.service.CarService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
@@ -27,37 +24,33 @@ public class CarController {
 //    @GetMapping("")
 //    public
     @GetMapping("/{car_number}")
-    public CarResponse<CarDetailDto> getCar(@PathVariable String car_number) {
+    public ApiResponse<CarDetailDto> getCar(@PathVariable String car_number) {
 
         var response = carService.getCar(car_number);
 
-        return CarResponse.<CarDetailDto>builder()
-                .result("OK")
-                .message("find car")
-                .data(response)
-                .build();
+//        return CarResponse.<CarDetailDto>builder()
+//                .result("OK")
+//                .message("find car")
+//                .data(response)
+//                .build();
+
+        return ApiResponse.success(response);
     }
 
     @GetMapping("/search")
-    public CarResponse<List<CarSearchDto>> getAllCars() {
+    public ApiResponse<List<CarSearchDto>> getAllCars() {
 
         var response = carService.getAllCars();
 
-        return CarResponse.<List<CarSearchDto>>builder()
-                .result("OK")
-                .message("All Car")
-                .data(response)
-                .build();
+        return ApiResponse.success(response);
     }
 
     @GetMapping("/statistics")
-    public CarResponse<CarSummaryDto> getCountByStatus() {
+    public ApiResponse<CarSummaryDto> getCountByStatus() {
         var response = carService.getCountByStatus();
 
-        return CarResponse.<CarSummaryDto>builder()
-                .result("OK")
-                .message("great")
-                .data(response)
+        return ApiResponse.success(response);
+    }
     
 
     // 차량 등록

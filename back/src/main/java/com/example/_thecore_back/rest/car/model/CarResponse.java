@@ -19,7 +19,7 @@ public class CarResponse {
     private String model;
 
     @NotBlank
-    private String year;
+    private Integer carYear;
 
     @NotBlank
     private String status;
@@ -31,7 +31,7 @@ public class CarResponse {
     private String carNumber;
 
     @NotNull
-    private Float sumDist;
+    private double sumDist;
 
     @NotNull
     private Integer emulatorId;
@@ -40,9 +40,9 @@ public class CarResponse {
         return CarResponse.builder()
                 .brand(carEntity.getBrand())
                 .model(carEntity.getModel())
-                .year(carEntity.getYear())
+                .carYear(carEntity.getCarYear())
 //                .status(carEntity.getStatus().getDisplayName()) // enum -> 한글 문자열
-                .status(carEntity.getStatus())
+                .status(carEntity.getStatus().name())
                 .carType(carEntity.getCarType())
                 .carNumber(carEntity.getCarNumber())
                 .sumDist(carEntity.getSumDist())
