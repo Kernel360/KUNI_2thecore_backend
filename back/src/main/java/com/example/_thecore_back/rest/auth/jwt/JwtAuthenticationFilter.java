@@ -1,5 +1,7 @@
 package com.example._thecore_back.rest.auth.jwt;
 
+import com.example._thecore_back.common.dto.ApiResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,18 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.startsWith("/swagger-resources")
+                || path.startsWith("/swagger-ui.html")
+                || path.startsWith("/webjars");
+    }
+
 
     @Override
     protected void doFilterInternal(
@@ -33,8 +47,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authToken = request.getHeader("Authorization");
 
         // 헤더가 없거나 Bearer 형식이 아닌 경우
-        if (authToken != null && !authToken.startsWith("Bearer ")){
-            filterChain.doFilter(request, response);
+        if (authToken == null || !authToken.startsWith("Bearer ")) {
+            sendErrorResponse(response, "Authorization 헤더가 없거나 Bearer 형식이 아닙니다.");
             return;
         }
 
@@ -42,27 +56,41 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authToken.substring(7);
 
         // 토큰 검증
-        if (jwtTokenProvider.validateToken(token)){
-            String userId = jwtTokenProvider.getSubject(token);
+        ApiResponse<Boolean> validation = jwtTokenProvider.validateToken(token);
 
-            // 인증 객체 생성 및 등록
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userId, // userId가 principal
-                            null, // 비밀번호는 아직 미검증
-                            null // 권한 처리 필요시 여기에 리스트 전달
-                    );
-
-            authentication.setDetails(
-                    new WebAuthenticationDetailsSource().buildDetails(request)
-            );
-
-            // 인증 객체를 SecurityContext에 등록
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        if (!validation.isResult() || Boolean.FALSE.equals(validation.getData())) {
+            sendErrorResponse(response, validation.getMessage());
+            return;
         }
+
+        // 인증 객체 생성 및 등록
+        String userId = jwtTokenProvider.getSubject(token);
+
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(
+                        userId, // userId가 principal
+                        null,   // 비밀번호는 아직 미검증
+                        null    // 권한 처리 필요시 여기에 리스트 전달
+                );
+
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+        // 인증 객체를 SecurityContext에 등록
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 다음 필터로 넘김
         filterChain.doFilter(request, response);
     }
+
+    // ApiResponse.fail() 기반 JSON 에러 응답 전송 메서드
+    private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+        response.setContentType("application/json;charset=UTF-8");
+
+        ApiResponse<?> apiResponse = ApiResponse.fail(message);
+        String json = objectMapper.writeValueAsString(apiResponse);
+
+        response.getWriter().write(json);
+    }
 }
+
