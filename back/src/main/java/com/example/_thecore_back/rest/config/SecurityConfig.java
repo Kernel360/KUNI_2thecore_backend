@@ -10,9 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+// deprecated로 인한 실행 오류 수정
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @RequiredArgsConstructor
@@ -24,19 +24,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        // MvcRequestMatcher 생성 시 서블릿 경로 지정 필요
-        RequestMatcher apiAuthMatcher = new MvcRequestMatcher(introspector, "/api/auth/**");
-        RequestMatcher swaggerUiMatcher = new MvcRequestMatcher(introspector, "/swagger-ui/**");
-        RequestMatcher apiDocsMatcher = new MvcRequestMatcher(introspector, "/v3/api-docs/**");
-
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(apiAuthMatcher).permitAll()
-                        .requestMatchers(swaggerUiMatcher).permitAll()
-                        .requestMatchers(apiDocsMatcher).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/auth/")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui/")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
