@@ -1,0 +1,45 @@
+package com.example._thecore_back.rest.car.model.dto;
+
+import com.example._thecore_back.rest.car.db.CarEntity;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+
+public class CarDetailDto {
+
+    private String brand;
+
+    private String model;
+
+    private Integer year;
+
+    private String status;
+
+    private String carType;
+
+    private String carNumber;
+
+    private double sumDist;
+
+
+    public static CarDetailDto EntityToDto(CarEntity car){
+        return CarDetailDto.builder()
+                .brand(car.getBrand())
+                .model(car.getModel())
+                .year(car.getCarYear())
+                .status(car.getStatus().name())
+                .carType(car.getCarType())
+                .carNumber(car.getCarNumber())
+                .sumDist(car.getSumDist())
+                .build();
+
+    }
+
+}
