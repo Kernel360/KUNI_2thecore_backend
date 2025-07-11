@@ -4,11 +4,11 @@ package com.example._thecore_back.rest.car.exception;
 import com.example._thecore_back.rest.car.controller.CarController;
 import com.example._thecore_back.rest.car.model.ApiResponse;
 import com.example._thecore_back.rest.car.model.CarExceptionResponse;
-import com.example._thecore_back.rest.car.model.CarResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,9 +20,23 @@ import java.time.LocalDateTime;
 
 public class CarExceptionHandler {
 
+    // 차량이 이미 존재할 때 - create
+    @ExceptionHandler(CarAlreadyExistsException.class)
+    public ApiResponse<CarExceptionResponse> handleCarAlreadyExistsException(CarAlreadyExistsException e, HttpServletRequest request) {
+        var response = CarExceptionResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.CONFLICT.value())
+                .error(HttpStatus.CONFLICT.getReasonPhrase())
+                .message(e.getMessage())
+                .path(request.getRequestURI())
+                .build();
 
+        return ApiResponse.fail(response);
+    }
+
+    // 차량이 존재하지 않을 때
     @ExceptionHandler(CarNotFoundException.class)
-    public ApiResponse<CarExceptionResponse> handleCarNotFoundException(Exception e, HttpServletRequest request) {
+    public ApiResponse<CarExceptionResponse> handleCarNotFoundException(CarNotFoundException e, HttpServletRequest request) {
 
         var response = CarExceptionResponse.builder()
                 .timestamp(LocalDateTime.now())
@@ -32,7 +46,6 @@ public class CarExceptionHandler {
                 .path(request.getRequestURI())
                 .build();
 
-        return ApiResponse.success(response);
+        return ApiResponse.fail(response);
     }
-
 }
