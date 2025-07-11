@@ -1,6 +1,7 @@
-package com.example._thecore_back.rest.car.model;
+package com.example._thecore_back.rest.car.model.dto;
 
 import com.example._thecore_back.rest.car.db.CarStatus;
+import com.example._thecore_back.rest.car.model.CreateGroup;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarRequest {
+public class CarRequestDto {
     @NotBlank(groups = CreateGroup.class)
     private String brand;
 
@@ -33,10 +34,4 @@ public class CarRequest {
 
     @NotNull(groups = CreateGroup.class)
     private Integer emulatorId;
-
-    @NotBlank
-    private String verificationCode;
-
-    @NotBlank
-    private String confirmPassword;
 }
