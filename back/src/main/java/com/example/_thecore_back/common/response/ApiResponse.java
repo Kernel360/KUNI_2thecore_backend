@@ -1,9 +1,8 @@
-package com.example._thecore_back.rest.car.model;
+package com.example._thecore_back.common.response;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor

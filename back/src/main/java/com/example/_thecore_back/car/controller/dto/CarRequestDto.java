@@ -1,7 +1,7 @@
-package com.example._thecore_back.rest.car.model.dto;
+package com.example._thecore_back.car.controller.dto;
 
-import com.example._thecore_back.rest.car.db.CarStatus;
-import com.example._thecore_back.rest.car.model.CreateGroup;
+import com.example._thecore_back.car.domain.CarStatus;
+import com.example._thecore_back.car.validation.group.CreateGroup;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

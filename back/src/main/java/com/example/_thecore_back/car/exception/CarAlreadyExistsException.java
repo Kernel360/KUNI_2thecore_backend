@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.car.exception;
+package com.example._thecore_back.car.exception;
 
 public class CarAlreadyExistsException extends RuntimeException {
     public CarAlreadyExistsException(String message) {
