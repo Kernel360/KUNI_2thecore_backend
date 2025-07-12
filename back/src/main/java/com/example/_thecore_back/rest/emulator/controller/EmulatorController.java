@@ -2,9 +2,9 @@ package com.example._thecore_back.rest.emulator.controller;
 
 import com.example._thecore_back.rest.emulator.db.EmulatorEntity;
 import com.example._thecore_back.rest.emulator.model.*;
-import com.example._thecore_back.rest_emulators.model.*;
 import com.example._thecore_back.rest.emulator.service.EmulatorService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class EmulatorController {
     // 애뮬레이터 등록
     @PostMapping
     public ResponseEntity<FinalRegisterEmulatorResponse> registerEmulator(
-        @RequestBody EmulatorRequest emulatorRequest
+        @Valid @RequestBody EmulatorRequest emulatorRequest
     ){
         EmulatorEntity savedEntity = emulatorService.registerEmulator(emulatorRequest);
         RegisterEmulatorResponseData responseData = emulatorConverter.toRegisterEmulatorData(savedEntity);
@@ -74,7 +74,7 @@ public class EmulatorController {
     @PatchMapping("/{emulator_id}")
     public ResponseEntity<FinalUpdateEmulatorResponse> updateEmulator(
             @PathVariable("emulator_id") Long emulatorId,
-            @RequestBody EmulatorRequest emulatorRequest
+            @Valid @RequestBody EmulatorRequest emulatorRequest
     ){
         EmulatorEntity updatedEntity = emulatorService.updateEmulator(emulatorId, emulatorRequest);
         UpdateEmulatorResponseData responseData = emulatorConverter.toUpdateEmulatorData(updatedEntity);
