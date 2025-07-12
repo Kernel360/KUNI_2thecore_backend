@@ -45,6 +45,8 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	
 	implementation 'com.h2database:h2'
+
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 }
 
 tasks.named('test') {
