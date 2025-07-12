@@ -1,7 +1,6 @@
-package com.example._thecore_back.rest.car.db;
+package com.example._thecore_back.car.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data

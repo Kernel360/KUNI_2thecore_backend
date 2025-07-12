@@ -1,14 +1,13 @@
-package com.example._thecore_back.rest.car.exception;
+package com.example._thecore_back.car.exception;
 
 
-import com.example._thecore_back.rest.car.controller.CarController;
-import com.example._thecore_back.rest.car.model.ApiResponse;
-import com.example._thecore_back.rest.car.model.CarExceptionResponse;
+import com.example._thecore_back.car.controller.CarController;
+import com.example._thecore_back.car.exception.response.CarExceptionResponse;
+import com.example._thecore_back.common.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

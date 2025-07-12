@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.car.exception;
+package com.example._thecore_back.car.exception;
 
 
 

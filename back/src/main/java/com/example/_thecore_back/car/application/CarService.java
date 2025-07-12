@@ -1,45 +1,47 @@
-package com.example._thecore_back.rest.car.service;
+package com.example._thecore_back.car.application;
 
 
-import com.example._thecore_back.rest.car.exception.CarAlreadyExistsException;
-import com.example._thecore_back.rest.car.model.dto.CarDeleteDto;
-import com.example._thecore_back.rest.car.model.dto.CarDetailDto;
-import com.example._thecore_back.rest.car.model.dto.CarSearchDto;
-import com.example._thecore_back.rest.car.model.dto.CarSummaryDto;
-import com.example._thecore_back.rest.car.exception.CarNotFoundException;
+import com.example._thecore_back.car.exception.CarAlreadyExistsException;
+import com.example._thecore_back.car.controller.dto.CarDeleteDto;
+import com.example._thecore_back.car.controller.dto.CarDetailDto;
+import com.example._thecore_back.car.controller.dto.CarSearchDto;
+import com.example._thecore_back.car.controller.dto.CarSummaryDto;
+import com.example._thecore_back.car.exception.CarNotFoundException;
+import com.example._thecore_back.car.infrastructure.CarReaderImpl;
+import com.example._thecore_back.car.infrastructure.CarWriterImpl;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import com.example._thecore_back.rest.car.db.CarEntity;
-import com.example._thecore_back.rest.car.db.CarRepository;
-import com.example._thecore_back.rest.car.db.CarStatus;
-import com.example._thecore_back.rest.car.model.dto.CarRequestDto;
+import com.example._thecore_back.car.domain.CarEntity;
+import com.example._thecore_back.car.domain.CarStatus;
+import com.example._thecore_back.car.controller.dto.CarRequestDto;
 
 
 @Service
 @RequiredArgsConstructor
 public class CarService {
 
-    private final CarRepository carRepository;
+    private final CarReaderImpl carReader;
+    private final CarWriterImpl carWriter;
 
     public CarDetailDto getCar(String carNumber){
-        var entity =  carRepository.findByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(carNumber));
+        var entity =  carReader.findByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(carNumber));
         return CarDetailDto.EntityToDto(entity);
     }
 
     public List<CarSearchDto> getAllCars(){
 
-        return carRepository.findAll().stream()
+        return carReader.findAll().stream()
                 .map(CarSearchDto::EntityToDto).collect(Collectors.toList());
 
     }
 
     public CarSummaryDto getCountByStatus(){
 
-        Map<CarStatus, Long> result = carRepository.getCountByStatus().stream().collect(Collectors.toMap(
+        Map<CarStatus, Long> result = carReader.getCountByStatus().stream().collect(Collectors.toMap(
                 row -> (CarStatus) row[0],
                 row -> (Long) row[1]
         ));
@@ -57,11 +59,11 @@ public class CarService {
     public CarDetailDto createCar( // 차량 등록
             CarRequestDto carRequest
     ) {
-        if (carRepository.findByCarNumber(carRequest.getCarNumber()).isPresent()) {
+        if (carReader.findByCarNumber(carRequest.getCarNumber()).isPresent()) {
             throw new CarAlreadyExistsException("차량 번호가 이미 존재합니다: " + carRequest.getCarNumber());
         }
 
-        if (carRepository.findByEmulatorId(carRequest.getEmulatorId()).isPresent()) {
+        if (carReader.findByEmulatorId(carRequest.getEmulatorId()).isPresent()) {
             throw new CarAlreadyExistsException("해당 Emulator ID가 이미 사용 중입니다: " + carRequest.getEmulatorId());
         }
         var entity = CarEntity.builder()
@@ -76,7 +78,7 @@ public class CarService {
                 .emulatorId(carRequest.getEmulatorId())
                 .build();
 
-        return CarDetailDto.EntityToDto(carRepository.save(entity));
+        return CarDetailDto.EntityToDto(carWriter.save(entity));
     }
 
 
@@ -84,7 +86,7 @@ public class CarService {
             CarRequestDto carRequest,
             String carNumber
     ) {
-        CarEntity entity = carRepository.findByCarNumber(carNumber)
+        CarEntity entity = carReader.findByCarNumber(carNumber)
                     .orElseThrow(() -> new CarNotFoundException(carNumber));
 
         if (carRequest.getBrand() != null && !carRequest.getBrand().isBlank()) {
@@ -120,17 +122,17 @@ public class CarService {
             entity.setEmulatorId(carRequest.getEmulatorId());
         }
 
-        return CarDetailDto.EntityToDto(carRepository.save(entity));
+        return CarDetailDto.EntityToDto(carWriter.save(entity));
     }
 
 
     public CarDeleteDto deleteCar( // 차량 삭제
             String carNumber
     ){
-        CarEntity entity = carRepository.findByCarNumber(carNumber)
+        CarEntity entity = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new CarNotFoundException(carNumber));
 
-        carRepository.delete(entity);
+        carWriter.delete(entity);
 
         return CarDeleteDto.EntityToDto(entity);
     }

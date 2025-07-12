@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.car.model.dto;
+package com.example._thecore_back.car.controller.dto;
 
 
 import lombok.*;

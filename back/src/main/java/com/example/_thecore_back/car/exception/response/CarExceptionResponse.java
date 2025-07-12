@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.car.model;
+package com.example._thecore_back.car.exception.response;
 
 import lombok.*;
 

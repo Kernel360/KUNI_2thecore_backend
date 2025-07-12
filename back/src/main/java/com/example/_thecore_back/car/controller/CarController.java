@@ -1,7 +1,8 @@
-package com.example._thecore_back.rest.car.controller;
-import com.example._thecore_back.rest.car.model.*;
-import com.example._thecore_back.rest.car.model.dto.*;
-import com.example._thecore_back.rest.car.service.CarService;
+package com.example._thecore_back.car.controller;
+import com.example._thecore_back.car.controller.dto.*;
+import com.example._thecore_back.common.response.ApiResponse;
+import com.example._thecore_back.car.validation.group.CreateGroup;
+import com.example._thecore_back.car.application.CarService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
