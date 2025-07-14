@@ -1,6 +1,5 @@
-package com.example._thecore_back.rest.emulator.db;
+package com.example._thecore_back.emulator.domain;
 
-import com.example._thecore_back.rest.emulator.model.EmulatorStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

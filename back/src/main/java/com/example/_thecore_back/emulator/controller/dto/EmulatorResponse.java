@@ -1,5 +1,6 @@
-package com.example._thecore_back.rest.emulator.model;
+package com.example._thecore_back.emulator.controller.dto;
 
+import com.example._thecore_back.emulator.domain.EmulatorStatus;
 import lombok.Getter;
 import lombok.Setter;
 

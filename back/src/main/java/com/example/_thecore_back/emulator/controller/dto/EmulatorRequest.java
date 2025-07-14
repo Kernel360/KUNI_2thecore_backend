@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.emulator.model;
+package com.example._thecore_back.emulator.controller.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
