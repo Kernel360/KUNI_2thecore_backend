@@ -1,4 +1,6 @@
 # application.yml
+jwt:
+  secret: my_secret_key_for_hmac_sha256_algorithm_256bit
 spring:
   datasource:
     url: jdbc:h2:mem:testdb  # ???? DB
