@@ -1,8 +1,8 @@
-package com.example._thecore_back.rest.emulator.controller;
+package com.example._thecore_back.emulator.controller;
 
-import com.example._thecore_back.rest.emulator.db.EmulatorEntity;
-import com.example._thecore_back.rest.emulator.model.*;
-import com.example._thecore_back.rest.emulator.service.EmulatorService;
+import com.example._thecore_back.emulator.controller.dto.*;
+import com.example._thecore_back.emulator.domain.EmulatorEntity;
+import com.example._thecore_back.emulator.application.EmulatorService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

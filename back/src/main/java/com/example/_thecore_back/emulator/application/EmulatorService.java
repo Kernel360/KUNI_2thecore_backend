@@ -1,13 +1,13 @@
-package com.example._thecore_back.rest.emulator.service;
+package com.example._thecore_back.emulator.application;
 import com.example._thecore_back.rest.car.db.CarEntity;
 import com.example._thecore_back.rest.car.db.CarRepository;
-import com.example._thecore_back.rest.emulator.db.EmulatorEntity;
-import com.example._thecore_back.rest.emulator.db.EmulatorRepository;
-import com.example._thecore_back.rest.emulator.model.EmulatorStatus;
-import com.example._thecore_back.rest.emulator.model.EmulatorRequest;
-import com.example._thecore_back.rest.emulator.exception.CarNotFoundException;
-import com.example._thecore_back.rest.emulator.exception.EmulatorNotFoundException;
-import com.example._thecore_back.rest.emulator.exception.DuplicateEmulatorException;
+import com.example._thecore_back.emulator.domain.EmulatorEntity;
+import com.example._thecore_back.emulator.infrastructure.EmulatorRepository;
+import com.example._thecore_back.emulator.domain.EmulatorStatus;
+import com.example._thecore_back.emulator.controller.dto.EmulatorRequest;
+import com.example._thecore_back.emulator.exception.CarNotFoundException;
+import com.example._thecore_back.emulator.exception.EmulatorNotFoundException;
+import com.example._thecore_back.emulator.exception.DuplicateEmulatorException;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

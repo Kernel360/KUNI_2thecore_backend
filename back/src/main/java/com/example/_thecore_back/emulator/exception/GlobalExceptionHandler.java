@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.emulator.exception;
+package com.example._thecore_back.emulator.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
