@@ -1,7 +1,7 @@
-package com.example._thecore_back.rest.auth.domain;
+package com.example._thecore_back.auth.domain;
 
 import com.example._thecore_back.common.dto.ApiResponse;
-import com.example._thecore_back.rest.auth.infrastructure.JwtProperties;
+import com.example._thecore_back.auth.infrastructure.JwtProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

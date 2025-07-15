@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.auth.infrastructure;
+package com.example._thecore_back.auth.infrastructure;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

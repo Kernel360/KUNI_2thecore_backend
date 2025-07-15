@@ -1,7 +1,7 @@
-package com.example._thecore_back.rest.auth.infrastructure;
+package com.example._thecore_back.auth.infrastructure;
 
 import com.example._thecore_back.common.dto.ApiResponse;
-import com.example._thecore_back.rest.auth.domain.JwtTokenProvider;
+import com.example._thecore_back.auth.domain.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

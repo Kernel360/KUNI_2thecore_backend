@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.auth.infrastructure;
+package com.example._thecore_back.auth.infrastructure;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

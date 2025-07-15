@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.auth.infrastructure;
+package com.example._thecore_back.auth.infrastructure;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
