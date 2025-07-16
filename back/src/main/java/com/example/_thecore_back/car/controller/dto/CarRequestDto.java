@@ -21,7 +21,7 @@ public class CarRequestDto {
 
     private Integer carYear;
 
-    private CarStatus status;
+    private String status;
 
     @NotBlank(groups = CreateGroup.class)
     private String carType;

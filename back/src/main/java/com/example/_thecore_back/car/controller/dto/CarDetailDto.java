@@ -18,7 +18,7 @@ public class CarDetailDto {
 
     private String model;
 
-    private Integer year;
+    private Integer carYear;
 
     private String status;
 
@@ -33,8 +33,8 @@ public class CarDetailDto {
         return CarDetailDto.builder()
                 .brand(car.getBrand())
                 .model(car.getModel())
-                .year(car.getCarYear())
-                .status(car.getStatus().name())
+                .carYear(car.getCarYear())
+                .status(car.getStatus().getDisplayName())
                 .carType(car.getCarType())
                 .carNumber(car.getCarNumber())
                 .sumDist(car.getSumDist())

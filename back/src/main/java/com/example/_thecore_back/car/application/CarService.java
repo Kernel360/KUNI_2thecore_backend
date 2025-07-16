@@ -78,19 +78,20 @@ public class CarService {
     public CarDetailDto createCar( // 차량 등록
             CarRequestDto carRequest
     ) {
-        if (carReader.findByCarNumber(carRequest.getCarNumber()).isPresent()) {
-            throw new CarAlreadyExistsException("차량 번호가 이미 존재합니다: " + carRequest.getCarNumber());
-        }
+        boolean isCarNumberExists = carReader.findByCarNumber(carRequest.getCarNumber()).isPresent();
+        boolean isEmulatorIdExists = carReader.findByEmulatorId(carRequest.getEmulatorId()).isPresent();
 
-        if (carReader.findByEmulatorId(carRequest.getEmulatorId()).isPresent()) {
-            throw new CarAlreadyExistsException("해당 Emulator ID가 이미 사용 중입니다: " + carRequest.getEmulatorId());
+        if (isCarNumberExists || isEmulatorIdExists) {
+            throw new CarAlreadyExistsException(
+                    isCarNumberExists ? carRequest.getCarNumber() : null,
+                    isEmulatorIdExists ? carRequest.getEmulatorId() : null
+            );
         }
         var entity = CarEntity.builder()
                 .brand(carRequest.getBrand())
                 .model(carRequest.getModel())
                 .carYear(carRequest.getCarYear())
-//                .status(CarStatus.IDLE) // default값 : 대기 중
-                .status(carRequest.getStatus())
+                .status(CarStatus.IDLE) // default값 : 대기 중
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())
@@ -120,8 +121,8 @@ public class CarService {
             entity.setCarYear(carRequest.getCarYear());
         }
 
-        if(carRequest.getStatus() != null && !carRequest.getStatus().name().isBlank()) {
-            var status = CarStatus.fromDisplayName(carRequest.getStatus().getDisplayName());
+        if(carRequest.getStatus() != null && !carRequest.getStatus().isBlank()) {
+            var status = CarStatus.fromDisplayName(carRequest.getStatus());
             entity.setStatus(status);
         }
 
@@ -138,6 +139,9 @@ public class CarService {
         }
 
         if (carRequest.getEmulatorId() != null) {
+            if (carReader.findByEmulatorId(carRequest.getEmulatorId()).isPresent()) {
+                throw new CarAlreadyExistsException(null, carRequest.getEmulatorId());
+            }
             entity.setEmulatorId(carRequest.getEmulatorId());
         }
 
