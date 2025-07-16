@@ -1,5 +1,6 @@
 package com.example._thecore_back.car.exception.response;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.*;
 
 import java.time.LocalDateTime;
