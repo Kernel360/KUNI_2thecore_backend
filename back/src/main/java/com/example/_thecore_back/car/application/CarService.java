@@ -6,9 +6,11 @@ import com.example._thecore_back.car.controller.dto.CarDeleteDto;
 import com.example._thecore_back.car.controller.dto.CarDetailDto;
 import com.example._thecore_back.car.controller.dto.CarSearchDto;
 import com.example._thecore_back.car.controller.dto.CarSummaryDto;
+import com.example._thecore_back.car.exception.CarNotFoundByFilterException;
 import com.example._thecore_back.car.exception.CarNotFoundException;
 import com.example._thecore_back.car.infrastructure.CarReaderImpl;
 import com.example._thecore_back.car.infrastructure.CarWriterImpl;
+import com.example._thecore_back.car.infrastructure.mapper.CarMapper;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,7 @@ public class CarService {
 
     private final CarReaderImpl carReader;
     private final CarWriterImpl carWriter;
+    private final CarMapper carMapper;
 
     public CarDetailDto getCar(String carNumber){
         var entity =  carReader.findByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(carNumber));
@@ -55,6 +58,22 @@ public class CarService {
                 + result.getOrDefault(CarStatus.MAINTENANCE, 0L))
                 .build();
     }
+
+    public List<CarSearchDto> getCarsByFilter(String carNumber, String model,
+                                              String brand,    CarStatus status) {
+
+        var result = carMapper.search(carNumber, model, brand, status);
+
+        if (result.isEmpty()) {
+            throw new CarNotFoundByFilterException();
+        }
+
+        return result.stream()
+                .map(CarSearchDto::EntityToDto)
+                .toList();
+    }
+
+
 
     public CarDetailDto createCar( // 차량 등록
             CarRequestDto carRequest
