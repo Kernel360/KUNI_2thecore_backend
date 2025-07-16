@@ -10,9 +10,11 @@ import com.example._thecore_back.car.exception.CarNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,8 +31,16 @@ public class CarControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     private CarService carService;
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public CarService carService() {
+            return Mockito.mock(CarService.class);
+        }
+    }
 
     @Autowired
     private ObjectMapper objectMapper;
