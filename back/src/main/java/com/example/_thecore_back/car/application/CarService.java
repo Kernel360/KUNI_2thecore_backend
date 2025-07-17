@@ -79,12 +79,10 @@ public class CarService {
             CarRequestDto carRequest
     ) {
         boolean isCarNumberExists = carReader.findByCarNumber(carRequest.getCarNumber()).isPresent();
-        boolean isEmulatorIdExists = carReader.findByEmulatorId(carRequest.getEmulatorId()).isPresent();
 
-        if (isCarNumberExists || isEmulatorIdExists) {
+        if (isCarNumberExists) {
             throw new CarAlreadyExistsException(
-                    isCarNumberExists ? carRequest.getCarNumber() : null,
-                    isEmulatorIdExists ? carRequest.getEmulatorId() : null
+                    carRequest.getCarNumber()
             );
         }
         var entity = CarEntity.builder()
@@ -95,7 +93,6 @@ public class CarService {
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())
-                .emulatorId(carRequest.getEmulatorId())
                 .build();
 
         return CarDetailDto.EntityToDto(carWriter.save(entity));
@@ -136,13 +133,6 @@ public class CarService {
 
         if (carRequest.getSumDist() >= 0) {
             entity.setSumDist(carRequest.getSumDist());
-        }
-
-        if (carRequest.getEmulatorId() != null) {
-            if (carReader.findByEmulatorId(carRequest.getEmulatorId()).isPresent()) {
-                throw new CarAlreadyExistsException(null, carRequest.getEmulatorId());
-            }
-            entity.setEmulatorId(carRequest.getEmulatorId());
         }
 
         return CarDetailDto.EntityToDto(carWriter.save(entity));

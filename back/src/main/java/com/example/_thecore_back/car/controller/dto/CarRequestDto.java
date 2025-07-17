@@ -31,7 +31,4 @@ public class CarRequestDto {
 
     @NotNull(groups = CreateGroup.class)
     private double sumDist;
-
-    @NotNull(groups = CreateGroup.class)
-    private Integer emulatorId;
 }
