@@ -132,7 +132,7 @@ public class CarService {
             entity.setCarNumber(carRequest.getCarNumber());
         }
 
-        if (carRequest.getSumDist() >= 0) {
+        if (carRequest.getSumDist() != null && carRequest.getSumDist() >= 0) {
             entity.setSumDist(carRequest.getSumDist());
         }
 
