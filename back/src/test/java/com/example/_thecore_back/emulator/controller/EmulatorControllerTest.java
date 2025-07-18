@@ -1,5 +1,6 @@
 package com.example._thecore_back.emulator.controller;
 
+import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.emulator.application.EmulatorService;
 import com.example._thecore_back.emulator.controller.dto.*;
 import com.example._thecore_back.emulator.domain.EmulatorEntity;
@@ -8,6 +9,7 @@ import com.example._thecore_back.emulator.exception.CarNotFoundException;
 import com.example._thecore_back.emulator.exception.DuplicateEmulatorException;
 import com.example._thecore_back.emulator.exception.EmulatorNotFoundException;
 
+import org.hibernate.sql.Update;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,7 +69,7 @@ public class EmulatorControllerTest {
         when(emulatorConverter.toRegisterEmulatorData(any(EmulatorEntity.class)))
                 .thenReturn(new RegisterEmulatorResponseData(1L, "123가4567", EmulatorStatus.OFF));
 
-        ResponseEntity<FinalRegisterEmulatorResponse> response = emulatorController.registerEmulator(emulatorRequest);
+        ResponseEntity<ApiResponse<RegisterEmulatorResponseData>> response = emulatorController.registerEmulator(emulatorRequest);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("애뮬레이터가 등록되었습니다.", response.getBody().getMessage());
@@ -100,7 +102,7 @@ public class EmulatorControllerTest {
         when(emulatorService.getEmulator(anyLong())).thenReturn(emulatorEntity);
         when(emulatorConverter.toGetEmulatorData(any(EmulatorEntity.class))).thenReturn(getEmulatorResponseData);
 
-        ResponseEntity<FinalGetEmulatorResponse> response = emulatorController.getEmulator(1L);
+        ResponseEntity<ApiResponse<GetEmulatorResponseData>> response = emulatorController.getEmulator(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(1L, response.getBody().getData().getEmulatorId());
@@ -123,7 +125,7 @@ public class EmulatorControllerTest {
         when(emulatorService.getAllEmulators()).thenReturn(emulators);
         when(emulatorConverter.toGetEmulatorData(any(EmulatorEntity.class))).thenReturn(getEmulatorResponseData);
 
-        ResponseEntity<FinalGetAllEmulatorResponse> response = emulatorController.getAllEmulators();
+        ResponseEntity<ApiResponse<List<GetEmulatorResponseData>>> response = emulatorController.getAllEmulators();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(1, response.getBody().getData().size());
@@ -135,7 +137,7 @@ public class EmulatorControllerTest {
     void getAllEmulators_emptyList(){
         when(emulatorService.getAllEmulators()).thenReturn(Collections.emptyList());
 
-        ResponseEntity<FinalGetAllEmulatorResponse> response = emulatorController.getAllEmulators();
+        ResponseEntity<ApiResponse<List<GetEmulatorResponseData>>> response = emulatorController.getAllEmulators();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody().getData());
@@ -150,7 +152,7 @@ public class EmulatorControllerTest {
         when(emulatorConverter.toUpdateEmulatorData(any()))
                 .thenReturn(UpdateEmulatorResponseData.builder().emulatorId(1L).carNumber("123가4567").build());
 
-        ResponseEntity<FinalUpdateEmulatorResponse> response = emulatorController.updateEmulator(1L, emulatorRequest);
+        ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> response = emulatorController.updateEmulator(1L, emulatorRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("애뮬레이터 정보가 수정되었습니다.", response.getBody().getMessage());
@@ -167,7 +169,7 @@ public class EmulatorControllerTest {
         when(emulatorConverter.toUpdateEmulatorData(any()))
                 .thenReturn(UpdateEmulatorResponseData.builder().emulatorId(1L).carNumber("789다 9999").build());
 
-        ResponseEntity<FinalUpdateEmulatorResponse> response = emulatorController.updateEmulator(1L, newRequest);
+        ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> response = emulatorController.updateEmulator(1L, newRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("애뮬레이터 정보가 수정되었습니다.", response.getBody().getMessage());
@@ -184,7 +186,7 @@ public class EmulatorControllerTest {
                 .thenReturn(UpdateEmulatorResponseData.builder().emulatorId(1L).carNumber("123가4567").build());
 
         // when
-        ResponseEntity<FinalUpdateEmulatorResponse> response = emulatorController.updateEmulator(1L, emulatorRequest);
+        ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> response = emulatorController.updateEmulator(1L, emulatorRequest);
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -217,7 +219,7 @@ public class EmulatorControllerTest {
     void deleteEmulator_success() {
         doNothing().when(emulatorService).deleteEmulator(anyLong());
 
-        ResponseEntity<FinalDeleteEmulatorResponse> response = emulatorController.deleteEmulator(1L);
+        ResponseEntity<ApiResponse<DeleteEmulatorResponseData>> response = emulatorController.deleteEmulator(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("애뮬레이터가 삭제되었습니다.", response.getBody().getMessage());
