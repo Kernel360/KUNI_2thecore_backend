@@ -2,10 +2,11 @@ package com.example._thecore_back.car;
 
 import com.example._thecore_back.car.application.CarService;
 import com.example._thecore_back.car.controller.CarController;
-import com.example._thecore_back.car.controller.dto.CarDeleteDto;
-import com.example._thecore_back.car.controller.dto.CarDetailDto;
-import com.example._thecore_back.car.controller.dto.CarRequestDto;
+import com.example._thecore_back.car.controller.dto.*;
+import com.example._thecore_back.car.domain.CarStatus;
 import com.example._thecore_back.car.exception.CarAlreadyExistsException;
+import com.example._thecore_back.car.exception.CarErrorCode;
+import com.example._thecore_back.car.exception.CarNotFoundByFilterException;
 import com.example._thecore_back.car.exception.CarNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -18,9 +19,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -259,7 +263,7 @@ public class CarControllerTest {
                 .build();
 
         when(carService.updateCar(any(CarRequestDto.class), any(String.class)))
-                .thenThrow(new CarNotFoundException("1234가56"));
+                .thenThrow(new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, "1234가56"));
 
         ResultActions actions = mockMvc.perform(patch("/api/vehicles/1234가56")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -277,7 +281,7 @@ public class CarControllerTest {
     @DisplayName("DELETE - 차량 삭제 실패: 존재하지 않는 차량")
     void deleteCarFail() throws Exception {
         when(carService.deleteCar("9999가99"))
-                .thenThrow(new CarNotFoundException("9999가99"));
+                .thenThrow(new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, "9999가99"));
 
         ResultActions actions = mockMvc.perform(delete("/api/vehicles/9999가99"));
 
@@ -287,5 +291,168 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$.data.status").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.data.error").value(HttpStatus.NOT_FOUND.getReasonPhrase()))
                 .andExpect(jsonPath("$.data.message").value("해당 차량 ( 9999가99 )은 존재하지 않습니다. 다시 입력해주세요"));
+    }
+
+    @Test
+    @DisplayName("차량 번호를 통해 해당 차량을 조회한다.")
+    public void getCarByCarNumber() throws Exception {
+        var response = CarDetailDto.builder()
+                .brand("현대")
+                .model("아이오닉")
+                .carNumber("12가1234")
+                .build();
+
+        when(carService.getCar("12가1234")).thenReturn(response);
+
+        mockMvc.perform(get("/api/vehicles/12가1234"))
+                .andDo(print())
+                .andExpect(jsonPath("$.data.car_number").value("12가1234"))
+                .andExpect(jsonPath("$.data.model").value("아이오닉"));
+
+
+        when(carService.getCar("1234")).thenThrow(new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER,"1234"));
+
+        mockMvc.perform(get("/api/vehicles/1234"))
+                .andDo(print())
+                .andExpect(jsonPath("$.data.status").value(404))
+                .andExpect(jsonPath("$.data.message").value("해당 차량 ( 1234 )은 존재하지 않습니다. 다시 입력해주세요"));
+    }
+
+    @Test
+    @DisplayName("전체 차량 조회")
+    public void getAllCars() throws Exception {
+
+        List<CarSearchDto> carList = List.of(new CarSearchDto("12가1234", "현대", "아이오닉", "IN_IDLE")
+                ,new CarSearchDto("12가3423", "기아", "아이오닉", "IN_IDLE"));
+
+        when(carService.getAllCars()).thenReturn(carList);
+
+        mockMvc.perform(get("/api/vehicles"))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.length()").value(2))
+                .andExpect(jsonPath("$.data[0].car_number").value("12가1234"))
+                .andExpect(jsonPath("$.data[1].car_number").value("12가3423"));
+
+    }
+
+    @Test
+    @DisplayName("전체 차량 조회 - 등록된 차량이 존재하지 않은 경우")
+    public void getAllCarsFailed() throws Exception {
+        // 차량이 존재하지 않을때
+        when(carService.getAllCars()).thenThrow(new CarNotFoundException(CarErrorCode.NO_REGISTERED_CAR));
+
+        mockMvc.perform(get("/api/vehicles"))
+                .andDo(print())
+                .andExpect(jsonPath("$.data.status").value(404))
+                .andExpect(jsonPath("$.data.message").value("등록된 차량이 존재하지 않습니다."));
+
+    }
+
+    @Test
+    @DisplayName("차량 상태에 따른 대시보드 테스트 출력")
+    public void getCarByStatus() throws Exception {
+
+        List<CarSearchDto> carList = List.of(new CarSearchDto("12가1234", "현대", "아이오닉", "IN_IDLE")
+                ,new CarSearchDto("12가3423", "기아", "아이오닉", "IN_IDLE"),
+                new CarSearchDto("12가2315", "기아", "그렌저", "MAINTENANCE"));
+
+        var response = CarSummaryDto.builder()
+                .total(3L)
+                .operating(0L)
+                .waiting(2L)
+                .inspecting(1L)
+                .build();
+
+        when(carService.getCountByStatus()).thenReturn(response);
+
+        mockMvc.perform(get("/api/vehicles/statistics"))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.total").value(3L))
+                .andExpect(jsonPath("$.data.waiting").value(2L))
+                .andExpect(jsonPath("$.data.inspecting").value(1L))
+                .andExpect(jsonPath("$.data.operating").value(0L));
+    }
+
+
+    @Test
+    @DisplayName("필터링 조건에 기반하여 차량 조회")
+    public void getAllCarsByFilter() throws Exception {
+
+        List<CarSearchDto> carList = List.of(new CarSearchDto("12가1234", "현대", "아이오닉", "IDLE")
+                ,new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"),
+                new CarSearchDto("12가2315", "기아", "그렌저", "MAINTENANCE"));
+
+        // 전체 조회
+        when(carService.getCarsByFilter(null, null, null, null)).thenReturn(carList);
+
+        mockMvc.perform(get("/api/vehicles/search"))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.length()").value(3));
+
+        // 브랜드만 입력
+        List<CarSearchDto> kiaCars = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"),
+                new CarSearchDto("12가2315", "기아", "그렌저", "MAINTENANCE"));
+
+        when(carService.getCarsByFilter(null, null, "기아", null)).thenReturn(kiaCars);
+
+        mockMvc.perform(get("/api/vehicles/search").param("brand", "기아"))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.length()").value(2))
+                .andExpect(jsonPath("$.data[0].brand").value("기아"))
+                .andExpect(jsonPath("$.data[1].brand").value("기아"));
+
+        // 차량 번호만 입력
+        List<CarSearchDto> carByNumber = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"));
+
+        when(carService.getCarsByFilter("12가3423", null, null, null)).thenReturn(carByNumber);
+
+        mockMvc.perform(get("/api/vehicles/search").param("carNumber", "12가3423"))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.length()").value(1))
+                .andExpect(jsonPath("$.data[0].brand").value("기아"))
+                .andExpect(jsonPath("$.data[0].car_number").value("12가3423"));
+
+        // 차량 상태만 입력
+        List<CarSearchDto> carByStatusInIdle = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE")
+                , new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"));
+
+        when(carService.getCarsByFilter(null, null, null, CarStatus.IDLE)).thenReturn(carByStatusInIdle);
+
+        mockMvc.perform(get("/api/vehicles/search").param("status", CarStatus.IDLE.name()))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.length()").value(2))
+                .andExpect(jsonPath("$.data[0].status").value("IDLE"))
+                .andExpect(jsonPath("$.data[1].status").value("IDLE"));
+
+        // brand, model명 필터링
+        List<CarSearchDto> carByBrandAndModel = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"));
+
+        when(carService.getCarsByFilter(null, "아이오닉", "기아", null)).thenReturn(carByBrandAndModel);
+
+        mockMvc.perform(get("/api/vehicles/search").param("brand", "기아")
+                        .param("model", "아이오닉"))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.length()").value(1))
+                .andExpect(jsonPath("$.data[0].brand").value("기아"))
+                .andExpect(jsonPath("$.data[0].model").value("아이오닉"));
+
+    }
+
+    @Test
+    @DisplayName("해당 조건을 충족하는 차량이 없는경우")
+    public void getCarsByFilterFailed() throws Exception {
+        when(carService.getCarsByFilter(null, "삼성", null, null)).thenThrow(new CarNotFoundByFilterException());
+
+        mockMvc.perform(get("/api/vehicles/search").param("model", "삼성"))
+                .andDo(print())
+                .andExpect(jsonPath("$.data.status").value(400))
+                .andExpect(jsonPath("$.data.message").value("해당 조건으로 검색된 차가 존재하지 않습니다."));
     }
 }
