@@ -1,10 +1,11 @@
 package com.example._thecore_back.emulator.application;
+
 import com.example._thecore_back.rest.car.db.CarEntity;
 import com.example._thecore_back.rest.car.db.CarRepository;
 import com.example._thecore_back.emulator.domain.EmulatorEntity;
-import com.example._thecore_back.emulator.infrastructure.EmulatorRepository;
 import com.example._thecore_back.emulator.domain.EmulatorStatus;
 import com.example._thecore_back.emulator.controller.dto.EmulatorRequest;
+import com.example._thecore_back.emulator.infrastructure.EmulatorRepository;
 import com.example._thecore_back.emulator.exception.CarNotFoundException;
 import com.example._thecore_back.emulator.exception.EmulatorNotFoundException;
 import com.example._thecore_back.emulator.exception.DuplicateEmulatorException;
@@ -52,6 +53,7 @@ public class EmulatorService {
 
     // 애뮬레이터 상세 조회
     public EmulatorEntity getEmulator(Long id) {
+        // 예외처리 1. 애뮬레이터 존재 여부 확인
         EmulatorEntity entity;
         entity = emulatorRepository.findById(id)
                 .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다: " + id));
