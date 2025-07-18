@@ -9,7 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 @Data
 @NoArgsConstructor
@@ -36,5 +37,5 @@ public class AdminEntity {
     private String email;
 
     @Column(nullable = false)
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 }
