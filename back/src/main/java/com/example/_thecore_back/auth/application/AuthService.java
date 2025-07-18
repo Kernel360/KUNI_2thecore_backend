@@ -20,6 +20,7 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final TokenService tokenService;
 
     public TokenDto login(LoginRequest request) {
         // 인증 시도
@@ -39,6 +40,12 @@ public class AuthService {
         String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
         String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
 
+        // Redis에 Refresh 토큰 저장(7일 기한)
+        tokenService.storeRefreshToken(email, refreshToken, 7 * 24 * 60 * 60 * 1000L);
+
+        // 1계정 1세션 유지(30분 기한)
+        tokenService.enforceSingleSession(email, accessToken, 30 * 60 * 1000L);
+
         return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -54,6 +61,11 @@ public class AuthService {
         // 이메일 추출
         String email = jwtTokenProvider.getSubject(request.getRefreshToken());
 
+        // Redis에 저장된 Refresh 토큰 검증
+        if (!tokenService.validateRefreshToken(email, request.getRefreshToken())) {
+            throw new InvalidTokenException("서버에 저장된 리프레시 토큰과 일치하지 않습니다.");
+        }
+
         Map<String, Object> claims = Map.of("email", email);
 
         LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(30);
@@ -62,6 +74,11 @@ public class AuthService {
         String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
         String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
 
+        // Refresh 토크 갱신
+        tokenService.storeRefreshToken(email, refreshToken, 7 * 24 * 60 * 60 * 1000L);
+
+        // 1계정 1세션 유지
+        tokenService.enforceSingleSession(email, accessToken, 30 * 60 * 1000L);
         return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

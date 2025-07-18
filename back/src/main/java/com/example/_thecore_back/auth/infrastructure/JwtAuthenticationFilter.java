@@ -1,5 +1,6 @@
 package com.example._thecore_back.auth.infrastructure;
 
+import com.example._thecore_back.auth.application.TokenService;
 import com.example._thecore_back.auth.exception.InvalidTokenException;
 import com.example._thecore_back.auth.exception.TokenExpiredException;
 import com.example._thecore_back.common.dto.ApiResponse;
@@ -27,6 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final TokenService tokenService;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -61,26 +63,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 토큰 검증
         try {
             jwtTokenProvider.validateToken(token); // 유효하지 않으면 예외 발생
+
+            // Redis 블랙리스트 체크
+            if (tokenService.isAccessTokenBlacklisted(token)){
+                sendErrorResponse(response, "이미 로그아웃된 블랙리스트 토큰입니다");
+                return;
+            }
+            // 인증 객체 생성 및 등록
+            String userId = jwtTokenProvider.getSubject(token);
+
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userId, // userId가 principal
+                            null,   // 비밀번호는 아직 미검증
+                            null    // 권한 처리 필요시 여기에 리스트 전달
+                    );
+
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            // 인증 객체를 SecurityContext에 등록
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (InvalidTokenException | TokenExpiredException e){
             sendErrorResponse(response, e.getMessage());
             return;
         }
-
-        // 인증 객체 생성 및 등록
-        String userId = jwtTokenProvider.getSubject(token);
-
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(
-                        userId, // userId가 principal
-                        null,   // 비밀번호는 아직 미검증
-                        null    // 권한 처리 필요시 여기에 리스트 전달
-                );
-
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-        // 인증 객체를 SecurityContext에 등록
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
         // 다음 필터로 넘김
         filterChain.doFilter(request, response);
     }
