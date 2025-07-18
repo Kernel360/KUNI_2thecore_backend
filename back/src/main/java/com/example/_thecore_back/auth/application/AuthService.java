@@ -1,6 +1,5 @@
 package com.example._thecore_back.auth.application;
 
-import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.auth.domain.JwtTokenProvider;
 import com.example._thecore_back.auth.domain.LoginRequest;
 import com.example._thecore_back.auth.domain.RefreshRequest;
@@ -47,23 +46,24 @@ public class AuthService {
     }
 
     public TokenDto refresh(RefreshRequest request) {
-        // 토큰 유효성 검사
-        ApiResponse<Boolean> validation = jwtTokenProvider.validateToken(request.getRefreshToken());
-        if (!validation.isResult() || Boolean.FALSE.equals(validation.getData())) {
-            throw new RuntimeException("리프레시 토큰이 유효하지 않음");
+        if (!jwtTokenProvider.validateToken(request.getRefreshToken())){
+            throw new InvalidTokenException("리프레시 토큰이 유효하지 않습니다.");
         }
 
         // 이메일 추출
         String email = jwtTokenProvider.getSubject(request.getRefreshToken());
 
-        // 새 access 토큰 생성
         Map<String, Object> claims = Map.of("email", email);
+
         LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(30);
+        LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(7); // 새 리프레시 토큰 만료시간
+
         String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
+        String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
 
         return TokenDto.builder()
                 .accessToken(accessToken)
-                .refreshToken(request.getRefreshToken()) // 기존 refresh token 유지
+                .refreshToken(refreshToken)
                 .expiredAt(accessExpireAt)
                 .build();
     }
