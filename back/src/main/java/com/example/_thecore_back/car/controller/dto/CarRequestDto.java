@@ -30,5 +30,5 @@ public class CarRequestDto {
     private String carNumber;
 
     @NotNull(groups = CreateGroup.class)
-    private double sumDist;
+    private Double sumDist;
 }
