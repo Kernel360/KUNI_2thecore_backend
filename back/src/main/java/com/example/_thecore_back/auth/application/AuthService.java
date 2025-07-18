@@ -4,6 +4,7 @@ import com.example._thecore_back.auth.domain.JwtTokenProvider;
 import com.example._thecore_back.auth.domain.LoginRequest;
 import com.example._thecore_back.auth.domain.RefreshRequest;
 import com.example._thecore_back.auth.domain.TokenDto;
+import com.example._thecore_back.auth.exception.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

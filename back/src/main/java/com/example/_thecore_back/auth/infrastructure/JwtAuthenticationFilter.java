@@ -1,5 +1,7 @@
 package com.example._thecore_back.auth.infrastructure;
 
+import com.example._thecore_back.auth.exception.InvalidTokenException;
+import com.example._thecore_back.auth.exception.TokenExpiredException;
 import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.auth.domain.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,10 +59,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authToken.substring(7);
 
         // 토큰 검증
-        ApiResponse<Boolean> validation = jwtTokenProvider.validateToken(token);
-
-        if (!validation.isResult() || Boolean.FALSE.equals(validation.getData())) {
-            sendErrorResponse(response, validation.getMessage());
+        try {
+            jwtTokenProvider.validateToken(token); // 유효하지 않으면 예외 발생
+        } catch (InvalidTokenException | TokenExpiredException e){
+            sendErrorResponse(response, e.getMessage());
             return;
         }
 

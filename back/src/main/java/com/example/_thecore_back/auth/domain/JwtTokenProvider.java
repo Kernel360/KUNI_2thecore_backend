@@ -1,5 +1,7 @@
 package com.example._thecore_back.auth.domain;
 
+import com.example._thecore_back.auth.exception.InvalidTokenException;
+import com.example._thecore_back.auth.exception.TokenExpiredException;
 import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.auth.infrastructure.JwtProperties;
 import io.jsonwebtoken.*;
@@ -42,9 +44,12 @@ public class JwtTokenProvider {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (JwtException e) {
+        } catch (ExpiredJwtException e){
+            log.warn("Expired token: {}", e.getMessage());
+            throw new TokenExpiredException("토큰이 만료되었습니다.");
+        } catch (JwtException e){
             log.warn("Invalid token: {}", e.getMessage());
-            return false;
+            throw new InvalidTokenException("유효하지 앟은 토큰입니다.");
         }
     }
 
