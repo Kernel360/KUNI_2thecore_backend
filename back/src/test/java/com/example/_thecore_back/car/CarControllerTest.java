@@ -50,7 +50,6 @@ public class CarControllerTest {
                 .carType("중형")
                 .carNumber("12가3456")
                 .sumDist(1234.56)
-                .emulatorId(1)
                 .build();
 
         // 응답 객체 생성
@@ -150,11 +149,10 @@ public class CarControllerTest {
                 .carType("중형")
                 .carNumber("12가3456")
                 .sumDist(1234.56)
-                .emulatorId(1)
                 .build();
 
         when(carService.createCar(any(CarRequestDto.class)))
-                .thenThrow(new CarAlreadyExistsException("12가3456", null));
+                .thenThrow(new CarAlreadyExistsException("12가3456"));
 
         ResultActions actions = mockMvc.perform(post("/api/vehicles")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -165,93 +163,9 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$.result").value(false))
                 .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
                 .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
-                .andExpect(jsonPath("$.data.message").value("이미 등록된 차량 번호입니다: 12가3456"))
+                .andExpect(jsonPath("$.data.message").value("이미 등록된 차량입니다: 12가3456"))
                 .andExpect(jsonPath("$.data.path").value("/api/vehicles"));
     }
-
-    @Test
-    @DisplayName("POST - 차량 등록 실패: 애뮬레이터 번호 중복")
-    void createCarFailEmulatorNum() throws Exception {
-        CarRequestDto request = CarRequestDto.builder()
-                .brand("현대")
-                .model("아반떼")
-                .carYear(2025)
-                .carType("중형")
-                .carNumber("12가3456")
-                .sumDist(1234.56)
-                .emulatorId(1)
-                .build();
-
-        when(carService.createCar(any(CarRequestDto.class)))
-                .thenThrow(new CarAlreadyExistsException(null, 1));
-
-        ResultActions actions = mockMvc.perform(post("/api/vehicles")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)));
-
-        actions
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.result").value(false))
-                .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
-                .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
-                .andExpect(jsonPath("$.data.message").value("이미 등록된 에뮬레이터 ID입니다: 1"))
-                .andExpect(jsonPath("$.data.path").value("/api/vehicles"));
-    }
-
-    @Test
-    @DisplayName("POST - 차량 등록 실패: 차량 번호 및 애뮬레이터 ID 중복")
-    void createCarFailBoth() throws Exception {
-        CarRequestDto request = CarRequestDto.builder()
-                .brand("현대")
-                .model("아반떼")
-                .carYear(2025)
-                .carType("중형")
-                .carNumber("12가3456")
-                .sumDist(1234.56)
-                .emulatorId(1)
-                .build();
-
-        when(carService.createCar(any(CarRequestDto.class)))
-                .thenThrow(new CarAlreadyExistsException("12가3456", 1));
-
-        ResultActions actions = mockMvc.perform(post("/api/vehicles")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)));
-
-        actions
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.result").value(false))
-                .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
-                .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
-                .andExpect(jsonPath("$.data.message").value("이미 등록된 차량입니다. (차량 번호: 12가3456, 에뮬레이터 ID: 1)"))
-                .andExpect(jsonPath("$.data.path").value("/api/vehicles"));
-    }
-
-    @Test
-    @DisplayName("PATCH - 차량 정보 수정 실패: 애뮬레이터 번호 중복")
-    void updateCarFailEmulatorNum() throws Exception {
-        CarRequestDto request = CarRequestDto.builder()
-                .carYear(2015)
-                .status("운행")
-                .carNumber("6543나21")
-                .emulatorId(1)
-                .build();
-
-        when(carService.updateCar(any(CarRequestDto.class), any(String.class)))
-                .thenThrow(new CarAlreadyExistsException(null, 1));
-
-        ResultActions actions = mockMvc.perform(patch("/api/vehicles/1234가56")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)));
-
-        actions
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.result").value(false))
-                .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
-                .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
-                .andExpect(jsonPath("$.data.message").value("이미 등록된 에뮬레이터 ID입니다: 1"));
-    }
-
 
     @Test
     @DisplayName("PATCH - 차량 정보 수정 실패: 존재하지 않는 차량")
