@@ -3,7 +3,7 @@ package com.example._thecore_back.auth.application;
 import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.auth.domain.JwtTokenProvider;
 import com.example._thecore_back.auth.domain.LoginRequest;
-import com.example._thecore_back.rest.auth.domain.RefreshRequest;
+import com.example._thecore_back.auth.domain.RefreshRequest;
 import com.example._thecore_back.auth.domain.TokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
