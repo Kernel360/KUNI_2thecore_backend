@@ -1,6 +1,6 @@
 package com.example._thecore_back;
 
-import com.example._thecore_back.rest.auth.jwt.JwtTokenProvider;
+import com.example._thecore_back.auth.domain.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
