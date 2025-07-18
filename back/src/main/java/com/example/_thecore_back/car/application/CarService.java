@@ -6,6 +6,7 @@ import com.example._thecore_back.car.controller.dto.CarDeleteDto;
 import com.example._thecore_back.car.controller.dto.CarDetailDto;
 import com.example._thecore_back.car.controller.dto.CarSearchDto;
 import com.example._thecore_back.car.controller.dto.CarSummaryDto;
+import com.example._thecore_back.car.exception.CarErrorCode;
 import com.example._thecore_back.car.exception.CarNotFoundByFilterException;
 import com.example._thecore_back.car.exception.CarNotFoundException;
 import com.example._thecore_back.car.infrastructure.CarReaderImpl;
@@ -31,7 +32,7 @@ public class CarService {
     private final CarMapper carMapper;
 
     public CarDetailDto getCar(String carNumber){
-        var entity =  carReader.findByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(carNumber));
+        var entity =  carReader.findByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
         return CarDetailDto.EntityToDto(entity);
     }
 
@@ -107,7 +108,7 @@ public class CarService {
             String carNumber
     ) {
         CarEntity entity = carReader.findByCarNumber(carNumber)
-                    .orElseThrow(() -> new CarNotFoundException(carNumber));
+                    .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
 
         if (carRequest.getBrand() != null && !carRequest.getBrand().isBlank()) {
             entity.setBrand(carRequest.getBrand());
@@ -153,7 +154,7 @@ public class CarService {
             String carNumber
     ){
         CarEntity entity = carReader.findByCarNumber(carNumber)
-                .orElseThrow(() -> new CarNotFoundException(carNumber));
+                .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER,carNumber));
 
         carWriter.delete(entity);
 

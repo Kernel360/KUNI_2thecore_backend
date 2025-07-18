@@ -2,6 +2,8 @@ package com.example._thecore_back.car.controller.dto;
 
 
 import com.example._thecore_back.car.domain.CarEntity;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 @Getter
@@ -10,6 +12,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CarSearchDto {
 
     private String carNumber;
