@@ -35,19 +35,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public ApiResponse<Boolean> validateToken(String token) {
+    public boolean validateToken(String token){
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
-            return ApiResponse.success("토큰 유효함", true);
-        } catch (ExpiredJwtException e) {
-            log.warn("Token expired: {}", e.getMessage());
-            return ApiResponse.fail("토큰 만료됨");
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
         } catch (JwtException e) {
-            log.warn("Invalid token: {}", e.getMessage());
-            return ApiResponse.fail("유효하지 않은 토큰");
+            return false;
         }
     }
 
