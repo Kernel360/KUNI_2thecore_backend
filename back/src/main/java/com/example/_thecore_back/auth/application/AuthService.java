@@ -1,10 +1,10 @@
 package com.example._thecore_back.auth.application;
 
-import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.auth.domain.JwtTokenProvider;
 import com.example._thecore_back.auth.domain.LoginRequest;
-import com.example._thecore_back.rest.auth.domain.RefreshRequest;
+import com.example._thecore_back.auth.domain.RefreshRequest;
 import com.example._thecore_back.auth.domain.TokenDto;
+import com.example._thecore_back.auth.exception.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +20,7 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final TokenService tokenService;
 
     public TokenDto login(LoginRequest request) {
         // 인증 시도
@@ -39,6 +40,12 @@ public class AuthService {
         String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
         String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
 
+        // Redis에 Refresh 토큰 저장(7일 기한)
+        tokenService.storeRefreshToken(email, refreshToken, 7 * 24 * 60 * 60 * 1000L);
+
+        // 1계정 1세션 유지(30분 기한)
+        tokenService.enforceSingleSession(email, accessToken, 30 * 60 * 1000L);
+
         return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -47,23 +54,34 @@ public class AuthService {
     }
 
     public TokenDto refresh(RefreshRequest request) {
-        // 토큰 유효성 검사
-        ApiResponse<Boolean> validation = jwtTokenProvider.validateToken(request.getRefreshToken());
-        if (!validation.isResult() || Boolean.FALSE.equals(validation.getData())) {
-            throw new RuntimeException("리프레시 토큰이 유효하지 않음");
+        if (!jwtTokenProvider.validateToken(request.getRefreshToken())){
+            throw new InvalidTokenException("리프레시 토큰이 유효하지 않습니다.");
         }
 
         // 이메일 추출
         String email = jwtTokenProvider.getSubject(request.getRefreshToken());
 
-        // 새 access 토큰 생성
-        Map<String, Object> claims = Map.of("email", email);
-        LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(30);
-        String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
+        // Redis에 저장된 Refresh 토큰 검증
+        if (!tokenService.validateRefreshToken(email, request.getRefreshToken())) {
+            throw new InvalidTokenException("서버에 저장된 리프레시 토큰과 일치하지 않습니다.");
+        }
 
+        Map<String, Object> claims = Map.of("email", email);
+
+        LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(30);
+        LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(7); // 새 리프레시 토큰 만료시간
+
+        String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
+        String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
+
+        // Refresh 토크 갱신
+        tokenService.storeRefreshToken(email, refreshToken, 7 * 24 * 60 * 60 * 1000L);
+
+        // 1계정 1세션 유지
+        tokenService.enforceSingleSession(email, accessToken, 30 * 60 * 1000L);
         return TokenDto.builder()
                 .accessToken(accessToken)
-                .refreshToken(request.getRefreshToken()) // 기존 refresh token 유지
+                .refreshToken(refreshToken)
                 .expiredAt(accessExpireAt)
                 .build();
     }

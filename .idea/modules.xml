@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2thecore_back.iml" filepath="$PROJECT_DIR$/.idea/modules/2thecore_back.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2thecore_back.main.iml" filepath="$PROJECT_DIR$/.idea/modules/2thecore_back.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/KUNI_2thecore.iml" filepath="$PROJECT_DIR$/.idea/KUNI_2thecore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2thecore_back.test.iml" filepath="$PROJECT_DIR$/.idea/modules/2thecore_back.test.iml" />
     </modules>
   </component>
 </project>

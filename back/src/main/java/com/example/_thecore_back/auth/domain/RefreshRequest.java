@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.auth.domain;
+package com.example._thecore_back.auth.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

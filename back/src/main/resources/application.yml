@@ -14,3 +14,7 @@ spring:
     hibernate:
       ddl-auto: update       # Entity? ??? ?? ??/??
     show-sql: true           # SQL ?? ??
+
+  redis:
+    host: localhost
+    port: 6379
