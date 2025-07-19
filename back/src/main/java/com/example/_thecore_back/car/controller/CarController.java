@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/vehicles")
+@RequestMapping("/api/cars")
 public class CarController {
 
     private final CarService carService;
@@ -33,7 +33,7 @@ public class CarController {
         return ApiResponse.success(response);
     }
 
-    @GetMapping("")
+    @GetMapping
     public ApiResponse<List<CarSearchDto>> getAllCars() {
 
         var response = carService.getAllCars();
@@ -68,7 +68,7 @@ public class CarController {
     }
 
     // 차량 등록
-    @PostMapping("")
+    @PostMapping
     public ApiResponse<CarDetailDto> createCar(
             @RequestBody
             @Validated(CreateGroup.class)
