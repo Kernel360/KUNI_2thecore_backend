@@ -68,7 +68,7 @@ public class CarControllerTest {
                 .thenReturn(response);
 
         // test 실행
-        ResultActions actions = mockMvc.perform(post("/api/vehicles")
+        ResultActions actions = mockMvc.perform(post("/api/cars")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)));
 
@@ -106,7 +106,7 @@ public class CarControllerTest {
         when(carService.updateCar(any(CarRequestDto.class), any(String.class)))
                 .thenReturn(response);
 
-        ResultActions actions = mockMvc.perform(patch("/api/vehicles/1234가56")
+        ResultActions actions = mockMvc.perform(patch("/api/cars/1234가56")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)));
 
@@ -129,7 +129,7 @@ public class CarControllerTest {
         when(carService.deleteCar(any(String.class)))
                 .thenReturn(response);
 
-        ResultActions actions = mockMvc.perform(delete("/api/vehicles/6543나21"));
+        ResultActions actions = mockMvc.perform(delete("/api/cars/6543나21"));
 
         actions
                 .andExpect(status().isOk())
@@ -154,7 +154,7 @@ public class CarControllerTest {
         when(carService.createCar(any(CarRequestDto.class)))
                 .thenThrow(new CarAlreadyExistsException("12가3456"));
 
-        ResultActions actions = mockMvc.perform(post("/api/vehicles")
+        ResultActions actions = mockMvc.perform(post("/api/cars")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
 
@@ -164,7 +164,7 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
                 .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
                 .andExpect(jsonPath("$.data.message").value("이미 등록된 차량입니다: 12가3456"))
-                .andExpect(jsonPath("$.data.path").value("/api/vehicles"));
+                .andExpect(jsonPath("$.data.path").value("/api/cars"));
     }
 
     @Test
@@ -179,7 +179,7 @@ public class CarControllerTest {
         when(carService.updateCar(any(CarRequestDto.class), any(String.class)))
                 .thenThrow(new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, "1234가56"));
 
-        ResultActions actions = mockMvc.perform(patch("/api/vehicles/1234가56")
+        ResultActions actions = mockMvc.perform(patch("/api/cars/1234가56")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)));
 
@@ -192,12 +192,36 @@ public class CarControllerTest {
     }
 
     @Test
+    @DisplayName("PATCH - 차량 정보 수정 실패: 이미 존재하는 차량 번호")
+    void updateCarFailAlreadyExists() throws Exception {
+        CarRequestDto request = CarRequestDto.builder()
+                .carYear(2015)
+                .status("운행")
+                .carNumber("6543나21")
+                .build();
+
+        when(carService.updateCar(any(CarRequestDto.class), any(String.class)))
+                .thenThrow(new CarAlreadyExistsException("6543나21"));
+
+        ResultActions actions = mockMvc.perform(patch("/api/cars/1234가56")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)));
+
+        actions
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.result").value(false))
+                .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
+                .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
+                .andExpect(jsonPath("$.data.message").value("이미 등록된 차량입니다: 6543나21"));
+    }
+
+    @Test
     @DisplayName("DELETE - 차량 삭제 실패: 존재하지 않는 차량")
     void deleteCarFail() throws Exception {
         when(carService.deleteCar("9999가99"))
                 .thenThrow(new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, "9999가99"));
 
-        ResultActions actions = mockMvc.perform(delete("/api/vehicles/9999가99"));
+        ResultActions actions = mockMvc.perform(delete("/api/cars/9999가99"));
 
         actions
                 .andExpect(status().isNotFound())
@@ -218,7 +242,7 @@ public class CarControllerTest {
 
         when(carService.getCar("12가1234")).thenReturn(response);
 
-        mockMvc.perform(get("/api/vehicles/12가1234"))
+        mockMvc.perform(get("/api/cars/12가1234"))
                 .andDo(print())
                 .andExpect(jsonPath("$.data.car_number").value("12가1234"))
                 .andExpect(jsonPath("$.data.model").value("아이오닉"));
@@ -226,7 +250,7 @@ public class CarControllerTest {
 
         when(carService.getCar("1234")).thenThrow(new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER,"1234"));
 
-        mockMvc.perform(get("/api/vehicles/1234"))
+        mockMvc.perform(get("/api/cars/1234"))
                 .andDo(print())
                 .andExpect(jsonPath("$.data.status").value(404))
                 .andExpect(jsonPath("$.data.message").value("해당 차량 ( 1234 )은 존재하지 않습니다. 다시 입력해주세요"));
@@ -241,7 +265,7 @@ public class CarControllerTest {
 
         when(carService.getAllCars()).thenReturn(carList);
 
-        mockMvc.perform(get("/api/vehicles"))
+        mockMvc.perform(get("/api/cars"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(2))
@@ -256,7 +280,7 @@ public class CarControllerTest {
         // 차량이 존재하지 않을때
         when(carService.getAllCars()).thenThrow(new CarNotFoundException(CarErrorCode.NO_REGISTERED_CAR));
 
-        mockMvc.perform(get("/api/vehicles"))
+        mockMvc.perform(get("/api/cars"))
                 .andDo(print())
                 .andExpect(jsonPath("$.data.status").value(404))
                 .andExpect(jsonPath("$.data.message").value("등록된 차량이 존재하지 않습니다."));
@@ -280,7 +304,7 @@ public class CarControllerTest {
 
         when(carService.getCountByStatus()).thenReturn(response);
 
-        mockMvc.perform(get("/api/vehicles/statistics"))
+        mockMvc.perform(get("/api/cars/statistics"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.total").value(3L))
@@ -301,7 +325,7 @@ public class CarControllerTest {
         // 전체 조회
         when(carService.getCarsByFilter(null, null, null, null)).thenReturn(carList);
 
-        mockMvc.perform(get("/api/vehicles/search"))
+        mockMvc.perform(get("/api/cars/search"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(3));
@@ -312,7 +336,7 @@ public class CarControllerTest {
 
         when(carService.getCarsByFilter(null, null, "기아", null)).thenReturn(kiaCars);
 
-        mockMvc.perform(get("/api/vehicles/search").param("brand", "기아"))
+        mockMvc.perform(get("/api/cars/search").param("brand", "기아"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(2))
@@ -324,7 +348,7 @@ public class CarControllerTest {
 
         when(carService.getCarsByFilter("12가3423", null, null, null)).thenReturn(carByNumber);
 
-        mockMvc.perform(get("/api/vehicles/search").param("carNumber", "12가3423"))
+        mockMvc.perform(get("/api/cars/search").param("carNumber", "12가3423"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(1))
@@ -337,7 +361,7 @@ public class CarControllerTest {
 
         when(carService.getCarsByFilter(null, null, null, CarStatus.IDLE)).thenReturn(carByStatusInIdle);
 
-        mockMvc.perform(get("/api/vehicles/search").param("status", CarStatus.IDLE.name()))
+        mockMvc.perform(get("/api/cars/search").param("status", CarStatus.IDLE.name()))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(2))
@@ -349,7 +373,7 @@ public class CarControllerTest {
 
         when(carService.getCarsByFilter(null, "아이오닉", "기아", null)).thenReturn(carByBrandAndModel);
 
-        mockMvc.perform(get("/api/vehicles/search").param("brand", "기아")
+        mockMvc.perform(get("/api/cars/search").param("brand", "기아")
                         .param("model", "아이오닉"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
@@ -364,7 +388,7 @@ public class CarControllerTest {
     public void getCarsByFilterFailed() throws Exception {
         when(carService.getCarsByFilter(null, "삼성", null, null)).thenThrow(new CarNotFoundByFilterException());
 
-        mockMvc.perform(get("/api/vehicles/search").param("model", "삼성"))
+        mockMvc.perform(get("/api/cars/search").param("model", "삼성"))
                 .andDo(print())
                 .andExpect(jsonPath("$.data.status").value(400))
                 .andExpect(jsonPath("$.data.message").value("해당 조건으로 검색된 차가 존재하지 않습니다."));
