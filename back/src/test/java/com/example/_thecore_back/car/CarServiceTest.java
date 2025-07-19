@@ -182,17 +182,6 @@ public class CarServiceTest {
                 .status("운행")
                 .build();
 
-        // 저장될 Entity 생성
-        CarEntity carEntity = CarEntity.builder()
-                .brand("현대")
-                .model("아반떼")
-                .carYear(2015)
-                .carType("중형")
-                .carNumber("12가3456")
-                .sumDist(1234.56)
-                .status(CarStatus.IN_USE)
-                .build();
-
         when(carReader.findByCarNumber("12가3456")).thenReturn(Optional.empty());
 
         // when & then
@@ -202,18 +191,38 @@ public class CarServiceTest {
     }
 
     @Test
+    @DisplayName("updateCar Test - fail: 이미 존재하는 차량 번호")
+    void updateCarFailAlreadyExists() {
+        String originalCarNumber = "12가3456"; // 기존 차량
+        String duplicateCarNumber = "99가9999"; // 중복 번호
+
+        // 요청 객체 생성
+        CarRequestDto request = CarRequestDto.builder()
+                .carYear(2015)
+                .status("운행")
+                .carNumber(duplicateCarNumber)
+                .build();
+
+        CarEntity alreadyExistingCar = CarEntity.builder()
+                .carNumber(duplicateCarNumber)
+                .build();
+
+        CarEntity targetCar = CarEntity.builder()
+                .carNumber(originalCarNumber)
+                .build();
+
+        when(carReader.findByCarNumber(originalCarNumber)).thenReturn(Optional.of(targetCar));
+        when(carReader.findByCarNumber(duplicateCarNumber)).thenReturn(Optional.of(alreadyExistingCar));
+
+        // when & then
+        assertThrows(CarAlreadyExistsException.class, () -> {
+            carService.updateCar(request, originalCarNumber);
+        });
+    }
+
+    @Test
     @DisplayName("deleteCar Test - fail: 존재하지 않는 차량 번호 조회")
     void deleteCarFail() {
-        // 저장될 Entity 생성
-        CarEntity carEntity = CarEntity.builder()
-                .brand("현대")
-                .model("아반떼")
-                .carYear(2025)
-                .carType("중형")
-                .carNumber("12가3456")
-                .sumDist(1234.56)
-                .status(CarStatus.IDLE)
-                .build();
 
         when(carReader.findByCarNumber("12가3456")).thenReturn(Optional.empty());
 
