@@ -45,10 +45,7 @@ public class CarService {
 
     public CarSummaryDto getCountByStatus(){
 
-        Map<CarStatus, Long> result = carReader.getCountByStatus().stream().collect(Collectors.toMap(
-                row -> (CarStatus) row[0],
-                row -> (Long) row[1]
-        ));
+        Map<CarStatus, Long> result = carReader.getCountByStatus();
 
         return CarSummaryDto.builder()
                 .operating(result.getOrDefault(CarStatus.IN_USE, 0L))
