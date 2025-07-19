@@ -157,10 +157,12 @@ public class CarRepositoryTest {
 
         carRepository.save(entity);
 
+        assertEquals("12가1234",carRepository.findByCarNumber(entity.getCarNumber()).get().getCarNumber());
+
         carRepository.delete(entity);
 
-        Optional<CarEntity> result = carRepository.findByCarNumber("12가1234");
-        assertTrue(result.isEmpty());
+        Optional<CarEntity> secondResult = carRepository.findByCarNumber("12가1234");
+        assertTrue(secondResult.isEmpty());
 
     }
 
