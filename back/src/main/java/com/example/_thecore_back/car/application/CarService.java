@@ -1,6 +1,8 @@
 package com.example._thecore_back.car.application;
 
 
+import com.example._thecore_back.car.domain.CarReader;
+import com.example._thecore_back.car.domain.CarWriter;
 import com.example._thecore_back.car.exception.CarAlreadyExistsException;
 import com.example._thecore_back.car.controller.dto.CarDeleteDto;
 import com.example._thecore_back.car.controller.dto.CarDetailDto;
@@ -9,8 +11,6 @@ import com.example._thecore_back.car.controller.dto.CarSummaryDto;
 import com.example._thecore_back.car.exception.CarErrorCode;
 import com.example._thecore_back.car.exception.CarNotFoundByFilterException;
 import com.example._thecore_back.car.exception.CarNotFoundException;
-import com.example._thecore_back.car.infrastructure.CarReaderImpl;
-import com.example._thecore_back.car.infrastructure.CarWriterImpl;
 import com.example._thecore_back.car.infrastructure.mapper.CarMapper;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +27,8 @@ import com.example._thecore_back.car.controller.dto.CarRequestDto;
 @RequiredArgsConstructor
 public class CarService {
 
-    private final CarReaderImpl carReader;
-    private final CarWriterImpl carWriter;
+    private final CarReader carReader;
+    private final CarWriter carWriter;
     private final CarMapper carMapper;
 
     public CarDetailDto getCar(String carNumber){
@@ -107,34 +107,7 @@ public class CarService {
         CarEntity entity = carReader.findByCarNumber(carNumber)
                     .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
 
-        if (carRequest.getBrand() != null && !carRequest.getBrand().isBlank()) {
-            entity.setBrand(carRequest.getBrand());
-        }
-
-        if(carRequest.getModel() != null && !carRequest.getModel().isBlank()) {
-            entity.setModel(carRequest.getModel());
-        }
-
-        if(carRequest.getCarYear() != null && !carRequest.getCarYear().equals(0)) {
-            entity.setCarYear(carRequest.getCarYear());
-        }
-
-        if(carRequest.getStatus() != null && !carRequest.getStatus().isBlank()) {
-            var status = CarStatus.fromDisplayName(carRequest.getStatus());
-            entity.setStatus(status);
-        }
-
-        if(carRequest.getCarType() != null && !carRequest.getCarType().isBlank()) {
-            entity.setCarType(carRequest.getCarType());
-        }
-
-        if(carRequest.getCarNumber() != null && !carRequest.getCarNumber().isBlank()) {
-            entity.setCarNumber(carRequest.getCarNumber());
-        }
-
-        if (carRequest.getSumDist() != null && carRequest.getSumDist() >= 0) {
-            entity.setSumDist(carRequest.getSumDist());
-        }
+        entity.updateInfo(carRequest); // Entity 내부에서 유효성 검사 후 업데이트
 
         return CarDetailDto.EntityToDto(carWriter.save(entity));
     }
