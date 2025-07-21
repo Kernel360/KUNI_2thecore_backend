@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.car.model;
+package com.example._thecore_back.car.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

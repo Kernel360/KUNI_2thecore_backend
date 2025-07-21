@@ -1,11 +1,10 @@
-package com.example._thecore_back.rest.car.controller;
+package com.example._thecore_back.car.controller;
 
-import com.example._thecore_back.rest.car.model.Api;
-import com.example._thecore_back.rest.car.model.CarRequest;
-import com.example._thecore_back.rest.car.model.CarResponse;
-import com.example._thecore_back.rest.car.model.CreateGroup;
-import com.example._thecore_back.rest.car.service.CarService;
-import jakarta.websocket.server.PathParam;
+import com.example._thecore_back.car.model.Api;
+import com.example._thecore_back.car.model.CarRequest;
+import com.example._thecore_back.car.model.CarResponse;
+import com.example._thecore_back.car.model.CreateGroup;
+import com.example._thecore_back.car.service.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;

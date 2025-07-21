@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.car.model;
+package com.example._thecore_back.car.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

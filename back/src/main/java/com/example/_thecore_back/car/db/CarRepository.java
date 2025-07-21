@@ -1,4 +1,4 @@
-package com.example._thecore_back.rest.car.db;
+package com.example._thecore_back.car.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,9 +1,9 @@
-package com.example._thecore_back.rest.car.service;
+package com.example._thecore_back.car.service;
 
-import com.example._thecore_back.rest.car.db.CarEntity;
-import com.example._thecore_back.rest.car.db.CarRepository;
-import com.example._thecore_back.rest.car.db.CarStatus;
-import com.example._thecore_back.rest.car.model.CarRequest;
+import com.example._thecore_back.car.db.CarEntity;
+import com.example._thecore_back.car.db.CarRepository;
+import com.example._thecore_back.car.db.CarStatus;
+import com.example._thecore_back.car.model.CarRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

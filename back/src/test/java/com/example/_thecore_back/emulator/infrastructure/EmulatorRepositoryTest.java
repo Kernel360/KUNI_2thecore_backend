@@ -22,24 +22,24 @@ public class EmulatorRepositoryTest {
     void findByCarNumber() {
         // given
         EmulatorEntity emulator = EmulatorEntity.builder()
-                .carNumber("123가4567")
+                .deviceId("123가4567")
                 .status(EmulatorStatus.OFF)
                 .build();
         emulatorRepository.save(emulator);
 
         // when
-        Optional<EmulatorEntity> foundEmulator = emulatorRepository.findByCarNumber("123가4567");
+        Optional<EmulatorEntity> foundEmulator = emulatorRepository.findByDeviceId("123가4567");
 
         // then
         assertTrue(foundEmulator.isPresent());
-        assertEquals("123가4567", foundEmulator.get().getCarNumber());
+        assertEquals("123가4567", foundEmulator.get().getDeviceId());
     }
 
     @Test
     @DisplayName("존재하지 않는 차량 번호로 애뮬레이터 조회")
     void findByCarNumber_notFound() {
         // when
-        Optional<EmulatorEntity> foundEmulator = emulatorRepository.findByCarNumber("000가0000");
+        Optional<EmulatorEntity> foundEmulator = emulatorRepository.findByDeviceId("000가0000");
 
         // then
         assertFalse(foundEmulator.isPresent());
@@ -49,7 +49,7 @@ public class EmulatorRepositoryTest {
     @DisplayName("애뮬레이터 저장 및 삭제")
     void saveAndDeleteEmulator() {
         EmulatorEntity emulator = EmulatorEntity.builder()
-                .carNumber("555하7777")
+                .deviceId("555하7777")
                 .status(EmulatorStatus.ON)
                 .build();
 
@@ -64,12 +64,12 @@ public class EmulatorRepositoryTest {
     @DisplayName("전체 애뮬레이터 조회")
     void findAllEmulators() {
         emulatorRepository.save(EmulatorEntity.builder()
-                .carNumber("111가2222")
+                .deviceId("111가2222")
                 .status(EmulatorStatus.OFF)
                 .build());
 
         emulatorRepository.save(EmulatorEntity.builder()
-                .carNumber("333나4444")
+                .deviceId("333나4444")
                 .status(EmulatorStatus.ON)
                 .build());
 

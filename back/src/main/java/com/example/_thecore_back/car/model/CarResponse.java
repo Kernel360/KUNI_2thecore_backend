@@ -1,6 +1,6 @@
-package com.example._thecore_back.rest.car.model;
+package com.example._thecore_back.car.model;
 
-import com.example._thecore_back.rest.car.db.CarEntity;
+import com.example._thecore_back.car.db.CarEntity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
