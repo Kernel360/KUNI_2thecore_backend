@@ -32,7 +32,6 @@ replay_pid*
 *.iml
 out
 gen
-
 ### Gradle template
 .gradle
 **/build/
@@ -58,4 +57,3 @@ gradle-app.setting
 
 # macos Finder 설정 파일
 .DS_Store
-
