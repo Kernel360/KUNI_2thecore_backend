@@ -2,6 +2,7 @@ package com.example._thecore_back.car;
 
 import com.example._thecore_back.car.application.CarService;
 import com.example._thecore_back.car.domain.CarEntity;
+import com.example._thecore_back.car.domain.CarStatus;
 import com.example._thecore_back.car.infrastructure.CarReaderImpl;
 import com.example._thecore_back.car.infrastructure.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,11 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static com.example._thecore_back.car.domain.CarStatus.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -64,22 +66,22 @@ public class CarRederImplTest {
     @DisplayName("차량별 스테이터스 현황")
     public void getNumberByStatus(){
 
-        List<Object[]> mockResult = List.of(new Object[]{"IN_USE", 1L}, new Object[]{"IDLE", 1L}, new Object[]{"MAINTENANCE", 1L});
+        List<Object[]> mockResult = List.of(new Object[]{IN_USE, 1L}, new Object[]{IDLE, 1L}, new Object[]{MAINTENANCE, 1L});
 
         when(carRepository.getCountByStatus()).thenReturn(mockResult);
 
-        List<Object[]> result = carReader.getCountByStatus();
+        Map<CarStatus, Long> result = carReader.getCountByStatus();
 
         assertEquals(3, result.size());
 
-        assertEquals("IN_USE", result.get(0)[0]);
-        assertEquals(1L, result.get(0)[1]);
+//        assertEquals("IN_USE", result[]);
+        assertEquals(1L, result.get(IN_USE));
 
-        assertEquals("IDLE", result.get(1)[0]);
-        assertEquals(1L, result.get(1)[1]);
+//        assertEquals("IDLE", result.get(1)[0]);
+        assertEquals(1L, result.get(IDLE));
 
-        assertEquals("MAINTENANCE", result.get(2)[0]);
-        assertEquals(1L, result.get(2)[1]);
+//        assertEquals("MAINTENANCE", result.get(2)[0]);
+        assertEquals(1L, result.get(CarStatus.MAINTENANCE));
 
     }
 
