@@ -4,6 +4,7 @@ import com.example._thecore_back.admin.domain.AdminEntity;
 import com.example._thecore_back.admin.infrastructure.AdminRepository;
 import com.example._thecore_back.admin.controller.dto.AdminRequest;
 import com.example._thecore_back.admin.controller.dto.AdminResponse;
+import com.example._thecore_back.admin.exception.AdminLoginIdAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,7 @@ public class AdminService {
     public AdminResponse registerAdmin(AdminRequest requestDto) {
         // loginId 중복 확인
         if (adminRepository.existsById(requestDto.getLoginId())) {
-            throw new IllegalArgumentException("Login ID already exists.");
+            throw new AdminLoginIdAlreadyExistsException(requestDto.getLoginId());
         }
 
         AdminEntity adminEntity = AdminEntity.builder()

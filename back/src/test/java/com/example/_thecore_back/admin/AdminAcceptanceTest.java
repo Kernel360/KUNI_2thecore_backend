@@ -20,8 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test") // 테스트용 application-test.yml을 사용하도록 설정
+@AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles("test")
 public class AdminAcceptanceTest {
 
     @Autowired
@@ -40,35 +40,33 @@ public class AdminAcceptanceTest {
     }
 
     @Test
-    @DisplayName("관리자 등록 인수 테스트")
+    @DisplayName("관리자 회원가입 테스트")
     void registerAdmin_Acceptance() throws Exception {
-        // given
+
         AdminRequest request = new AdminRequest("acceptanceAdmin", "password", "인수테스트 관리자", "010-7777-8888", "acceptance@email.com",  LocalDate.parse("2000-01-01"));
 
-        // when & then
-        mockMvc.perform(post("/api/admins/register")
+        mockMvc.perform(post("/api/admin/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.loginId").value("acceptanceAdmin"));
     }
 
     @Test
-    @DisplayName("관리자 등록 실패 인수 테스트 - ID 중복")
+    @DisplayName("관리자 회원가입 실패 테스트 - ID 중복")
     void registerAdmin_Acceptance_Fail_DuplicateId() throws Exception {
-        // given
-        // 먼저 관리자를 한 명 등록
+
         AdminRequest initialRequest = new AdminRequest("duplicateAdmin", "password", "중복 관리자", "010-9999-0000", "duplicate@email.com", LocalDate.parse("2020-01-01"));
-        mockMvc.perform(post("/api/admins/register")
+        mockMvc.perform(post("/api/admin/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(initialRequest)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
 
-        mockMvc.perform(post("/api/admins/register")
+        mockMvc.perform(post("/api/admin/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(initialRequest)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Login ID already exists."));
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("이미 존재하는 아이디입니다: duplicateAdmin"));
     }
 }
