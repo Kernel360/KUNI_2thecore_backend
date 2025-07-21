@@ -19,7 +19,3 @@ spring:
     naming:
       physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-
-  redis:
-    host: localhost
-    port: 6379
