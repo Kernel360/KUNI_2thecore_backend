@@ -1,7 +1,7 @@
 package com.example._thecore_back.emulator.application;
 
-import com.example._thecore_back.car.db.CarEntity;
-import com.example._thecore_back.car.db.CarRepository;
+import com.example._thecore_back.car.domain.CarEntity;
+import com.example._thecore_back.car.infrastructure.CarRepository;
 import com.example._thecore_back.emulator.domain.EmulatorEntity;
 import com.example._thecore_back.emulator.domain.EmulatorStatus;
 import com.example._thecore_back.emulator.controller.dto.EmulatorRequest;

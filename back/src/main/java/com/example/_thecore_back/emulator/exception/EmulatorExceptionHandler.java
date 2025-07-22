@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class EmulatorExceptionHandler {
 
     @ExceptionHandler(EmulatorNotFoundException.class)
     public ResponseEntity<Object> handleEmulatorNotFoundException(EmulatorNotFoundException ex, HttpServletRequest request) {

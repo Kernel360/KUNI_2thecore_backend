@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:back/src/main/java/com/example/_thecore_back/car/domain/CarStatus.java
 package com.example._thecore_back.car.domain;
-========
-package com.example._thecore_back.car.db;
->>>>>>>> emulator:back/src/main/java/com/example/_thecore_back/car/db/CarStatus.java
 
 public enum CarStatus {
     IN_USE("운행"),        // 운행 중
