@@ -17,7 +17,7 @@ public class AdminService {
     private final AdminRepository adminRepository;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository /*, PasswordEncoder*/) {
+    public AdminService(AdminRepository adminRepository ) {
         this.adminRepository = adminRepository;
 
     }
@@ -31,8 +31,7 @@ public class AdminService {
 
         AdminEntity adminEntity = AdminEntity.builder()
                 .loginId(requestDto.getLoginId())
-                // .password(passwordEncoder.encode(requestDto.getPassword())) // 비밀번호 인코딩
-                .password(requestDto.getPassword()) // 임시: 실제로는 인코딩 필요
+                .password(requestDto.getPassword())
                 .name(requestDto.getName())
                 .phoneNumber(requestDto.getPhoneNumber())
                 .email(requestDto.getEmail())

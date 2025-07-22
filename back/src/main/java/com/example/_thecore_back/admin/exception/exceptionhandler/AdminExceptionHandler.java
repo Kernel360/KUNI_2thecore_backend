@@ -15,7 +15,4 @@ public class AdminExceptionHandler {
         ApiResponse<?> response = ApiResponse.fail(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
-
-    // 추후 다른 예외 핸들러들을 이곳에 추가할 수 있습니다.
-
 }

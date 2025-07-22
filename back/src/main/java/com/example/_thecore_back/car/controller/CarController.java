@@ -1,7 +1,7 @@
 package com.example._thecore_back.car.controller;
 import com.example._thecore_back.car.controller.dto.*;
 import com.example._thecore_back.car.domain.CarStatus;
-import com.example._thecore_back.common.response.ApiResponse;
+import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.car.validation.group.CreateGroup;
 import com.example._thecore_back.car.application.CarService;
 import org.springframework.validation.annotation.Validated;
@@ -76,7 +76,7 @@ public class CarController {
     ){
        var response = carService.createCar(carRequest);
 
-        return ApiResponse.success(response, "차량 등록이 성공적으로 완료되었습니다.");
+        return ApiResponse.success("차량 등록이 성공적으로 완료되었습니다.", response);
     }
 
     // 차량 정보 업데이트
@@ -90,7 +90,7 @@ public class CarController {
     ){
         var response = carService.updateCar(carRequest, carNumber);
 
-        return ApiResponse.success(response, "차량 정보가 성공적으로 수정되었습니다.");
+        return ApiResponse.success("차량 정보가 성공적으로 수정되었습니다.",response);
     }
 
     // 차량 삭제
@@ -101,6 +101,6 @@ public class CarController {
     ){
         var response = carService.deleteCar(carNumber);
 
-        return ApiResponse.success(response, "차량 삭제가 성공적으로 완료되었습니다.");
+        return ApiResponse.success("차량 삭제가 성공적으로 완료되었습니다.",response);
     }
 }

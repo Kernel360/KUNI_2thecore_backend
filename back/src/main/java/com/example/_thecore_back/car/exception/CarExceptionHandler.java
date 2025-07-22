@@ -3,7 +3,9 @@ package com.example._thecore_back.car.exception;
 
 import com.example._thecore_back.car.controller.CarController;
 import com.example._thecore_back.car.exception.response.CarExceptionResponse;
-import com.example._thecore_back.common.response.ApiResponse;
+import com.example._thecore_back.common.dto.ApiResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -33,7 +35,7 @@ public class CarExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT.value())
-                .body(ApiResponse.fail(response));
+                .body(ApiResponse.fail(response.getMessage()));
     }
 
     // 차량이 존재하지 않을 때
@@ -50,6 +52,6 @@ public class CarExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND.value())
-                .body(ApiResponse.fail(response));
+                .body(ApiResponse.fail(response.getMessage()));
     }
 }
