@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:back/src/main/java/com/example/_thecore_back/car/controller/dto/CarRequestDto.java
 package com.example._thecore_back.car.controller.dto;
+========
+package com.example._thecore_back.car.model;
+>>>>>>>> emulator:back/src/main/java/com/example/_thecore_back/car/model/CarRequest.java
 
 import com.example._thecore_back.car.domain.CarStatus;
 import com.example._thecore_back.car.validation.group.CreateGroup;
