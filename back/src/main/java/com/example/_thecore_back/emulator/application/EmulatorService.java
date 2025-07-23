@@ -51,12 +51,25 @@ public class EmulatorService {
     }
 
     public EmulatorEntity getEmulator(int id) {
-        return emulatorRepository.findById(id)
+        EmulatorEntity emulatorEntity = emulatorRepository.findById(id)
                 .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다: " + id));
+
+        // carRepository를 사용해 carNumber를 찾아와서 Transient 필드에 설정
+        carRepository.findByEmulatorId(emulatorEntity.getId()).ifPresent(carEntity -> {
+            emulatorEntity.setCarNumber(carEntity.getCarNumber());
+        });
+
+        return emulatorEntity;
     }
 
     public List<EmulatorEntity> getAllEmulators() {
-        return emulatorRepository.findAll();
+        List<EmulatorEntity> emulators = emulatorRepository.findAll();
+        emulators.forEach(emulator -> {
+            carRepository.findByCarNumber(emulator.getDeviceId()).ifPresent(carEntity -> {
+                emulator.setCarNumber(carEntity.getCarNumber());
+            });
+        });
+        return emulators;
     }
 
     @Transactional
