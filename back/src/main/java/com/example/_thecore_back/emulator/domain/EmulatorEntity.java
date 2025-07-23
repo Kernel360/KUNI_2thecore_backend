@@ -15,7 +15,7 @@ public class EmulatorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "device_id", nullable = false, length = 20)
     private String deviceId; // 디바이스 ID

@@ -44,13 +44,13 @@ public class EmulatorService {
 
         EmulatorEntity savedEntity = emulatorRepository.save(entity);
 
-        carEntity.setEmulatorId(savedEntity.getId().intValue());
+        carEntity.setEmulatorId(savedEntity.getId());
         carRepository.save(carEntity);
 
         return savedEntity;
     }
 
-    public EmulatorEntity getEmulator(Long id) {
+    public EmulatorEntity getEmulator(int id) {
         return emulatorRepository.findById(id)
                 .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다: " + id));
     }
@@ -60,7 +60,7 @@ public class EmulatorService {
     }
 
     @Transactional
-    public EmulatorEntity updateEmulator(Long id, EmulatorRequest emulatorRequest) {
+    public EmulatorEntity updateEmulator(int id, EmulatorRequest emulatorRequest) {
         EmulatorEntity entity = emulatorRepository.findById(id)
                 .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다.: " + id));
 
@@ -84,7 +84,7 @@ public class EmulatorService {
                 carRepository.save(oldCar);
             });
 
-            newCarEntity.setEmulatorId(entity.getId().intValue());
+            newCarEntity.setEmulatorId(entity.getId());
             carRepository.save(newCarEntity);
 
             entity.setDeviceId(newDeviceId);
@@ -94,7 +94,7 @@ public class EmulatorService {
     }
 
     @Transactional
-    public void deleteEmulator(Long id) {
+    public void deleteEmulator(int id) {
         EmulatorEntity emulatorEntity = emulatorRepository.findById(id)
                 .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다: " + id));
 

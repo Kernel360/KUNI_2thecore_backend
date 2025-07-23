@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UpdateEmulatorResponseData {
-    private Long emulatorId;
+    private int emulatorId;
     private String carNumber;
 }

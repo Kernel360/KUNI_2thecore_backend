@@ -37,7 +37,7 @@ public class EmulatorController {
     // 애뮬레이터 상세 조회
     @GetMapping("/{emulator_id}")
     public ResponseEntity<ApiResponse<GetEmulatorResponseData>> getEmulator(
-            @PathVariable("emulator_id") Long emulatorId
+            @PathVariable("emulator_id") int emulatorId
     ) {
         EmulatorEntity getEntity = emulatorService.getEmulator(emulatorId);
         GetEmulatorResponseData responseData = emulatorConverter.toGetEmulatorData(getEntity);
@@ -59,7 +59,7 @@ public class EmulatorController {
     // 애뮬레이터 수정
     @PatchMapping("/{emulator_id}")
     public ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> updateEmulator(
-            @PathVariable("emulator_id") Long emulatorId,
+            @PathVariable("emulator_id") int emulatorId,
             @Valid @RequestBody EmulatorRequest emulatorRequest
     ){
         EmulatorEntity updatedEntity = emulatorService.updateEmulator(emulatorId, emulatorRequest);
@@ -71,7 +71,7 @@ public class EmulatorController {
     // 애뮬레이터 삭제
     @DeleteMapping("/{emulator_id}")
     public ResponseEntity<ApiResponse<DeleteEmulatorResponseData>> deleteEmulator(
-            @PathVariable("emulator_id") Long emulatorId
+            @PathVariable("emulator_id") int emulatorId
     ){
         emulatorService.deleteEmulator(emulatorId);
         DeleteEmulatorResponseData responseData = DeleteEmulatorResponseData.builder()
