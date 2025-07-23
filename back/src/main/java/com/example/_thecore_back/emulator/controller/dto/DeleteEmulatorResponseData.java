@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class DeleteEmulatorResponseData {
-    private int emulatorId;
+    private String deviceId;
 }

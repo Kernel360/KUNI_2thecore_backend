@@ -8,7 +8,7 @@ public class EmulatorConverter {
 
     public EmulatorResponse toResponse(EmulatorEntity emulatorEntity) {
         EmulatorResponse response = new EmulatorResponse();
-        response.setId(emulatorEntity.getId());
+        response.setDeviceId(emulatorEntity.getDeviceId());
         response.setCarNumber(emulatorEntity.getCarNumber());
         response.setStatus(emulatorEntity.getStatus());
         return response;
@@ -16,7 +16,7 @@ public class EmulatorConverter {
 
     public EmulatorEntity toEntity(EmulatorResponse emulatorResponse) {
         EmulatorEntity entity = new EmulatorEntity();
-        entity.setId(emulatorResponse.getId());
+        entity.setDeviceId(emulatorResponse.getDeviceId());
         entity.setCarNumber(emulatorResponse.getCarNumber());
         entity.setStatus(emulatorResponse.getStatus());
         return entity;
@@ -27,7 +27,7 @@ public class EmulatorConverter {
             EmulatorEntity emulatorEntity
     ) {
         return RegisterEmulatorResponseData.builder()
-                .emulatorId(emulatorEntity.getId())
+                .deviceId(emulatorEntity.getDeviceId())
                 .carNumber(emulatorEntity.getCarNumber())
                 .emulatorStatus(emulatorEntity.getStatus())
                 .build()
@@ -39,7 +39,7 @@ public class EmulatorConverter {
             EmulatorEntity emulatorEntity
     ) {
         return GetEmulatorResponseData.builder()
-                .emulatorId(emulatorEntity.getId())
+                .deviceId(emulatorEntity.getDeviceId())
                 .carNumber(emulatorEntity.getCarNumber())
                 .emulatorStatus(emulatorEntity.getStatus())
                 .build()
@@ -51,7 +51,7 @@ public class EmulatorConverter {
             EmulatorEntity emulatorEntity
     ) {
         return UpdateEmulatorResponseData.builder()
-                .emulatorId(emulatorEntity.getId())
+                .deviceId(emulatorEntity.getDeviceId())
                 .carNumber(emulatorEntity.getCarNumber())
                 .build()
                 ;

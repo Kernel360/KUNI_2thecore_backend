@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class RegisterEmulatorResponseData {
-    private int emulatorId;
+    private String deviceId;
     private String carNumber;
     private EmulatorStatus emulatorStatus;
 }

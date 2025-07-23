@@ -51,12 +51,13 @@ public class EmulatorControllerTest {
 
         emulatorEntity = EmulatorEntity.builder()
                 .id(1)
+                .deviceId("a1b2c3d4-test-uuid")
                 .carNumber("123가 4567")
                 .status(EmulatorStatus.OFF)
                 .build();
 
         getEmulatorResponseData = GetEmulatorResponseData.builder()
-                .emulatorId(1)
+                .deviceId("a1b2c3d4-test-uuid")
                 .carNumber("123가 4567")
                 .emulatorStatus(EmulatorStatus.OFF)
                 .build();
@@ -65,14 +66,20 @@ public class EmulatorControllerTest {
     @Test
     @DisplayName("애뮬레이터 등록 성공")
     void registerEmulator_success() {
+        RegisterEmulatorResponseData responseData = RegisterEmulatorResponseData.builder()
+                .deviceId(emulatorEntity.getDeviceId())
+                .carNumber(emulatorEntity.getCarNumber())
+                .emulatorStatus(emulatorEntity.getStatus())
+                .build();
+
         when(emulatorService.registerEmulator(any(EmulatorRequest.class))).thenReturn(emulatorEntity);
-        when(emulatorConverter.toRegisterEmulatorData(any(EmulatorEntity.class)))
-                .thenReturn(new RegisterEmulatorResponseData(1, "123가4567", EmulatorStatus.OFF));
+        when(emulatorConverter.toRegisterEmulatorData(any(EmulatorEntity.class))).thenReturn(responseData);
 
         ResponseEntity<ApiResponse<RegisterEmulatorResponseData>> response = emulatorController.registerEmulator(emulatorRequest);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("애뮬레이터가 등록되었습니다.", response.getBody().getMessage());
+        assertEquals(emulatorEntity.getDeviceId(), response.getBody().getData().getDeviceId());
         verify(emulatorService).registerEmulator(any(EmulatorRequest.class));
     }
 
@@ -99,23 +106,25 @@ public class EmulatorControllerTest {
     @Test
     @DisplayName("애뮬레이터 상세 조회 성공")
     void getEmulator_success() {
-        when(emulatorService.getEmulator(anyInt())).thenReturn(emulatorEntity);
+        String deviceId = "a1b2c3d4-test-uuid";
+        when(emulatorService.getEmulator(anyString())).thenReturn(emulatorEntity);
         when(emulatorConverter.toGetEmulatorData(any(EmulatorEntity.class))).thenReturn(getEmulatorResponseData);
 
-        ResponseEntity<ApiResponse<GetEmulatorResponseData>> response = emulatorController.getEmulator(1);
+        ResponseEntity<ApiResponse<GetEmulatorResponseData>> response = emulatorController.getEmulator(deviceId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(1, response.getBody().getData().getEmulatorId());
-        verify(emulatorService).getEmulator(1);
+        assertEquals(deviceId, response.getBody().getData().getDeviceId());
+        verify(emulatorService).getEmulator(deviceId);
     }
 
     @Test
     @DisplayName("애뮬레이터 상세 조회 실패 - 애뮬레이터 없음")
     void getEmulator_notFound() {
-        when(emulatorService.getEmulator(anyInt())).thenThrow(new EmulatorNotFoundException("Not Found"));
+        String deviceId = "존재하지 않는 deviceId";
+        when(emulatorService.getEmulator(deviceId)).thenThrow(new EmulatorNotFoundException("Not Found"));
 
-        assertThrows(EmulatorNotFoundException.class, () -> emulatorController.getEmulator(1));
-        verify(emulatorService).getEmulator(1);
+        assertThrows(EmulatorNotFoundException.class, () -> emulatorController.getEmulator(deviceId));
+        verify(emulatorService).getEmulator(deviceId);
     }
 
     @Test
@@ -148,92 +157,84 @@ public class EmulatorControllerTest {
     @Test
     @DisplayName("애뮬레이터 수정 성공 - 차량 번호 변경 없을 때")
     void updateEmulator_noCarNumberChange_success() {
-        when(emulatorService.updateEmulator(anyInt(), any())).thenReturn(emulatorEntity);
-        when(emulatorConverter.toUpdateEmulatorData(any()))
-                .thenReturn(UpdateEmulatorResponseData.builder().emulatorId(1).carNumber("123가4567").build());
+        String deviceId = "a1b2c3d4-test-uuid";
+        UpdateEmulatorResponseData responseData = UpdateEmulatorResponseData.builder()
+                .deviceId(deviceId)
+                .carNumber("123가4567")
+                .build();
 
-        ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> response = emulatorController.updateEmulator(1, emulatorRequest);
+        when(emulatorService.updateEmulator(eq(deviceId), any(EmulatorRequest.class))).thenReturn(emulatorEntity);
+        when(emulatorConverter.toUpdateEmulatorData(any(EmulatorEntity.class))).thenReturn(responseData);
+
+        ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> response = emulatorController.updateEmulator(deviceId, emulatorRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("애뮬레이터 정보가 수정되었습니다.", response.getBody().getMessage());
-        verify(emulatorService).updateEmulator(1, emulatorRequest);
+        verify(emulatorService).updateEmulator(eq(deviceId), any(EmulatorRequest.class));
     }
 
     @Test
     @DisplayName("애뮬레이터 수정 성공 - 차량 번호 변경 있을 때")
     void updateEmulator_carNumberChange_success() {
-        EmulatorRequest newRequest = new EmulatorRequest();
-        newRequest.setCarNumber("789다 9999");
+        String deviceId = "a1b2c3d4-test-uuid";
+        EmulatorRequest newRequest = new EmulatorRequest("789다 9999");
+        UpdateEmulatorResponseData responseData = UpdateEmulatorResponseData.builder()
+                .deviceId(deviceId)
+                .carNumber("789다 9999")
+                .build();
 
-        when(emulatorService.updateEmulator(eq(1), any())).thenReturn(emulatorEntity);
-        when(emulatorConverter.toUpdateEmulatorData(any()))
-                .thenReturn(UpdateEmulatorResponseData.builder().emulatorId(1).carNumber("789다 9999").build());
+         when(emulatorService.updateEmulator(eq(deviceId), any(EmulatorRequest.class))).thenReturn(emulatorEntity);
+         when(emulatorConverter.toUpdateEmulatorData(any(EmulatorEntity.class))).thenReturn(responseData);
 
-        ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> response = emulatorController.updateEmulator(1, newRequest);
+         ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> response = emulatorController.updateEmulator(deviceId, newRequest);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("애뮬레이터 정보가 수정되었습니다.", response.getBody().getMessage());
-        verify(emulatorService).updateEmulator(1, newRequest);
-    }
-
-    // X
-    @Test
-    @DisplayName("애뮬레이터 수정 성공")
-    void updateEmulator_success() {
-        // given
-        when(emulatorService.updateEmulator(anyInt(), any(EmulatorRequest.class))).thenReturn(emulatorEntity);
-        when(emulatorConverter.toUpdateEmulatorData(any(EmulatorEntity.class)))
-                .thenReturn(UpdateEmulatorResponseData.builder().emulatorId(1).carNumber("123가4567").build());
-
-        // when
-        ResponseEntity<ApiResponse<UpdateEmulatorResponseData>> response = emulatorController.updateEmulator(1, emulatorRequest);
-
-        // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("애뮬레이터 정보가 수정되었습니다.", response.getBody().getMessage());
-        verify(emulatorService).updateEmulator(1, emulatorRequest);
+         assertEquals(HttpStatus.OK, response.getStatusCode());
+         assertEquals("애뮬레이터 정보가 수정되었습니다.", response.getBody().getMessage());
+         verify(emulatorService).updateEmulator(eq(deviceId), any(EmulatorRequest.class));
     }
 
     @Test
     @DisplayName("애뮬레이터 수정 실패 - 애뮬레이터 없음")
     void updateEmulator_emulatorNotFound() {
-        when(emulatorService.updateEmulator(anyInt(), any())).thenThrow(new EmulatorNotFoundException("not found"));
+        String deviceId = "not-found-id";
+        when(emulatorService.updateEmulator(eq(deviceId), any(EmulatorRequest.class))).thenThrow(new EmulatorNotFoundException("not found"));
 
-        assertThrows(EmulatorNotFoundException.class, () ->
-                emulatorController.updateEmulator(1, emulatorRequest));
-        verify(emulatorService).updateEmulator(1, emulatorRequest);
+        assertThrows(EmulatorNotFoundException.class, () -> emulatorController.updateEmulator(deviceId, emulatorRequest));
+        verify(emulatorService).updateEmulator(eq(deviceId), any(EmulatorRequest.class));
     }
 
     @Test
     @DisplayName("애뮬레이터 수정 실패 - 변경할 차량 없음")
     void updateEmulator_newCarNotFound() {
-        when(emulatorService.updateEmulator(anyInt(), any())).thenThrow(new CarNotFoundException("no car"));
+        String deviceId = "a1b2c3d4-test-uuid";
+        when(emulatorService.updateEmulator(eq(deviceId), any(EmulatorRequest.class))).thenThrow(new CarNotFoundException("no car"));
 
-        assertThrows(CarNotFoundException.class, () ->
-                emulatorController.updateEmulator(1, emulatorRequest));
-        verify(emulatorService).updateEmulator(1, emulatorRequest);
+        assertThrows(CarNotFoundException.class, () -> emulatorController.updateEmulator(deviceId, emulatorRequest));
+        verify(emulatorService).updateEmulator(eq(deviceId), any(EmulatorRequest.class));
     }
 
     @Test
     @DisplayName("애뮬레이터 삭제 성공")
     void deleteEmulator_success() {
-        doNothing().when(emulatorService).deleteEmulator(anyInt());
+        String deviceId = "a1b2c3d4-test-uuid";
+        doNothing().when(emulatorService).deleteEmulator(anyString());
 
-        ResponseEntity<ApiResponse<DeleteEmulatorResponseData>> response = emulatorController.deleteEmulator(1);
+        ResponseEntity<ApiResponse<DeleteEmulatorResponseData>> response = emulatorController.deleteEmulator(deviceId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("애뮬레이터가 삭제되었습니다.", response.getBody().getMessage());
-        verify(emulatorService).deleteEmulator(1);
+        verify(emulatorService).deleteEmulator(deviceId);
     }
 
     @Test
     @DisplayName("애뮬레이터 삭제 실패 - 애뮬레이터 없음")
     void deleteEmulator_notFound() {
-        doThrow(new EmulatorNotFoundException("not found")).when(emulatorService).deleteEmulator(1);
+        String deviceId = "not-found-id";
+        doThrow(new EmulatorNotFoundException("not found")).when(emulatorService).deleteEmulator(deviceId);
 
         assertThrows(EmulatorNotFoundException.class, () ->
-                emulatorController.deleteEmulator(1));
-        verify(emulatorService).deleteEmulator(1);
+                emulatorController.deleteEmulator(deviceId));
+        verify(emulatorService).deleteEmulator(deviceId);
     }
 
 }

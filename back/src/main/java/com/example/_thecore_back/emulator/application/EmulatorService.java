@@ -26,19 +26,16 @@ public class EmulatorService {
 
     @Transactional
     public EmulatorEntity registerEmulator(EmulatorRequest emulatorRequest) {
-        CarEntity carEntity = carRepository.findByCarNumber(emulatorRequest.getDeviceId())
-                .orElseThrow(() -> new CarNotFoundException("해당하는 차량이 존재하지 않습니다: " + emulatorRequest.getDeviceId()));
+        String carNumber = emulatorRequest.getCarNumber();
+        CarEntity carEntity = carRepository.findByCarNumber(carNumber)
+                .orElseThrow(() -> new CarNotFoundException("해당하는 차량이 존재하지 않습니다: " + carNumber));
 
         if (carEntity.getEmulatorId() != null) {
-            throw new DuplicateEmulatorException("해당 차량에 이미 애뮬레이터가 연결되어 있습니다: " + emulatorRequest.getDeviceId());
+            throw new DuplicateEmulatorException("해당 차량에 이미 애뮬레이터가 연결되어 있습니다: " + carNumber);
         }
 
-        emulatorRepository.findByDeviceId(emulatorRequest.getDeviceId()).ifPresent(emulator -> {
-            throw new DuplicateEmulatorException("이미 등록된 애뮬레이터입니다: " + emulatorRequest.getDeviceId());
-        });
-
         EmulatorEntity entity = EmulatorEntity.builder()
-                .deviceId(emulatorRequest.getDeviceId())
+                .carNumber(carNumber)
                 .status(EmulatorStatus.OFF)
                 .build();
 
@@ -47,16 +44,17 @@ public class EmulatorService {
         carEntity.setEmulatorId(savedEntity.getId());
         carRepository.save(carEntity);
 
+        savedEntity.setCarNumber(carNumber);
         return savedEntity;
     }
 
-    public EmulatorEntity getEmulator(int id) {
-        EmulatorEntity emulatorEntity = emulatorRepository.findById(id)
-                .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다: " + id));
+    public EmulatorEntity getEmulator(String deviceId) {
+        EmulatorEntity emulatorEntity = emulatorRepository.findByDeviceId(deviceId)
+                .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다: " + deviceId));
 
         // carRepository를 사용해 carNumber를 찾아와서 Transient 필드에 설정
-        carRepository.findByEmulatorId(emulatorEntity.getId()).ifPresent(carEntity -> {
-            emulatorEntity.setCarNumber(carEntity.getCarNumber());
+        carRepository.findByEmulatorId(emulatorEntity.getId()).ifPresent(car -> {
+            emulatorEntity.setCarNumber(car.getCarNumber());
         });
 
         return emulatorEntity;
@@ -65,57 +63,54 @@ public class EmulatorService {
     public List<EmulatorEntity> getAllEmulators() {
         List<EmulatorEntity> emulators = emulatorRepository.findAll();
         emulators.forEach(emulator -> {
-            carRepository.findByCarNumber(emulator.getDeviceId()).ifPresent(carEntity -> {
-                emulator.setCarNumber(carEntity.getCarNumber());
+            carRepository.findByEmulatorId(emulator.getId()).ifPresent(car -> {
+                emulator.setCarNumber(car.getCarNumber());
             });
         });
         return emulators;
     }
 
     @Transactional
-    public EmulatorEntity updateEmulator(int id, EmulatorRequest emulatorRequest) {
-        EmulatorEntity entity = emulatorRepository.findById(id)
-                .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다.: " + id));
+    public EmulatorEntity updateEmulator(String deviceId, EmulatorRequest emulatorRequest) {
+        EmulatorEntity entity = emulatorRepository.findByDeviceId(deviceId)
+                .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다.: " + deviceId));
 
-        String currentDeviceId = entity.getDeviceId();
-        String newDeviceId = emulatorRequest.getDeviceId();
+        String newCarNumber = emulatorRequest.getCarNumber();
 
-        if (!Objects.equals(currentDeviceId, newDeviceId)) {
-            CarEntity newCarEntity = carRepository.findByCarNumber(newDeviceId)
-                    .orElseThrow(() -> new CarNotFoundException("해당하는 차량이 존재하지 않습니다: " + newDeviceId));
-
-            if (newCarEntity.getEmulatorId() != null) {
-                throw new DuplicateEmulatorException("해당 차량에 이미 애뮬레이터가 연결되어 있습니다: " + newDeviceId);
-            }
-
-            emulatorRepository.findByDeviceId(newDeviceId).ifPresent(emulator -> {
-                throw new DuplicateEmulatorException("이미 등록된 애뮬레이터입니다: " + newDeviceId);
-            });
-
-            carRepository.findByCarNumber(currentDeviceId).ifPresent(oldCar -> {
+        // 기존 차량 연결 해제
+        carRepository.findByEmulatorId(entity.getId()).ifPresent(oldCar -> {
+            if(!Objects.equals(oldCar.getCarNumber(), newCarNumber)) {
                 oldCar.setEmulatorId(null);
                 carRepository.save(oldCar);
-            });
+            }
+        });
 
-            newCarEntity.setEmulatorId(entity.getId());
-            carRepository.save(newCarEntity);
+        // 새로운 차량 찾기 및 연결
+        CarEntity newCarEntity = carRepository.findByCarNumber(newCarNumber)
+                .orElseThrow(() -> new CarNotFoundException("해당하는 차량이 존재하지 않습니다: " + newCarNumber));
 
-            entity.setDeviceId(newDeviceId);
+        if (newCarEntity.getEmulatorId() != null && newCarEntity.getEmulatorId() != entity.getId()) {
+            throw new DuplicateEmulatorException("해당 차량에 이미 다른 애뮬레이터가 연결되어 있습니다: " + newCarNumber);
         }
 
-        return emulatorRepository.save(entity);
+        newCarEntity.setEmulatorId(entity.getId());
+        carRepository.save(newCarEntity);
+
+        // @Transient 필드 채워서 return
+        entity.setCarNumber(newCarNumber);
+        return entity;
     }
 
     @Transactional
-    public void deleteEmulator(int id) {
-        EmulatorEntity emulatorEntity = emulatorRepository.findById(id)
-                .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다: " + id));
+    public void deleteEmulator(String deviceId) {
+        EmulatorEntity emulatorEntity = emulatorRepository.findByDeviceId(deviceId)
+                .orElseThrow(() -> new EmulatorNotFoundException("해당하는 애뮬레이터가 없습니다: " + deviceId));
 
-        carRepository.findByCarNumber(emulatorEntity.getDeviceId()).ifPresent(carEntity -> {
+        carRepository.findByEmulatorId(emulatorEntity.getId()).ifPresent(carEntity -> {
             carEntity.setEmulatorId(null);
             carRepository.save(carEntity);
         });
 
-        emulatorRepository.deleteById(id);
+        emulatorRepository.delete(emulatorEntity);
     }
 }

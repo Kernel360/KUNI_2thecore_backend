@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class GetEmulatorResponseData {
-    private int emulatorId;
+    private String deviceId;
     private String carNumber;
     private EmulatorStatus emulatorStatus;
 }
