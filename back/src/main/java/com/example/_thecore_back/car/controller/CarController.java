@@ -4,12 +4,15 @@ import com.example._thecore_back.car.domain.CarStatus;
 import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.car.validation.group.CreateGroup;
 import com.example._thecore_back.car.application.CarService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/cars")
@@ -48,22 +51,32 @@ public class CarController {
         return ApiResponse.success(response);
     }
 
-    /**
-     * 조건에 맞는 차량들을 조회하는 메소드
-     * @param carNumber : 차량 번호
-     * @param model : 차량 모델명
-     * @param brand : 차량 브랜드
-     * @param status : 현재 차량 상태
-     * @return 각 조건에 부합하는 차량 조회
-     */
+//    /**
+//     * 조건에 맞는 차량들을 조회하는 메소드
+//     * @param carNumber : 차량 번호
+//     * @param model : 차량 모델명
+//     * @param brand : 차량 브랜드
+//     * @param status : 현재 차량 상태
+//     * @return 각 조건에 부합하는 차량 조회
+//     */
+//    @GetMapping("/search")
+//    public ApiResponse<List<CarSearchDto>> getCarsByFilter(
+//            @RequestParam(required = false) String carNumber,
+//            @RequestParam(required = false) String model,
+//            @RequestParam(required = false) String brand,
+//            @RequestParam(required = false) CarStatus status
+//    ) {
+//        var response = carService.getCarsByFilter(carNumber, model, brand, status);
+//        return ApiResponse.success(response);
+//    }
+
     @GetMapping("/search")
     public ApiResponse<List<CarSearchDto>> getCarsByFilter(
-            @RequestParam(required = false) String carNumber,
-            @RequestParam(required = false) String model,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) CarStatus status
+            @ModelAttribute CarFilterRequestDto carFilterRequestDto
     ) {
-        var response = carService.getCarsByFilter(carNumber, model, brand, status);
+            log.info("Request DTO: {}", carFilterRequestDto);
+
+        var response = carService.getCarsByFilter(carFilterRequestDto);
         return ApiResponse.success(response);
     }
 

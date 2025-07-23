@@ -8,6 +8,7 @@ import com.example._thecore_back.car.exception.CarAlreadyExistsException;
 import com.example._thecore_back.car.exception.CarErrorCode;
 import com.example._thecore_back.car.exception.CarNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.type.TrueFalseConverter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -167,12 +169,15 @@ public class CarControllerTest {
                 .content(objectMapper.writeValueAsString(request)));
 
         actions
+//                .andExpect(status().isConflict())
+//                .andExpect(jsonPath("$.result").value(false))
+//                .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
+//                .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
+//                .andExpect(jsonPath("$.data.message").value("이미 등록된 차량입니다: 12가3456"))
+//                .andExpect(jsonPath("$.data.path").value("/api/cars"));
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.result").value(false))
-                .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
-                .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
-                .andExpect(jsonPath("$.data.message").value("이미 등록된 차량입니다: 12가3456"))
-                .andExpect(jsonPath("$.data.path").value("/api/cars"));
+                .andExpect(jsonPath("$.message").value("이미 등록된 차량입니다: 12가3456"));
     }
 
     @Test
@@ -192,11 +197,14 @@ public class CarControllerTest {
                 .content(objectMapper.writeValueAsString(request)));
 
         actions
+//                .andExpect(status().isNotFound())
+//                .andExpect(jsonPath("$.result").value(false))
+//                .andExpect(jsonPath("$.data.status").value(HttpStatus.NOT_FOUND.value()))
+//                .andExpect(jsonPath("$.data.error").value(HttpStatus.NOT_FOUND.getReasonPhrase()))
+//                .andExpect(jsonPath("$.data.message").value("해당 차량 ( 1234가56 )은 존재하지 않습니다. 다시 입력해주세요"));
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.result").value(false))
-                .andExpect(jsonPath("$.data.status").value(HttpStatus.NOT_FOUND.value()))
-                .andExpect(jsonPath("$.data.error").value(HttpStatus.NOT_FOUND.getReasonPhrase()))
-                .andExpect(jsonPath("$.data.message").value("해당 차량 ( 1234가56 )은 존재하지 않습니다. 다시 입력해주세요"));
+                .andExpect(jsonPath("$.message").value("해당 차량 ( 1234가56 )은 존재하지 않습니다. 다시 입력해주세요"));
     }
 
     @Test
@@ -216,11 +224,14 @@ public class CarControllerTest {
                 .content(objectMapper.writeValueAsString(request)));
 
         actions
-                .andExpect(status().isConflict())
+//                .andExpect(status().isConflict())
+//                .andExpect(jsonPath("$.result").value(false))
+//                .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
+//                .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
+//                .andExpect(jsonPath("$.data.message").value("이미 등록된 차량입니다: 6543나21"));
+        .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.result").value(false))
-                .andExpect(jsonPath("$.data.status").value(HttpStatus.CONFLICT.value()))
-                .andExpect(jsonPath("$.data.error").value(HttpStatus.CONFLICT.getReasonPhrase()))
-                .andExpect(jsonPath("$.data.message").value("이미 등록된 차량입니다: 6543나21"));
+                .andExpect(jsonPath("$.message").value("이미 등록된 차량입니다: 6543나21"));
     }
 
     @Test
@@ -232,11 +243,14 @@ public class CarControllerTest {
         ResultActions actions = mockMvc.perform(delete("/api/cars/9999가99"));
 
         actions
+//                .andExpect(status().isNotFound())
+//                .andExpect(jsonPath("$.result").value(false))
+//                .andExpect(jsonPath("$.data.status").value(HttpStatus.NOT_FOUND.value()))
+//                .andExpect(jsonPath("$.data.error").value(HttpStatus.NOT_FOUND.getReasonPhrase()))
+//                .andExpect(jsonPath("$.data.message").value("해당 차량 ( 9999가99 )은 존재하지 않습니다. 다시 입력해주세요"));
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.result").value(false))
-                .andExpect(jsonPath("$.data.status").value(HttpStatus.NOT_FOUND.value()))
-                .andExpect(jsonPath("$.data.error").value(HttpStatus.NOT_FOUND.getReasonPhrase()))
-                .andExpect(jsonPath("$.data.message").value("해당 차량 ( 9999가99 )은 존재하지 않습니다. 다시 입력해주세요"));
+                .andExpect(jsonPath("$.message").value("해당 차량 ( 9999가99 )은 존재하지 않습니다. 다시 입력해주세요"));
     }
 
     @Test
@@ -260,8 +274,9 @@ public class CarControllerTest {
 
         mockMvc.perform(get("/api/cars/1234"))
                 .andDo(print())
-                .andExpect(jsonPath("$.data.status").value(404))
-                .andExpect(jsonPath("$.data.message").value("해당 차량 ( 1234 )은 존재하지 않습니다. 다시 입력해주세요"));
+//                .andExpect(jsonPath("$.data.status").value(404))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("해당 차량 ( 1234 )은 존재하지 않습니다. 다시 입력해주세요"));
     }
 
     @Test
@@ -290,8 +305,8 @@ public class CarControllerTest {
 
         mockMvc.perform(get("/api/cars"))
                 .andDo(print())
-                .andExpect(jsonPath("$.data.status").value(404))
-                .andExpect(jsonPath("$.data.message").value("등록된 차량이 존재하지 않습니다."));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("등록된 차량이 존재하지 않습니다."));
 
     }
 
@@ -326,37 +341,50 @@ public class CarControllerTest {
     @DisplayName("필터링 조건에 기반하여 차량 조회")
     public void getAllCarsByFilter() throws Exception {
 
+        var requestDto = CarFilterRequestDto.builder()
+                .twoParam(false)
+                .build();
+
         List<CarSearchDto> carList = List.of(new CarSearchDto("12가1234", "현대", "아이오닉", "IDLE")
                 ,new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"),
                 new CarSearchDto("12가2315", "기아", "그렌저", "MAINTENANCE"));
 
         // 전체 조회
-        when(carService.getCarsByFilter(null, null, null, null)).thenReturn(carList);
+        when(carService.getCarsByFilter(refEq(requestDto))).thenReturn(carList);
 
-        mockMvc.perform(get("/api/cars/search"))
+        mockMvc.perform(get("/api/cars/search").param("twoParam", "false"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(3));
 
-        // 브랜드만 입력
-        List<CarSearchDto> kiaCars = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"),
-                new CarSearchDto("12가2315", "기아", "그렌저", "MAINTENANCE"));
-
-        when(carService.getCarsByFilter(null, null, "기아", null)).thenReturn(kiaCars);
-
-        mockMvc.perform(get("/api/cars/search").param("brand", "기아"))
-                .andDo(print())
-                .andExpect(jsonPath("$.result").value(true))
-                .andExpect(jsonPath("$.data.length()").value(2))
-                .andExpect(jsonPath("$.data[0].brand").value("기아"))
-                .andExpect(jsonPath("$.data[1].brand").value("기아"));
+//        // 브랜드만 입력
+//        var requestDto_2 = CarFilterRequestDto.builder()
+//                .brand("기아")
+//                .twoParam(false)
+//                .build();
+//
+//        List<CarSearchDto> kiaCars = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"),
+//                new CarSearchDto("12가2315", "기아", "그렌저", "MAINTENANCE"));
+//
+//        when(carService.getCarsByFilter(requestDto_2)).thenReturn(kiaCars);
+//
+//        mockMvc.perform(get("/api/cars/search").param("brand", "기아").param("twoParam", "false"))
+//                .andDo(print())
+//                .andExpect(jsonPath("$.result").value(true))
+//                .andExpect(jsonPath("$.data.length()").value(2))
+//                .andExpect(jsonPath("$.data[0].brand").value("기아"))
+//                .andExpect(jsonPath("$.data[1].brand").value("기아"));
 
         // 차량 번호만 입력
+        var requestDto_3 = CarFilterRequestDto.builder()
+                .carNumber("12가3423")
+                .twoParam(false)
+                .build();
         List<CarSearchDto> carByNumber = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"));
 
-        when(carService.getCarsByFilter("12가3423", null, null, null)).thenReturn(carByNumber);
+        when(carService.getCarsByFilter(refEq(requestDto_3))).thenReturn(carByNumber);
 
-        mockMvc.perform(get("/api/cars/search").param("carNumber", "12가3423"))
+        mockMvc.perform(get("/api/cars/search").param("carNumber", "12가3423").param("twoParam", "false"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(1))
@@ -364,12 +392,16 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$.data[0].car_number").value("12가3423"));
 
         // 차량 상태만 입력
+        var requestDto_4 = CarFilterRequestDto.builder()
+                .status(CarStatus.IDLE)
+                .twoParam(false)
+                .build();
         List<CarSearchDto> carByStatusInIdle = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE")
                 , new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"));
 
-        when(carService.getCarsByFilter(null, null, null, CarStatus.IDLE)).thenReturn(carByStatusInIdle);
+        when(carService.getCarsByFilter(refEq(requestDto_4))).thenReturn(carByStatusInIdle);
 
-        mockMvc.perform(get("/api/cars/search").param("status", CarStatus.IDLE.name()))
+        mockMvc.perform(get("/api/cars/search").param("status", CarStatus.IDLE.name()).param("twoParam", "false"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(2))
@@ -377,12 +409,54 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$.data[1].status").value("IDLE"));
 
         // brand, model명 필터링
+        var requestDto_5 = CarFilterRequestDto.builder()
+                .model("아이오닉")
+                .brand("기아")
+                .twoParam(true)
+                .build();
+
         List<CarSearchDto> carByBrandAndModel = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"));
 
-        when(carService.getCarsByFilter(null, "아이오닉", "기아", null)).thenReturn(carByBrandAndModel);
+        when(carService.getCarsByFilter(refEq(requestDto_5))).thenReturn(carByBrandAndModel);
 
         mockMvc.perform(get("/api/cars/search").param("brand", "기아")
-                        .param("model", "아이오닉"))
+                        .param("model", "아이오닉").param("twoParam", "true"))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.length()").value(1))
+                .andExpect(jsonPath("$.data[0].brand").value("기아"))
+                .andExpect(jsonPath("$.data[0].model").value("아이오닉"));
+
+        // 브랜드명으로 브랜드명이 옴
+        var requestDto_6 = CarFilterRequestDto.builder()
+                .brand("기아")
+                .twoParam(false)
+                .build();
+
+        List<CarSearchDto> carByBrandAndModelOne = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"),
+                new CarSearchDto("12가3423", "기아", "아이오닉", "IN_USE"));
+
+        when(carService.getCarsByFilter(refEq(requestDto_6))).thenReturn(carByBrandAndModelOne);
+
+        mockMvc.perform(get("/api/cars/search").param("brand", "기아").param("twoParam", "false"))
+                .andDo(print())
+                .andExpect(jsonPath("$.result").value(true))
+                .andExpect(jsonPath("$.data.length()").value(2))
+                .andExpect(jsonPath("$.data[0].brand").value("기아"))
+                .andExpect(jsonPath("$.data[1].brand").value("기아"));
+
+        // 브랜드에 모델명이 들어옴
+
+        var requestDto_7 = CarFilterRequestDto.builder()
+                .brand("아이오닉")
+                .twoParam(false)
+                .build();
+
+        List<CarSearchDto> carByBrandToBrand = List.of(new CarSearchDto("12가3423", "기아", "아이오닉", "IDLE"));
+
+        when(carService.getCarsByFilter(refEq(requestDto_7))).thenReturn(carByBrandToBrand);
+
+        mockMvc.perform(get("/api/cars/search").param("brand", "아이오닉").param("twoParam", "false"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(1))
@@ -394,10 +468,17 @@ public class CarControllerTest {
     @Test
     @DisplayName("해당 조건을 충족하는 차량이 없는경우")
     public void getCarsByFilterFailed() throws Exception {
-        when(carService.getCarsByFilter(null, "삼성", null, null)).thenReturn(Collections.emptyList()
+
+        var requestDto_7 = CarFilterRequestDto.builder()
+                .model("삼성")
+                .twoParam(false)
+                .build();
+
+
+        when(carService.getCarsByFilter(refEq(requestDto_7))).thenReturn(Collections.emptyList()
         );
 
-        mockMvc.perform(get("/api/cars/search").param("model", "삼성"))
+        mockMvc.perform(get("/api/cars/search").param("model", "삼성").param("twoParam", "false"))
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.length()").value(0));
