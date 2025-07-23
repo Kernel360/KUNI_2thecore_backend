@@ -1,13 +1,10 @@
 package com.example._thecore_back.car.application;
 
 
+import com.example._thecore_back.car.controller.dto.*;
 import com.example._thecore_back.car.domain.CarReader;
 import com.example._thecore_back.car.domain.CarWriter;
 import com.example._thecore_back.car.exception.CarAlreadyExistsException;
-import com.example._thecore_back.car.controller.dto.CarDeleteDto;
-import com.example._thecore_back.car.controller.dto.CarDetailDto;
-import com.example._thecore_back.car.controller.dto.CarSearchDto;
-import com.example._thecore_back.car.controller.dto.CarSummaryDto;
 import com.example._thecore_back.car.exception.CarErrorCode;
 //import com.example._thecore_back.car.exception.CarNotFoundByFilterException;
 import com.example._thecore_back.car.exception.CarNotFoundException;
@@ -20,7 +17,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import com.example._thecore_back.car.domain.CarEntity;
 import com.example._thecore_back.car.domain.CarStatus;
-import com.example._thecore_back.car.controller.dto.CarRequestDto;
 
 
 @Service
@@ -57,10 +53,19 @@ public class CarService {
                 .build();
     }
 
-    public List<CarSearchDto> getCarsByFilter(String carNumber, String model,
-                                              String brand,    CarStatus status) {
+//    public List<CarSearchDto> getCarsByFilter(String carNumber, String model,
+//                                              String brand,    CarStatus status) {
+//
+//        var result = carMapper.search(carNumber, model, brand, status);
+//
+//        return result.stream()
+//                .map(CarSearchDto::EntityToDto)
+//                .toList();
+//    }
 
-        var result = carMapper.search(carNumber, model, brand, status);
+    public List<CarSearchDto> getCarsByFilter(CarFilterRequestDto carFilterRequestDto) {
+
+        var result = carMapper.search(carFilterRequestDto);
 
         return result.stream()
                 .map(CarSearchDto::EntityToDto)
