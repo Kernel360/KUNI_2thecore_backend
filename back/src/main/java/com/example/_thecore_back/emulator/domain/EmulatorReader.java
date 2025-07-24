@@ -4,6 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmulatorReader {
-    Optional<EmulatorEntity> findById(Long id);
+    Optional<EmulatorEntity> findById(int id);
     List<EmulatorEntity> findAll();
 }

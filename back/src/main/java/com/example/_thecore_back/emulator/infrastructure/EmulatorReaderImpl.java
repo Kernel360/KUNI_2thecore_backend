@@ -16,7 +16,7 @@ public class EmulatorReaderImpl implements EmulatorReader {
     }
 
     @Override
-    public Optional<EmulatorEntity> findById(Long id) {
+    public Optional<EmulatorEntity> findById(int id) {
         return emulatorRepository.findById(id);
     }
 

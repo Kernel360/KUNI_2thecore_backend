@@ -3,6 +3,8 @@ package com.example._thecore_back.emulator.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,9 +17,9 @@ public class EmulatorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(name = "device_id", nullable = false, length = 20)
+    @Column(name = "device_id", nullable = false, length = 36)
     private String deviceId; // 디바이스 ID
 
     @Enumerated(EnumType.STRING)
@@ -27,9 +29,14 @@ public class EmulatorEntity {
     @Transient
     private String carNumber;
 
-    @Builder
-    public EmulatorEntity(String deviceId, EmulatorStatus status) {
-        this.deviceId = deviceId;
+    @PrePersist
+    public void createDeviceId() {
+        if (deviceId == null) {
+            deviceId = UUID.randomUUID().toString();
+        }
+    }
+
+    public EmulatorEntity(EmulatorStatus status) {
         this.status = status;
     }
 }
