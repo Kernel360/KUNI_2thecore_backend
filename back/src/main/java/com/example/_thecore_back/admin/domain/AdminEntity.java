@@ -38,4 +38,7 @@ public class AdminEntity {
 
     @Column(nullable = false)
     private LocalDate birthdate;
+
+    @Column(nullable = false)
+    private String authLevel;
 }
