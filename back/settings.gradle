@@ -1,1 +1,3 @@
 rootProject.name = '2thecore_back'
+include 'emulator-server'
+
