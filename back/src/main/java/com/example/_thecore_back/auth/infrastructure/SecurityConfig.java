@@ -23,6 +23,7 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/webjars/**"
+
     };
 
     @Bean
@@ -36,7 +37,9 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
                                 "/swagger-ui.html",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/api/auth/login",
+                                "/api/admin/signup"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

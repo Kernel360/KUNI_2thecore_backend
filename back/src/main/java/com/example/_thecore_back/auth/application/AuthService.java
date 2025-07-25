@@ -25,7 +25,7 @@ public class AuthService {
     public TokenDto login(LoginRequest request) {
         // 인증 시도
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getPassword())
         );
 
         // 인증된 사용자 이메일
