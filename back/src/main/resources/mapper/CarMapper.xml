@@ -31,25 +31,51 @@
 
 <mapper namespace="com.example._thecore_back.car.infrastructure.mapper.CarMapper">
 
-    <select id="search" parameterType="com.example._thecore_back.car.controller.dto.CarFilterRequestDto"
+    <select id="search" parameterType="map"
             resultType="com.example._thecore_back.car.domain.CarEntity">
         SELECT *
         FROM car
         <where>
-            <if test="carNumber != null and twoParam == true">
-                AND car_number = #{carNumber}
+            <if test="filter.carNumber != null and filter.twoParam == true">
+                AND car_number = #{filter.carNumber}
             </if>
-            <if test="status != null and twoParam == true">
-                AND status = #{status}
+            <if test="filter.status != null and filter.twoParam == true">
+                AND status = #{filter.status}
             </if>
-            <if test="brand != null and twoParam == true">
-                AND brand = #{brand}
+            <if test="filter.brand != null and filter.twoParam == true">
+                AND brand = #{filter.brand}
             </if>
-            <if test="model != null and twoParam == true">
-                AND model = #{model}
+            <if test="filter.model != null and filter.twoParam == true">
+                AND model = #{filter.model}
             </if>
-            <if test="brand != null and twoParam == false">
-                AND (brand = #{brand} OR model = #{brand})
+            <if test="filter.brand != null and filter.twoParam == false">
+                AND (brand = #{filter.brand} OR model = #{filter.brand})
+            </if>
+        </where>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countByFilter"
+            parameterType="map"
+            resultType="int">
+
+        SELECT COUNT(*)
+        FROM car
+        <where>
+            <if test="filter.carNumber != null and filter.twoParam == true">
+                AND car_number = #{filter.carNumber}
+            </if>
+            <if test="filter.status != null and filter.twoParam == true">
+                AND status = #{filter.status}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == true">
+                AND brand = #{filter.brand}
+            </if>
+            <if test="filter.model != null and filter.twoParam == true">
+                AND model = #{filter.model}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == false">
+                AND (brand = #{filter.brand} OR model = #{filter.brand})
             </if>
         </where>
     </select>

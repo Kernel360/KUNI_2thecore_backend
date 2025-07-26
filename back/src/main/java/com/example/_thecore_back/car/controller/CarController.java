@@ -6,6 +6,9 @@ import com.example._thecore_back.car.validation.group.CreateGroup;
 import com.example._thecore_back.car.application.CarService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +40,13 @@ public class CarController {
     }
 
     @GetMapping
-    public ApiResponse<List<CarSearchDto>> getAllCars() {
+    public ApiResponse<Page<CarSearchDto>> getAllCars(@RequestParam(defaultValue = "1") int page,
+                                                      @RequestParam(defaultValue = "10") int size)
+    {
 
-        var response = carService.getAllCars();
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        var response = carService.getAllCars(pageable);
 
         return ApiResponse.success(response);
     }
@@ -71,12 +78,14 @@ public class CarController {
 //    }
 
     @GetMapping("/search")
-    public ApiResponse<List<CarSearchDto>> getCarsByFilter(
-            @ModelAttribute CarFilterRequestDto carFilterRequestDto
+    public ApiResponse<Page<CarSearchDto>> getCarsByFilter(
+            @ModelAttribute CarFilterRequestDto carFilterRequestDto,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int offset
     ) {
             log.info("Request DTO: {}", carFilterRequestDto);
 
-        var response = carService.getCarsByFilter(carFilterRequestDto);
+        var response = carService.getCarsByFilter(carFilterRequestDto, page, offset);
         return ApiResponse.success(response);
     }
 

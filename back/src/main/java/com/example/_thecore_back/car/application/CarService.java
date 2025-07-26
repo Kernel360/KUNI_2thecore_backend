@@ -9,6 +9,10 @@ import com.example._thecore_back.car.exception.CarErrorCode;
 //import com.example._thecore_back.car.exception.CarNotFoundByFilterException;
 import com.example._thecore_back.car.exception.CarNotFoundException;
 import com.example._thecore_back.car.infrastructure.mapper.CarMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -32,10 +36,9 @@ public class CarService {
         return CarDetailDto.EntityToDto(entity);
     }
 
-    public List<CarSearchDto> getAllCars(){
+    public Page<CarSearchDto> getAllCars(Pageable pageable){
 
-        return carReader.findAll().stream()
-                .map(CarSearchDto::EntityToDto).collect(Collectors.toList());
+        return carReader.findAll(pageable).map(CarSearchDto::EntityToDto);
 
     }
 
@@ -63,13 +66,19 @@ public class CarService {
 //                .toList();
 //    }
 
-    public List<CarSearchDto> getCarsByFilter(CarFilterRequestDto carFilterRequestDto) {
+    public Page<CarSearchDto> getCarsByFilter(CarFilterRequestDto carFilterRequestDto, int page, int size) {
 
-        var result = carMapper.search(carFilterRequestDto);
+        int offset = (page - 1) * size;
 
-        return result.stream()
+        var result = carMapper.search(carFilterRequestDto, offset, size);
+
+        var total = carMapper.countByFilter(carFilterRequestDto);
+
+        var resultToDto =  result.stream()
                 .map(CarSearchDto::EntityToDto)
                 .toList();
+
+        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size), total);
     }
 
 
@@ -88,7 +97,9 @@ public class CarService {
                 .brand(carRequest.getBrand())
                 .model(carRequest.getModel())
                 .carYear(carRequest.getCarYear())
-                .status(CarStatus.IDLE) // default값 : 대기 중
+                .status(carRequest.getStatus() != null && !carRequest.getStatus().isBlank()
+                ? CarStatus.fromDisplayName(carRequest.getStatus())
+                : CarStatus.IDLE) // default값 : 대기 중
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())

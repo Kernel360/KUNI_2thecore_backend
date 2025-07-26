@@ -10,5 +10,10 @@ import java.util.List;
 
 @Mapper
 public interface CarMapper {
-    List<CarEntity> search(CarFilterRequestDto carFilterRequestDto);
+    List<CarEntity> search(@Param("filter") CarFilterRequestDto carFilterRequestDto,
+                           @Param("offset") int offset,
+                           @Param("limit") int limit);
+
+    int countByFilter(@Param("filter") CarFilterRequestDto carFilterRequestDto);
+
 }
