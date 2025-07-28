@@ -16,15 +16,27 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,10 +55,16 @@ public class EmulatorControllerTest {
     private EmulatorEntity emulatorEntity;
     private GetEmulatorResponseData getEmulatorResponseData;
 
+    private MockMvc mockMvc;
+
     @BeforeEach
     void setUp() {
         emulatorRequest = new EmulatorRequest();
         emulatorRequest.setCarNumber("123가 4567");
+
+        mockMvc = MockMvcBuilders.standaloneSetup(emulatorController)
+                                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                                .build();
 
         emulatorEntity = EmulatorEntity.builder()
                 .id(1)
@@ -127,30 +145,47 @@ public class EmulatorControllerTest {
     }
 
     @Test
-    @DisplayName("애뮬레이터 전체 조회 성공")
-    void getAllEmulators_success() {
-        List<EmulatorEntity> emulators = Collections.singletonList(emulatorEntity);
-        when(emulatorService.getAllEmulators()).thenReturn(emulators);
+    @DisplayName("애뮬레이터 전체 조회 성공 - 데이터가 있을 때")
+    void getAllEmulators_success() throws Exception {
+        List<EmulatorEntity> emulatorList = Collections.singletonList(emulatorEntity);
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<EmulatorEntity> emulatorsPage = new PageImpl<>(emulatorList, pageable, emulatorList.size());
+
+        when(emulatorService.getAllEmulators(any(Pageable.class))).thenReturn(emulatorsPage);
         when(emulatorConverter.toGetEmulatorData(any(EmulatorEntity.class))).thenReturn(getEmulatorResponseData);
 
-        ResponseEntity<ApiResponse<List<GetEmulatorResponseData>>> response = emulatorController.getAllEmulators();
+        mockMvc.perform(get("/api/emulators")
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.data.content").isArray())
+                .andExpect(jsonPath("$.data.content[0].deviceId").value(getEmulatorResponseData.getDeviceId()))
+                .andExpect(jsonPath("$.data.totalPages").value(1))
+                .andExpect(jsonPath("$.data.totalElements").value(1))
+                .andExpect(jsonPath("$.data.last").value(true));
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(1, response.getBody().getData().size());
-        verify(emulatorService).getAllEmulators();
     }
 
     @Test
-    @DisplayName("애뮬레이터 전체 조회 성공 - 애뮬레이터가 없을 때 빈 리스트 반환")
-    void getAllEmulators_emptyList(){
-        when(emulatorService.getAllEmulators()).thenReturn(Collections.emptyList());
+    @DisplayName("애뮬레이터 전체 조회 성공 - 애뮬레이터가 없을 때 빈 페이지 반환")
+    void getAllEmulators_emptyPage_success() throws Exception {
+        Pageable pageable = PageRequest.of(0, 10);
+        List<EmulatorEntity> emptyList = Collections.emptyList();
+        Page<EmulatorEntity> emptyPage = new PageImpl<>(emptyList, pageable, 0);
 
-        ResponseEntity<ApiResponse<List<GetEmulatorResponseData>>> response = emulatorController.getAllEmulators();
+        when(emulatorService.getAllEmulators(any(Pageable.class))).thenReturn(emptyPage);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody().getData());
-        assertTrue(response.getBody().getData().isEmpty());
-        verify(emulatorService).getAllEmulators();
+        mockMvc.perform(get("/api/emulators")
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.data.content").isArray())
+                .andExpect(jsonPath("$.data.content").isEmpty()) // content가 비어있는 배열인지 확인
+                .andExpect(jsonPath("$.data.totalPages").value(0))
+                .andExpect(jsonPath("$.data.totalElements").value(0))
+                .andExpect(jsonPath("$.data.last").value(true));
     }
 
     @Test

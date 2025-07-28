@@ -11,6 +11,8 @@ import com.example.emulatorserver.device.exception.emulator.EmulatorNotFoundExce
 import com.example.emulatorserver.device.exception.emulator.DuplicateEmulatorException;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,14 +62,14 @@ public class EmulatorService {
         return emulatorEntity;
     }
 
-    public List<EmulatorEntity> getAllEmulators() {
-        List<EmulatorEntity> emulators = emulatorRepository.findAll();
-        emulators.forEach(emulator -> {
+    public Page<EmulatorEntity> getAllEmulators(Pageable pageable) {
+        Page<EmulatorEntity> emulatorsPage = emulatorRepository.findAll(pageable);
+        emulatorsPage.getContent().forEach(emulator -> {
             carRepository.findByEmulatorId(emulator.getId()).ifPresent(car -> {
                 emulator.setCarNumber(car.getCarNumber());
             });
         });
-        return emulators;
+        return emulatorsPage;
     }
 
     @Transactional

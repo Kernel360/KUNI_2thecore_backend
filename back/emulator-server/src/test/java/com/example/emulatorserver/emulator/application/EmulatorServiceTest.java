@@ -18,6 +18,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Arrays;
@@ -123,37 +127,68 @@ public class EmulatorServiceTest {
     @Test
     @DisplayName("애뮬레이터 전체 조회 성공")
     void getAllEmulators_success() {
-        EmulatorEntity emulator2 = EmulatorEntity.builder().id(2).deviceId("z9y8x7w6-test-uuid").status(EmulatorStatus.ON).build();
-        CarEntity car2 = CarEntity.builder().id(2).carNumber("789나 0123").emulatorId(2).build();
-        List<EmulatorEntity> emulators = Arrays.asList(emulatorEntity, emulator2);
+        EmulatorEntity emulator1 = this.emulatorEntity;
+        CarEntity car1 = CarEntity.builder()
+                .id(1)
+                .emulatorId(emulator1.getId())
+                .carNumber(emulator1.getCarNumber())
+                .build();
 
-        when(emulatorRepository.findAll()).thenReturn(emulators);
-        when(carRepository.findByEmulatorId(emulatorEntity.getId())).thenReturn(Optional.of(carEntity));
+        EmulatorEntity emulator2 = EmulatorEntity.builder()
+                .id(2)
+                .deviceId("z9y8x7w6-test-uuid")
+                .status(EmulatorStatus.ON)
+                .build();
+        CarEntity car2 = CarEntity.builder()
+                .id(2)
+                .emulatorId(emulator2.getId())
+                .carNumber("111가 1111")
+                .build();
+
+        Pageable pageable = PageRequest.of(0, 10);
+        List<EmulatorEntity> emulatorList = List.of(emulator1, emulator2);
+        Page<EmulatorEntity> emulatorsPage = new PageImpl<>(emulatorList, pageable, emulatorList.size());
+
+        when(emulatorRepository.findAll(any(Pageable.class))).thenReturn(emulatorsPage);
+        when(carRepository.findByEmulatorId(emulator1.getId())).thenReturn(Optional.of(car1));
         when(carRepository.findByEmulatorId(emulator2.getId())).thenReturn(Optional.of(car2));
 
-        List<EmulatorEntity> result = emulatorService.getAllEmulators();
+        Page<EmulatorEntity> resultPage = emulatorService.getAllEmulators(pageable);
 
-        assertNotNull(result);
-        assertEquals(2, result.size());
+        assertNotNull(resultPage);
+        assertEquals(2, resultPage.getTotalElements());
 
-        // 첫 번째 에뮬레이터
-        assertEquals(emulatorEntity.getDeviceId(), result.get(0).getDeviceId());
-        assertEquals(carEntity.getCarNumber(), result.get(0).getCarNumber());
+        List<EmulatorEntity> content = resultPage.getContent();
+        assertEquals(2, content.size());
 
-        // 두 번째 에뮬레이터
-        assertEquals(emulator2.getDeviceId(), result.get(1).getDeviceId());
-        assertEquals(car2.getCarNumber(), result.get(1).getCarNumber());
+        // 첫 번째 에뮬레이터 테스트
+        assertEquals(emulator1.getDeviceId(), content.get(0).getDeviceId());
+        assertEquals(car1.getCarNumber(), content.get(0).getCarNumber());
+
+        // 두 번째 에뮬레이터 테스트
+        assertEquals(emulator2.getDeviceId(), content.get(1).getDeviceId());
+        assertEquals(car2.getCarNumber(), content.get(1).getCarNumber());
+
+        verify(emulatorRepository).findAll(any(Pageable.class));
+        verify(carRepository).findByEmulatorId(emulator1.getId());
+        verify(carRepository).findByEmulatorId(emulator2.getId());
     }
 
     @Test
-    @DisplayName("애뮬레이터 전체 조회 성공 - 애뮬레이터가 없을 때 빈 리스트 반환")
-    void getAllEmulators_emptyList() {
-        when(emulatorRepository.findAll()).thenReturn(Collections.emptyList());
+    @DisplayName("애뮬레이터 전체 조회 성공 - 애뮬레이터가 없을 때 빈 페이지 반환")
+    void getAllEmulators_emptyPage() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<EmulatorEntity> emptyPage = Page.empty(pageable);
 
-        List<EmulatorEntity> result = emulatorService.getAllEmulators();
+        when(emulatorRepository.findAll(any(Pageable.class))).thenReturn(emptyPage);
+
+        Page<EmulatorEntity> result = emulatorService.getAllEmulators(pageable);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
+
+        verify(emulatorRepository).findAll(any(Pageable.class));
+        verify(carRepository, never()).findByEmulatorId(anyInt());
     }
 
     @Test

@@ -52,7 +52,7 @@ class LogServiceTest {
                 .build();
 
         when(carReader.findByCarNumber("12가3456")).thenReturn(Optional.of(car));
-        when(emulatorReader.getById(1L)).thenReturn(emulator);
+        when(emulatorReader.getById(1)).thenReturn(emulator);
 
         // when
         LogPowerDto result = logService.changePowerStatus(input);
@@ -100,7 +100,7 @@ class LogServiceTest {
                 .build();
 
         when(carReader.findByCarNumber("12가3456")).thenReturn(Optional.of(car));
-        when(emulatorReader.getById(1L)).thenReturn(emulator);
+        when(emulatorReader.getById(1)).thenReturn(emulator);
 
         // when & then
         assertThrows(IllegalArgumentException.class, () -> {

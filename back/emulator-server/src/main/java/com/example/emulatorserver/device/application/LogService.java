@@ -24,7 +24,7 @@ public class LogService {
         CarEntity carEntity = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
 
-        EmulatorEntity emulatorEntity = emulatorReader.getById(carEntity.getEmulatorId().longValue());
+        EmulatorEntity emulatorEntity = emulatorReader.getById(carEntity.getEmulatorId());
 
         emulatorEntity.setStatus(EmulatorStatus.getEmulatorStatus(powerStatus));
 
