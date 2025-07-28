@@ -40,7 +40,7 @@ public class CarController {
     }
 
     @GetMapping
-    public ApiResponse<Page<CarSearchDto>> getAllCars(@RequestParam(defaultValue = "1") int page,
+    public ApiResponse<Page<CarDetailDto>> getAllCars(@RequestParam(defaultValue = "1") int page,
                                                       @RequestParam(defaultValue = "10") int size)
     {
 
@@ -58,29 +58,17 @@ public class CarController {
         return ApiResponse.success(response);
     }
 
-//    /**
-//     * 조건에 맞는 차량들을 조회하는 메소드
-//     * @param carNumber : 차량 번호
-//     * @param model : 차량 모델명
-//     * @param brand : 차량 브랜드
-//     * @param status : 현재 차량 상태
-//     * @return 각 조건에 부합하는 차량 조회
-//     */
-//    @GetMapping("/search")
-//    public ApiResponse<List<CarSearchDto>> getCarsByFilter(
-//            @RequestParam(required = false) String carNumber,
-//            @RequestParam(required = false) String model,
-//            @RequestParam(required = false) String brand,
-//            @RequestParam(required = false) CarStatus status
-//    ) {
-//        var response = carService.getCarsByFilter(carNumber, model, brand, status);
-//        return ApiResponse.success(response);
-//    }
-
+    /**
+     *
+     * @param carFilterRequestDto // 차량 조건 DTO
+     * @param page // 프론트에서 요청하는 해당 페이지 넘버 1부터 시작
+     * @param offset // size 계산하기 위한 파라미터
+     * @return
+     */
     @GetMapping("/search")
     public ApiResponse<Page<CarSearchDto>> getCarsByFilter(
             @ModelAttribute CarFilterRequestDto carFilterRequestDto,
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int offset
     ) {
             log.info("Request DTO: {}", carFilterRequestDto);
