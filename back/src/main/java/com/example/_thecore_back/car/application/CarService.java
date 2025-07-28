@@ -36,9 +36,9 @@ public class CarService {
         return CarDetailDto.EntityToDto(entity);
     }
 
-    public Page<CarSearchDto> getAllCars(Pageable pageable){
+    public Page<CarDetailDto> getAllCars(Pageable pageable){
 
-        return carReader.findAll(pageable).map(CarSearchDto::EntityToDto);
+        return carReader.findAll(pageable).map(CarDetailDto::EntityToDto);
 
     }
 

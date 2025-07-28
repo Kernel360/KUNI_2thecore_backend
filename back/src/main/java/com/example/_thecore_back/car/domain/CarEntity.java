@@ -15,6 +15,7 @@ import lombok.*;
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "car_id")
     private int id; // PK
 
 
