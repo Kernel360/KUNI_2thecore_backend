@@ -2,7 +2,6 @@ package com.example._thecore_back.auth.domain;
 
 import com.example._thecore_back.auth.exception.InvalidTokenException;
 import com.example._thecore_back.auth.exception.TokenExpiredException;
-import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.auth.infrastructure.JwtProperties;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
