@@ -21,6 +21,9 @@ public class GpsLogDto {
     @NotNull
     private String carNumber;
 
+    @NotNull
+    private String loginId;
+
     private List<Gps> logList = new ArrayList<>();
 
     private LocalDateTime startTime;
