@@ -1,0 +1,32 @@
+package com.example.emulatorserver.device.infrastructure.emulator;
+
+import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
+import com.example.emulatorserver.device.domain.emulator.EmulatorReader;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public class EmulatorReaderImpl implements EmulatorReader {
+    private final EmulatorRepository emulatorRepository;
+
+    public EmulatorReaderImpl(EmulatorRepository emulatorRepository) {
+        this.emulatorRepository = emulatorRepository;
+    }
+
+    @Override
+    public Optional<EmulatorEntity> findById(int id) {
+        return emulatorRepository.findById(id);
+    }
+
+    @Override
+    public List<EmulatorEntity> findAll() {
+        return emulatorRepository.findAll();
+    }
+
+    @Override
+    public Optional<EmulatorEntity> findByCarNumber(String carNumber) {
+        return emulatorRepository.findByCarNumber(carNumber);
+    }
+}

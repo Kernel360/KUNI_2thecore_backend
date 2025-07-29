@@ -25,6 +25,7 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:3.5.3" level="project" />
     <orderEntry type="library" name="Gradle: org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-redis:3.5.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:3.5.3" level="project" />
     <orderEntry type="library" name="Gradle: org.mockito:mockito-core:5.17.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-test:6.5.1" level="project" />
@@ -47,6 +48,9 @@
     <orderEntry type="library" name="Gradle: org.webjars:webjars-locator-lite:1.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-redis:3.5.1" level="project" />
     <orderEntry type="library" name="Gradle: io.lettuce:lettuce-core:6.6.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:3.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.mybatis:mybatis:3.5.17" level="project" />
+    <orderEntry type="library" name="Gradle: org.mybatis:mybatis-spring:3.0.4" level="project" />
     <orderEntry type="library" name="Gradle: org.mockito:mockito-junit-jupiter:5.17.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-test-autoconfigure:3.5.3" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-test:3.5.3" level="project" />

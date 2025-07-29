@@ -16,6 +16,7 @@ public class CarEntity {
     @Id
     @Column(name = "car_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "car_id")
     private int id; // PK
 
 
