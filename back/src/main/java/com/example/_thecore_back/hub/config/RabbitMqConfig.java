@@ -32,6 +32,7 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
     }
 
+    // 객체 -> json(byte) / (byte)json -> 객체 자동 변환
     @Bean
     public MessageConverter messageConverter(ObjectMapper objectMapper){
         return new Jackson2JsonMessageConverter(objectMapper);

@@ -19,3 +19,19 @@ spring:
     naming:
       physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate:
+        format_sql: true     # SQL 예쁘게 출력
+    defer-datasource-initialization: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: 2thecore
+    password: 2thecore
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.example._thecore_back.car
+  configuration:
+    map-underscore-to-camel-case: true

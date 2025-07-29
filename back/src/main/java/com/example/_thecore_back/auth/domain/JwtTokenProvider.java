@@ -63,4 +63,9 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    //JWT에서 loginId 추출
+    public String getLoginIdFromToken(String token) {
+        return getClaims(token).get("loginId", String.class);
+    }
 }

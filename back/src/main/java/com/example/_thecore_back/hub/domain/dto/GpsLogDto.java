@@ -16,6 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class GpsLogDto {
 
+    private String loginId;
     private String carNumber;
     private List<Gps> logList = new ArrayList<>();
 
@@ -25,9 +26,8 @@ public class GpsLogDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Gps {
-
-        private double latitude;
-        private double longitude;
+        private String  latitude;
+        private String longitude;
         private LocalDateTime timestamp;
     }
 }
