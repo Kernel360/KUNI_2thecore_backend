@@ -4,6 +4,7 @@ import com.example._thecore_back.admin.domain.AdminEntity;
 import com.example._thecore_back.admin.infrastructure.AdminRepository;
 import com.example._thecore_back.admin.controller.dto.AdminRequest;
 import com.example._thecore_back.admin.controller.dto.AdminResponse;
+import com.example._thecore_back.admin.exception.AdminLoginIdAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,27 +17,25 @@ public class AdminService {
     private final AdminRepository adminRepository;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository /*, PasswordEncoder*/) {
+    public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
-
     }
 
     @Transactional
     public AdminResponse registerAdmin(AdminRequest requestDto) {
         // loginId 중복 확인
         if (adminRepository.existsById(requestDto.getLoginId())) {
-            throw new IllegalArgumentException("Login ID already exists.");
+            throw new AdminLoginIdAlreadyExistsException(requestDto.getLoginId());
         }
 
         AdminEntity adminEntity = AdminEntity.builder()
                 .loginId(requestDto.getLoginId())
-                // .password(passwordEncoder.encode(requestDto.getPassword())) // 비밀번호 인코딩
-                .password(requestDto.getPassword()) // 임시: 실제로는 인코딩 필요
+                .password(requestDto.getPassword())
                 .name(requestDto.getName())
                 .phoneNumber(requestDto.getPhoneNumber())
                 .email(requestDto.getEmail())
                 .birthdate(requestDto.getBirthdate())
-                .authLevel("ADMIN") //기본 권한 부여
+                .authLevel("ADMIN") // 기본 권한 부여
                 .build();
 
         AdminEntity savedEntity = adminRepository.save(adminEntity);

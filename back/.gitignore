@@ -57,3 +57,9 @@ gradle-app.setting
 
 # macos Finder 설정 파일
 .DS_Store
+
+# 설정 파일
+/src/main/resources/application.yml
+/src/main/resources/application.yaml
+/src/main/resources/application.properties
+/src/test/resources/application-test.yml

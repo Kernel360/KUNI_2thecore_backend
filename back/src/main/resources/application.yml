@@ -1,21 +1,37 @@
-jwt:
-  secret: my_secret_key_for_hmac_sha256_algorithm_256bit
-
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb  # 인메모리 H2 DB 사용
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
-  h2:
-    console:
-      enabled: true          # H2 콘솔 사용 설정 (http://localhost:8080/h2-console)
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: yyyy-MM-dd
+
+  datasource:
+    url: jdbc:mysql://kernel-2thecore.cxiswkkki80w.ap-northeast-2.rds.amazonaws.com:3306/KERNEL_2THECORE_DATABASE
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: xnejzhdj0710!!
 
   jpa:
     hibernate:
       ddl-auto: update       # Entity 기반으로 DB 테이블 자동 생성/업데이트
     show-sql: true           # SQL 출력
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
     naming:
       physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.example._thecore_back.car
+  configuration:
+    map-underscore-to-camel-case: true
+
+jwt:
+  secret: my_secret_key_for_hmac_sha256_algorithm_256bit

@@ -1,17 +1,18 @@
 package com.example._thecore_back.car.application;
 
 
+import com.example._thecore_back.car.controller.dto.*;
 import com.example._thecore_back.car.domain.CarReader;
 import com.example._thecore_back.car.domain.CarWriter;
 import com.example._thecore_back.car.exception.CarAlreadyExistsException;
-import com.example._thecore_back.car.controller.dto.CarDeleteDto;
-import com.example._thecore_back.car.controller.dto.CarDetailDto;
-import com.example._thecore_back.car.controller.dto.CarSearchDto;
-import com.example._thecore_back.car.controller.dto.CarSummaryDto;
 import com.example._thecore_back.car.exception.CarErrorCode;
 //import com.example._thecore_back.car.exception.CarNotFoundByFilterException;
 import com.example._thecore_back.car.exception.CarNotFoundException;
 import com.example._thecore_back.car.infrastructure.mapper.CarMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +21,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import com.example._thecore_back.car.domain.CarEntity;
 import com.example._thecore_back.car.domain.CarStatus;
-import com.example._thecore_back.car.controller.dto.CarRequestDto;
 
 
 @Service
@@ -36,10 +36,9 @@ public class CarService {
         return CarDetailDto.EntityToDto(entity);
     }
 
-    public List<CarSearchDto> getAllCars(){
+    public Page<CarDetailDto> getAllCars(Pageable pageable){
 
-        return carReader.findAll().stream()
-                .map(CarSearchDto::EntityToDto).collect(Collectors.toList());
+        return carReader.findAll(pageable).map(CarDetailDto::EntityToDto);
 
     }
 
@@ -57,14 +56,29 @@ public class CarService {
                 .build();
     }
 
-    public List<CarSearchDto> getCarsByFilter(String carNumber, String model,
-                                              String brand,    CarStatus status) {
+//    public List<CarSearchDto> getCarsByFilter(String carNumber, String model,
+//                                              String brand,    CarStatus status) {
+//
+//        var result = carMapper.search(carNumber, model, brand, status);
+//
+//        return result.stream()
+//                .map(CarSearchDto::EntityToDto)
+//                .toList();
+//    }
 
-        var result = carMapper.search(carNumber, model, brand, status);
+    public Page<CarSearchDto> getCarsByFilter(CarFilterRequestDto carFilterRequestDto, int page, int size) {
 
-        return result.stream()
+        int offset = (page - 1) * size;
+
+        var result = carMapper.search(carFilterRequestDto, offset, size);
+
+        var total = carMapper.countByFilter(carFilterRequestDto);
+
+        var resultToDto =  result.stream()
                 .map(CarSearchDto::EntityToDto)
                 .toList();
+
+        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size), total);
     }
 
 
@@ -83,7 +97,9 @@ public class CarService {
                 .brand(carRequest.getBrand())
                 .model(carRequest.getModel())
                 .carYear(carRequest.getCarYear())
-                .status(CarStatus.IDLE) // default값 : 대기 중
+                .status(carRequest.getStatus() != null && !carRequest.getStatus().isBlank()
+                ? CarStatus.fromDisplayName(carRequest.getStatus())
+                : CarStatus.IDLE) // default값 : 대기 중
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())

@@ -1,15 +1,21 @@
 package com.example._thecore_back.car.controller;
 import com.example._thecore_back.car.controller.dto.*;
 import com.example._thecore_back.car.domain.CarStatus;
-import com.example._thecore_back.common.response.ApiResponse;
+import com.example._thecore_back.common.dto.ApiResponse;
 import com.example._thecore_back.car.validation.group.CreateGroup;
 import com.example._thecore_back.car.application.CarService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/cars")
@@ -34,9 +40,13 @@ public class CarController {
     }
 
     @GetMapping
-    public ApiResponse<List<CarSearchDto>> getAllCars() {
+    public ApiResponse<Page<CarDetailDto>> getAllCars(@RequestParam(defaultValue = "1") int page,
+                                                      @RequestParam(defaultValue = "10") int size)
+    {
 
-        var response = carService.getAllCars();
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        var response = carService.getAllCars(pageable);
 
         return ApiResponse.success(response);
     }
@@ -49,21 +59,21 @@ public class CarController {
     }
 
     /**
-     * 조건에 맞는 차량들을 조회하는 메소드
-     * @param carNumber : 차량 번호
-     * @param model : 차량 모델명
-     * @param brand : 차량 브랜드
-     * @param status : 현재 차량 상태
-     * @return 각 조건에 부합하는 차량 조회
+     *
+     * @param carFilterRequestDto // 차량 조건 DTO
+     * @param page // 프론트에서 요청하는 해당 페이지 넘버 1부터 시작
+     * @param offset // size 계산하기 위한 파라미터
+     * @return
      */
     @GetMapping("/search")
-    public ApiResponse<List<CarSearchDto>> getCarsByFilter(
-            @RequestParam(required = false) String carNumber,
-            @RequestParam(required = false) String model,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) CarStatus status
+    public ApiResponse<Page<CarSearchDto>> getCarsByFilter(
+            @ModelAttribute CarFilterRequestDto carFilterRequestDto,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int offset
     ) {
-        var response = carService.getCarsByFilter(carNumber, model, brand, status);
+            log.info("Request DTO: {}", carFilterRequestDto);
+
+        var response = carService.getCarsByFilter(carFilterRequestDto, page, offset);
         return ApiResponse.success(response);
     }
 
@@ -76,7 +86,7 @@ public class CarController {
     ){
        var response = carService.createCar(carRequest);
 
-        return ApiResponse.success(response, "차량 등록이 성공적으로 완료되었습니다.");
+        return ApiResponse.success("차량 등록이 성공적으로 완료되었습니다.", response);
     }
 
     // 차량 정보 업데이트
@@ -90,7 +100,7 @@ public class CarController {
     ){
         var response = carService.updateCar(carRequest, carNumber);
 
-        return ApiResponse.success(response, "차량 정보가 성공적으로 수정되었습니다.");
+        return ApiResponse.success("차량 정보가 성공적으로 수정되었습니다.",response);
     }
 
     // 차량 삭제
@@ -101,6 +111,6 @@ public class CarController {
     ){
         var response = carService.deleteCar(carNumber);
 
-        return ApiResponse.success(response, "차량 삭제가 성공적으로 완료되었습니다.");
+        return ApiResponse.success("차량 삭제가 성공적으로 완료되었습니다.",response);
     }
 }

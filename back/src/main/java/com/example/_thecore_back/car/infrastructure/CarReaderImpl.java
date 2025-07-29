@@ -3,6 +3,8 @@ package com.example._thecore_back.car.infrastructure;
 import com.example._thecore_back.car.domain.CarEntity;
 import com.example._thecore_back.car.domain.CarReader;
 import com.example._thecore_back.car.domain.CarStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,8 +25,12 @@ public class CarReaderImpl implements CarReader {
         return carRepository.findByCarNumber(carNumber);
     }
 
-    public List<CarEntity> findAll(){
-        return carRepository.findAll();
+//    public List<CarEntity> findAll(){
+//        return carRepository.findAll();
+//    }
+
+    public Page<CarEntity> findAll(Pageable pageable){
+        return carRepository.findAll(pageable);
     }
 
     public Map<CarStatus, Long> getCountByStatus(){

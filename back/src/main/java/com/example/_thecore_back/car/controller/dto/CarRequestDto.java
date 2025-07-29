@@ -29,6 +29,6 @@ public class CarRequestDto {
     @NotBlank(groups = CreateGroup.class)
     private String carNumber;
 
-    @NotNull(groups = CreateGroup.class)
-    private Double sumDist;
+    // @NotNull(groups = CreateGroup.class)
+    private Double sumDist = 0.00;
 }
