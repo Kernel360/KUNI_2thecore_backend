@@ -3,6 +3,8 @@ package com.example._thecore_back.hub.domain.dto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +18,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class GpsLogDto {
 
+    @NotNull
     private String carNumber;
+
     private List<Gps> logList = new ArrayList<>();
+
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
 
     @Getter
     @Setter
@@ -26,8 +34,13 @@ public class GpsLogDto {
     @NoArgsConstructor
     public static class Gps {
 
-        private double latitude;
-        private double longitude;
+        @NotNull
+        private String latitude;
+
+        @NotNull
+        private String longitude;
+
+        @NotNull
         private LocalDateTime timestamp;
     }
 }
