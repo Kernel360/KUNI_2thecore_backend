@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,6 +40,4 @@ public class AdminEntity {
 
     @Column(nullable = false)
     private String authLevel;
-
-
 }
