@@ -63,3 +63,4 @@ gradle-app.setting
 /src/main/resources/application.yaml
 /src/main/resources/application.properties
 /src/test/resources/application-test.yml
+emulator-server/src/main/resources/application.yml

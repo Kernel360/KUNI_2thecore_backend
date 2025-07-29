@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     // DB
-    implementation 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     // Spring Boot Starters
     implementation 'org.springframework.boot:spring-boot-starter-web'
