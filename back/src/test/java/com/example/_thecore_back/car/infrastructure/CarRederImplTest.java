@@ -1,5 +1,6 @@
 package com.example._thecore_back.car.infrastructure;
 
+import com.example._thecore_back.car.controller.dto.CarSearchDto;
 import com.example._thecore_back.car.domain.CarEntity;
 import com.example._thecore_back.car.domain.CarStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -52,11 +57,17 @@ public class CarRederImplTest {
     @DisplayName("등록되어 있는 전체 차량 조회")
     public void getAllCars(){
         List<CarEntity> carEntities = List.of(new CarEntity(),  new CarEntity());
-        when(carRepository.findAll()).thenReturn(carEntities);
 
-        List<CarEntity> result = carReader.findAll();
+        Page<CarEntity> pageResult = new PageImpl<>(carEntities);
 
-        assertEquals(2, result.size());
+        Pageable pageable = PageRequest.of(0, 4);
+
+        when(carRepository.findAll(pageable)).thenReturn(pageResult);
+
+        Page<CarEntity> result = carReader.findAll(pageable);
+
+        assertEquals(2, result.getContent().size());
+        assertEquals(1, result.getTotalPages());
     }
 
     @Test

@@ -17,9 +17,8 @@ public class AdminService {
     private final AdminRepository adminRepository;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository ) {
+    public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
-
     }
 
     @Transactional
@@ -36,6 +35,7 @@ public class AdminService {
                 .phoneNumber(requestDto.getPhoneNumber())
                 .email(requestDto.getEmail())
                 .birthdate(requestDto.getBirthdate())
+                .authLevel("ADMIN") // 기본 권한 부여
                 .build();
 
         AdminEntity savedEntity = adminRepository.save(adminEntity);

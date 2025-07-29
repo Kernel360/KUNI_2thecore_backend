@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-@Order //마지막 실행
+@Order() //마지막 실행
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
