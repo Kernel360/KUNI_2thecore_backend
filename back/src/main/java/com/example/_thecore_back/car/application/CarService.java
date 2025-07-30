@@ -12,6 +12,7 @@ import com.example._thecore_back.car.infrastructure.mapper.CarMapper;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,16 +53,6 @@ public class CarService {
                 + result.getOrDefault(CarStatus.MAINTENANCE, 0L))
                 .build();
     }
-
-//    public List<CarSearchDto> getCarsByFilter(String carNumber, String model,
-//                                              String brand,    CarStatus status) {
-//
-//        var result = carMapper.search(carNumber, model, brand, status);
-//
-//        return result.stream()
-//                .map(CarSearchDto::EntityToDto)
-//                .toList();
-//    }
 
     public List<CarSearchDto> getCarsByFilter(CarFilterRequestDto carFilterRequestDto) {
 
@@ -126,5 +117,15 @@ public class CarService {
         carWriter.delete(entity);
 
         return CarDeleteDto.EntityToDto(entity);
+    }
+
+    public void updateLastLocation(String carNumber, String latitude, String longitude) {
+        var car = carReader.findByCarNumber(carNumber)
+                .orElseThrow(() -> new RuntimeException("차량 없음"));
+
+        car.setLastLatitude(latitude);
+        car.setLastLongitude(longitude);
+
+        carWriter.save(car);
     }
 }

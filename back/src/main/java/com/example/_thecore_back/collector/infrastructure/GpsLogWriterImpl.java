@@ -1,7 +1,7 @@
-package com.example._thecore_back.hub.infrastructure;
+package com.example._thecore_back.collector.infrastructure;
 
-import com.example._thecore_back.hub.domain.GpsLogEntity;
-import com.example._thecore_back.hub.domain.GpsLogWriter;
+import com.example._thecore_back.collector.domain.GpsLogEntity;
+import com.example._thecore_back.collector.domain.GpsLogWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

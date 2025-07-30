@@ -27,7 +27,7 @@ public class EmulatorEntity {
     @Column(name = "status", nullable = false)
     private EmulatorStatus status; // 애뮬레이터 상태 (ON/OFF)
 
-    // @Transient
+    @Column(name = "car_number")
     private String carNumber;
 
     @PrePersist

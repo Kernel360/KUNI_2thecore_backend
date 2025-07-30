@@ -26,6 +26,10 @@ public class CarDetailDto {
 
     private String carNumber;
 
+    private String lastLatitude;
+
+    private String lastLongitude;
+
     private double sumDist;
 
 
@@ -38,6 +42,8 @@ public class CarDetailDto {
                 .carType(car.getCarType())
                 .carNumber(car.getCarNumber())
                 .sumDist(car.getSumDist())
+                .lastLatitude(car.getLastLatitude())
+                .lastLongitude(car.getLastLongitude())
                 .build();
 
     }

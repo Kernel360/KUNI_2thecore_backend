@@ -1,6 +1,6 @@
-package com.example._thecore_back.hub.domain;
+package com.example._thecore_back.collector.domain;
 
-import com.example._thecore_back.hub.domain.dto.GpsLogDto;
+import com.example._thecore_back.collector.domain.dto.GpsLogDto;
 import org.springframework.stereotype.Component;
 
 @Component

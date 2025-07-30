@@ -1,4 +1,4 @@
-package com.example._thecore_back.hub.config;
+package com.example._thecore_back.collector.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Binding;

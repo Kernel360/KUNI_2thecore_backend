@@ -1,9 +1,11 @@
-package com.example._thecore_back.hub.domain.dto;
+package com.example._thecore_back.collector.domain.dto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GpsLogDto {
 
     @NotNull
@@ -35,6 +38,7 @@ public class GpsLogDto {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Gps {
 
         @NotNull

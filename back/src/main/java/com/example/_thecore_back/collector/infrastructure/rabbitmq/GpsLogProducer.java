@@ -1,12 +1,10 @@
-package com.example._thecore_back.hub.infrastructure.rabbitmq;
+package com.example._thecore_back.collector.infrastructure.rabbitmq;
 
-import com.example._thecore_back.hub.domain.dto.GpsLogDto;
+import com.example._thecore_back.collector.domain.dto.GpsLogDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

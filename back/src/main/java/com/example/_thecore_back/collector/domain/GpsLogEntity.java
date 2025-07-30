@@ -1,4 +1,4 @@
-package com.example._thecore_back.hub.domain;
+package com.example._thecore_back.collector.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

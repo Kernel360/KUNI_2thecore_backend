@@ -39,6 +39,10 @@ public class CarEntity {
 
     private double sumDist; // 총 거리
 
+    private String lastLatitude;
+
+    private String lastLongitude;
+
     private Integer emulatorId; // 연결된 애뮬레이터 아이디
 
     public void updateInfo(CarRequestDto carRequest) {
