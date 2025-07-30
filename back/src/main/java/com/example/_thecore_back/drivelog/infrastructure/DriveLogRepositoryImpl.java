@@ -1,7 +1,6 @@
 package com.example._thecore_back.drivelog.infrastructure;
 
 import com.example._thecore_back.drivelog.domain.DriveLog;
-import com.example._thecore_back.drivelog.domain.DriveLogRepository;
 import com.example._thecore_back.drivelog.domain.DriveLogRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -23,7 +22,7 @@ public class DriveLogRepositoryImpl implements DriveLogRepositoryCustom {
     private final EntityManager em;
 
     @Override
-    public List<DriveLog> searchByConditions(Long carId, Long locationId, LocalDateTime startTime, LocalDateTime endTime) {
+    public List<DriveLog> searchByConditions(Long carId, LocalDateTime startTime, LocalDateTime endTime) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<DriveLog> cq = cb.createQuery(DriveLog.class);
         Root<DriveLog> root = cq.from(DriveLog.class);
@@ -32,10 +31,6 @@ public class DriveLogRepositoryImpl implements DriveLogRepositoryCustom {
 
         if (carId != null) {
             predicates.add(cb.equal(root.get("carId"), carId));
-        }
-
-        if (locationId != null) {
-            predicates.add(cb.equal(root.get("locationId"), locationId));
         }
 
         if (startTime != null) {

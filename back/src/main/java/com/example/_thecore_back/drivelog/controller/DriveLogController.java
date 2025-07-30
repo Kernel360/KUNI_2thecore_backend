@@ -25,19 +25,7 @@ public class DriveLogController {
     @PostMapping
     public ResponseEntity<ApiResponse<DriveLogResponse>> createDriveLog(@RequestBody DriveLogRequest request){
         DriveLog saved = driveLogService.save(request);
-
-        DriveLogResponse response = new DriveLogResponse(
-                saved.getId(),
-                saved.getDriveDist(),
-                saved.getSpeed(),
-                saved.getStartTime(),
-                saved.getEndTime(),
-                saved.getCreatedAt(),
-                saved.getCarId(),
-                saved.getLocationId()
-        );
-
-        return ResponseEntity.ok(ApiResponse.success("주행기록 저장 완료", response));
+        return ResponseEntity.ok(ApiResponse.success("주행기록 저장 완료", toResponse(saved)));
     }
 
     // 전체 주행 기록 조회 (GET)
@@ -66,6 +54,7 @@ public class DriveLogController {
 
         return ResponseEntity.ok(ApiResponse.success("차량별 주행기록 조회 완료", responses));
     }
+
     // 특정 기간 사이의 주행 기록 조회 (GET)
     @GetMapping("/range")
     public ResponseEntity<ApiResponse<List<DriveLogResponse>>> getLogsBetween(
@@ -80,16 +69,22 @@ public class DriveLogController {
     }
 
     // 공통 변환 메서드
+
     private DriveLogResponse toResponse(DriveLog log) {
-        return new DriveLogResponse(
-                log.getId(),
-                log.getDriveDist(),
-                log.getSpeed(),
-                log.getStartTime(),
-                log.getEndTime(),
-                log.getCreatedAt(),
-                log.getCarId(),
-                log.getLocationId()
-        );
+        return DriveLogResponse.builder()
+                .id(log.getId())
+                .carId(log.getCarId())
+                .startPoint(log.getStartPoint())
+                .startLatitude(log.getStartLatitude())
+                .startLongitude(log.getStartLongitude())
+                .startTime(log.getStartTime())
+                .endPoint(log.getEndPoint())
+                .endLatitude(log.getEndLatitude())
+                .endLongitude(log.getEndLongitude())
+                .endTime(log.getEndTime())
+                .driveDist(log.getDriveDist())
+                .speed(log.getSpeed())
+                .createdAt(log.getCreatedAt())
+                .build();
     }
 }

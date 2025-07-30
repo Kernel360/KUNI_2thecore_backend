@@ -11,11 +11,16 @@ import java.time.LocalDateTime;
 @Setter
 public class DriveLogRequest {
 
+    private Long carId;
+    private String startPoint;
+    private String startLatitude;
+    private String startLongitude;
+    private LocalDateTime startTime;
+    private String endPoint;
+    private String endLatitude;
+    private String endLongitude;
+    private LocalDateTime endTime;
     private BigDecimal driveDist;
     private String speed;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private Long carId;
-    private Long locationId;
     // createdAt은 요청하는 값이 아니므로 제외
 }
