@@ -1,6 +1,7 @@
 package com.example.emulatorserver.device.exception.emulator;
 
 import com.example.emulatorserver.common.dto.ApiResponse;
+import com.example.emulatorserver.device.exception.car.CarNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,7 +19,7 @@ public class EmulatorExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(CarNotFoundException.class)
+    @ExceptionHandler(com.example.emulatorserver.device.exception.car.CarNotFoundException.class)
     public ResponseEntity<ApiResponse<?>> handleCarNotFoundException(CarNotFoundException ex) {
         ApiResponse<?> response = ApiResponse.fail(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
