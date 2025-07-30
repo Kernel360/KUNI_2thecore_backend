@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,63 +19,89 @@ public class EmulatorRepositoryTest {
     @Autowired
     private EmulatorRepository emulatorRepository;
 
+    private final String testCarNumber = "테스트차량1234";
+
     @Test
-    @DisplayName("차량 번호로 애뮬레이터 조회")
-    void findByCarNumber() {
+    @DisplayName("Emulator 저장 성공")
+    void save_success() {
         // given
         EmulatorEntity emulator = EmulatorEntity.builder()
-                .deviceId("123가4567")
+                .carNumber(testCarNumber)
                 .status(EmulatorStatus.OFF)
                 .build();
-        emulatorRepository.save(emulator);
 
         // when
-        Optional<EmulatorEntity> foundEmulator = emulatorRepository.findByDeviceId("123가4567");
+        EmulatorEntity savedEmulator = emulatorRepository.saveAndFlush(emulator);
 
         // then
-        assertTrue(foundEmulator.isPresent());
-        assertEquals("123가4567", foundEmulator.get().getDeviceId());
+        assertNotNull(savedEmulator.getId());
+        assertNotNull(savedEmulator.getDeviceId());
+        assertEquals(testCarNumber, savedEmulator.getCarNumber());
     }
 
     @Test
-    @DisplayName("존재하지 않는 차량 번호로 애뮬레이터 조회")
-    void findByCarNumber_notFound() {
+    @DisplayName("deviceId로 Emulator 조회 성공")
+    void findByDeviceId_success() {
+        // given
+        EmulatorEntity emulator = EmulatorEntity.builder()
+                .carNumber(testCarNumber)
+                .status(EmulatorStatus.OFF)
+                .build();
+
+        EmulatorEntity savedEmulator = emulatorRepository.saveAndFlush(emulator);
+        String generatedDeviceId = savedEmulator.getDeviceId();
+
         // when
-        Optional<EmulatorEntity> foundEmulator = emulatorRepository.findByDeviceId("000가0000");
+        Optional<EmulatorEntity> foundEmulator = emulatorRepository.findByDeviceId(generatedDeviceId);
+
+        // then
+        assertTrue(foundEmulator.isPresent());
+        assertEquals(generatedDeviceId, foundEmulator.get().getDeviceId());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 deviceId로 조회 시 Optional.empty 반환")
+    void findByDeviceId_notFound() {
+        // when
+        Optional<EmulatorEntity> foundEmulator = emulatorRepository.findByDeviceId("존재하지 않는 deviceId");
 
         // then
         assertFalse(foundEmulator.isPresent());
     }
 
     @Test
-    @DisplayName("애뮬레이터 저장 및 삭제")
+    @DisplayName("Emulator 저장 및 삭제 성공")
     void saveAndDeleteEmulator() {
+        // given
         EmulatorEntity emulator = EmulatorEntity.builder()
-                .deviceId("555하7777")
+                .carNumber(testCarNumber)
                 .status(EmulatorStatus.ON)
                 .build();
 
-        EmulatorEntity saved = emulatorRepository.save(emulator);
+        EmulatorEntity saved = emulatorRepository.saveAndFlush(emulator);
         assertNotNull(saved.getId());
 
-        emulatorRepository.deleteById(saved.getId());
-        assertFalse(emulatorRepository.findById(saved.getId()).isPresent());
+        // when
+        emulatorRepository.delete(saved);
+        emulatorRepository.flush();
+
+        Optional<EmulatorEntity> foundAfterDelete = emulatorRepository.findById(saved.getId());
+
+        // then
+        assertFalse(foundAfterDelete.isPresent());
     }
 
     @Test
-    @DisplayName("전체 애뮬레이터 조회")
+    @DisplayName("전체 Emulator 조회 성공")
     void findAllEmulators() {
-        emulatorRepository.save(EmulatorEntity.builder()
-                .deviceId("111가2222")
-                .status(EmulatorStatus.OFF)
-                .build());
+        // given
+        emulatorRepository.save(EmulatorEntity.builder().carNumber("1").status(EmulatorStatus.OFF).build());
+        emulatorRepository.save(EmulatorEntity.builder().carNumber("2").status(EmulatorStatus.ON).build());
 
-        emulatorRepository.save(EmulatorEntity.builder()
-                .deviceId("333나4444")
-                .status(EmulatorStatus.ON)
-                .build());
+        // when
+        List<EmulatorEntity> allEmulators = emulatorRepository.findAll();
 
-        var all = emulatorRepository.findAll();
-        assertEquals(2, all.size());
+        // then
+        assertEquals(2, allEmulators.size());
     }
 }
