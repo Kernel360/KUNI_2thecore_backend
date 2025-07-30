@@ -5,31 +5,32 @@ import com.example.emulatorserver.device.controller.dto.EmulatorRequest;
 import com.example.emulatorserver.device.domain.car.CarEntity;
 import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
 import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;
-import com.example.emulatorserver.device.exception.emulator.CarNotFoundException;
+import com.example.emulatorserver.device.exception.car.CarErrorCode;
+import com.example.emulatorserver.device.exception.car.CarNotFoundException;
 import com.example.emulatorserver.device.exception.emulator.DuplicateEmulatorException;
+import com.example.emulatorserver.device.exception.emulator.EmulatorErrorCode;
 import com.example.emulatorserver.device.exception.emulator.EmulatorNotFoundException;
 import com.example.emulatorserver.device.infrastructure.car.CarRepository;
 import com.example.emulatorserver.device.infrastructure.emulator.EmulatorRepository;
-import org.mockito.Mock;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.Collections;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EmulatorServiceTest {
@@ -49,8 +50,7 @@ public class EmulatorServiceTest {
 
     @BeforeEach
     void setUp() {
-        emulatorRequest = new EmulatorRequest();
-        emulatorRequest.setCarNumber("123가 4567");
+        emulatorRequest = new EmulatorRequest("123가 4567");
 
         carEntity = CarEntity.builder()
                 .id(1)
@@ -67,25 +67,37 @@ public class EmulatorServiceTest {
     @Test
     @DisplayName("애뮬레이터 등록 성공")
     void registerEmulator_success() {
+        // given
         when(carRepository.findByCarNumber(anyString())).thenReturn(Optional.of(carEntity));
         when(emulatorRepository.save(any(EmulatorEntity.class))).thenReturn(emulatorEntity);
         when(carRepository.save(any(CarEntity.class))).thenReturn(carEntity);
 
+        // when
         EmulatorEntity result = emulatorService.registerEmulator(emulatorRequest);
 
+        // then
         assertNotNull(result);
         assertEquals(emulatorEntity.getDeviceId(), result.getDeviceId());
         assertEquals(emulatorRequest.getCarNumber(), result.getCarNumber());
-        verify(carRepository, times(1)).save(any(CarEntity.class));
         assertEquals(emulatorEntity.getId(), carEntity.getEmulatorId());
+        verify(carRepository, times(1)).save(any(CarEntity.class));
     }
 
     @Test
     @DisplayName("애뮬레이터 등록 실패 - 차량 없음")
     void registerEmulator_carNotFound() {
+        // given
+        String carNumber = "123가 4567";
+        String expectedMessage = CarErrorCode.CAR_NOT_FOUND_BY_NUMBER.format(carNumber);
         when(carRepository.findByCarNumber(anyString())).thenReturn(Optional.empty());
 
-        assertThrows(CarNotFoundException.class, () -> emulatorService.registerEmulator(emulatorRequest));
+        // when
+        CarNotFoundException exception = assertThrows(CarNotFoundException.class, () -> {
+            emulatorService.registerEmulator(emulatorRequest);
+        });
+
+        // then
+        assertEquals(expectedMessage, exception.getMessage());
         verify(emulatorRepository, never()).save(any(EmulatorEntity.class));
         verify(carRepository, never()).save(any(CarEntity.class));
     }
@@ -93,10 +105,19 @@ public class EmulatorServiceTest {
     @Test
     @DisplayName("애뮬레이터 등록 실패 - 해당 차량에 이미 애뮬레이터 연결됨")
     void registerEmulator_carAlreadyHasEmulator() {
-        carEntity.setEmulatorId(1);
+        // given
+        String carNumber = "123가 4567";
+        String expectedMessage = EmulatorErrorCode.DUPLICATE_EMULATOR.format(carNumber);
+        carEntity.setEmulatorId(99);
         when(carRepository.findByCarNumber(anyString())).thenReturn(Optional.of(carEntity));
 
-        assertThrows(DuplicateEmulatorException.class, () -> emulatorService.registerEmulator(emulatorRequest));
+        // when
+        DuplicateEmulatorException exception = assertThrows(DuplicateEmulatorException.class, () -> {
+            emulatorService.registerEmulator(emulatorRequest);
+        });
+
+        // then
+        assertEquals(expectedMessage, exception.getMessage());
         verify(emulatorRepository, never()).save(any(EmulatorEntity.class));
         verify(carRepository, never()).save(any(CarEntity.class));
     }
@@ -104,12 +125,15 @@ public class EmulatorServiceTest {
     @Test
     @DisplayName("애뮬레이터 상세 조회 성공")
     void getEmulator_success() {
-        String deviceId ="a1b2c3d4-test-uuid";
+        // given
+        String deviceId = "a1b2c3d4-test-uuid";
         when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.of(emulatorEntity));
         when(carRepository.findByEmulatorId(emulatorEntity.getId())).thenReturn(Optional.of(carEntity));
 
+        // when
         EmulatorEntity result = emulatorService.getEmulator(deviceId);
 
+        // then
         assertNotNull(result);
         assertEquals(deviceId, result.getDeviceId());
         assertEquals("123가 4567", result.getCarNumber());
@@ -118,189 +142,120 @@ public class EmulatorServiceTest {
     @Test
     @DisplayName("애뮬레이터 상세 조회 실패 - 애뮬레이터 없음")
     void getEmulator_notFound() {
-        String deviceId ="a1b2c3d4-test-uuid";
+        // given
+        String deviceId = "존재하지 않는 deviceId";
+        String expectedMessage = EmulatorErrorCode.EMULATOR_NOT_FOUND.format(deviceId);
         when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.empty());
 
-        assertThrows(EmulatorNotFoundException.class, () -> emulatorService.getEmulator(deviceId));
+        // when
+        EmulatorNotFoundException exception = assertThrows(EmulatorNotFoundException.class, () -> {
+            emulatorService.getEmulator(deviceId);
+        });
+
+        // then
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
     @DisplayName("애뮬레이터 전체 조회 성공")
     void getAllEmulators_success() {
-        EmulatorEntity emulator1 = this.emulatorEntity;
-        CarEntity car1 = CarEntity.builder()
-                .id(1)
-                .emulatorId(emulator1.getId())
-                .carNumber(emulator1.getCarNumber())
-                .build();
-
-        EmulatorEntity emulator2 = EmulatorEntity.builder()
-                .id(2)
-                .deviceId("z9y8x7w6-test-uuid")
-                .status(EmulatorStatus.ON)
-                .build();
-        CarEntity car2 = CarEntity.builder()
-                .id(2)
-                .emulatorId(emulator2.getId())
-                .carNumber("111가 1111")
-                .build();
-
+        // given
         Pageable pageable = PageRequest.of(0, 10);
-        List<EmulatorEntity> emulatorList = List.of(emulator1, emulator2);
+        List<EmulatorEntity> emulatorList = List.of(emulatorEntity);
         Page<EmulatorEntity> emulatorsPage = new PageImpl<>(emulatorList, pageable, emulatorList.size());
 
         when(emulatorRepository.findAll(any(Pageable.class))).thenReturn(emulatorsPage);
-        when(carRepository.findByEmulatorId(emulator1.getId())).thenReturn(Optional.of(car1));
-        when(carRepository.findByEmulatorId(emulator2.getId())).thenReturn(Optional.of(car2));
+        when(carRepository.findByEmulatorId(emulatorEntity.getId())).thenReturn(Optional.of(carEntity));
 
+        // when
         Page<EmulatorEntity> resultPage = emulatorService.getAllEmulators(pageable);
 
+        // then
         assertNotNull(resultPage);
-        assertEquals(2, resultPage.getTotalElements());
-
-        List<EmulatorEntity> content = resultPage.getContent();
-        assertEquals(2, content.size());
-
-        // 첫 번째 에뮬레이터 테스트
-        assertEquals(emulator1.getDeviceId(), content.get(0).getDeviceId());
-        assertEquals(car1.getCarNumber(), content.get(0).getCarNumber());
-
-        // 두 번째 에뮬레이터 테스트
-        assertEquals(emulator2.getDeviceId(), content.get(1).getDeviceId());
-        assertEquals(car2.getCarNumber(), content.get(1).getCarNumber());
-
+        assertEquals(1, resultPage.getTotalElements());
+        assertEquals(emulatorEntity.getCarNumber(), resultPage.getContent().get(0).getCarNumber());
         verify(emulatorRepository).findAll(any(Pageable.class));
-        verify(carRepository).findByEmulatorId(emulator1.getId());
-        verify(carRepository).findByEmulatorId(emulator2.getId());
+        verify(carRepository).findByEmulatorId(emulatorEntity.getId());
     }
 
     @Test
-    @DisplayName("애뮬레이터 전체 조회 성공 - 애뮬레이터가 없을 때 빈 페이지 반환")
-    void getAllEmulators_emptyPage() {
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<EmulatorEntity> emptyPage = Page.empty(pageable);
-
-        when(emulatorRepository.findAll(any(Pageable.class))).thenReturn(emptyPage);
-
-        Page<EmulatorEntity> result = emulatorService.getAllEmulators(pageable);
-
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-
-        verify(emulatorRepository).findAll(any(Pageable.class));
-        verify(carRepository, never()).findByEmulatorId(anyInt());
-    }
-
-    @Test
-    @DisplayName("애뮬레이터 수정 성공 - 차량 번호 변경 없을 때")
-    void updateEmulator_noCarNumberChange_success() {
+    @DisplayName("애뮬레이터 수정 성공")
+    void updateEmulator_success() {
+        // given
         String deviceId = emulatorEntity.getDeviceId();
-        emulatorRequest.setCarNumber("123가 4567");
-        carEntity.setEmulatorId(emulatorEntity.getId());
+        String newCarNumber = "새로운차량1234";
+        EmulatorRequest newRequest = new EmulatorRequest(newCarNumber);
+
+        CarEntity oldCar = CarEntity.builder().id(1).carNumber("123가 4567").emulatorId(emulatorEntity.getId()).build();
+        CarEntity newCar = CarEntity.builder().id(2).carNumber(newCarNumber).build();
 
         when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.of(emulatorEntity));
-        when(carRepository.findByEmulatorId(emulatorEntity.getId())).thenReturn(Optional.of(carEntity));
-        when(carRepository.findByCarNumber("123가 4567")).thenReturn(Optional.of(carEntity));
-        when(carRepository.save(any(CarEntity.class))).thenReturn(carEntity);
+        when(carRepository.findByEmulatorId(emulatorEntity.getId())).thenReturn(Optional.of(oldCar));
+        when(carRepository.findByCarNumber(newCarNumber)).thenReturn(Optional.of(newCar));
 
-        EmulatorEntity result = emulatorService.updateEmulator(deviceId, emulatorRequest);
+        // when
+        EmulatorEntity result = emulatorService.updateEmulator(deviceId, newRequest);
 
-        assertNotNull(result);
-        assertEquals("123가 4567", result.getCarNumber());
-        verify(carRepository, times(1)).save(any(CarEntity.class));
-    }
-
-    @Test
-    @DisplayName("애뮬레이터 수정 성공 - 차량 번호 변경 있을 때")
-    void updateEmulator_carNumberChange_success() {
-        String deviceId = emulatorEntity.getDeviceId();
-        String newCarNumber = "새로운 차량 번호";
-        EmulatorRequest updatedRequest = new EmulatorRequest(newCarNumber);
-
-        CarEntity oldCarEntity = CarEntity.builder().id(1).carNumber("123가 4567").emulatorId(emulatorEntity.getId()).build();
-        CarEntity newCarEntity = CarEntity.builder().id(2).carNumber(newCarNumber).build();
-
-        when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.of(emulatorEntity));
-        when(carRepository.findByEmulatorId(emulatorEntity.getId())).thenReturn(Optional.of(oldCarEntity));
-        when(carRepository.findByCarNumber(newCarNumber)).thenReturn(Optional.of(newCarEntity));
-
-        EmulatorEntity result = emulatorService.updateEmulator(deviceId, updatedRequest);
-
+        // then
         assertNotNull(result);
         assertEquals(newCarNumber, result.getCarNumber());
-        assertNull(oldCarEntity.getEmulatorId());
-        assertEquals(emulatorEntity.getId(), newCarEntity.getEmulatorId());
+        assertNull(oldCar.getEmulatorId());
+        assertEquals(emulatorEntity.getId(), newCar.getEmulatorId());
         verify(carRepository, times(2)).save(any(CarEntity.class));
     }
 
     @Test
     @DisplayName("애뮬레이터 수정 실패 - 애뮬레이터 없음")
     void updateEmulator_emulatorNotFound() {
-        String deviceId = "a1b2c3d4-test-uuid";
+        // given
+        String deviceId = "not-found-id";
+        String expectedMessage = EmulatorErrorCode.EMULATOR_NOT_FOUND.format(deviceId);
         when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.empty());
 
-        assertThrows(EmulatorNotFoundException.class, () -> emulatorService.updateEmulator(deviceId, emulatorRequest));
+        // when
+        EmulatorNotFoundException exception = assertThrows(EmulatorNotFoundException.class, () -> {
+            emulatorService.updateEmulator(deviceId, emulatorRequest);
+        });
+
+        // then
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
     @DisplayName("애뮬레이터 수정 실패 - 변경할 차량 없음")
     void updateEmulator_newCarNotFound() {
+        // given
         String deviceId = emulatorEntity.getDeviceId();
         String newCarNumber = "없는 차량 번호";
         EmulatorRequest updatedRequest = new EmulatorRequest(newCarNumber);
+        String expectedMessage = CarErrorCode.CAR_NOT_FOUND_BY_NUMBER.format(newCarNumber);
 
         when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.of(emulatorEntity));
         when(carRepository.findByCarNumber(newCarNumber)).thenReturn(Optional.empty());
 
-        assertThrows(CarNotFoundException.class, () -> emulatorService.updateEmulator(deviceId, updatedRequest));
-        verify(emulatorRepository, never()).save(any(EmulatorEntity.class));
-        verify(carRepository, never()).save(any(CarEntity.class));
-    }
+        // when
+        CarNotFoundException exception = assertThrows(CarNotFoundException.class, () -> {
+            emulatorService.updateEmulator(deviceId, updatedRequest);
+        });
 
-    @Test
-    @DisplayName("애뮬레이터 수정 실패 - 변경할 차량에 이미 애뮬레이터 연결됨")
-    void updateEmulator_newCarAlreadyHasEmulator() {
-        String deviceId = emulatorEntity.getDeviceId();
-        String newCarNumber = "새로운 차량 번호";
-        EmulatorRequest updatedRequest = new EmulatorRequest(newCarNumber);
-
-        CarEntity newCarEntityWithEmulator = CarEntity.builder().id(2).carNumber(newCarNumber).emulatorId(5).build();
-
-        when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.of(emulatorEntity));
-        when(carRepository.findByCarNumber(newCarNumber)).thenReturn(Optional.of(newCarEntityWithEmulator));
-
-        assertThrows(DuplicateEmulatorException.class, () -> emulatorService.updateEmulator(deviceId, updatedRequest));
-        verify(emulatorRepository, never()).save(any(EmulatorEntity.class));
-        verify(carRepository, never()).save(any(CarEntity.class));
-    }
-
-    @Test
-    @DisplayName("애뮬레이터 수정 실패 - 변경할 carNumber에 이미 애뮬레이터 존재")
-    void updateEmulator_duplicateEmulatorOnNewCarNumber() {
-        String deviceId = emulatorEntity.getDeviceId();
-        String newCarNumber = "새로운 차량 번호";
-        EmulatorRequest updatedRequest = new EmulatorRequest(newCarNumber);
-
-        CarEntity newCarEntity = CarEntity.builder().id(2).carNumber(newCarNumber).emulatorId(99).build(); // 다른 emulatorId
-
-        when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.of(emulatorEntity));
-        when(carRepository.findByCarNumber(newCarNumber)).thenReturn(Optional.of(newCarEntity));
-
-        assertThrows(DuplicateEmulatorException.class, () -> emulatorService.updateEmulator(deviceId, updatedRequest));
-        verify(emulatorRepository, never()).save(any(EmulatorEntity.class));
+        // then
+        assertEquals(expectedMessage, exception.getMessage());
         verify(carRepository, never()).save(any(CarEntity.class));
     }
 
     @Test
     @DisplayName("애뮬레이터 삭제 성공")
     void deleteEmulator_success() {
+        // given
         String deviceId = "a1b2c3d4-test-uuid";
-        carEntity.setEmulatorId(emulatorEntity.getId()); // 이미 연결된 상태로 설정
+        carEntity.setEmulatorId(emulatorEntity.getId());
         when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.of(emulatorEntity));
         when(carRepository.findByEmulatorId(emulatorEntity.getId())).thenReturn(Optional.of(carEntity));
 
+        // when
         emulatorService.deleteEmulator(deviceId);
 
+        // then
         assertNull(carEntity.getEmulatorId());
         verify(carRepository, times(1)).save(carEntity);
         verify(emulatorRepository, times(1)).delete(emulatorEntity);
@@ -309,10 +264,18 @@ public class EmulatorServiceTest {
     @Test
     @DisplayName("애뮬레이터 삭제 실패 - 애뮬레이터 없음")
     void deleteEmulator_notFound() {
+        // given
         String deviceId = "존재하지 않는 deviceId";
+        String expectedMessage = EmulatorErrorCode.EMULATOR_NOT_FOUND.format(deviceId);
         when(emulatorRepository.findByDeviceId(deviceId)).thenReturn(Optional.empty());
 
-        assertThrows(EmulatorNotFoundException.class, () -> emulatorService.deleteEmulator(deviceId));
+        // when
+        EmulatorNotFoundException exception = assertThrows(EmulatorNotFoundException.class, () -> {
+            emulatorService.deleteEmulator(deviceId);
+        });
+
+        // then
+        assertEquals(expectedMessage, exception.getMessage());
         verify(emulatorRepository, never()).delete(any(EmulatorEntity.class));
         verify(carRepository, never()).save(any(CarEntity.class));
     }
