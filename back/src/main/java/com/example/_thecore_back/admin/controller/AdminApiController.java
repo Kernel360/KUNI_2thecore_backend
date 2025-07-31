@@ -45,7 +45,7 @@ public class AdminApiController {
         String deletedId = adminService.deleteAdmin(loginId);
         ApiResponse<String> response = ApiResponse.<String>builder()
                 .result(true)
-                .data(deletedId + " admin deleted successfully.")
+                .message(deletedId + " admin deleted successfully.")
                 .build();
         return ResponseEntity.ok(response);
     }
