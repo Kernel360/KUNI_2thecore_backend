@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public class DriveLogResponse {
-    private Long id;
+    private Long driveLogId;
     private Long carId;
     private String startPoint;
     private String startLatitude;

@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 public class DriveLog {
 
     @Id
+    @Column(name = "drive_log_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long driveLogId;
 
     @Column(name = "car_id", nullable = false)
     private Long carId;

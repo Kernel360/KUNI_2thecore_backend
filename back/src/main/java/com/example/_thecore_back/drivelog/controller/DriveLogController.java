@@ -38,7 +38,7 @@ public class DriveLogController {
         return ResponseEntity.ok(ApiResponse.success("전체 주행기록 조회 완료", responses));
     }
 
-    // ID로 단일 주행 기록 조회 (GET)
+    // Drive_Log_ID로 단일 주행 기록 조회 (GET)
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<DriveLogResponse>> getLogById(@PathVariable Long id){
         DriveLog driveLog = driveLogService.getLogById(id);
@@ -72,7 +72,7 @@ public class DriveLogController {
 
     private DriveLogResponse toResponse(DriveLog log) {
         return DriveLogResponse.builder()
-                .id(log.getId())
+                .driveLogId(log.getDriveLogId())
                 .carId(log.getCarId())
                 .startPoint(log.getStartPoint())
                 .startLatitude(log.getStartLatitude())
