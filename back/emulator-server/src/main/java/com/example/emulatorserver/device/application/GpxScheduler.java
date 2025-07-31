@@ -47,6 +47,7 @@ public class GpxScheduler{
     private String startTime;
     private String endTime;
 
+    // 스케줄러 실행 여부 확인
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     @PostConstruct
@@ -84,6 +85,7 @@ public class GpxScheduler{
         }
     }
 
+    // 스케줄러 시작 메서드 - 이미 실행 중이면 재시작하지 않음
     public void startScheduler() {
         Runnable task = () -> {
             try {
@@ -120,13 +122,19 @@ public class GpxScheduler{
             }
         };
 
-        // 스케줄러 지연 및 주기 설정
+        // 종료된 경우 스레드 풀 새로 생성
+        if (scheduler == null || scheduler.isShutdown() || scheduler.isTerminated()) {
+            scheduler = Executors.newSingleThreadScheduledExecutor();
+        }
+        // 일정 간격으로 GPX 데이터 전송 작업 실행
         scheduler.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
     }
 
+    // 스케줄러 종료 메서드
     public void stopScheduler() {
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdownNow();
+            // 스케줄러 상태 초기화
             log.info("GPX 스케줄러가 중단되었습니다.");
         } else {
             log.warn("스케줄러가 이미 종료되었거나 시작되지 않았습니다.");
