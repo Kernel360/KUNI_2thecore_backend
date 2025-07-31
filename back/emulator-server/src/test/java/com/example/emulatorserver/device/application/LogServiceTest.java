@@ -1,6 +1,5 @@
-package com.example.emulatorserver.emulator.application;
+package com.example.emulatorserver.device.application;
 
-import com.example.emulatorserver.device.application.LogService;
 import com.example.emulatorserver.device.controller.dto.LogPowerDto;
 import com.example.emulatorserver.device.domain.car.CarEntity;
 import com.example.emulatorserver.device.domain.car.CarReader;
@@ -19,6 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class LogServiceTest {
@@ -32,12 +32,16 @@ class LogServiceTest {
     @InjectMocks
     private LogService logService;
 
+    @Mock
+    private GpxScheduler gpxScheduler;
+
     @Test
-    @DisplayName("changePowerStatus - 성공")
+    @DisplayName("changePowerStatus - ON 전송 시 성공")
     void changePowerStatusSuccess() {
         // given
         LogPowerDto input = LogPowerDto.builder()
                 .carNumber("12가3456")
+                .loginId("Test")
                 .powerStatus("ON")
                 .build();
 
@@ -61,6 +65,42 @@ class LogServiceTest {
         assertNotNull(result);
         assertEquals("12가3456", result.getCarNumber());
         assertEquals("ON", result.getPowerStatus());
+        verify(gpxScheduler).setCarNumber("12가3456");
+        verify(gpxScheduler).setLoginId("Test");
+        verify(gpxScheduler).init();
+        verify(gpxScheduler).startScheduler();
+    }
+
+    @Test
+    @DisplayName("changePowerStatus - OFF 전송 시 성공")
+    void changePowerStatus_off_shouldStopScheduler() {
+        // given
+        LogPowerDto input = LogPowerDto.builder()
+                .carNumber("12가3456")
+                .loginId("Test")
+                .powerStatus("OFF")
+                .build();
+
+        CarEntity car = CarEntity.builder()
+                .carNumber("12가3456")
+                .emulatorId(1)
+                .build();
+
+        EmulatorEntity emulator = EmulatorEntity.builder()
+                .carNumber("12가3456")
+                .status(EmulatorStatus.ON)
+                .build();
+
+        when(carReader.findByCarNumber("12가3456")).thenReturn(Optional.of(car));
+        when(emulatorReader.getById(1)).thenReturn(emulator);
+
+        // when
+        LogPowerDto result = logService.changePowerStatus(input);
+
+        // then
+        assertNotNull(result);
+        assertEquals("OFF", result.getPowerStatus());
+        verify(gpxScheduler).stopScheduler();
     }
 
     @Test
@@ -69,6 +109,7 @@ class LogServiceTest {
         // given
         LogPowerDto input = LogPowerDto.builder()
                 .carNumber("99가9999")
+                .loginId("Test")
                 .powerStatus("OFF")
                 .build();
 
@@ -86,6 +127,7 @@ class LogServiceTest {
         // given
         LogPowerDto input = LogPowerDto.builder()
                 .carNumber("12가3456")
+                .loginId("Test")
                 .powerStatus("INVALID")
                 .build();
 

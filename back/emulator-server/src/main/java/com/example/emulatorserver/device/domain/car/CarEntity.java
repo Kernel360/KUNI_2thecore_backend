@@ -13,6 +13,8 @@ import lombok.*;
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(name = "car_id")
     private int id; // PK
 
 
@@ -28,7 +30,6 @@ public class CarEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 40)
     private CarStatus status; // 차량 상태
-
 
     private String carType; // 차종
 

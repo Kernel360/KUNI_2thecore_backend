@@ -17,5 +17,8 @@ public class LogPowerDto {
     private String carNumber;
 
     @NotBlank
+    private String loginId;
+
+    @NotBlank
     private String powerStatus;
 }
