@@ -2,8 +2,11 @@ package com.example._thecore_back.collector.application;
 
 import com.example._thecore_back.car.application.CarService;
 import com.example._thecore_back.collector.domain.GpsLogEvent;
+import com.example._thecore_back.collector.exception.CollectorEmulatorNotFoundException;
+import com.example._thecore_back.collector.exception.GpsLogNotFoundException;
 import com.example._thecore_back.collector.infrastructure.rabbitmq.GpsLogProducer;
 import com.example._thecore_back.emulator.domain.EmulatorEntity;
+import com.example._thecore_back.emulator.exception.EmulatorNotFoundException;
 import com.example._thecore_back.emulator.infrastructure.EmulatorReaderImpl;
 import com.example._thecore_back.collector.domain.GpsLogConverter;
 import com.example._thecore_back.collector.domain.GpsLogEntity;
@@ -36,11 +39,11 @@ public class CollectorService {
         List<GpsLogDto.Gps> logList = gpsLogDto.getLogList();
 
         if (logList.isEmpty()) {
-            throw new IllegalArgumentException("GPS 로그가 존재하지 않습니다.");
+            throw new GpsLogNotFoundException();
         }
 
         EmulatorEntity emulator = emulatorReader.findByCarNumber(gpsLogDto.getCarNumber())
-                .orElseThrow(() -> new RuntimeException("해당 차량의 에뮬레이터는 존재하지 않습니다."));
+                .orElseThrow(() -> new CollectorEmulatorNotFoundException(gpsLogDto.getCarNumber()));
 
         List<GpsLogEntity> logs = logList.stream()
                 .map(dto -> gpsLogConverter.toEntityByEmulatorId(dto,emulator.getId()))
