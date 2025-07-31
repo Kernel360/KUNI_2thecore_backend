@@ -1,4 +1,4 @@
-package com.example._thecore_back.hub.domain.dto;
+package hub.domain.dto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

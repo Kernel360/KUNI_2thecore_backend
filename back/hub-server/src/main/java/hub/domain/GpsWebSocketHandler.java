@@ -1,7 +1,10 @@
-package com.example._thecore_back.hub.domain;
+package hub.domain;
 
-import com.example._thecore_back.hub.domain.dto.GpsLogDto;
+import hub.domain.dto.GpsLogDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import hub.exception.WebSocketSendException;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +22,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class GpsWebSocketHandler extends TextWebSocketHandler {
 
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     //Websocket 연결 시 loginId를 websocket 세션에 추가
     @Override
@@ -32,14 +35,22 @@ public class GpsWebSocketHandler extends TextWebSocketHandler {
     }
 
     //loginId에 맞는 websocket client로 gps log 전송
-    public void sendGpsLogToClient(GpsLogDto gpsLogDto) throws IOException {
+    public void sendGpsLogToClient(GpsLogDto gpsLogDto) {
         String loginId = gpsLogDto.getLoginId();
         WebSocketSession session = sessions.get(loginId);
 
         if (session != null && session.isOpen()) {
-            String jsonMessage = objectMapper.writeValueAsString(gpsLogDto);
-            session.sendMessage(new TextMessage(jsonMessage));
-            log.info("Sent GPS log to loginId: {}", loginId);
+            try {
+                //직렬화 에러
+                String jsonMessage = objectMapper.writeValueAsString(gpsLogDto);
+                session.sendMessage(new TextMessage(jsonMessage));
+                log.info("Sent GPS log to loginId: {}", loginId);
+            } catch (JsonProcessingException e) {
+                log.error("Failed to serialize GpsLogDto for loginId: {}", loginId, e);
+                //전송 에러
+            } catch (IOException e) {
+                throw new WebSocketSendException("Failed to send message to loginId: " + loginId, e);
+            }
         }
     }
 

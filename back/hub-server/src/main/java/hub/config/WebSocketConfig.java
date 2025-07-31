@@ -1,7 +1,7 @@
-package com.example._thecore_back.hub.config;
+package hub.config;
 
-import com.example._thecore_back.hub.domain.GpsWebSocketHandler;
-import com.example._thecore_back.hub.interceptor.JwtHandshakeInterceptor;
+import hub.domain.GpsWebSocketHandler;
+import hub.interceptor.JwtHandshakeInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
