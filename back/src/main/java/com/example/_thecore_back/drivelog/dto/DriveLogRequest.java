@@ -1,5 +1,6 @@
 package com.example._thecore_back.drivelog.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 // 등록/수정용
+@Builder
 @Getter
 @Setter
 public class DriveLogRequest {

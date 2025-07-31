@@ -6,7 +6,6 @@ import com.example._thecore_back.drivelog.dto.DriveLogRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,6 +15,15 @@ public class DriveLogService {
     private final DriveLogRepository driveLogRepository;
 
     public DriveLog save(DriveLogRequest request) {
+        // 필수 값 검증 - 예시로 간단히
+        if (request.getCarId() == null) {
+            throw new IllegalArgumentException("차량 ID는 필수입니다.");
+        }
+        if (request.getDriveDist() == null) {
+            throw new IllegalArgumentException("주행 거리는 필수입니다.");
+        }
+        // 필요한 추가 검증 가능
+
         DriveLog driveLog = DriveLog.builder()
                 .carId(request.getCarId())
                 .startPoint(request.getStartPoint())
@@ -28,7 +36,6 @@ public class DriveLogService {
                 .endTime(request.getEndTime())
                 .driveDist(request.getDriveDist())
                 .speed(request.getSpeed())
-                .createdAt(LocalDateTime.now()) // 엔티티에서 자동 설정 안하면 필요
                 .build();
 
         return driveLogRepository.save(driveLog);
@@ -39,10 +46,19 @@ public class DriveLogService {
     }
 
     public List<DriveLog> getLogsByCarId(Long carId) {
+        if (carId == null) {
+            throw new IllegalArgumentException("차량 ID가 필요합니다.");
+        }
         return driveLogRepository.findByCarId(carId);
     }
 
-    public List<DriveLog> getLogsBetween(LocalDateTime start, LocalDateTime end) {
+    public List<DriveLog> getLogsBetween(java.time.LocalDateTime start, java.time.LocalDateTime end) {
+        if (start == null || end == null) {
+            throw new IllegalArgumentException("조회 시작일과 종료일을 모두 입력해야 합니다.");
+        }
+        if (start.isAfter(end)) {
+            throw new IllegalArgumentException("시작일은 종료일보다 이전이어야 합니다.");
+        }
         return driveLogRepository.findByStartTimeBetween(start, end);
     }
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Builder
 @Entity
 @Getter
 public class DriveLog {
@@ -58,10 +59,11 @@ public class DriveLog {
 
     // 생성자
     @Builder
-    public DriveLog(Long carId, String startPoint, String startLatitude, String startLongitude,
+    public DriveLog(Long driveLogId, Long carId, String startPoint, String startLatitude, String startLongitude,
                     LocalDateTime startTime, String endPoint, String endLatitude, String endLongitude,
                     LocalDateTime endTime, BigDecimal driveDist, String speed, LocalDateTime createdAt) {
 
+        this.driveLogId = driveLogId;
         this.carId = carId;
         this.startPoint = startPoint;
         this.startLatitude = startLatitude;
