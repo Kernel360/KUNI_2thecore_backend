@@ -1,7 +1,6 @@
-package com.example.emulatorserver.emulator.controller;
+package com.example.emulatorserver.device.controller;
 
 import com.example.emulatorserver.device.application.LogService;
-import com.example.emulatorserver.device.controller.LogController;
 import com.example.emulatorserver.device.controller.dto.LogPowerDto;
 import com.example.emulatorserver.device.exception.car.CarErrorCode;
 import com.example.emulatorserver.device.exception.car.CarNotFoundException;
@@ -40,6 +39,7 @@ public class LogControllerTest {
         // 요청 및 응답 객체 생성
         LogPowerDto logPowerDto = LogPowerDto.builder()
                 .carNumber("12가3456")
+                .loginId("Test")
                 .powerStatus("ON")
                 .build();
 
@@ -65,6 +65,7 @@ public class LogControllerTest {
         // 요청 및 응답 객체 생성
         LogPowerDto logPowerDto = LogPowerDto.builder()
                 .carNumber("12가3456")
+                .loginId("Test")
                 .powerStatus("ON")
                 .build();
 
