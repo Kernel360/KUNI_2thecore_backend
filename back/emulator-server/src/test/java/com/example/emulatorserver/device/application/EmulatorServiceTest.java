@@ -1,6 +1,5 @@
-package com.example.emulatorserver.emulator.application;
+package com.example.emulatorserver.device.application;
 
-import com.example.emulatorserver.device.application.EmulatorService;
 import com.example.emulatorserver.device.controller.dto.EmulatorRequest;
 import com.example.emulatorserver.device.domain.car.CarEntity;
 import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;

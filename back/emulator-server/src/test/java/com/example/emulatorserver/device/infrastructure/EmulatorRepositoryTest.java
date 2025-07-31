@@ -1,4 +1,4 @@
-package com.example.emulatorserver.emulator.infrastructure;
+package com.example.emulatorserver.device.infrastructure;
 
 import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
 import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;

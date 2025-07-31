@@ -1,8 +1,7 @@
-package com.example.emulatorserver.emulator.controller;
+package com.example.emulatorserver.device.controller;
 
 import com.example.emulatorserver.common.dto.ApiResponse;
 import com.example.emulatorserver.device.application.EmulatorService;
-import com.example.emulatorserver.device.controller.EmulatorController;
 import com.example.emulatorserver.device.controller.dto.*;
 import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
 import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;
@@ -24,7 +23,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
