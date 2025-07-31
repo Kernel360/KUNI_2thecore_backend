@@ -10,14 +10,18 @@ import com.example.emulatorserver.device.exception.emulator.DuplicateEmulatorExc
 import com.example.emulatorserver.device.exception.emulator.EmulatorErrorCode;
 import com.example.emulatorserver.device.exception.emulator.EmulatorExceptionHandler;
 import com.example.emulatorserver.device.exception.emulator.EmulatorNotFoundException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -38,7 +42,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @ExtendWith(MockitoExtension.class)
 public class EmulatorControllerTest {

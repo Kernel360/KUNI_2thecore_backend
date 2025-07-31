@@ -1,9 +1,10 @@
 package com.example.emulatorserver.device.controller.dto;
 
-import lombok.Getter;
-import org.springframework.data.domain.Page;
-
 import java.util.List;
+
+import lombok.Getter;
+
+import org.springframework.data.domain.Page;
 
 @Getter
 public class CustomPageResponse<T> {

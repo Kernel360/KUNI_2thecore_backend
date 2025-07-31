@@ -6,22 +6,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmulatorConverter {
 
-    public EmulatorResponse toResponse(EmulatorEntity emulatorEntity) {
-        EmulatorResponse response = new EmulatorResponse();
-        response.setDeviceId(emulatorEntity.getDeviceId());
-        response.setCarNumber(emulatorEntity.getCarNumber());
-        response.setStatus(emulatorEntity.getStatus());
-        return response;
-    }
-
-    public EmulatorEntity toEntity(EmulatorResponse emulatorResponse) {
-        EmulatorEntity entity = new EmulatorEntity();
-        entity.setDeviceId(emulatorResponse.getDeviceId());
-        entity.setCarNumber(emulatorResponse.getCarNumber());
-        entity.setStatus(emulatorResponse.getStatus());
-        return entity;
-    }
-
     // 애뮬레이터 등록
     public RegisterEmulatorResponseData toRegisterEmulatorData(
             EmulatorEntity emulatorEntity
