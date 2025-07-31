@@ -45,6 +45,7 @@ public class LogService {
 
         return LogPowerDto.builder()
                 .carNumber(emulatorEntity.getCarNumber())
+                .loginId(loginId)
                 .powerStatus(emulatorEntity.getStatus().toString())
                 .build();
     }
