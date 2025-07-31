@@ -1,6 +1,7 @@
 package com.example.emulatorserver.device.controller.dto;
 
 import jakarta.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

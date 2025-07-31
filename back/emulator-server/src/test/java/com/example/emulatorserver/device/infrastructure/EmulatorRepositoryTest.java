@@ -3,8 +3,10 @@ package com.example.emulatorserver.device.infrastructure;
 import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
 import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;
 import com.example.emulatorserver.device.infrastructure.emulator.EmulatorRepository;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 

@@ -1,9 +1,9 @@
 package com.example.emulatorserver.device.controller;
 
 import com.example.emulatorserver.common.dto.ApiResponse;
+import com.example.emulatorserver.device.application.EmulatorService;
 import com.example.emulatorserver.device.controller.dto.*;
 import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
-import com.example.emulatorserver.device.application.EmulatorService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +14,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/emulators")
