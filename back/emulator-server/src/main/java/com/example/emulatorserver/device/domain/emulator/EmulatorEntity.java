@@ -16,6 +16,7 @@ import java.util.UUID;
 public class EmulatorEntity {
 
     @Id
+    @Column(name = "emulator_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -23,10 +24,11 @@ public class EmulatorEntity {
     private String deviceId; // 디바이스 ID
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "emul_status", nullable = false)
     private EmulatorStatus status; // 애뮬레이터 상태 (ON/OFF)
 
-    @Transient
+
+    @Column(name = "car_number", nullable = false)
     private String carNumber;
 
     @PrePersist

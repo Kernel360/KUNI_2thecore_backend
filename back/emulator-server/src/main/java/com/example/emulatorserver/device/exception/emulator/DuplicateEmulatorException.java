@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 public class DuplicateEmulatorException extends RuntimeException {
-    public DuplicateEmulatorException(String message) {
-        super(message);
+    public DuplicateEmulatorException(EmulatorErrorCode errorCode, Object... args) {
+        super(errorCode.format(args));
     }
 }

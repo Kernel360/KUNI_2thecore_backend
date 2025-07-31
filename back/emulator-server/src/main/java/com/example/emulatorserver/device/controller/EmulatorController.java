@@ -7,6 +7,10 @@ import com.example.emulatorserver.device.application.EmulatorService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,13 +51,13 @@ public class EmulatorController {
 
     // 애뮬레이터 전체 조회
     @GetMapping
-    public ResponseEntity<ApiResponse<List<GetEmulatorResponseData>>> getAllEmulators() {
-        List<EmulatorEntity>  getEntities = emulatorService.getAllEmulators();
-        List<GetEmulatorResponseData> responseDataList = getEntities.stream()
-                .map(emulatorConverter::toGetEmulatorData)
-                .collect(Collectors.toList());
+    public ResponseEntity<ApiResponse<CustomPageResponse<GetEmulatorResponseData>>> getAllEmulators(
+            @PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<EmulatorEntity> emulatorsPage = emulatorService.getAllEmulators(pageable);
+        Page<GetEmulatorResponseData> dtoPage = emulatorsPage.map(emulatorConverter::toGetEmulatorData);
+        CustomPageResponse<GetEmulatorResponseData> responseData = new CustomPageResponse<>(dtoPage);
 
-        return ResponseEntity.ok(ApiResponse.success(null, responseDataList));
+        return ResponseEntity.ok(ApiResponse.success(null, responseData));
     }
 
     // 애뮬레이터 수정
