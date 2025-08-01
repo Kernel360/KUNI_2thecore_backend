@@ -41,7 +41,4 @@ public class AdminEntity {
 
     @Column(nullable = false)
     private String authLevel;
-
-
-
 }

@@ -30,7 +30,8 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
     // DB
-    implementation 'com.h2database:h2'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    testImplementation 'com.h2database:h2'
 
 	// Spring Boot Starters
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
@@ -60,6 +61,8 @@ dependencies {
 	// Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+	implementation 'mysql:mysql-connector-java:8.0.33'
 
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
