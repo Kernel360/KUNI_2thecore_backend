@@ -17,6 +17,7 @@ public class EmulatorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "emulator_id")
     private int id;
 
     @Column(name = "device_id", nullable = false, length = 36)
@@ -26,7 +27,7 @@ public class EmulatorEntity {
     @Column(name = "status", nullable = false)
     private EmulatorStatus status; // 애뮬레이터 상태 (ON/OFF)
 
-    @Transient
+    @Column(name = "car_number")
     private String carNumber;
 
     @PrePersist

@@ -1,0 +1,31 @@
+package com.example._thecore_back.collector.domain;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "gps_log")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
+
+public class GpsLogEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String gpsLatitude;
+
+    private String gpsLongitude;
+
+    private LocalDateTime createdAt;
+
+    private int emulatorId;
+
+
+}

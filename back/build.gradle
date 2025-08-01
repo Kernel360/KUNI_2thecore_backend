@@ -47,6 +47,13 @@ dependencies {
 	//동적 쿼리
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 
+	// RabbitMq
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+
+
 	// Servlet API
 	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 

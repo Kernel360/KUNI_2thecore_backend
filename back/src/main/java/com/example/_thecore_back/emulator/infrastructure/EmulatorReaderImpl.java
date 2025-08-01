@@ -24,4 +24,9 @@ public class EmulatorReaderImpl implements EmulatorReader {
     public List<EmulatorEntity> findAll() {
         return emulatorRepository.findAll();
     }
+
+    @Override
+    public Optional<EmulatorEntity> findByCarNumber(String carNumber) {
+        return emulatorRepository.findByCarNumber(carNumber);
+    }
 }
