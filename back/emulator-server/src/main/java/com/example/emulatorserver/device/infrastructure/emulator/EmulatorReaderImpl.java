@@ -1,8 +1,7 @@
 package com.example.emulatorserver.device.infrastructure.emulator;
 
-import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
-import com.example.emulatorserver.device.domain.emulator.EmulatorReader;
-
+import com.example._thecore_back.emulator.domain.EmulatorEntity;
+import com.example._thecore_back.emulator.domain.EmulatorReader;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,5 +30,10 @@ public class EmulatorReaderImpl implements EmulatorReader {
     // 불필요하게 중복된 예외 처리를 하지 않기 위함
     public EmulatorEntity getById(int id) {
         return emulatorRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Optional<EmulatorEntity> findByCarNumber(String carNumber) {
+        return emulatorRepository.findByCarNumber(carNumber);
     }
 }

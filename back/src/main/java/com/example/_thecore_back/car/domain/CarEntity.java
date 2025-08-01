@@ -14,6 +14,7 @@ import lombok.*;
 
 public class CarEntity {
     @Id
+    @Column(name = "car_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "car_id")
     private int id; // PK
@@ -38,6 +39,10 @@ public class CarEntity {
     private String carNumber; // 차량 번호
 
     private double sumDist; // 총 거리
+
+    private String lastLatitude;
+
+    private String lastLongitude;
 
     private Integer emulatorId; // 연결된 애뮬레이터 아이디
 

@@ -103,4 +103,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.getWriter().write(json);
     }
 }
-
