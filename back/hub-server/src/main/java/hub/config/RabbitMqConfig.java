@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:back/src/main/java/com/example/_thecore_back/collector/config/RabbitMqConfig.java
-package com.example._thecore_back.collector.config;
-========
 package hub.config;
->>>>>>>> Kernel360/mq:back/hub-server/src/main/java/hub/config/RabbitMqConfig.java
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Binding;
