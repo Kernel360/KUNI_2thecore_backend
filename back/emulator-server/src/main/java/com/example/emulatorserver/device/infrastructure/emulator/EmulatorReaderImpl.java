@@ -1,7 +1,7 @@
 package com.example.emulatorserver.device.infrastructure.emulator;
 
-import com.example._thecore_back.emulator.domain.EmulatorEntity;
-import com.example._thecore_back.emulator.domain.EmulatorReader;
+import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
+import com.example.emulatorserver.device.domain.emulator.EmulatorReader;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
