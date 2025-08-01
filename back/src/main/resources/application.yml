@@ -1,0 +1,37 @@
+jwt:
+  secret: my_secret_key_for_hmac_sha256_algorithm_256bit
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb  # 인메모리 H2 DB 사용
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true          # H2 콘솔 사용 설정 (http://localhost:8080/h2-console)
+
+  jpa:
+    hibernate:
+      ddl-auto: update       # Entity 기반으로 DB 테이블 자동 생성/업데이트
+    show-sql: true           # SQL 출력
+    naming:
+      physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate:
+        format_sql: true     # SQL 예쁘게 출력
+    defer-datasource-initialization: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: 2thecore
+    password: 2thecore
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.example._thecore_back.car
+  configuration:
+    map-underscore-to-camel-case: true
