@@ -139,11 +139,15 @@ public class CarService {
         return CarDeleteDto.EntityToDto(entity);
     }
 
-    public List<CarSearchDto> getCarsInMaintenanceOrIdle() {
-        List<CarStatus> statuses = List.of(CarStatus.MAINTENANCE, CarStatus.IDLE);
-        List<CarEntity> cars = carReader.findByStatus(statuses);
-        return cars.stream()
-                .map(CarSearchDto::EntityToDto)
+    public List<CarSearchDto> getCarsByStatuses(List<String> statuses) {
+        List<CarStatus> carStatuses = statuses.stream()
+                .map(CarStatus::fromDisplayName)  // 한글 → Enum
                 .toList();
+
+        List<CarEntity> cars = carReader.findByStatus(carStatuses); // 🔧 여기 수정
+        return cars.stream().map(CarSearchDto::EntityToDto).toList();
+
     }
+
+
 }

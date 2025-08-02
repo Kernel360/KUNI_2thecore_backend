@@ -115,9 +115,12 @@ public class CarController {
     }
 
     // 점검중 또는 대기중 상태 차량 조회 API
-    @GetMapping("/status/checking-or-waiting")
-    public ApiResponse<List<CarSearchDto>> getCarsInMaintenanceOrIdle(){
-        List<CarSearchDto> response = carService.getCarsInMaintenanceOrIdle();
+    @GetMapping("/status")
+    public ApiResponse<List<CarSearchDto>> getCarsByStatuses(
+            @RequestParam List<String> status
+    ) {
+        List<CarSearchDto> response = carService.getCarsByStatuses(status);
         return ApiResponse.success(response);
     }
+
 }

@@ -31,7 +31,7 @@ public class CarControllerTest2 {
                 .carYear(2020)
                 .status("운행")
                 .carType("Sedan")
-                .carNumber("12가1289") // 차대번호는 테스트 마다 변경 필요..
+                .carNumber("12가1290") // 차대번호는 테스트 마다 변경 필요..
                 .sumDist(12345.9)
                 .build();
 
@@ -45,7 +45,7 @@ public class CarControllerTest2 {
                 .andExpect(jsonPath("$.data.brand").value("Hyundai"))
                 .andExpect(jsonPath("$.data.model").value("Sonata"))
                 .andExpect(jsonPath("$.data.status").value("운행"))
-                .andExpect(jsonPath("$.data.car_number").value("12가1289")) // 차대번호는 테스트 마다 변경 필요..
+                .andExpect(jsonPath("$.data.car_number").value("12가1290")) // 차대번호는 테스트 마다 변경 필요..
                 .andExpect(jsonPath("$.data.sum_dist").value(12345.9))
                 .andReturn(); // 결과 반환
 

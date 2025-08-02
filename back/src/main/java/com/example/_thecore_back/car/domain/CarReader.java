@@ -18,4 +18,5 @@ public interface CarReader  {
     Optional<CarEntity> findByEmulatorId(Integer emulatorId);
 
     List<CarEntity> findByStatus(List<CarStatus> statuses);
+
 }
