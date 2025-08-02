@@ -23,7 +23,7 @@ public class CarController {
 
     private final CarService carService;
 
-//    @GetMapping("")
+    //    @GetMapping("")
 //    public
     @GetMapping("/{car_number}")
     public ApiResponse<CarDetailDto> getCar(@PathVariable String car_number) {
@@ -71,7 +71,7 @@ public class CarController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int offset
     ) {
-            log.info("Request DTO: {}", carFilterRequestDto);
+        log.info("Request DTO: {}", carFilterRequestDto);
 
         var response = carService.getCarsByFilter(carFilterRequestDto, page, offset);
         return ApiResponse.success(response);
@@ -84,7 +84,7 @@ public class CarController {
             @Validated(CreateGroup.class)
             CarRequestDto carRequest
     ){
-       var response = carService.createCar(carRequest);
+        var response = carService.createCar(carRequest);
 
         return ApiResponse.success("차량 등록이 성공적으로 완료되었습니다.", response);
     }
@@ -112,5 +112,12 @@ public class CarController {
         var response = carService.deleteCar(carNumber);
 
         return ApiResponse.success("차량 삭제가 성공적으로 완료되었습니다.",response);
+    }
+
+    // 점검중 또는 대기중 상태 차량 조회 API
+    @GetMapping("/status/checking-or-waiting")
+    public ApiResponse<List<CarSearchDto>> getCarsInMaintenanceOrIdle(){
+        List<CarSearchDto> response = carService.getCarsInMaintenanceOrIdle();
+        return ApiResponse.success(response);
     }
 }
