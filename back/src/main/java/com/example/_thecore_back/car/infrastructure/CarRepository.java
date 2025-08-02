@@ -3,10 +3,12 @@ package com.example._thecore_back.car.infrastructure;
 import com.example._thecore_back.car.domain.CarEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository("mainCarRepository")
 public interface CarRepository extends JpaRepository<CarEntity, Integer> {
 
     Optional<CarEntity> findByCarNumber(String carNumber);

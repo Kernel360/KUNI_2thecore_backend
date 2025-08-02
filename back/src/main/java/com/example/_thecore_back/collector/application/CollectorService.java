@@ -13,6 +13,7 @@ import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
 import com.example.emulatorserver.device.infrastructure.emulator.EmulatorReaderImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import java.util.List;
 public class CollectorService {
 
     private final EmulatorReaderImpl emulatorReader;
+
     private final GpsLogWriterImpl gpsLogWriterImpl;
     private final GpsLogConverter gpsLogConverter;
     private final CarService carService;

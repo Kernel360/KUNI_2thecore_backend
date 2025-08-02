@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-@Entity(name = "Car")
+@Entity(name = "emulatorServerCar")
 
 public class CarEntity {
     @Id

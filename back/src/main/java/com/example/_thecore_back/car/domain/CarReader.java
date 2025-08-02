@@ -3,8 +3,6 @@ package com.example._thecore_back.car.domain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import javax.swing.plaf.OptionPaneUI;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
