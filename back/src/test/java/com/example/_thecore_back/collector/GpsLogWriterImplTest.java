@@ -21,7 +21,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
         "com.example._thecore_back.collector.domain",
         "com.example._thecore_back.car.domain",
         "com.example._thecore_back.admin.domain",
-        "com.example._thecore_back.emulator.domain"
+        "com.example._thecore_back.emulatorserver"
 })
 public class GpsLogWriterImplTest { 
 
