@@ -51,7 +51,7 @@ public class CarService {
                 .inspecting(result.getOrDefault(CarStatus.MAINTENANCE, 0L))
                 .total(result.getOrDefault(CarStatus.IN_USE, 0L) +
                         result.getOrDefault(CarStatus.IDLE, 0L)
-                + result.getOrDefault(CarStatus.MAINTENANCE, 0L))
+                        + result.getOrDefault(CarStatus.MAINTENANCE, 0L))
                 .build();
     }
 
@@ -73,7 +73,7 @@ public class CarService {
 
 
     public CarDetailDto createCar( // 차량 등록
-            CarRequestDto carRequest
+                                   CarRequestDto carRequest
     ) {
         boolean isCarNumberExists = carReader.findByCarNumber(carRequest.getCarNumber()).isPresent();
 
@@ -87,8 +87,8 @@ public class CarService {
                 .model(carRequest.getModel())
                 .carYear(carRequest.getCarYear())
                 .status(carRequest.getStatus() != null && !carRequest.getStatus().isBlank()
-                ? CarStatus.fromDisplayName(carRequest.getStatus())
-                : CarStatus.IDLE) // default값 : 대기 중
+                        ? CarStatus.fromDisplayName(carRequest.getStatus())
+                        : CarStatus.IDLE) // default값 : 대기 중
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())
@@ -99,12 +99,12 @@ public class CarService {
 
 
     public CarDetailDto updateCar( // 차량 정보 업데이트
-            CarRequestDto carRequest,
-            String carNumber
+                                   CarRequestDto carRequest,
+                                   String carNumber
     ) {
         // 수정하려는 차량이 존재하지 않는 경우
         CarEntity entity = carReader.findByCarNumber(carNumber)
-                    .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
+                .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
 
         // 차량 번호가 이미 존재할 경우
         if(carReader.findByCarNumber(carRequest.getCarNumber()).isPresent()){
@@ -118,7 +118,7 @@ public class CarService {
 
 
     public CarDeleteDto deleteCar( // 차량 삭제
-            String carNumber
+                                   String carNumber
     ){
         CarEntity entity = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER,carNumber));
@@ -137,4 +137,15 @@ public class CarService {
 
         carWriter.save(car);
     }
+
+    public List<CarSearchDto> getCarsByStatuses(List<String> statuses) {
+        List<CarStatus> carStatuses = statuses.stream()
+                .map(CarStatus::fromDisplayName)
+                .toList();
+
+        List<CarEntity> cars = carReader.findByStatus(carStatuses);
+        return cars.stream().map(CarSearchDto::EntityToDto).toList();
+
+    }
+
 }
