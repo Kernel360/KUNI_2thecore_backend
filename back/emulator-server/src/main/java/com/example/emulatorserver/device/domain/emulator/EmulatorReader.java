@@ -6,5 +6,7 @@ import java.util.Optional;
 public interface EmulatorReader {
     Optional<EmulatorEntity> findById(int id);
     List<EmulatorEntity> findAll();
-    EmulatorEntity getById(Long id);
+    EmulatorEntity getById(int id);
+    Optional<EmulatorEntity> findByCarNumber(String carNumber);
+
 }

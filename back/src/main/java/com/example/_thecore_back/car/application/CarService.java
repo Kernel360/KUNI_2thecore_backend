@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,16 +56,6 @@ public class CarService {
                         + result.getOrDefault(CarStatus.MAINTENANCE, 0L))
                 .build();
     }
-
-//    public List<CarSearchDto> getCarsByFilter(String carNumber, String model,
-//                                              String brand,    CarStatus status) {
-//
-//        var result = carMapper.search(carNumber, model, brand, status);
-//
-//        return result.stream()
-//                .map(CarSearchDto::EntityToDto)
-//                .toList();
-//    }
 
     public Page<CarSearchDto> getCarsByFilter(CarFilterRequestDto carFilterRequestDto, int page, int size) {
 
@@ -158,4 +149,5 @@ public class CarService {
         return cars.stream().map(CarSearchDto::EntityToDto).toList();
 
     }
+
 }

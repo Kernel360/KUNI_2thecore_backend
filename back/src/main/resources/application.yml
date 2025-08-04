@@ -1,14 +1,7 @@
+jwt:
+  secret: my_secret_key_for_hmac_sha256_algorithm_256bit
+
 spring:
-  data:
-    redis:
-      host: localhost
-      port: 6379
-
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
-    date-format: yyyy-MM-dd
-
   datasource:
     url: jdbc:mysql://kernel-2thecore.cxiswkkki80w.ap-northeast-2.rds.amazonaws.com:3306/KERNEL_2THECORE_DATABASE
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -27,11 +20,14 @@ spring:
       physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: 2thecore
+    password: 2thecore
+
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
   type-aliases-package: com.example._thecore_back.car
   configuration:
     map-underscore-to-camel-case: true
-
-jwt:
-  secret: my_secret_key_for_hmac_sha256_algorithm_256bit

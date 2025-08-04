@@ -29,7 +29,6 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/webjars/**"
-
     };
 
     @Bean
@@ -58,5 +57,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 }
