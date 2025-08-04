@@ -36,10 +36,10 @@
         SELECT *
         FROM car
         <where>
-            <if test="filter.carNumber != null and filter.twoParam == true">
+            <if test="filter.carNumber != null">
                 AND car_number = #{filter.carNumber}
             </if>
-            <if test="filter.status != null and filter.twoParam == true">
+            <if test="filter.status != null">
                 AND status = #{filter.status}
             </if>
             <if test="filter.brand != null and filter.twoParam == true">
@@ -62,10 +62,10 @@
         SELECT COUNT(*)
         FROM car
         <where>
-            <if test="filter.carNumber != null and filter.twoParam == true">
+            <if test="filter.carNumber != null ">
                 AND car_number = #{filter.carNumber}
             </if>
-            <if test="filter.status != null and filter.twoParam == true">
+            <if test="filter.status != null ">
                 AND status = #{filter.status}
             </if>
             <if test="filter.brand != null and filter.twoParam == true">

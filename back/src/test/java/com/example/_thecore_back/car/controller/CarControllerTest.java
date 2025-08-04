@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(controllers = CarController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+//@WebMvcTest(controllers = CarController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+//@AutoConfigureMockMvc(addFilters = false)
+@SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 public class CarControllerTest {
     @Autowired

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 public class GpsLogEntity {
 
     @Id
+    @Column(name = "gps_log_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

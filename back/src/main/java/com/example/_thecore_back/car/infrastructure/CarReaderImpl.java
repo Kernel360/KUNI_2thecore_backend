@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Repository
+@Repository("mainCarReaderImpl")
 public class CarReaderImpl implements CarReader {
 
     private final CarRepository carRepository;

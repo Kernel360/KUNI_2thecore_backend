@@ -4,17 +4,16 @@ import com.example._thecore_back.car.application.CarService;
 import com.example._thecore_back.collector.domain.GpsLogEvent;
 import com.example._thecore_back.collector.exception.CollectorEmulatorNotFoundException;
 import com.example._thecore_back.collector.exception.GpsLogNotFoundException;
-import com.example._thecore_back.collector.infrastructure.rabbitmq.GpsLogProducer;
-import com.example._thecore_back.emulator.domain.EmulatorEntity;
-import com.example._thecore_back.emulator.exception.EmulatorNotFoundException;
-import com.example._thecore_back.emulator.infrastructure.EmulatorReaderImpl;
 import com.example._thecore_back.collector.domain.GpsLogConverter;
 import com.example._thecore_back.collector.domain.GpsLogEntity;
 import com.example._thecore_back.collector.domain.dto.GpsLogDto;
 import com.example._thecore_back.collector.domain.dto.GpsLogResponseDto;
 import com.example._thecore_back.collector.infrastructure.GpsLogWriterImpl;
+import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
+import com.example.emulatorserver.device.infrastructure.emulator.EmulatorReaderImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,7 @@ import java.util.List;
 public class CollectorService {
 
     private final EmulatorReaderImpl emulatorReader;
+
     private final GpsLogWriterImpl gpsLogWriterImpl;
     private final GpsLogConverter gpsLogConverter;
     private final CarService carService;

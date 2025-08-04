@@ -1,6 +1,5 @@
 package com.example._thecore_back.car.infrastructure;
 
-import com.example._thecore_back.car.controller.dto.CarSearchDto;
 import com.example._thecore_back.car.domain.CarEntity;
 import com.example._thecore_back.car.domain.CarStatus;
 import org.junit.jupiter.api.BeforeEach;
