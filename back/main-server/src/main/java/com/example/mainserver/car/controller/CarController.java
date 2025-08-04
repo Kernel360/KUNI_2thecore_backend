@@ -12,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class CarController {
 
     private final CarService carService;
 
-//    @GetMapping("")
+    //    @GetMapping("")
 //    public
     @GetMapping("/{car_number}")
     public ApiResponse<CarDetailDto> getCar(@PathVariable String car_number) {
@@ -68,7 +70,7 @@ public class CarController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int offset
     ) {
-            log.info("Request DTO: {}", carFilterRequestDto);
+        log.info("Request DTO: {}", carFilterRequestDto);
 
         var response = carService.getCarsByFilter(carFilterRequestDto, page, offset);
         return ApiResponse.success(response);
@@ -81,7 +83,7 @@ public class CarController {
             @Validated(CreateGroup.class)
             CarRequestDto carRequest
     ){
-       var response = carService.createCar(carRequest);
+        var response = carService.createCar(carRequest);
 
         return ApiResponse.success("차량 등록이 성공적으로 완료되었습니다.", response);
     }
@@ -110,4 +112,14 @@ public class CarController {
 
         return ApiResponse.success("차량 삭제가 성공적으로 완료되었습니다.",response);
     }
+
+    // 점검중 또는 대기중 상태 차량 조회 API
+    @GetMapping("/status")
+    public ApiResponse<List<CarSearchDto>> getCarsByStatuses(
+            @RequestParam List<String> status
+    ) {
+        List<CarSearchDto> response = carService.getCarsByStatuses(status);
+        return ApiResponse.success(status.get(0) + "중인 차량 조회가 완료되었습니다.",response);
+    }
+
 }
