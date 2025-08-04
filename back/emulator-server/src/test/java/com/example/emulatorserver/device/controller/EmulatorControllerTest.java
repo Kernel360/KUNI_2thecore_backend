@@ -2,8 +2,8 @@ package com.example.emulatorserver.device.controller;
 
 import com.example.emulatorserver.device.application.EmulatorService;
 import com.example.emulatorserver.device.controller.dto.*;
-import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
-import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;
+import com.example.emulatorserver.device.domain.EmulatorEntity;
+import com.example.common.domain.emulator.EmulatorStatus;
 import com.example.emulatorserver.device.exception.car.CarErrorCode;
 import com.example.emulatorserver.device.exception.car.CarNotFoundException;
 import com.example.emulatorserver.device.exception.emulator.DuplicateEmulatorException;

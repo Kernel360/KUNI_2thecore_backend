@@ -1,5 +1,5 @@
 package com.example.emulatorserver.device.exception.car;
-import com.example.emulatorserver.common.dto.ApiResponse;
+import com.example.common.dto.ApiResponse;
 import com.example.emulatorserver.device.controller.LogController;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

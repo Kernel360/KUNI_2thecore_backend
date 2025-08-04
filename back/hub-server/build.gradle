@@ -24,6 +24,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':common') // 공통 모듈 연결
 
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.2")
@@ -52,8 +53,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    implementation project(':')
 }
 
 test {

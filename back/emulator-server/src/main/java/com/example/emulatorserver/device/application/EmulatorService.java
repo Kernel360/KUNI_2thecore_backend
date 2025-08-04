@@ -2,21 +2,21 @@ package com.example.emulatorserver.device.application;
 
 import java.util.Objects;
 
+import com.example.common.domain.car.CarEntity;
+import com.example.common.domain.emulator.EmulatorEntity;
+import com.example.common.infrastructure.CarRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.emulatorserver.device.controller.dto.EmulatorRequest;
-import com.example.emulatorserver.device.domain.car.CarEntity;
-import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
-import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;
+import com.example.common.domain.emulator.EmulatorStatus;
 import com.example.emulatorserver.device.exception.car.CarErrorCode;
 import com.example.emulatorserver.device.exception.car.CarNotFoundException;
 import com.example.emulatorserver.device.exception.emulator.EmulatorErrorCode;
 import com.example.emulatorserver.device.exception.emulator.EmulatorNotFoundException;
 import com.example.emulatorserver.device.exception.emulator.DuplicateEmulatorException;
-import com.example.emulatorserver.device.infrastructure.car.CarRepository;
 import com.example.emulatorserver.device.infrastructure.emulator.EmulatorRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -24,6 +24,9 @@ repositories {
 }
 
 dependencies {
+
+    implementation project(':common') // 공통 모듈 연결
+
     // DB
     runtimeOnly 'com.mysql:mysql-connector-j'
 

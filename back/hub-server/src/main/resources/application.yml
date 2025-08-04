@@ -15,3 +15,6 @@ spring:
 logging:
   level:
     org.springframework.web: DEBUG
+
+jwt:
+  secret: my_secret_key_for_hmac_sha256_algorithm_256bit

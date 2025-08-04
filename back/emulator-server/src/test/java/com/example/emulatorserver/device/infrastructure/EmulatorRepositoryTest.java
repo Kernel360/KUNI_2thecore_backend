@@ -1,7 +1,7 @@
 package com.example.emulatorserver.device.infrastructure;
 
-import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
-import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;
+import com.example.emulatorserver.device.domain.EmulatorEntity;
+import com.example.common.domain.emulator.EmulatorStatus;
 import com.example.emulatorserver.device.infrastructure.emulator.EmulatorRepository;
 
 import org.junit.jupiter.api.DisplayName;

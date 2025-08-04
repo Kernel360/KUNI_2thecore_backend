@@ -1,0 +1,22 @@
+package com.example.common.infrastructure;
+
+import com.example.common.domain.car.CarEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface CarRepository extends JpaRepository<CarEntity, Integer> {
+
+    Optional<CarEntity> findByCarNumber(String carNumber);
+
+    Optional<CarEntity> findByEmulatorId(Integer emulatorId);
+
+    @Query("select c.status, count(c) from Car c group by c.status")
+    List<Object[]> getCountByStatus();
+
+
+}

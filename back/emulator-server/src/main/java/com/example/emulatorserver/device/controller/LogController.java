@@ -1,6 +1,6 @@
 package com.example.emulatorserver.device.controller;
 
-import com.example.emulatorserver.common.dto.ApiResponse;
+import com.example.common.dto.ApiResponse;
 import com.example.emulatorserver.device.application.LogService;
 import com.example.emulatorserver.device.controller.dto.LogPowerDto;
 import jakarta.validation.Valid;
