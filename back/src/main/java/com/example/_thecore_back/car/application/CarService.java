@@ -139,6 +139,16 @@ public class CarService {
         return CarDeleteDto.EntityToDto(entity);
     }
 
+    public void updateLastLocation(String carNumber, String latitude, String longitude) {
+        var car = carReader.findByCarNumber(carNumber)
+                .orElseThrow(() -> new RuntimeException("차량 없음"));
+
+        car.setLastLatitude(latitude);
+        car.setLastLongitude(longitude);
+
+        carWriter.save(car);
+    }
+
     public List<CarSearchDto> getCarsByStatuses(List<String> statuses) {
         List<CarStatus> carStatuses = statuses.stream()
                 .map(CarStatus::fromDisplayName)
