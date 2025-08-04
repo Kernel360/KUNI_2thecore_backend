@@ -141,13 +141,11 @@ public class CarService {
 
     public List<CarSearchDto> getCarsByStatuses(List<String> statuses) {
         List<CarStatus> carStatuses = statuses.stream()
-                .map(CarStatus::fromDisplayName)  // 한글 → Enum
+                .map(CarStatus::fromDisplayName)
                 .toList();
 
-        List<CarEntity> cars = carReader.findByStatus(carStatuses); // 🔧 여기 수정
+        List<CarEntity> cars = carReader.findByStatus(carStatuses);
         return cars.stream().map(CarSearchDto::EntityToDto).toList();
 
     }
-
-
 }
