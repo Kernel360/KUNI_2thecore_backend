@@ -120,7 +120,7 @@ public class CarController {
             @RequestParam List<String> status
     ) {
         List<CarSearchDto> response = carService.getCarsByStatuses(status);
-        return ApiResponse.success(response);
+        return ApiResponse.success(status.get(0) + "중인 차량 조회가 완료되었습니다.",response);
     }
 
 }
