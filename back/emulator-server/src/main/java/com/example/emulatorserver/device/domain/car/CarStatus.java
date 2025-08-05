@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum CarStatus {
-    IN_USE("운행"),        // 운행 중
+    DRIVING("운행"),        // 운행 중
     IDLE("대기"),          // 대기 중
     MAINTENANCE("수리");   // 수리 중
 
