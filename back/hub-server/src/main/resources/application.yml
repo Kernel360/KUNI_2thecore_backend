@@ -16,5 +16,10 @@ logging:
   level:
     org.springframework.web: DEBUG
 
+car:
+  reader:
+    db:
+      enabled: false
+
 jwt:
   secret: my_secret_key_for_hmac_sha256_algorithm_256bit

@@ -3,6 +3,7 @@ package com.example.common.infrastructure;
 import com.example.common.domain.car.CarEntity;
 import com.example.common.domain.car.CarReader;
 import com.example.common.domain.car.CarStatus;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
+@ConditionalOnProperty(name = "car.reader.db.enabled", havingValue = "true", matchIfMissing = true)
 public class CarReaderImpl implements CarReader {
 
     private final CarRepository carRepository;
