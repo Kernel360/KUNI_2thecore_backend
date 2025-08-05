@@ -8,13 +8,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication(scanBasePackages = {
-        "com.example.common" // ← 공통 모듈 패키지 스캔 추가
+        "com.example.emulatorserver",
+        "com.example.common"
 })
 @EnableJpaRepositories(basePackages = {
-        "com.example.common.infrastructure"           // CarRepository 위치
+        "com.example.emulatorserver.device.infrastructure",
+        "com.example.common.infrastructure"
 })
 @EntityScan(basePackages = {
-        "com.example.common.domain"                   // CarEntity 위치
+        "com.example.emulatorserver.device.domain",
+        "com.example.common.domain"
 })
 public class EmulatorServerApplication {
     public static void main(String[] args) {

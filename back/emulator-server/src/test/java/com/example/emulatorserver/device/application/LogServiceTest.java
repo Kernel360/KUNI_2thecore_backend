@@ -1,9 +1,9 @@
 package com.example.emulatorserver.device.application;
 
+import com.example.common.domain.car.CarEntity;
+import com.example.common.domain.car.CarReader;
+import com.example.common.domain.emulator.EmulatorEntity;
 import com.example.emulatorserver.device.controller.dto.LogPowerDto;
-import com.example.emulatorserver.device.domain.car.CarEntity;
-import com.example.emulatorserver.device.domain.car.CarReader;
-import com.example.emulatorserver.device.domain.EmulatorEntity;
 import com.example.common.domain.emulator.EmulatorReader;
 import com.example.common.domain.emulator.EmulatorStatus;
 import com.example.emulatorserver.device.exception.car.CarNotFoundException;

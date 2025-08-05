@@ -1,15 +1,15 @@
 package com.example.emulatorserver.device.application;
 
+import com.example.common.domain.car.CarEntity;
+import com.example.common.domain.emulator.EmulatorEntity;
+import com.example.common.infrastructure.CarRepository;
 import com.example.emulatorserver.device.controller.dto.EmulatorRequest;
-import com.example.emulatorserver.device.domain.car.CarEntity;
-import com.example.emulatorserver.device.domain.EmulatorEntity;
 import com.example.common.domain.emulator.EmulatorStatus;
 import com.example.emulatorserver.device.exception.car.CarErrorCode;
 import com.example.emulatorserver.device.exception.car.CarNotFoundException;
 import com.example.emulatorserver.device.exception.emulator.DuplicateEmulatorException;
 import com.example.emulatorserver.device.exception.emulator.EmulatorErrorCode;
 import com.example.emulatorserver.device.exception.emulator.EmulatorNotFoundException;
-import com.example.emulatorserver.device.infrastructure.car.CarRepository;
 import com.example.emulatorserver.device.infrastructure.emulator.EmulatorRepository;
 
 import org.junit.jupiter.api.BeforeEach;
