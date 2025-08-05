@@ -1,14 +1,15 @@
-package com.example.emulatorserver.device.infrastructure;
+package com.example.common.infrastructure.emulator;
 
 import com.example.common.domain.emulator.EmulatorEntity;
 import com.example.common.domain.emulator.EmulatorReader;
-import com.example.emulatorserver.device.infrastructure.emulator.EmulatorRepository;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@ConditionalOnProperty(name = "emulator.reader.db.enabled", havingValue = "true", matchIfMissing = true)
 public class EmulatorReaderImpl implements EmulatorReader {
     private final EmulatorRepository emulatorRepository;
 

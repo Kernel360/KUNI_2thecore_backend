@@ -2,15 +2,13 @@ package com.example.emulatorserver.device.infrastructure;
 
 import com.example.common.domain.emulator.EmulatorEntity;
 import com.example.common.domain.emulator.EmulatorStatus;
-import com.example.emulatorserver.device.infrastructure.emulator.EmulatorRepository;
+import com.example.common.infrastructure.emulator.EmulatorRepository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
 import java.util.Optional;

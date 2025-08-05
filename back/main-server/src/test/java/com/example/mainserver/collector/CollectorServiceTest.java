@@ -1,7 +1,7 @@
 package com.example.mainserver.collector;
 
 
-import com.example.emulatorserver.device.infrastructure.EmulatorReaderImpl;
+import com.example.common.infrastructure.emulator.EmulatorReaderImpl;
 import com.example.mainserver.car.application.CarService;
 import com.example.mainserver.collector.application.CollectorService;
 import com.example.mainserver.collector.domain.GpsLogConverter;
