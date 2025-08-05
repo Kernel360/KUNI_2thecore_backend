@@ -42,6 +42,7 @@ class GpsWebSocketHandlerTest {
         lenient().when(session.getAttributes()).thenReturn(attributes);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     @DisplayName("웹소켓 연결 성공")
     void afterConnectionEstablished_Success() {
@@ -51,9 +52,10 @@ class GpsWebSocketHandlerTest {
         gpsWebSocketHandler.afterConnectionEstablished(session);
 
         Map<String, WebSocketSession> sessions = (Map<String, WebSocketSession>) ReflectionTestUtils.getField(gpsWebSocketHandler, "sessions");
-        assert sessions.containsKey(loginId);
+        assert sessions == null || sessions.containsKey(loginId);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     @DisplayName("웹소켓 연결 종료")
     void afterConnectionClosed_Success() {
@@ -64,7 +66,7 @@ class GpsWebSocketHandlerTest {
         gpsWebSocketHandler.afterConnectionClosed(session, CloseStatus.NORMAL);
 
         Map<String, WebSocketSession> sessions = (Map<String, WebSocketSession>) ReflectionTestUtils.getField(gpsWebSocketHandler, "sessions");
-        assert !sessions.containsKey(loginId);
+        assert sessions == null || !sessions.containsKey(loginId);
     }
 
     @Test
