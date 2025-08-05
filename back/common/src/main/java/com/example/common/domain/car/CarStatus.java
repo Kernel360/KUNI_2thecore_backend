@@ -1,18 +1,17 @@
 package com.example.common.domain.car;
 
+import lombok.Getter;
+
+@Getter
 public enum CarStatus {
-    DRIVING("Driving"),        // 운행 중
-    IDLE("Idle"),          // 대기 중
-    MAINTENANCE("Maintenance");   // 수리 중
+    DRIVING("운행"),        // 운행 중
+    IDLE("대기"),          // 대기 중
+    MAINTENANCE("수리");   // 수리 중
 
     private final String displayName;
 
     CarStatus(String displayName) {
         this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
     }
 
     // 한글 문자열로부터 enum 얻는 메서드
