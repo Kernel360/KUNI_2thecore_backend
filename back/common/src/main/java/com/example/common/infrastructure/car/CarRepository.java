@@ -1,4 +1,4 @@
-package com.example.common.infrastructure;
+package com.example.common.infrastructure.car;
 
 import com.example.common.domain.car.CarEntity;
 import com.example.common.domain.car.CarStatus;

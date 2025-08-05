@@ -1,7 +1,7 @@
 package com.example.mainserver.car.infrastructure;
 
 import com.example.common.domain.car.CarEntity;
-import com.example.common.infrastructure.CarRepository;
+import com.example.common.infrastructure.car.CarRepository;
 
 import com.example.mainserver.car.domain.CarWriter;
 import org.springframework.stereotype.Repository;
