@@ -1,8 +1,7 @@
-package com.example._thecore_back.car.infrastructure;
+package com.example.mainserver.car.infrastructure;
 
-import com.example.mainserver.car.domain.CarEntity;
+import com.example.common.domain.car.CarEntity;
 import com.example.common.domain.car.CarStatus;
-import com.example.mainserver.car.infrastructure.CarReaderImpl;
 import com.example.common.infrastructure.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.example.common.domain.car.CarStatus.DRIVING;
+import static com.example.common.domain.car.CarStatus.IDLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -74,7 +75,7 @@ public class CarRederImplTest {
     @DisplayName("차량별 스테이터스 현황")
     public void getNumberByStatus(){
 
-        List<Object[]> mockResult = List.of(new Object[]{IN_USE, 1L}, new Object[]{IDLE, 1L}, new Object[]{MAINTENANCE, 1L});
+        List<Object[]> mockResult = List.of(new Object[]{DRIVING, 1L}, new Object[]{IDLE, 1L}, new Object[]{CarStatus.MAINTENANCE, 1L});
 
         when(carRepository.getCountByStatus()).thenReturn(mockResult);
 
@@ -83,7 +84,7 @@ public class CarRederImplTest {
         assertEquals(3, result.size());
 
 //        assertEquals("IN_USE", result[]);
-        assertEquals(1L, result.get(IN_USE));
+        assertEquals(1L, result.get(DRIVING));
 
 //        assertEquals("IDLE", result.get(1)[0]);
         assertEquals(1L, result.get(IDLE));

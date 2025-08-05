@@ -1,4 +1,4 @@
-package com.example._thecore_back.admin;
+package com.example.mainserver.admin;
 
 import com.example.mainserver.admin.controller.dto.AdminRequest;
 import com.example.mainserver.admin.infrastructure.AdminRepository;

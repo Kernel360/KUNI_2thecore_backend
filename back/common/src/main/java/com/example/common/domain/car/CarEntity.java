@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 @ToString
 @Entity(name = "Car")
+@Table(name = "car")
 
 public class CarEntity {
     @Id
@@ -32,16 +33,22 @@ public class CarEntity {
     private CarStatus status; // 차량 상태
 
 
+    @Column(name = "car_type")
     private String carType; // 차종
 
+    @Column(name = "car_number")
     private String carNumber; // 차량 번호
 
+    @Column(name = "sum_dist")
     private double sumDist; // 총 거리
 
+    @Column(name = "last_latitude")
     private String lastLatitude;
 
+    @Column(name = "last_longitude")
     private String lastLongitude;
 
+    @Column(name = "emulator_id")
     private Integer emulatorId; // 연결된 애뮬레이터 아이디
 
     public void updateInfo(CarRequestDto carRequest) {

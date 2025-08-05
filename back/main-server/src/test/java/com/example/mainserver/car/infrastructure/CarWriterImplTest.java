@@ -1,9 +1,7 @@
-package com.example._thecore_back.car.infrastructure;
+package com.example.mainserver.car.infrastructure;
 
-
-import com.example.mainserver.car.domain.CarEntity;
+import com.example.common.domain.car.CarEntity;
 import com.example.common.infrastructure.CarRepository;
-import com.example.mainserver.car.infrastructure.CarWriterImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

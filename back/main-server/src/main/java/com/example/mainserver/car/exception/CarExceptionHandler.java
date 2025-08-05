@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RestControllerAdvice(basePackages = "com.example._thecore_back.car")
+@RestControllerAdvice(basePackages = "com.example.mainserver.car")
 @Component("mainCarExceptionHandler")
 @Order(1)
 

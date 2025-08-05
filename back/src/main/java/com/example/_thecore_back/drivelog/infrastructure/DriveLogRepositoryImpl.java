@@ -1,7 +1,7 @@
-package com.example._thecore_back.drivelog.infrastructure;
+package com.example.mainserver.drivelog.infrastructure;
 
-import com.example._thecore_back.drivelog.domain.DriveLog;
-import com.example._thecore_back.drivelog.domain.DriveLogRepositoryCustom;
+import com.example.mainserver.drivelog.domain.DriveLog;
+import com.example.mainserver.drivelog.domain.DriveLogRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;

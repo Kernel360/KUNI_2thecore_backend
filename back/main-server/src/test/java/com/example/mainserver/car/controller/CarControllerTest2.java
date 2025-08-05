@@ -1,4 +1,4 @@
-package com.example._thecore_back.car.controller;
+package com.example.mainserver.car.controller;
 
 import com.example.common.dto.CarRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;

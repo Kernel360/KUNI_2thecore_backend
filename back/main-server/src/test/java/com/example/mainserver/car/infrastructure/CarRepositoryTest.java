@@ -1,11 +1,13 @@
-package com.example._thecore_back.car.infrastructure;
+package com.example.mainserver.car.infrastructure;
 
 import com.example.common.domain.car.CarEntity;
 import com.example.common.domain.car.CarStatus;
 import com.example.common.infrastructure.CarRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
+@EnableJpaRepositories(basePackages = "com.example.common.infrastructure")
+@EntityScan(basePackages = "com.example.common.domain.car")
 public class CarRepositoryTest {
 
     @Autowired
@@ -101,14 +105,14 @@ public class CarRepositoryTest {
             CarEntity.builder()
                     .model("그렌져")
                     .brand("기아").carYear(2024)
-                    .status(CarStatus.IN_USE).carType("소형")
+                    .status(CarStatus.DRIVING).carType("소형")
                     .carNumber("12가3423").emulatorId(2)
                     .build(),
 
                     CarEntity.builder()
                             .model("마티스")
                             .brand("기아").carYear(2024)
-                            .status(CarStatus.IN_USE).carType("소형")
+                            .status(CarStatus.DRIVING).carType("소형")
                             .carNumber("12가3453").emulatorId(3)
                             .build());
 
@@ -121,7 +125,7 @@ public class CarRepositoryTest {
         assertEquals(CarStatus.IDLE, carStatusList.get(0)[0]);
         assertEquals(1L, carStatusList.get(0)[1]);
 
-        assertEquals(CarStatus.IN_USE, carStatusList.get(1)[0]);
+        assertEquals(CarStatus.DRIVING, carStatusList.get(1)[0]);
         assertEquals(2L, carStatusList.get(1)[1]);
 
 

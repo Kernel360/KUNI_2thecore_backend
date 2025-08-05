@@ -1,4 +1,4 @@
-package com.example._thecore_back.drivelog.domain;
+package com.example.mainserver.drivelog.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

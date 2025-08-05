@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
+//@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CarSearchDto {
 
     private String carNumber;

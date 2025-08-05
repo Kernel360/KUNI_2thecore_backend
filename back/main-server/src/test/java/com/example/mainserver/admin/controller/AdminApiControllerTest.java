@@ -1,7 +1,6 @@
-package com.example._thecore_back.admin.controller;
+package com.example.mainserver.admin.controller;
 
 import com.example.mainserver.admin.application.AdminService;
-import com.example.mainserver.admin.controller.AdminApiController;
 import com.example.mainserver.admin.controller.dto.AdminRequest;
 import com.example.mainserver.admin.controller.dto.AdminResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;

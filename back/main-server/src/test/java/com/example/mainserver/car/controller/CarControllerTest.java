@@ -1,6 +1,8 @@
-package com.example._thecore_back.car.controller;
+package com.example.mainserver.car.controller;
 
 import com.example.common.dto.CarRequestDto;
+import com.example.mainserver.MainApplication;
+import com.example.mainserver.admin.application.AdminService;
 import com.example.mainserver.car.application.CarService;
 import com.example.mainserver.car.controller.dto.*;
 import com.example.common.domain.car.CarStatus;
@@ -11,7 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,10 +36,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-//@WebMvcTest(controllers = CarController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
-//@AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest
+@WebMvcTest(controllers = CarController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
+//@SpringBootTest(classes = MainApplication.class)
+//@AutoConfigureMockMvc(addFilters = false)
 public class CarControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -87,11 +91,11 @@ public class CarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.brand").value("현대"))
                 .andExpect(jsonPath("$.data.model").value("아반떼"))
-                .andExpect(jsonPath("$.data.car_year").value(2025))
+                .andExpect(jsonPath("$.data.carYear").value(2025))
                 .andExpect(jsonPath("$.data.status").value("대기"))
-                .andExpect(jsonPath("$.data.car_type").value("중형"))
-                .andExpect(jsonPath("$.data.car_number").value("12가3456"))
-                .andExpect(jsonPath("$.data.sum_dist").value(1234.56));
+                .andExpect(jsonPath("$.data.carType").value("중형"))
+                .andExpect(jsonPath("$.data.carNumber").value("12가3456"))
+                .andExpect(jsonPath("$.data.sumDist").value(1234.56));
     }
 
     @Test
@@ -122,9 +126,9 @@ public class CarControllerTest {
 
         actions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.car_year").value(2015))
+                .andExpect(jsonPath("$.data.carYear").value(2015))
                 .andExpect(jsonPath("$.data.status").value("운행"))
-                .andExpect(jsonPath("$.data.car_number").value("6543나21"));
+                .andExpect(jsonPath("$.data.carNumber").value("6543나21"));
     }
 
     @Test
@@ -145,7 +149,7 @@ public class CarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.brand").value("현대"))
                 .andExpect(jsonPath("$.data.model").value("아반떼"))
-                .andExpect(jsonPath("$.data.car_number").value("6543나21"));
+                .andExpect(jsonPath("$.data.carNumber").value("6543나21"));
     }
 
     // 예외처리 Test Code
@@ -266,7 +270,7 @@ public class CarControllerTest {
 
         mockMvc.perform(get("/api/cars/12가1234"))
                 .andDo(print())
-                .andExpect(jsonPath("$.data.car_number").value("12가1234"))
+                .andExpect(jsonPath("$.data.carNumber").value("12가1234"))
                 .andExpect(jsonPath("$.data.model").value("아이오닉"));
 
 
@@ -279,35 +283,7 @@ public class CarControllerTest {
                 .andExpect(jsonPath("$.message").value("해당 차량 ( 1234 )은 존재하지 않습니다. 다시 입력해주세요"));
     }
 
-    @Test
-    @DisplayName("전체 차량 조회")
-    public void getAllCars() throws Exception {
 
-//        List<CarSearchDto> carList = List.of(new CarSearchDto("12가1234", "현대", "아이오닉", "IN_IDLE")
-//                ,new CarSearchDto("12가3423", "기아", "아이오닉", "IN_IDLE"));
-//
-//        when(carService.getAllCars()).thenReturn(carList);
-//
-//        mockMvc.perform(get("/api/cars"))
-//                .andDo(print())
-//                .andExpect(jsonPath("$.result").value(true))
-//                .andExpect(jsonPath("$.data.length()").value(2))
-//                .andExpect(jsonPath("$.data[0].car_number").value("12가1234"))
-//                .andExpect(jsonPath("$.data[1].car_number").value("12가3423"));
-
-    }
-
-    @Test
-    @DisplayName("전체 차량 조회 - 등록된 차량이 존재하지 않은 경우")
-    public void getAllCarsFailed() throws Exception {
-        // 차량이 존재하지 않을때
-//        when(carService.getAllCars()).thenThrow(new CarNotFoundException(CarErrorCode.NO_REGISTERED_CAR));
-//
-//        mockMvc.perform(get("/api/cars"))
-//                .andDo(print())
-//                .andExpect(status().isNotFound())
-//                .andExpect(jsonPath("$.message").value("등록된 차량이 존재하지 않습니다."));
-    }
 
     @Test
     @DisplayName("차량 상태에 따른 대시보드 테스트 출력")
@@ -358,7 +334,7 @@ public class CarControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.content.length()").value(3))
-                .andExpect(jsonPath("$.data.content[0].car_number").value("12가1234"))
+                .andExpect(jsonPath("$.data.content[0].carNumber").value("12가1234"))
                 .andExpect(jsonPath("$.data.totalElements").value(3))
                 .andExpect(jsonPath("$.data.totalPages").value(1))
                 .andExpect(jsonPath("$.data.size").value(4))
@@ -386,7 +362,7 @@ public class CarControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.content.length()").value(1))
-                .andExpect(jsonPath("$.data.content[0].car_number").value("12가3423"))
+                .andExpect(jsonPath("$.data.content[0].carNumber").value("12가3423"))
                 .andExpect(jsonPath("$.data.totalElements").value(1))
                 .andExpect(jsonPath("$.data.totalPages").value(1))
                 .andExpect(jsonPath("$.data.size").value(4))

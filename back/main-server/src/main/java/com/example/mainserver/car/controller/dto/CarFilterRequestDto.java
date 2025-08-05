@@ -13,7 +13,6 @@ import lombok.*;
 @Builder
 public class CarFilterRequestDto {
 
-
     private String carNumber;
 
     private String model;

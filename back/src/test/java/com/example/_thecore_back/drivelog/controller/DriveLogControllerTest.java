@@ -1,10 +1,10 @@
-package com.example._thecore_back.drivelog.controller;
+package com.example.mainserver.drivelog.controller;
 
-import com.example._thecore_back.auth.domain.JwtTokenProvider;
-import com.example._thecore_back.drivelog.application.DriveLogService;
-import com.example._thecore_back.drivelog.domain.DriveLog;
-import com.example._thecore_back.drivelog.dto.DriveLogRequest;
-import com.example._thecore_back.drivelog.dto.DriveLogResponse;
+import com.example.mainserver.auth.domain.JwtTokenProvider;
+import com.example.mainserver.drivelog.application.DriveLogService;
+import com.example.mainserver.drivelog.domain.DriveLog;
+import com.example.mainserver.drivelog.dto.DriveLogRequest;
+import com.example.mainserver.drivelog.dto.DriveLogResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

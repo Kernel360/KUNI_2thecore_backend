@@ -1,4 +1,4 @@
-package com.example._thecore_back;
+package com.example.mainserver;
 
 import com.example.mainserver.auth.application.TokenService;
 import org.junit.jupiter.api.BeforeEach;

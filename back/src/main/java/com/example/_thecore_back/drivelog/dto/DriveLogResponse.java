@@ -1,4 +1,4 @@
-package com.example._thecore_back.drivelog.dto;
+package com.example.mainserver.drivelog.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

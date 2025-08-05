@@ -1,6 +1,7 @@
-package com.example._thecore_back.collector;
+package com.example.mainserver.collector;
 
 
+import com.example.emulatorserver.device.infrastructure.EmulatorReaderImpl;
 import com.example.mainserver.car.application.CarService;
 import com.example.mainserver.collector.application.CollectorService;
 import com.example.mainserver.collector.domain.GpsLogConverter;
@@ -10,8 +11,7 @@ import com.example.mainserver.collector.domain.dto.GpsLogDto;
 import com.example.mainserver.collector.exception.CollectorEmulatorNotFoundException;
 import com.example.mainserver.collector.exception.GpsLogNotFoundException;
 import com.example.mainserver.collector.infrastructure.GpsLogWriterImpl;
-import com.example.emulatorserver.device.domain.EmulatorEntity;
-import com.example.emulatorserver.device.infrastructure.emulator.EmulatorReaderImpl;
+import com.example.common.domain.emulator.EmulatorEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

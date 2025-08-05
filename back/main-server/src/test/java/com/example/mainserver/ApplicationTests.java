@@ -1,4 +1,4 @@
-package com.example._thecore_back;
+package com.example.mainserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

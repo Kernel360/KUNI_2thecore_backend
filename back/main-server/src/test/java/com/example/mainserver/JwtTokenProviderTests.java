@@ -1,4 +1,4 @@
-package com.example._thecore_back;
+package com.example.mainserver;
 
 import com.example.common.domain.auth.JwtTokenProvider;
 import io.jsonwebtoken.Claims;

@@ -1,4 +1,4 @@
-package com.example._thecore_back.collector;
+package com.example.mainserver.collector;
 
 import com.example.mainserver.collector.domain.GpsLogEntity;
 import com.example.mainserver.collector.infrastructure.GpsLogRepository;
@@ -18,10 +18,10 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @DataJpaTest
 @ActiveProfiles("test")
 @EntityScan(basePackages = {
-        "com.example._thecore_back.collector.domain",
-        "com.example._thecore_back.car.domain",
-        "com.example._thecore_back.admin.domain",
-        "com.example._thecore_back.emulatorserver"
+        "com.example.mainserver.collector.domain",
+        "com.example.mainserver.car.domain",
+        "com.example.mainserver.admin.domain",
+        "com.example.mainserver.emulatorserver"
 })
 public class GpsLogWriterImplTest { 
 

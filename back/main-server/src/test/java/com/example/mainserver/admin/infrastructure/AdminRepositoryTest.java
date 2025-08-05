@@ -1,7 +1,6 @@
-package com.example._thecore_back.admin.infrastructure;
+package com.example.mainserver.admin.infrastructure;
 
 import com.example.mainserver.admin.domain.AdminEntity;
-import com.example.mainserver.admin.infrastructure.AdminRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,9 @@
-package com.example._thecore_back.collector;
+package com.example.mainserver.collector;
 
 
 import com.example.mainserver.auth.infrastructure.JwtAuthenticationFilter;
 import com.example.mainserver.collector.application.CollectorService;
+import com.example.mainserver.collector.controller.CollectorController;
 import com.example.mainserver.collector.domain.dto.GpsLogDto;
 import com.example.mainserver.collector.domain.dto.GpsLogResponseDto;
 import com.example.mainserver.collector.exception.CollectorEmulatorNotFoundException;
@@ -11,7 +12,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -26,10 +29,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@WebMvcTest(controllers = CollectorController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
-//@AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest
+@WebMvcTest(controllers = CollectorController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
+//@SpringBootTest
+//@AutoConfigureMockMvc(addFilters = false)
 public class CollectorControllerTest {
 
     @Autowired
@@ -61,9 +64,9 @@ public class CollectorControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(gpsLogDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.device_id").value("abc"))
-                .andExpect(jsonPath("$.data.start_time").exists())
-                .andExpect(jsonPath("$.data.end_time").exists());
+                .andExpect(jsonPath("$.data.deviceId").value("abc"))
+                .andExpect(jsonPath("$.data.startTime").exists())
+                .andExpect(jsonPath("$.data.endTime").exists());
 
 
 

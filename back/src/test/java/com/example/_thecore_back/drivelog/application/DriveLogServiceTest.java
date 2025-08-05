@@ -1,8 +1,8 @@
-package com.example._thecore_back.drivelog.application;
+package com.example.mainserver.drivelog.application;
 
-import com.example._thecore_back.drivelog.domain.DriveLog;
-import com.example._thecore_back.drivelog.domain.DriveLogRepository;
-import com.example._thecore_back.drivelog.dto.DriveLogRequest;
+import com.example.mainserver.drivelog.domain.DriveLog;
+import com.example.mainserver.drivelog.domain.DriveLogRepository;
+import com.example.mainserver.drivelog.dto.DriveLogRequest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

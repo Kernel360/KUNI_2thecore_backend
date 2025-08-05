@@ -1,10 +1,9 @@
-package com.example._thecore_back.car.application;
+package com.example.mainserver.car.application;
 
-import com.example.mainserver.car.application.CarService;
+import com.example.common.domain.car.CarEntity;
 import com.example.mainserver.car.controller.dto.CarDeleteDto;
 import com.example.mainserver.car.controller.dto.CarDetailDto;
 import com.example.common.dto.CarRequestDto;
-import com.example.mainserver.car.domain.CarEntity;
 import com.example.common.domain.car.CarStatus;
 import com.example.mainserver.car.exception.CarAlreadyExistsException;
 import com.example.mainserver.car.exception.CarNotFoundException;
@@ -74,7 +73,7 @@ public class CarServiceTest {
         assertEquals("중형", result.getCarType());
         assertEquals("12가3456", result.getCarNumber());
         assertEquals(1234.56, result.getSumDist(), 0);
-        assertEquals("대기", result.getStatus());
+        assertEquals("Idle", result.getStatus());
     }
 
     @Test
@@ -83,7 +82,7 @@ public class CarServiceTest {
         // 요청 객체 생성
         CarRequestDto request = CarRequestDto.builder()
                 .carYear(2015)
-                .status("운행")
+                .status("Driving")
                 .build();
 
         // 저장될 Entity 생성
@@ -94,7 +93,7 @@ public class CarServiceTest {
                 .carType("중형")
                 .carNumber("12가3456")
                 .sumDist(1234.56)
-                .status(CarStatus.IN_USE)
+                .status(CarStatus.DRIVING)
                 .build();
 
         when(carReader.findByCarNumber("12가3456")).thenReturn(Optional.of(carEntity));
@@ -111,7 +110,7 @@ public class CarServiceTest {
         assertEquals("중형", result.getCarType());
         assertEquals("12가3456", result.getCarNumber());
         assertEquals(1234.56, result.getSumDist(), 0);
-        assertEquals("운행", result.getStatus());
+        assertEquals("Driving", result.getStatus());
     }
 
     @Test
