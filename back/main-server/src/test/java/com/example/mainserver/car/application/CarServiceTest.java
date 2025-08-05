@@ -1,13 +1,13 @@
 package com.example.mainserver.car.application;
 
 import com.example.common.domain.car.CarEntity;
+import com.example.common.infrastructure.CarReaderImpl;
 import com.example.mainserver.car.controller.dto.CarDeleteDto;
 import com.example.mainserver.car.controller.dto.CarDetailDto;
 import com.example.common.dto.CarRequestDto;
 import com.example.common.domain.car.CarStatus;
 import com.example.mainserver.car.exception.CarAlreadyExistsException;
 import com.example.mainserver.car.exception.CarNotFoundException;
-import com.example.mainserver.car.infrastructure.CarReaderImpl;
 import com.example.mainserver.car.infrastructure.CarWriterImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
