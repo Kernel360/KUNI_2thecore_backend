@@ -2,7 +2,7 @@ package com.example.mainserver.car.infrastructure;
 
 import com.example.common.domain.car.CarEntity;
 import com.example.common.domain.car.CarStatus;
-import com.example.common.infrastructure.CarRepository;
+import com.example.common.infrastructure.car.CarRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

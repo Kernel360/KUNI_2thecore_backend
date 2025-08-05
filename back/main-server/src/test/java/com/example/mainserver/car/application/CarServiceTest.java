@@ -1,7 +1,7 @@
 package com.example.mainserver.car.application;
 
 import com.example.common.domain.car.CarEntity;
-import com.example.common.infrastructure.CarReaderImpl;
+import com.example.common.infrastructure.car.CarReaderImpl;
 import com.example.mainserver.car.controller.dto.CarDeleteDto;
 import com.example.mainserver.car.controller.dto.CarDetailDto;
 import com.example.common.dto.CarRequestDto;

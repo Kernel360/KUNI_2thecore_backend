@@ -2,6 +2,9 @@ jwt:
   secret: my_secret_key_for_hmac_sha256_algorithm_256bit
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+
   datasource:
     url: jdbc:mysql://kernel-2thecore.cxiswkkki80w.ap-northeast-2.rds.amazonaws.com:3306/KERNEL_2THECORE_DATABASE
     driver-class-name: com.mysql.cj.jdbc.Driver

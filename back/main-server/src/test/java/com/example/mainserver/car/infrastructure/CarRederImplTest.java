@@ -2,8 +2,8 @@ package com.example.mainserver.car.infrastructure;
 
 import com.example.common.domain.car.CarEntity;
 import com.example.common.domain.car.CarStatus;
-import com.example.common.infrastructure.CarReaderImpl;
-import com.example.common.infrastructure.CarRepository;
+import com.example.common.infrastructure.car.CarReaderImpl;
+import com.example.common.infrastructure.car.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
