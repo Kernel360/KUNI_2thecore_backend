@@ -13,7 +13,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 })
 @EnableJpaRepositories(basePackages = {
         "com.example.emulatorserver.device.infrastructure",
-        "com.example.common.infrastructure"
+        "com.example.common.infrastructure.emulator",
+        "com.example.common.infrastructure.car"
 })
 @EntityScan(basePackages = {
         "com.example.emulatorserver.device.domain",
