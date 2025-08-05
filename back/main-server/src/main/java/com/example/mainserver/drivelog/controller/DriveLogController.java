@@ -1,6 +1,6 @@
 package com.example.mainserver.drivelog.controller;
 
-import com.example.mainserver.common.dto.ApiResponse;
+import com.example.common.dto.ApiResponse;
 import com.example.mainserver.drivelog.application.DriveLogService;
 import com.example.mainserver.drivelog.domain.DriveLog;
 import com.example.mainserver.drivelog.dto.DriveLogRequest;

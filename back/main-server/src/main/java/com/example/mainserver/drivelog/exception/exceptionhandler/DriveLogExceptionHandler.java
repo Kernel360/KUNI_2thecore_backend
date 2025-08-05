@@ -1,6 +1,6 @@
 package com.example.mainserver.drivelog.exception.exceptionhandler;
 
-import com.example.mainserver.common.dto.ApiResponse;
+import com.example.common.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

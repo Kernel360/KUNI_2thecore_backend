@@ -1,6 +1,5 @@
 package com.example.mainserver.drivelog.controller;
 
-import com.example.mainserver.auth.domain.JwtTokenProvider;
 import com.example.mainserver.drivelog.application.DriveLogService;
 import com.example.mainserver.drivelog.domain.DriveLog;
 import com.example.mainserver.drivelog.dto.DriveLogRequest;
@@ -12,9 +11,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -33,7 +32,7 @@ public class DriveLogControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private DriveLogService driveLogService;
 
 

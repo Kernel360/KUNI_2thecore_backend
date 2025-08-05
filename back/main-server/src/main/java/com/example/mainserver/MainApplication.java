@@ -11,20 +11,20 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages = {
 		"com.example.mainserver",
 		"com.example.common",
-		"com.example.emulatorserver.device"
 })
 @EntityScan(basePackages = {
 		"com.example.mainserver.admin.domain",
 		"com.example.mainserver.car.domain",
-		"com.example.common.domain",//
-		"com.example.mainserver.collector.domain"
+		"com.example.common.domain",
+		"com.example.mainserver.collector.domain",
+		"com.example.mainserver.drivelog.domain"
 })
 @EnableJpaRepositories(basePackages = {
 		"com.example.mainserver.admin.infrastructure",
 		"com.example.mainserver.car.infrastructure",
 		"com.example.common.infrastructure",
-		"com.example.emulatorserver.device.infrastructure",
-		"com.example.mainserver.collector.infrastructure"
+		"com.example.mainserver.collector.infrastructure",
+		"com.example.mainserver.drivelog.infrastructure"
 })
 @EnableConfigurationProperties(JwtProperties.class)
 public class MainApplication {
