@@ -1,4 +1,5 @@
 rootProject.name = '2thecore_back'
 include 'emulator-server'
 include 'hub-server'
-
+include 'main-server'
+include 'common'

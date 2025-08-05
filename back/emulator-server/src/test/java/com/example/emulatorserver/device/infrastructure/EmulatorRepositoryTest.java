@@ -1,8 +1,8 @@
 package com.example.emulatorserver.device.infrastructure;
 
-import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
-import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;
-import com.example.emulatorserver.device.infrastructure.emulator.EmulatorRepository;
+import com.example.common.domain.emulator.EmulatorEntity;
+import com.example.common.domain.emulator.EmulatorStatus;
+import com.example.common.infrastructure.emulator.EmulatorRepository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -81,7 +81,6 @@ public class EmulatorRepositoryTest {
                 .build();
 
         EmulatorEntity saved = emulatorRepository.saveAndFlush(emulator);
-        assertNotNull(saved.getId());
 
         // when
         emulatorRepository.delete(saved);

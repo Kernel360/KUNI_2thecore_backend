@@ -1,6 +1,6 @@
 package com.example.emulatorserver.device.controller.dto;
 
-import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
+import com.example.common.domain.emulator.EmulatorEntity;
 import org.springframework.stereotype.Component;
 
 @Component

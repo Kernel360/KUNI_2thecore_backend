@@ -1,6 +1,6 @@
 package com.example.emulatorserver.device.controller.dto;
 
-import com.example.emulatorserver.device.domain.emulator.EmulatorStatus;
+import com.example.common.domain.emulator.EmulatorStatus;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -59,8 +59,8 @@ gradle-app.setting
 .DS_Store
 
 # 설정 파일
-/src/main/resources/application.yml
-/src/main/resources/application.yaml
-/src/main/resources/application.properties
-/src/test/resources/application-test.yml
+/main-server/src/main/resources/application.yml
+/main-server/src/main/resources/application.yaml
+/main-server/src/main/resources/application.properties
+/main-server/src/test/resources/application-test.yml
 emulator-server/src/main/resources/application.yml

@@ -1,7 +1,7 @@
 package hub.interceptor;
 
-import com.example._thecore_back.auth.domain.JwtTokenProvider;
-import com.example._thecore_back.auth.exception.InvalidTokenException;
+import com.example.common.domain.auth.JwtTokenProvider;
+import com.example.common.exception.InvalidTokenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
 package com.example.emulatorserver.device.controller;
 
-import com.example.emulatorserver.common.dto.ApiResponse;
+import com.example.common.domain.emulator.EmulatorEntity;
+import com.example.common.dto.ApiResponse;
 import com.example.emulatorserver.device.application.EmulatorService;
 import com.example.emulatorserver.device.controller.dto.*;
-import com.example.emulatorserver.device.domain.emulator.EmulatorEntity;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

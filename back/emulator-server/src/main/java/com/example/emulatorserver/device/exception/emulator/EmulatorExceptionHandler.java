@@ -1,6 +1,6 @@
 package com.example.emulatorserver.device.exception.emulator;
 
-import com.example.emulatorserver.common.dto.ApiResponse;
+import com.example.common.dto.ApiResponse;
 import com.example.emulatorserver.device.exception.car.CarNotFoundException;
 
 import org.springframework.http.HttpStatus;

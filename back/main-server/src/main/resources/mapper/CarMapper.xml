@@ -1,0 +1,83 @@
+<!-- resources/mappers/CarMapper.xml -->
+<!--<!DOCTYPE mapper-->
+<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+
+<!--<mapper namespace="com.example.mainserver.car.infrastructure.mapper.CarMapper">-->
+<!--    <select id="search" resultType="CarEntity">-->
+<!--        SELECT *-->
+<!--        FROM car-->
+<!--        <where>-->
+<!--            <if test="carNumber != null">-->
+<!--                AND car_number = #{carNumber}-->
+<!--            </if>-->
+<!--            <if test="model != null">-->
+<!--                AND model = #{model}-->
+<!--            </if>-->
+<!--            <if test="brand != null">-->
+<!--                AND brand = #{brand}-->
+<!--            </if>-->
+<!--            <if test="status != null">-->
+<!--                AND status = #{status}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+<!--</mapper>-->
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mainserver.car.infrastructure.mapper.CarMapper">
+
+    <select id="search" parameterType="map"
+            resultType="com.example.common.domain.car.CarEntity">
+        SELECT *
+        FROM car
+        <where>
+            <if test="filter.carNumber != null">
+                AND car_number = #{filter.carNumber}
+            </if>
+            <if test="filter.status != null">
+                AND status = #{filter.status}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == true">
+                AND brand = #{filter.brand}
+            </if>
+            <if test="filter.model != null and filter.twoParam == true">
+                AND model = #{filter.model}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == false">
+                AND (brand = #{filter.brand} OR model = #{filter.brand})
+            </if>
+        </where>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countByFilter"
+            parameterType="map"
+            resultType="int">
+
+        SELECT COUNT(*)
+        FROM car
+        <where>
+            <if test="filter.carNumber != null ">
+                AND car_number = #{filter.carNumber}
+            </if>
+            <if test="filter.status != null ">
+                AND status = #{filter.status}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == true">
+                AND brand = #{filter.brand}
+            </if>
+            <if test="filter.model != null and filter.twoParam == true">
+                AND model = #{filter.model}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == false">
+                AND (brand = #{filter.brand} OR model = #{filter.brand})
+            </if>
+        </where>
+    </select>
+
+</mapper>
