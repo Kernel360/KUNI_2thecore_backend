@@ -1,6 +1,6 @@
 package com.example.mainserver.drivelog.exception.exceptionhandler;
 
-import com.example.mainserver.common.dto.ApiResponse;
+import com.example.common.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

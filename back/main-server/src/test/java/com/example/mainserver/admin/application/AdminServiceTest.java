@@ -3,6 +3,7 @@ package com.example.mainserver.admin.application;
 import com.example.mainserver.admin.controller.dto.AdminRequest;
 import com.example.mainserver.admin.controller.dto.AdminResponse;
 import com.example.mainserver.admin.domain.AdminEntity;
+import com.example.mainserver.admin.exception.AdminLoginIdAlreadyExistsException;
 import com.example.mainserver.admin.infrastructure.AdminRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,7 +59,7 @@ class AdminServiceTest {
         when(adminRepository.existsById("existingAdmin")).thenReturn(true);
 
         // when & then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(AdminLoginIdAlreadyExistsException.class, () -> {
             adminService.registerAdmin(request);
         });
     }
