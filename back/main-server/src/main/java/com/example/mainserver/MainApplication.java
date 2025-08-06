@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages = {
 		"com.example.mainserver",
 		"com.example.common",
-		"com.example.emulatorserver"
 })
 @EntityScan(basePackages = {
 		"com.example.mainserver.admin.domain",
