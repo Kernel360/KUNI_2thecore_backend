@@ -2,11 +2,14 @@ FROM gradle:8.4.0-jdk17 AS build
 
 WORKDIR /app
 
-# 전체 프로젝트 복사
-COPY ../../ .
+# gradle wrapper 포함 전체 복사
+COPY . .
 
-# emulator-server만 빌드
-RUN gradle :emulator-server:build -x test
+# gradlew 실행 권한 부여
+RUN chmod +x ./gradlew
+
+# emulator-server 빌드
+RUN ./gradlew :emulator-server:bootJar -x test
 
 FROM eclipse-temurin:17-jdk
 
@@ -14,6 +17,6 @@ WORKDIR /app
 
 COPY --from=build /app/emulator-server/build/libs/*.jar app.jar
 
-EXPOSE 8081
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

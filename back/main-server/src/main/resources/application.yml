@@ -24,7 +24,7 @@ spring:
       implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
 
   rabbitmq:
-    host: localhost
+    host: ${RABBITMQ_HOST:localhost} # 기본은 localhost
     port: 5672
     username: 2thecore
     password: 2thecore
