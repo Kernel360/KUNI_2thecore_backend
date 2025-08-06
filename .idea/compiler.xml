@@ -7,18 +7,28 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
         </processorPath>
+        <module name="2thecore_back.hub-server.main" />
+        <module name="2thecore_back.main-server.main" />
         <module name="2thecore_back.emulator-server.main" />
-        <module name="2thecore_back.main" />
+        <module name="2thecore_back.common.main" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="2thecore_back" options="-parameters" />
+      <module name="2thecore_back.common" options="-parameters" />
+      <module name="2thecore_back.common.main" options="-parameters" />
+      <module name="2thecore_back.common.test" options="-parameters" />
       <module name="2thecore_back.emulator-server" options="-parameters" />
       <module name="2thecore_back.emulator-server.main" options="-parameters" />
       <module name="2thecore_back.emulator-server.test" options="-parameters" />
+      <module name="2thecore_back.hub-server" options="-parameters" />
+      <module name="2thecore_back.hub-server.main" options="-parameters" />
+      <module name="2thecore_back.hub-server.test" options="-parameters" />
       <module name="2thecore_back.main" options="-parameters" />
+      <module name="2thecore_back.main-server" options="-parameters" />
+      <module name="2thecore_back.main-server.main" options="-parameters" />
+      <module name="2thecore_back.main-server.test" options="-parameters" />
       <module name="2thecore_back.test" options="-parameters" />
     </option>
   </component>
