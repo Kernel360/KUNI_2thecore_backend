@@ -28,10 +28,11 @@ replay_pid*
 ### Example user template
 
 # IntelliJ project files
-.idea
+.idea/
 *.iml
 out
 gen
+
 ### Gradle template
 .gradle
 **/build/
@@ -58,9 +59,6 @@ gradle-app.setting
 # macos Finder 설정 파일
 .DS_Store
 
-# 설정 파일
-/main-server/src/main/resources/application.yml
-/main-server/src/main/resources/application.yaml
-/main-server/src/main/resources/application.properties
-/main-server/src/test/resources/application-test.yml
-emulator-server/src/main/resources/application.yml
+# 환경 변수 파일
+*.env
+

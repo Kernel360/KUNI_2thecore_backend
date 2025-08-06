@@ -1,20 +1,20 @@
 jwt:
-  secret: my_secret_key_for_hmac_sha256_algorithm_256bit
+  secret: ${JWT_SECRET_KEY}
 
 spring:
   main:
     allow-bean-definition-overriding: true
 
   datasource:
-    url: jdbc:mysql://kernel-2thecore.cxiswkkki80w.ap-northeast-2.rds.amazonaws.com:3306/KERNEL_2THECORE_DATABASE
+    url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: xnejzhdj0710!!
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
-      ddl-auto: update       # Entity 기반으로 DB 테이블 자동 생성/업데이트
-    show-sql: true           # SQL 출력
+      ddl-auto: ${DDL_AUTO:update}
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
@@ -24,10 +24,10 @@ spring:
       implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
 
   rabbitmq:
-    host: ${RABBITMQ_HOST:localhost} # 기본은 localhost
-    port: 5672
-    username: 2thecore
-    password: 2thecore
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
