@@ -142,6 +142,9 @@ public class GpxScheduler{
     };
 
     protected void sendGpxData() {
+        startTime = buffer.get(0).getTimeStamp();
+        endTime = buffer.get(buffer.size() - 1).getTimeStamp();
+
         GpxRequestDto logJson = GpxRequestDto.builder()
                 .carNumber(carNumber)
                 .loginId(loginId)
