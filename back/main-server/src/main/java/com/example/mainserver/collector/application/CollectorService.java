@@ -51,7 +51,7 @@ public class CollectorService {
 
 
         var lastestLog = gpsLogDto.getLogList().stream()
-                .max(Comparator.comparing(GpsLogDto.Gps::getTimestamp))
+                .max(Comparator.comparing(GpsLogDto.Gps::getTimeStamp))
                 .orElseThrow(() -> new RuntimeException("최신 기록이 존재하지 않습니다."));
 
 

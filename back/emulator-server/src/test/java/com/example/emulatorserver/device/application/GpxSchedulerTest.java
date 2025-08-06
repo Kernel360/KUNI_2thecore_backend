@@ -10,7 +10,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URL;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -121,7 +120,7 @@ public class GpxSchedulerTest {
 
         assertEquals("12가3456", dto.getCarNumber());
         assertEquals("testUser", dto.getLoginId());
-        assertEquals(0, dto.getLocations().size());
+        assertEquals(0, dto.getLogList().size());
 
         assertTrue(scheduler.getBuffer().isEmpty(), "데이터 전송 후 buffer가 비워지지 않았습니다.");
     }
