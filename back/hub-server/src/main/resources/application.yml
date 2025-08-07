@@ -1,16 +1,16 @@
 server:
-  port: 8082
+  port: ${HUB_SERVER_PORT}
 
 spring:
   rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: 2thecore
-    password: 2thecore
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 
 logging:
   level:
@@ -19,12 +19,12 @@ logging:
 car:
   reader:
     db:
-      enabled: false
+      enabled: ${CAR_DB_ENABLED:false}
 
 emulator:
   reader:
     db:
-      enabled: false
+      enabled: ${EMULATOR_DB_ENABLED:false}
 
 jwt:
-  secret: my_secret_key_for_hmac_sha256_algorithm_256bit
+  secret: ${JWT_SECRET_KEY}
