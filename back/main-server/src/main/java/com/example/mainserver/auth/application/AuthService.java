@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -26,6 +27,9 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenService tokenService;
 
+    private static final long ACCESS_TOKEN_EXPIRE_MINUTES = 10000L; // 약 7일
+    private static final long REFRESH_TOKEN_EXPIRE_DAYS = 21L; // 약 3주
+
     public TokenDto login(LoginRequest request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -34,14 +38,15 @@ public class AuthService {
 
             String email = authentication.getName();
             Map<String, Object> claims = Map.of("email", email);
-            LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(30);
-            LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(7);
+
+            LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_EXPIRE_MINUTES);
+            LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS);
 
             String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
             String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
 
-            tokenService.storeRefreshToken(email, refreshToken, 7 * 24 * 60 * 60 * 1000L);
-            tokenService.enforceSingleSession(email, accessToken, 30 * 60 * 1000L);
+            tokenService.storeRefreshToken(email, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
+            tokenService.enforceSingleSession(email, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
             return TokenDto.builder()
                     .accessToken(accessToken)
@@ -67,14 +72,14 @@ public class AuthService {
         }
 
         Map<String, Object> claims = Map.of("email", email);
-        LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(30);
-        LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(7);
+        LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_EXPIRE_MINUTES);
+        LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS);
 
         String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
         String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
 
-        tokenService.storeRefreshToken(email, refreshToken, 7 * 24 * 60 * 60 * 1000L);
-        tokenService.enforceSingleSession(email, accessToken, 30 * 60 * 1000L);
+        tokenService.storeRefreshToken(email, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
+        tokenService.enforceSingleSession(email, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
         return TokenDto.builder()
                 .accessToken(accessToken)

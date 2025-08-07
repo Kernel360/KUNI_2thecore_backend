@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,7 +36,6 @@ public class GpsLogDto {
     @ToString
     @AllArgsConstructor
     @NoArgsConstructor
-    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Gps {
 
         @NotNull
@@ -48,6 +45,6 @@ public class GpsLogDto {
         private String longitude;
 
         @NotNull
-        private LocalDateTime timestamp;
+        private LocalDateTime timeStamp;
     }
 }

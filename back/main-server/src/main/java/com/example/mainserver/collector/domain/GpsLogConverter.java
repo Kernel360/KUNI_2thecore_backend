@@ -11,7 +11,7 @@ public class GpsLogConverter {
         return GpsLogEntity.builder()
                 .gpsLatitude(dto.getLatitude())
                 .gpsLongitude(dto.getLongitude())
-                .createdAt(dto.getTimestamp())
+                .createdAt(dto.getTimeStamp())
                 .emulatorId(emulatorId)
                 .build();
 

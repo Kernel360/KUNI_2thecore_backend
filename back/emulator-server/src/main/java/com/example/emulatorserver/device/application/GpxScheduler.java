@@ -5,7 +5,6 @@ import com.example.emulatorserver.device.application.dto.GpxRequestDto;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -95,8 +94,9 @@ public class GpxScheduler{
                     if (matcher.find()) { // Gpx라인을 Dto로 가공하여 리스트에 삽입
                         String timestamp = LocalDateTime.now()
                                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-                        String latitude = matcher.group(1);
-                        String longitude = matcher.group(2);
+
+                        String latitude = String.format("%.4f", Double.parseDouble(matcher.group(1)));
+                        String longitude = String.format("%.4f", Double.parseDouble(matcher.group(2)));
 
                         GpxLogDto dto = GpxLogDto.builder()
                                 .timeStamp(timestamp)
@@ -107,7 +107,7 @@ public class GpxScheduler{
                         buffer.add(dto);
                     }
 
-                    if (currentIndex % 60 == 0 && currentIndex != 0) { // 전송 주기가 되면 데이터 전송 함수 실행
+                    if (currentIndex % 120 == 0 && currentIndex != 0) { // 전송 주기가 되면 데이터 전송 함수 실행
                         // Todo DB에 주기 정보 업데이트 후 주기 DB에서 불러오는 코드로 수정하기
                         sendGpxData();
                     }
@@ -142,12 +142,17 @@ public class GpxScheduler{
     };
 
     protected void sendGpxData() {
+        startTime = buffer.get(0).getTimeStamp();
+        endTime = buffer.get(buffer.size() - 1).getTimeStamp();
+
+
+
         GpxRequestDto logJson = GpxRequestDto.builder()
                 .carNumber(carNumber)
                 .loginId(loginId)
                 .startTime(startTime)
                 .endTime(endTime)
-                .locations(buffer)
+                .logList(buffer)
                 .build(); // buffer 내부 로그들 Json화
 
         // 전송할 Collector API 주소
@@ -155,6 +160,7 @@ public class GpxScheduler{
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0IiwiaWF0IjoxNzU0NDUzODUxLCJleHAiOjE3NTUwNTM4NTF9.u1f1GkIw2if-O5xvA1TD1WGVztYH0YhXhzRgwaxhuu8");
 
         HttpEntity<GpxRequestDto> request = new HttpEntity<>(logJson, headers);
 

@@ -16,5 +16,5 @@ public class GpxRequestDto {
     private String loginId;
     private String startTime;
     private String endTime;
-    private List<GpxLogDto> locations;
+    private List<GpxLogDto> logList;
 }
