@@ -1,5 +1,5 @@
 server:
-  port: ${HUB_SERVER_PORT}
+  port: ${HUB_SERVER_PORT:8082}
 
 spring:
   rabbitmq:
