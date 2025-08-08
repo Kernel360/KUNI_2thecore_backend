@@ -12,5 +12,5 @@ RUN ./gradlew --no-daemon :hub-server:bootJar -x test
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /workspace/hub-server/build/libs/*.jar app.jar
-EXPOSE 8081   # ← 허브 실제 리스닝 포트
+EXPOSE 8082
 ENTRYPOINT ["java","-jar","app.jar"]
