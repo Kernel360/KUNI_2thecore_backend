@@ -3,7 +3,7 @@ server:
 
 spring:
   rabbitmq:
-    host: ${RABBITMQ_HOST}
+    host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
@@ -28,3 +28,34 @@ emulator:
 
 jwt:
   secret: ${JWT_SECRET_KEY}
+#
+#server:
+#  port: 8082
+#
+#spring:
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: 2thecore
+#    password: 2thecore
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+#
+#logging:
+#  level:
+#    org.springframework.web: DEBUG
+#
+#car:
+#  reader:
+#    db:
+#      enabled: false
+
+#emulator:
+#  reader:
+#    db:
+#      enabled: false
+#
+#jwt:
+#  secret: my_secret_key_for_hmac_sha256_algorithm_256bit
