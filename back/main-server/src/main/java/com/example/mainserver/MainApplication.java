@@ -26,7 +26,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.example.mainserver.collector.infrastructure",
 		"com.example.mainserver.drivelog.domain"
 })
-@EnableConfigurationProperties(JwtProperties.class)
 public class MainApplication {
 
 	public static void main(String[] args) {

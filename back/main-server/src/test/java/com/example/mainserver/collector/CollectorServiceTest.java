@@ -60,7 +60,7 @@ public class CollectorServiceTest {
 
         LocalDateTime now = LocalDateTime.of(2025, 7, 31, 12, 0);
         GpsLogDto.Gps gps = new GpsLogDto.Gps("1.23", "4.56", now);
-        GpsLogDto gpsLogdto = new GpsLogDto("12가1234", "user", List.of(gps), now, now.plusMinutes(1));
+        GpsLogDto gpsLogdto = new GpsLogDto("12가1234",List.of(gps));
 
         var emulator = EmulatorEntity.builder()
                 .id(1)
@@ -69,20 +69,17 @@ public class CollectorServiceTest {
                 .build();
 
         var gpsLogEntity =  GpsLogEntity.builder()
-                .emulatorId(1)
-                .gpsLatitude("1.23")
-                .gpsLongitude("4.56")
+                .latitude("1.23")
+                .longitude("4.56")
                 .createdAt(now.plusMinutes(1))
                 .build();
 
         when(emulatorReader.findByCarNumber("12가1234")).thenReturn(Optional.of(emulator));
-        when(gpsLogConverter.toEntityByEmulatorId(gps, 1)).thenReturn(gpsLogEntity);
+        when(gpsLogConverter.toEntityByCarNumber(gps, 1)).thenReturn(gpsLogEntity);
 
         var result = collectorService.getGpsLog(gpsLogdto);
 
-        assertEquals("1234", result.getDeviceId());
-        assertEquals(now, result.getStartTime());
-        assertEquals(now.plusMinutes(1), result.getEndTime());
+        assertEquals("1234", result.getCarNumber());
 
 
         verify(gpsLogWriterImpl).saveAll(anyList());
@@ -93,7 +90,7 @@ public class CollectorServiceTest {
     @Test
     @DisplayName("GPS 로그가 없을때")
     public void testGpsLogNotFound(){
-        var gpsLogDto = new GpsLogDto("12가1234", "admin", List.of(), LocalDateTime.now(), LocalDateTime.now().plusMinutes(1));
+        var gpsLogDto = new GpsLogDto("12가1234", List.of());
 
         assertThrows(GpsLogNotFoundException.class, () -> {collectorService.getGpsLog(gpsLogDto);});
     }
@@ -104,8 +101,7 @@ public class CollectorServiceTest {
     public void testEmulatorNotFound(){
         GpsLogDto.Gps gps = new GpsLogDto.Gps("1.23", "4.56", LocalDateTime.now());
         GpsLogDto gpsLogDto = new GpsLogDto(
-                "11111111", "loginId", List.of(gps),
-                LocalDateTime.now(), LocalDateTime.now().plusMinutes(1)
+                "11111111", List.of(gps)
         );
 
         when(emulatorReader.findByCarNumber("11111111")).thenReturn(Optional.empty());
