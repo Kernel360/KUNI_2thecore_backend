@@ -1,22 +1,36 @@
+# ===== Build stage =====
 FROM gradle:8.4.0-jdk17 AS build
+WORKDIR /workspace
 
-WORKDIR /app
+# 캐시 최적화: 설정/래퍼/서브모듈 gradle 파일만 먼저 복사
+COPY settings.gradle build.gradle gradlew gradle/ ./
+COPY common/build.gradle common/build.gradle
+COPY hub-server/build.gradle hub-server/build.gradle
+COPY main-server/build.gradle main-server/build.gradle
 
-# gradle wrapper 포함 전체 복사
+# 의존성만 먼저 받아 캐시 고정
+RUN chmod +x ./gradlew && ./gradlew --no-daemon :main-server:dependencies || true
+
+# 실제 소스 반영
 COPY . .
 
-# gradlew 실행 권한 부여
-RUN chmod +x ./gradlew
+# 메인서버 빌드 (테스트 제외)
+RUN ./gradlew --no-daemon :main-server:bootJar -x test
 
-# main-server 빌드 (test 제외)
-RUN ./gradlew :main-server:bootJar -x test
 
-FROM eclipse-temurin:17-jdk
-
+# ===== Runtime stage =====
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-COPY --from=build /app/main-server/build/libs/*.jar app.jar
+# 빌드 산출물 복사
+COPY --from=build /workspace/main-server/build/libs/*.jar app.jar
 
+# 내부 포트 8080
 EXPOSE 8080
 
+# 비루트 유저 (선택)
+RUN useradd -r -u 1001 appuser
+USER appuser
+
+# 실행 (경로 수정: /app/app.jar)
 ENTRYPOINT ["java", "-jar", "app.jar"]
