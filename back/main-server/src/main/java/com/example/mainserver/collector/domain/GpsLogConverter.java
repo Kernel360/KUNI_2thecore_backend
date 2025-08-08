@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class GpsLogConverter {
 
-    public GpsLogEntity toEntityByEmulatorId(GpsLogDto.Gps dto, int emulatorId){
+    public GpsLogEntity toEntityByCarNumber(GpsLogDto.Gps dto, String carNumber){
 
         return GpsLogEntity.builder()
-                .gpsLatitude(dto.getLatitude())
-                .gpsLongitude(dto.getLongitude())
+                .latitude(dto.getLatitude())
+                .longitude(dto.getLongitude())
                 .createdAt(dto.getTimeStamp())
-                .emulatorId(emulatorId)
+                .carNumber(carNumber)
                 .build();
 
     }
