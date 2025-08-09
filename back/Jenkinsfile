@@ -65,7 +65,7 @@ pipeline {
                 sourceFiles: 'back/prod.env',
                 remoteDirectory: '/home/ubuntu/2thecore',
                 // Groovy 보간을 위해 쌍따옴표 사용
-                execCommand: execCommand: """
+                execCommand:"""
                              set -xeuo pipefail
 
                              # 0) 전송된 파일 확인
