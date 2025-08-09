@@ -1,18 +1,24 @@
 package com.example.common.domain.car;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
 public enum CarStatus {
     DRIVING("운행"),        // 운행 중
     IDLE("대기"),          // 대기 중
-    MAINTENANCE("수리");   // 수리 중
+    MAINTENANCE("수리"); // 수리 중
 
     private final String displayName;
 
     CarStatus(String displayName) {
         this.displayName = displayName;
+    }
+
+    @JsonValue
+    public String getDisplayName() {
+        return displayName;
     }
 
     @JsonCreator

@@ -47,9 +47,9 @@ public class CarService {
         Map<CarStatus, Long> result = carReader.getCountByStatus();
 
         return CarSummaryDto.builder()
-                .operating(result.getOrDefault(CarStatus.DRIVING, 0L))
-                .waiting(result.getOrDefault(CarStatus.IDLE, 0L))
-                .inspecting(result.getOrDefault(CarStatus.MAINTENANCE, 0L))
+                .driving(result.getOrDefault(CarStatus.DRIVING, 0L))
+                .idle(result.getOrDefault(CarStatus.IDLE, 0L))
+                .maintenance(result.getOrDefault(CarStatus.MAINTENANCE, 0L))
                 .total(result.getOrDefault(CarStatus.DRIVING, 0L) +
                         result.getOrDefault(CarStatus.IDLE, 0L)
                         + result.getOrDefault(CarStatus.MAINTENANCE, 0L))

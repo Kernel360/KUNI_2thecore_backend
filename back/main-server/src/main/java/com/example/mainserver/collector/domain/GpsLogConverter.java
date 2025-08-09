@@ -11,7 +11,7 @@ public class GpsLogConverter {
         return GpsLogEntity.builder()
                 .latitude(dto.getLatitude())
                 .longitude(dto.getLongitude())
-                .createdAt(dto.getTimeStamp())
+                .createdAt(dto.getTimestamp())
                 .carNumber(carNumber)
                 .build();
 

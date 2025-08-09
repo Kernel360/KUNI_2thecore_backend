@@ -1,8 +1,6 @@
 package com.example.mainserver.car.controller;
 
 import com.example.common.dto.CarRequestDto;
-import com.example.mainserver.MainApplication;
-import com.example.mainserver.admin.application.AdminService;
 import com.example.mainserver.car.application.CarService;
 import com.example.mainserver.car.controller.dto.*;
 import com.example.common.domain.car.CarStatus;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -295,9 +292,9 @@ public class CarControllerTest {
 
         var response = CarSummaryDto.builder()
                 .total(3L)
-                .operating(0L)
-                .waiting(2L)
-                .inspecting(1L)
+                .driving(0L)
+                .idle(2L)
+                .maintenence(1L)
                 .build();
 
         when(carService.getCountByStatus()).thenReturn(response);

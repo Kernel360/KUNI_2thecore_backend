@@ -1,14 +1,19 @@
 package com.example.mainserver.drivelog.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Builder
 @Entity
+@Table(name = "drive_log")
 @Getter
+@AllArgsConstructor
 public class DriveLog {
 
     @Id
@@ -51,6 +56,8 @@ public class DriveLog {
 
     @Column(name = "created_at", nullable = false, updatable = false) // 수정 불가
     private LocalDateTime createdAt;
+
+    private String status;
 
 
     // JPA만 접근 가능
