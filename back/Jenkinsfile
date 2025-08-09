@@ -2,6 +2,12 @@ pipeline {
   agent any
   options { timestamps() }
 
+  // 전역 변수 (레포명 통일)
+  environment {
+    IMAGE_NAME = '2thecore-server'
+    IMAGE_REPO = ''  // Build 단계에서 DOCKER_USER 확정 후 세팅
+  }
+
   stages {
     stage('Checkout') {
       steps {
@@ -15,26 +21,35 @@ pipeline {
     stage('Build & Push Images') {
       steps {
         withCredentials([
-          usernamePassword(credentialsId: 'dockerhub-cred',
-                           usernameVariable: 'DOCKERHUB_USER',
-                           passwordVariable: 'DOCKERHUB_TOKEN'),
+          usernamePassword(
+            credentialsId: 'dockerhub-cred',
+            usernameVariable: 'DOCKERHUB_USER',
+            passwordVariable: 'DOCKERHUB_TOKEN'
+          ),
           file(credentialsId: 'prod.env', variable: 'ENV_FILE')
         ]) {
+          script {
+            // 크리덴셜에서 받은 사용자명을 전역 env로 승격
+            env.DOCKER_USER = DOCKERHUB_USER
+            env.IMAGE_REPO  = "${env.DOCKER_USER}/${env.IMAGE_NAME}"
+          }
           sh '''
             set -euo pipefail
             cd back
 
-            # Secret file(ENV_FILE)을 워크스페이스 prod.env로 복사
+            # Secret file 저장
             install -m600 "$ENV_FILE" prod.env
 
+            # Docker 로그인
             echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
             docker info | grep -i '^ Username' || true
 
-            docker build -f main-server/Dockerfile -t "$DOCKERHUB_USER/2thecore-server:main" .
-            docker push "$DOCKERHUB_USER/2thecore-server:main"
+            # 이미지 빌드/푸시 (레포 통일)
+            docker build -f main-server/Dockerfile -t "${IMAGE_REPO}:main" .
+            docker push "${IMAGE_REPO}:main"
 
-            docker build -f hub-server/Dockerfile  -t "$DOCKERHUB_USER/2thecore-server:hub"  .
-            docker push "$DOCKERHUB_USER/2thecore-server:hub"
+            docker build -f hub-server/Dockerfile  -t "${IMAGE_REPO}:hub"  .
+            docker push "${IMAGE_REPO}:hub"
           '''
         }
       }
@@ -42,7 +57,6 @@ pipeline {
 
     stage('Deploy to EC2 via SSH') {
       steps {
-        // Publish over SSH 플러그인의 파이프라인 스텝
         sshPublisher publishers: [
           sshPublisherDesc(
             configName: '2thecore-EC2',
@@ -50,7 +64,8 @@ pipeline {
               sshTransfer(
                 sourceFiles: 'back/prod.env',
                 remoteDirectory: '/home/ubuntu/2thecore',
-                execCommand: '''
+                // Groovy 보간을 위해 쌍따옴표 사용
+                execCommand: """
 set -xeuo pipefail
 
 # 0) 전송된 파일 확인
@@ -69,41 +84,40 @@ docker network connect core-net 2thecore-redis    >/dev/null 2>&1 || true
 
 # 3) 포트 점유 정리
 free_port() {
-  local PORT="$1"
-  docker ps --format '{{.ID}} {{.Ports}}' | awk -v p=":${PORT}->" '$0 ~ p {print $1}' | xargs -r docker rm -f
+  local PORT="\\$1"
+  docker ps --format '{{.ID}} {{.Ports}}' | awk -v p=":\\${PORT}->" '\\$0 ~ p {print \\$1}' | xargs -r docker rm -f
 }
 docker rm -f hubserver mainserver >/dev/null 2>&1 || true
 free_port 8082; free_port 8080
 
-# 4) 최신 이미지 pull
-docker pull docker.io/yeonjin529/2thecore-server:hub
-docker pull docker.io/yeonjin529/2thecore-server:main
+# 4) 최신 이미지 pull (DOCKER_USER/IMAGE_NAME 보간)
+docker pull docker.io/${DOCKER_USER}/${IMAGE_NAME}:hub
+docker pull docker.io/${DOCKER_USER}/${IMAGE_NAME}:main
 
-# 5) 컨테이너 실행(ENV 주입)
+# 5) 컨테이너 실행(ENV 주입: hub/main 모두 적용)
 docker run -d --name hubserver \
   --network core-net \
   --env-file /opt/2thecore/prod.env \
   -p 8082:8082 --restart unless-stopped \
-  docker.io/yeonjin529/2thecore-server:hub
+  docker.io/${DOCKER_USER}/${IMAGE_NAME}:hub
 
 docker run -d --name mainserver \
   --network core-net \
+  --env-file /opt/2thecore/prod.env \
   -p 8080:8080 --restart unless-stopped \
-  docker.io/yeonjin529/2thecore-server:main
+  docker.io/${DOCKER_USER}/${IMAGE_NAME}:main
 
 # 6) 헬스 대기
 for i in {1..30}; do
-  hub=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8082/actuator/health || echo 000)
-  main=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/actuator/health || echo 000)
-  [ "$hub$main" = "200200" ] && echo "health OK" && break
+  hub=\\$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8082/actuator/health || echo 000)
+  main=\\$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/actuator/health || echo 000)
+  [ "\\$hub\\$main" = "200200" ] && echo "health OK" && break
   sleep 2
 done
 
 # 7) 상태 출력
-docker ps --format "table {{.Names}}\\t{{.Status}}\\t{{.Ports}}"
-docker inspect hubserver --format '{{range .Config.Env}}{{println .}}{{end}}' \
- | egrep -o '^(HUB_SERVER_PORT|JWT_[^=]+|RABBITMQ_[^=]+|REDIS_[^=]+)=' | sort -u || true
-'''
+docker ps --format "table {{.Names}}\\\\t{{.Status}}\\\\t{{.Ports}}"
+"""
               )
             ],
             verbose: true,
