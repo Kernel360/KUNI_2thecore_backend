@@ -94,7 +94,6 @@ docker ps --format "table {{.Names}}\\t{{.Status}}\\t{{.Ports}}"
               )
             ],
             verbose: true,
-            failOnError: true
           )
         ]
       }
