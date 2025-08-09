@@ -26,7 +26,7 @@ pipeline {
             usernameVariable: 'DOCKERHUB_USER',
             passwordVariable: 'DOCKERHUB_TOKEN'
           ),
-          file(credentialsId: 'prod.env', variable: 'ENV_FILE')
+          file(credentialsId: '2thecore-env', variable: 'ENV_FILE')
         ]) {
           script {
             // 크리덴셜에서 받은 사용자명을 전역 env로 승격
