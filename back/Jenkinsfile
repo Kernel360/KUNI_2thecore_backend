@@ -31,12 +31,20 @@ pipeline {
             sh '''
               set -euo pipefail
               cd back
+
+              # secret 파일 저장
               install -m600 "$ENV_FILE" prod.env
+
+              # Docker 로그인
               echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
               docker info | grep -i '^ Username' || true
+
+              # main 이미지
               docker build -f main-server/Dockerfile -t "${IMAGE_REPO}:main" .
               docker push "${IMAGE_REPO}:main"
-              docker build -f hub-server/Dockerfile  -t "${IMAGE_REPO}:hub"  .
+
+              # hub 이미지
+              docker build -f hub-server/Dockerfile -t "${IMAGE_REPO}:hub" .
               docker push "${IMAGE_REPO}:hub"
             '''
           }
@@ -56,19 +64,23 @@ pipeline {
           sh '''
             set -euo pipefail
 
-            mkdir -p ~/.ssh
-            chmod 700 ~/.ssh
-            touch ~/.ssh/known_hosts
-            chmod 644 ~/.ssh/known_hosts
-
             DEPLOY_HOST=ec2-43-203-191-246.ap-northeast-2.compute.amazonaws.com
             SSH_KEY=/var/lib/jenkins/.ssh/server_key
             REMOTE_DIR=/home/ubuntu/2thecore
 
-            ssh -i "$SSH_KEY" -o StrictHostKeyChecking=accept-new ubuntu@"$DEPLOY_HOST" "mkdir -p $REMOTE_DIR"
-            scp -i "$SSH_KEY" -o StrictHostKeyChecking=accept-new back/prod.env ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/prod.env"
+            # Jenkins 에이전트 홈 기준 known_hosts 준비
+            install -d -m700 "$HOME/.ssh"
+            install -m644 /dev/null "$HOME/.ssh/known_hosts" || true
+            SSH_OPTS="-o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
 
-            ssh -i "$SSH_KEY" -o StrictHostKeyChecking=accept-new \
+            # 원격 디렉터리 보장
+            ssh $SSH_OPTS -i "$SSH_KEY" ubuntu@"$DEPLOY_HOST" "mkdir -p $REMOTE_DIR"
+
+            # 파일 전송
+            scp $SSH_OPTS -i "$SSH_KEY" back/prod.env ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/prod.env"
+
+            # 원격 실행(환경변수 주입)
+            ssh $SSH_OPTS -i "$SSH_KEY" \
               ubuntu@"$DEPLOY_HOST" \
               "DOCKER_USER=${DOCKERHUB_USER} IMAGE_NAME=${IMAGE_NAME} bash -s" <<'EOS'
 set -xeuo pipefail
