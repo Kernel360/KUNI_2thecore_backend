@@ -38,6 +38,6 @@ public class GpsLogDto {
         private String longitude;
 
         @NotNull
-        private LocalDateTime timeStamp;
+        private LocalDateTime timestamp;
     }
 }
