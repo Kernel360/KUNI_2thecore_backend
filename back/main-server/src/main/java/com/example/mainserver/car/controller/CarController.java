@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -116,10 +117,29 @@ public class CarController {
     // 점검중 또는 대기중 상태 차량 조회 API
     @GetMapping("/status")
     public ApiResponse<List<CarSearchDto>> getCarsByStatuses(
-            @RequestParam List<String> status
-    ) {
-        List<CarSearchDto> response = carService.getCarsByStatuses(status);
-        return ApiResponse.success(status.get(0) + "중인 차량 조회가 완료되었습니다.",response);
+            @RequestParam(required = false) String status) {
+        var cars = carService.getCarsByStatusString(status);
+
+        var resultDtos = cars.stream()
+                .map(CarSearchDto::EntityToDto)
+                .collect(Collectors.toList());
+        return ApiResponse.success("상태 '" + (status == null ? "전체" : status) + "' 차량 조회 완료", resultDtos);
     }
+
+    // 클래스에 @RequestMapping("/api/cars") 가 있다고 가정
+    @GetMapping("/locations")
+    public ApiResponse<List<CarLocationDto>> getCarLocations(
+            @RequestParam(value = "status", required = false) String status
+    ) {
+        List<CarLocationDto> locations = carService.getCarLocationsByStatus(status);
+
+        if (status == null || status.isEmpty()) {
+            return ApiResponse.success("전체 차량 조회 완료", locations);
+        }
+
+        String message = status + " 차량 조회 완료";
+        return ApiResponse.success(message, locations);
+    }
+
 
 }

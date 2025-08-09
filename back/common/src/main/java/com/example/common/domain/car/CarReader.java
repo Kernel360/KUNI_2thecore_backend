@@ -16,4 +16,6 @@ public interface CarReader  {
 
     List<CarEntity> findByStatus(List<CarStatus> statuses);
 
+    List<CarEntity> findAll();
+
 }

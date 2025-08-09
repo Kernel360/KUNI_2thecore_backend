@@ -52,4 +52,10 @@ public class CarReaderImpl implements CarReader {
     public List<CarEntity> findByStatus(List<CarStatus> statuses) {
         return carRepository.findByStatusIn(statuses);
     }
+
+    @Override
+    public List<CarEntity> findAll() {
+        return List.of();
+    }
+
 }

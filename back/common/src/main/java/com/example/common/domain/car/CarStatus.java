@@ -10,6 +10,7 @@ public enum CarStatus {
     IDLE("대기"),          // 대기 중
     MAINTENANCE("수리"); // 수리 중
 
+
     private final String displayName;
 
     CarStatus(String displayName) {
