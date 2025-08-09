@@ -11,9 +11,9 @@ public class CarStatusConverter implements Converter<String, CarStatus> {
         if (source == null) return null;
         String v = source.trim();
         for (CarStatus s : CarStatus.values()) {
-            if (s.getDisplayName().equals(v)) return s;       // "운행" -> DRIVING
+            if (s.getDisplayName().equals(v)) return s;
             if (s.name().equalsIgnoreCase(v)) return s;
         }
-        throw new IllegalArgumentException("존재하지 않는 status: " + source);
+        throw new IllegalArgumentException("status가 존재하지 않습니다.: " + source);
     }
 }

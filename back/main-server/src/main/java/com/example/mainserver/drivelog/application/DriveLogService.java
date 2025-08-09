@@ -2,8 +2,14 @@ package com.example.mainserver.drivelog.application;
 
 import com.example.mainserver.drivelog.domain.DriveLog;
 import com.example.mainserver.drivelog.domain.DriveLogRepository;
+import com.example.mainserver.drivelog.dto.DriveLogFilterRequestDto;
+import com.example.mainserver.drivelog.dto.DriveLogFilterResponseDto;
 import com.example.mainserver.drivelog.dto.DriveLogRequest;
+import com.example.mainserver.drivelog.infrastructure.mapper.DriveLogMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +19,8 @@ import java.util.List;
 public class DriveLogService {
 
     private final DriveLogRepository driveLogRepository;
+
+    private final DriveLogMapper driveLogMapper;
 
     public DriveLog save(DriveLogRequest request) {
         // 필수 값 검증 - 예시로 간단히
@@ -65,5 +73,19 @@ public class DriveLogService {
     public DriveLog getLogById(Long id) {
         return driveLogRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 주행기록이 없습니다: " + id));
+    }
+
+    public Page<DriveLogFilterResponseDto> getDriveLogByFilter(DriveLogFilterRequestDto driveLogFilterRequestDto,
+                                                               int page, int size) {
+        int offset = (page - 1) * size;
+
+        var result = driveLogMapper.search(driveLogFilterRequestDto, offset, size);
+
+        var total = driveLogMapper.countByFilter(driveLogFilterRequestDto);
+
+        return new PageImpl<>(result, PageRequest.of(page - 1, size), total);
+
+
+
     }
 }

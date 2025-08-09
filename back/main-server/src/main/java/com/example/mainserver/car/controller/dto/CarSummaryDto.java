@@ -11,12 +11,9 @@ import lombok.*;
 @Builder
 public class CarSummaryDto {
 
-
     private Long total;
-    private Long operating;
-    private Long waiting;
-    private Long inspecting;
-
-
+    private Long driving;
+    private Long idle;
+    private Long maintenance;
 
 }
