@@ -49,7 +49,14 @@ pipeline {
     }
 
     stage('Deploy to EC2 via SSH') {
-      steps {
+      steps  {
+                withCredentials([
+                  usernamePassword(
+                    credentialsId: 'docker-hub-token',
+                    usernameVariable: 'DOCKERHUB_USER',
+                    passwordVariable: 'DOCKERHUB_TOKEN' // 사용 안 해도 타입상 필요
+                  )
+                ]) {
         sh '''
           set -euo pipefail
 
