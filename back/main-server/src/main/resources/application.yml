@@ -35,6 +35,10 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+server:
+  address: 0.0.0.0
+  port: 8080
+
 #jwt:
 #  secret: my_secret_key_for_hmac_sha256_algorithm_256bit
 #

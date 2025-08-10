@@ -48,6 +48,8 @@ services:
   main-server:
     environment:
       - RABBITMQ_HOST=rabbitmq
+      - REDIS_HOST=redis      # 추가
+      - REDIS_PORT=6379       # 추가
     image: main-server-img
     container_name: 2thecore-main
     build:
