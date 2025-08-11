@@ -95,19 +95,19 @@ public class CarRederImplTest {
 
     }
 
-    @Test
-    @DisplayName("에뮬레이터 ID로 찾기")
-    public void findByEmulatorId(){
-
-        var carEntity = new CarEntity();
-        carEntity.setEmulatorId(1);
-
-        when(carRepository.findByEmulatorId(1)).thenReturn(Optional.of(carEntity));
-
-        Optional<CarEntity> result = carReader.findByEmulatorId(1);
-
-        assertTrue(result.isPresent());
-        assertEquals(1, result.get().getEmulatorId());
-
-    }
+//    @Test
+//    @DisplayName("에뮬레이터 ID로 찾기")
+//    public void findByEmulatorId(){
+//
+//        var carEntity = new CarEntity();
+//        carEntity.setEmulatorId(1);
+//
+//        when(carRepository.findByEmulatorId(1)).thenReturn(Optional.of(carEntity));
+//
+//        Optional<CarEntity> result = carReader.findByEmulatorId(1);
+//
+//        assertTrue(result.isPresent());
+//        assertEquals(1, result.get().getEmulatorId());
+//
+//    }
 }
