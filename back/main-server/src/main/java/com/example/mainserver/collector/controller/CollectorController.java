@@ -26,4 +26,13 @@ public class CollectorController {
         return ApiResponse.success(response);
 
     }
+
+    @PostMapping("/gps-direct")
+    public ApiResponse<GpsLogResponseDto> getGpsLogDirect(@RequestBody GpsLogDto gpsLogDto) {
+
+        var response = collectorService.getGpsLogDirect(gpsLogDto);
+
+        return ApiResponse.success(response);
+
+    }
 }

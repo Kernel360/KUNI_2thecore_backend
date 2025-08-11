@@ -6,14 +6,23 @@ import com.example.mainserver.collector.domain.dto.GpsLogResponseDto;
 
 import com.example.mainserver.collector.infrastructure.rabbitmq.GpsLogProducer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CollectorService {
 
-//    private final ApplicationEventPublisher eventPublisher;
     private final GpsLogProducer gpsLogProducer;
+
+    private final RestTemplate restTemplate;
+
 
     public GpsLogResponseDto getGpsLog(GpsLogDto gpsLogDto) {
 
@@ -27,6 +36,31 @@ public class CollectorService {
         return GpsLogResponseDto.builder()
                 .carNumber(gpsLogDto.getCarNumber())
                 .build();
+    }
+
+    public GpsLogResponseDto getGpsLogDirect(GpsLogDto gpsLogDto) {
+        if (gpsLogDto.getLogList().isEmpty()) {
+            throw new GpsLogNotFoundException();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<GpsLogDto> request = new HttpEntity<>(gpsLogDto, headers);
+
+        log.info(request.toString());
+
+        var url = "http://localhost:8082/api/hub/gps-direct";
+
+        var response = restTemplate.postForEntity(url, request, String.class);
+
+        log.info(response.toString());
+
+        return GpsLogResponseDto.builder()
+                .carNumber(gpsLogDto.getCarNumber())
+                .build();
+
+
+
     }
 
 }
