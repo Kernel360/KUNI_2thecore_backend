@@ -66,4 +66,44 @@ public class ConsumerService {
 
 
     }
+
+    public void gpsConsumerDirect(GpsLogDto gpsLogDto) {
+        log.info("Message received from mainserver no rabbit: {}", gpsLogDto);
+
+        // 주기(60초,120초,180초) 단위 DB 저장
+        List<GpsLogEntity> gpsLogEntities = gpsLogDto.getLogList().stream()
+                .map(gps -> new GpsLogEntity(
+                        gpsLogDto.getCarNumber(),
+                        gps.getLatitude(),
+                        gps.getLongitude(),
+                        gps.getTimestamp()))
+                .collect(Collectors.toList());
+
+        gpsLogRepository.saveAll(gpsLogEntities);
+
+        // Car table의 칼럼 last_latitude, last_longitude 갱신
+        String carNumber = gpsLogDto.getCarNumber();
+        Optional<CarEntity> optionalCar = carRepository.findByCarNumber(carNumber);
+
+        if (optionalCar.isPresent()) {
+            CarEntity carEntity = optionalCar.get();
+
+            // 수신된 GPS 데이터 중 가장 최신 timestamp를 가진 데이터 조회
+            Optional<GpsLogDto.Gps> latestReceivedGps = gpsLogDto.getLogList().stream()
+                    .max(Comparator.comparing(GpsLogDto.Gps::getTimestamp));
+
+            //cartable 수정
+            if (latestReceivedGps.isPresent()) {
+                GpsLogDto.Gps receivedGps = latestReceivedGps.get();
+
+                carEntity.setLastLatitude(receivedGps.getLatitude());
+                carEntity.setLastLongitude(receivedGps.getLongitude());
+                carRepository.save(carEntity);
+                log.info("Car {} last_latitude, last_longitude updated to {}, {}", carNumber, receivedGps.getLatitude(), receivedGps.getLongitude());
+            }
+        } else {
+            log.warn("Car with carNumber {} not found. Cannot update last_latitude and last_longitude.", carNumber);
+        }
+    }
+
 }
