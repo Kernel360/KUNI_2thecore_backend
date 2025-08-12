@@ -21,6 +21,8 @@ pipeline {
         withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
           sh '''
             set -euo pipefail
+            cd $WORKSPACE
+            chmod +x ./gradlew
             ./gradlew clean bootJar -x test
             tar --exclude='./build' --exclude='./.gradle' -czvf backend-project.tar .
           '''
