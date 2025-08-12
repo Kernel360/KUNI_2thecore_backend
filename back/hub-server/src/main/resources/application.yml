@@ -1,5 +1,5 @@
 server:
-  port: ${HUB_SERVER_PORT:8082}
+  port: ${HUB_SERVER_PORT}
 
 spring:
   rabbitmq:
@@ -11,10 +11,17 @@ spring:
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
+  datasource:
+    hikari:
+      maxLifetime: 27000000  # 27,000,000 밀리초 = 7시간 30분
+    url: ${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
+# 허브서버 로깅
 logging:
-  level:
-    org.springframework.web: DEBUG
+  config: classpath:logback-spring.xml
 
 car:
   reader:

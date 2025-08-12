@@ -17,9 +17,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        AdminEntity admin = (AdminEntity) adminRepository.findByLoginId(loginId)
+        AdminEntity admin = adminRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 관리자를 찾을 수 없음: " + loginId));
 
         return new AdminPrincipal(admin);
     }
+
 }

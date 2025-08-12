@@ -6,6 +6,7 @@ import com.example.mainserver.admin.controller.dto.AdminRequest;
 import com.example.mainserver.admin.controller.dto.AdminResponse;
 import com.example.mainserver.admin.exception.AdminLoginIdAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +16,12 @@ import java.util.Optional;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository) {
+    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -28,9 +31,12 @@ public class AdminService {
             throw new AdminLoginIdAlreadyExistsException(requestDto.getLoginId());
         }
 
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+
         AdminEntity adminEntity = AdminEntity.builder()
                 .loginId(requestDto.getLoginId())
-                .password(requestDto.getPassword())
+                .password(encodedPassword) // 암호화된 비밀번호 저장
                 .name(requestDto.getName())
                 .phoneNumber(requestDto.getPhoneNumber())
                 .email(requestDto.getEmail())
@@ -49,7 +55,8 @@ public class AdminService {
 
         // 비밀번호 변경이 요청된 경우
         if (requestDto.getPassword() != null && !requestDto.getPassword().isEmpty()) {
-            adminEntity.setPassword(requestDto.getPassword());
+            String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+            adminEntity.setPassword(encodedPassword);
         }
 
         Optional.ofNullable(requestDto.getName()).ifPresent(adminEntity::setName);

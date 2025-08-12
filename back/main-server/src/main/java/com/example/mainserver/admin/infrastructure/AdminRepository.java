@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface AdminRepository extends JpaRepository<AdminEntity, String> {
 
-    Optional<Object> findByLoginId(String loginId);
+    Optional<AdminEntity> findByLoginId(String loginId);
 }

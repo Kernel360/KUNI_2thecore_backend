@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -55,7 +54,7 @@ public class CollectorControllerTest {
 
         GpsLogDto.Gps gps = new GpsLogDto.Gps("12.3212", "12.2312", now);
 
-        GpsLogDto gpsLogDto = new GpsLogDto("12가1233", "loginId", List.of(gps), now, now.plusMinutes(1));
+        GpsLogDto gpsLogDto = new GpsLogDto("12가1233", List.of(gps));
 
 
         when(collectorService.getGpsLog(any())).thenReturn(mockResponse());
@@ -78,7 +77,7 @@ public class CollectorControllerTest {
 
         LocalDateTime now = LocalDateTime.of(2025, 7, 30, 12, 0, 0);
         GpsLogDto.Gps gps = new GpsLogDto.Gps("12.3212", "12.2312", now);
-        GpsLogDto gpsLogDto = new GpsLogDto("11111111", "loginId", List.of(gps), now, now.plusMinutes(1));
+        GpsLogDto gpsLogDto = new GpsLogDto("11111111", List.of(gps));
 
         // 예외 발생 시뮬레이션
         when(collectorService.getGpsLog(any()))
@@ -98,7 +97,7 @@ public class CollectorControllerTest {
 
         LocalDateTime now = LocalDateTime.of(2025, 7, 30, 12, 0, 0);
         GpsLogDto.Gps gps = new GpsLogDto.Gps();
-        GpsLogDto gpsLogDto = new GpsLogDto("11111111", "loginId", List.of(gps), now, now.plusMinutes(1));
+        GpsLogDto gpsLogDto = new GpsLogDto("11111111", List.of(gps));
 
         // 예외 발생 시뮬레이션
         when(collectorService.getGpsLog(any()))
@@ -115,9 +114,7 @@ public class CollectorControllerTest {
     private GpsLogResponseDto mockResponse() {
         LocalDateTime now = LocalDateTime.of(2025, 7, 30, 12, 0, 0);
         return GpsLogResponseDto.builder()
-                .deviceId("abc")
-                .startTime(now)
-                .endTime(now.plusMinutes(1))
+                .carNumber("abc")
                 .build();
     }
 

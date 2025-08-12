@@ -10,6 +10,7 @@ import com.example.mainserver.car.exception.CarAlreadyExistsException;
 import com.example.mainserver.car.exception.CarErrorCode;
 import com.example.mainserver.car.exception.CarNotFoundException;
 import com.example.mainserver.car.infrastructure.mapper.CarMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +20,12 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.example.common.domain.car.CarStatus;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CarService {
@@ -47,9 +50,9 @@ public class CarService {
         Map<CarStatus, Long> result = carReader.getCountByStatus();
 
         return CarSummaryDto.builder()
-                .operating(result.getOrDefault(CarStatus.DRIVING, 0L))
-                .waiting(result.getOrDefault(CarStatus.IDLE, 0L))
-                .inspecting(result.getOrDefault(CarStatus.MAINTENANCE, 0L))
+                .driving(result.getOrDefault(CarStatus.DRIVING, 0L))
+                .idle(result.getOrDefault(CarStatus.IDLE, 0L))
+                .maintenance(result.getOrDefault(CarStatus.MAINTENANCE, 0L))
                 .total(result.getOrDefault(CarStatus.DRIVING, 0L) +
                         result.getOrDefault(CarStatus.IDLE, 0L)
                         + result.getOrDefault(CarStatus.MAINTENANCE, 0L))
@@ -139,14 +142,30 @@ public class CarService {
         carWriter.save(car);
     }
 
-    public List<CarSearchDto> getCarsByStatuses(List<String> statuses) {
-        List<CarStatus> carStatuses = statuses.stream()
-                .map(CarStatus::fromDisplayName)
-                .toList();
+    /**
+     * 상태 문자열에 따라 차량 리스트 조회
+     * statusStr == null -> DRIVING, IDLE, MAINTENANCE 모두 조회
+     */
+    public List<CarEntity> getCarsByStatusString(String statusStr) {
+        if (statusStr == null || statusStr.isBlank()) {
+            List<CarStatus> allStatuses = List.of(CarStatus.DRIVING, CarStatus.IDLE, CarStatus.MAINTENANCE);
+            return carReader.findByStatus(allStatuses);
+        }
 
-        List<CarEntity> cars = carReader.findByStatus(carStatuses);
-        return cars.stream().map(CarSearchDto::EntityToDto).toList();
-
+        CarStatus status = CarStatus.fromDisplayName(statusStr);
+        List<CarEntity> list = carReader.findByStatus(List.of(status));
+        log.debug("getCarsByStatusString - querying status {} -> found {}", status, list.size());
+        return list;
     }
 
+
+    /**
+     * 위치 정보 반환: getCarsByStatusString 재사용
+     */
+    public List<CarLocationDto> getCarLocationsByStatus(String statusStr) {
+        List<CarEntity> cars = getCarsByStatusString(statusStr);
+        return cars.stream()
+                .map(CarLocationDto::fromEntity)
+                .collect(Collectors.toList());
+    }
 }

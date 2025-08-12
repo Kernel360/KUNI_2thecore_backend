@@ -22,14 +22,7 @@ public class GpsLogDto {
     @NotNull
     private String carNumber;
 
-    @NotNull
-    private String loginId;
-
     private List<Gps> logList = new ArrayList<>();
-
-    private LocalDateTime startTime;
-
-    private LocalDateTime endTime;
 
     @Getter
     @Setter
@@ -45,6 +38,6 @@ public class GpsLogDto {
         private String longitude;
 
         @NotNull
-        private LocalDateTime timeStamp;
+        private LocalDateTime timestamp;
     }
 }

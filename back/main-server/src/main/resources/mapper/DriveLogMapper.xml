@@ -1,0 +1,63 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mainserver.drivelog.infrastructure.mapper.DriveLogMapper">
+    <select id="search" parameterType="map"
+            resultType="com.example.mainserver.drivelog.dto.DriveLogFilterResponseDto">
+
+    SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point
+           ,dl.end_point, dl.drive_dist FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+    <where>
+            <if test="filter.carNumber != null">
+                AND c.car_number = #{filter.carNumber}
+            </if>
+            <if test="filter.status != null">
+                AND c.status = #{filter.status}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == true">
+                AND c.brand = #{filter.brand}
+            </if>
+            <if test="filter.model != null and filter.twoParam == true">
+                AND c.model = #{filter.model}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == false">
+                AND (c.brand = #{filter.brand} OR c.model = #{filter.brand})
+            </if>
+            <if test="filter.startTime != null and filter.endTime != null">
+                AND dl.start_time <![CDATA[>=]]> CONCAT(#{filter.startTime}, ' 00:00:00')
+                AND dl.start_time <![CDATA[<]]>  DATE_ADD(#{filter.endTime}, INTERVAL 1 DAY)
+            </if>
+    </where>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countByFilter"
+            parameterType="map"
+            resultType="int">
+
+        SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+        <where>
+            <if test="filter.carNumber != null">
+                AND c.car_number = #{filter.carNumber}
+            </if>
+            <if test="filter.status != null">
+                AND c.status = #{filter.status}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == true">
+                AND c.brand = #{filter.brand}
+            </if>
+            <if test="filter.model != null and filter.twoParam == true">
+                AND c.model = #{filter.model}
+            </if>
+            <if test="filter.brand != null and filter.twoParam == false">
+                AND (c.brand = #{filter.brand} OR c.model = #{filter.brand})
+            </if>
+            <if test="filter.startTime != null and filter.endTime != null">
+                AND dl.start_time <![CDATA[>=]]> CONCAT(#{filter.startTime}, ' 00:00:00')
+                AND dl.start_time <![CDATA[<]]>  DATE_ADD(#{filter.endTime}, INTERVAL 1 DAY)
+            </if>
+        </where>
+    </select>
+
+</mapper>

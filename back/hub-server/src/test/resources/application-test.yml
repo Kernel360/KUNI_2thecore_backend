@@ -1,0 +1,38 @@
+server:
+  port: ${HUB_SERVER_PORT}
+
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+car:
+  reader:
+    db:
+      enabled: ${CAR_DB_ENABLED:false}
+
+emulator:
+  reader:
+    db:
+      enabled: ${EMULATOR_DB_ENABLED:false}
+
+jwt:
+  secret: ${JWT_SECRET_KEY}
+
+dotenv:
+  filename: prod.env

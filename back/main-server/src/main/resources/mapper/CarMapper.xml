@@ -34,7 +34,7 @@
     <select id="search" parameterType="map"
             resultType="com.example.common.domain.car.CarEntity">
         SELECT *
-        FROM car
+        FROM car c
         <where>
             <if test="filter.carNumber != null">
                 AND car_number = #{filter.carNumber}
