@@ -30,9 +30,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Component
-@Slf4j
 @Setter
 @Getter
+@Slf4j
 public class GpxScheduler{
     @Autowired
     private RestTemplate restTemplate; // api 호출을 위함
@@ -40,6 +40,7 @@ public class GpxScheduler{
     private List<String> gpxFile = new ArrayList<>(); // Gpx 파일을 읽어와 저장해두는 리스트
     private List<GpxLogDto> buffer = new ArrayList<>(); // 전송될 GPX 정보들을 저장해두는 리스트
     private int currentIndex = 0; // 읽어야 할 line 번호
+    private int endIndex = 0; // 해당 인덱스까지 읽기
 
     private String carNumber;
     private String loginId;
@@ -75,7 +76,8 @@ public class GpxScheduler{
                     .filter(line -> line.contains("<trkpt"))
                     .collect(Collectors.toList());
             buffer.clear();
-            currentIndex = 0;
+            currentIndex = new Random().nextInt((int)(gpxFile.size() - 300)); // random한 시작 위치 지정
+            endIndex = new Random().nextInt(currentIndex + 300, gpxFile.size()); // random한 종료 지점 지정 (최소 5분은 주행하도록 보장)
 
             startScheduler();
 
@@ -88,7 +90,11 @@ public class GpxScheduler{
     public void startScheduler() {
         Runnable task = () -> {
             try {
-                if (carNumber != null && currentIndex < gpxFile.size()) {
+                if (carNumber == null) {
+                    log.error("********* 차량 정보 없음 **********");
+                    return;
+                }
+                if (currentIndex < endIndex) {
                     Pattern pattern = Pattern.compile("lat=\"(.*?)\"\\s+lon=\"(.*?)\""); // 위도 경도 추출을 위한 정규표현식
                     Matcher matcher = pattern.matcher(gpxFile.get(currentIndex));
                     if (matcher.find()) { // Gpx라인을 Dto로 가공하여 리스트에 삽입
@@ -114,8 +120,12 @@ public class GpxScheduler{
 
                     currentIndex++;
                 } else {
+                    if (!buffer.isEmpty()) {
+                        sendGpxData();  // 버퍼에 남은 데이터 전송
+                    }
+
                     scheduler.shutdown(); // 조건 종료 시 스케줄러 중단
-                    log.info("GPX 파일 전송 완료 혹은 차량 정보 없음으로 종료됨");
+                    log.info("*********** GPX 파일 전송 완료 ***********");
                 }
             } catch (Exception e) {
                 log.error("GPX 재생 중 오류 발생", e);
