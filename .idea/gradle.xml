@@ -9,7 +9,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/back" />
-            <option value="$PROJECT_DIR$/back/emulator-server" />
+            <option value="$PROJECT_DIR$/back/common" />
+            <option value="$PROJECT_DIR$/back/hub-server" />
+            <option value="$PROJECT_DIR$/back/main-server" />
           </set>
         </option>
       </GradleProjectSettings>

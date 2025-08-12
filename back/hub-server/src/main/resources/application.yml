@@ -17,9 +17,9 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
+# 허브서버 로깅
 logging:
-  level:
-    org.springframework.web: DEBUG
+  config: classpath:logback-spring.xml
 
 car:
   reader:
