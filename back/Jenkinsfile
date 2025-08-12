@@ -61,50 +61,47 @@ pipeline {
             passwordVariable: 'DOCKERHUB_TOKEN'
           )
         ]) {
-          sh '''
-            set -xeuo pipefail
+          sh """
+  set -xeuo pipefail
+  DEPLOY_HOST=ec2-43-203-191-246.ap-northeast-2.compute.amazonaws.com
+  SSH_KEY=/var/lib/jenkins/.ssh/server_key
+  REMOTE_DIR=/home/ubuntu/2thecore
 
-            DEPLOY_HOST=ec2-43-203-191-246.ap-northeast-2.compute.amazonaws.com
-            SSH_KEY=/var/lib/jenkins/.ssh/server_key
-            REMOTE_DIR=/home/ubuntu/2thecore
+  install -d -m700 "$HOME/.ssh"
+  install -m644 /dev/null "$HOME/.ssh/known_hosts" || true
+  SSH_OPTS="-o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
 
-            install -d -m700 "$HOME/.ssh"
-            install -m644 /dev/null "$HOME/.ssh/known_hosts" || true
-            SSH_OPTS="-o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
+  ssh \$SSH_OPTS -i "\$SSH_KEY" ubuntu@"\$DEPLOY_HOST" "mkdir -p \$REMOTE_DIR"
 
-            ssh $SSH_OPTS -i "$SSH_KEY" ubuntu@"$DEPLOY_HOST" "mkdir -p $REMOTE_DIR"
+  scp \$SSH_OPTS -i "\$SSH_KEY" back/prod.env ubuntu@"\$DEPLOY_HOST":"\$REMOTE_DIR/prod.env"
+  scp \$SSH_OPTS -i "\$SSH_KEY" back/docker/docker-compose.yml ubuntu@"\$DEPLOY_HOST":"\$REMOTE_DIR/docker-compose.yml"
 
-            scp $SSH_OPTS -i "$SSH_KEY" back/prod.env ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/prod.env"
-            scp $SSH_OPTS -i "$SSH_KEY" back/docker/docker-compose.yml ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/docker-compose.yml"
+  ssh \$SSH_OPTS -i "\$SSH_KEY" ubuntu@"\$DEPLOY_HOST" bash -s << EOS
+set -xeuo pipefail
 
-            ssh $SSH_OPTS -i "$SSH_KEY" ubuntu@"$DEPLOY_HOST" bash -s << EOS
-              set -xeuo pipefail
+export DOCKERHUB_USER=${DOCKERHUB_USER}
+export DOCKERHUB_TOKEN=${DOCKERHUB_TOKEN}
 
-              export DOCKERHUB_USER=${DOCKERHUB_USER}
-              export DOCKERHUB_TOKEN=${DOCKERHUB_TOKEN}
+test -s /home/ubuntu/2thecore/prod.env
 
-              test -s /home/ubuntu/2thecore/prod.env
+sudo mkdir -p /opt/2thecore
+sudo mv /home/ubuntu/2thecore/prod.env /opt/2thecore/prod.env
+sudo chown ubuntu:ubuntu /opt/2thecore/prod.env
 
-              sudo mkdir -p /opt/2thecore
-              sudo mv /home/ubuntu/2thecore/prod.env /opt/2thecore/prod.env
-              sudo chown ubuntu:ubuntu /opt/2thecore/prod.env
+cd /home/ubuntu/2thecore
 
-              cd /home/ubuntu/2thecore
+echo "\\\$DOCKERHUB_TOKEN" | docker login -u "\\\$DOCKERHUB_USER" --password-stdin
 
-              echo "\$DOCKERHUB_TOKEN" | docker login -u "\$DOCKERHUB_USER" --password-stdin
+sudo docker rm -f 2thecore-rabbitmq 2thecore-redis 2thecore-main 2thecore-hub || true
 
-              # 기존 컨테이너 강제 삭제
-              sudo docker rm -f 2thecore-rabbitmq 2thecore-redis 2thecore-main 2thecore-hub || true
+docker compose down --rmi all --volumes --remove-orphans || true
 
-              # 도커 컴포즈 정리 (컨테이너, 네트워크, 볼륨, 이미지)
-              docker compose down --rmi all --volumes --remove-orphans || true
+docker compose pull
+docker compose up -d
 
-              docker compose pull
-              docker compose up -d
-
-              docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-            EOS
-          '''
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+EOS
+"""
         }
       }
     }
