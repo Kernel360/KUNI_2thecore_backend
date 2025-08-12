@@ -87,6 +87,7 @@ public class CarService {
             );
         }
         var entity = CarEntity.builder()
+                .loginId(carRequest.getLoginId())
                 .brand(carRequest.getBrand())
                 .model(carRequest.getModel())
                 .carYear(carRequest.getCarYear())
