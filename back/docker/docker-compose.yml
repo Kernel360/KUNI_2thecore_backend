@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
 
   hub-server:
-    image: hub-server-img
+    image: yeonjin529/hub-server-img
     container_name: 2thecore-hub
     build:
       context: ../
@@ -46,9 +46,7 @@ services:
     restart: unless-stopped
 
   main-server:
-    environment:
-      - RABBITMQ_HOST=rabbitmq
-    image: main-server-img
+    image: yeonjin529/main-server-img
     container_name: 2thecore-main
     build:
       context: ../
@@ -61,7 +59,6 @@ services:
     networks:
       - rabbitmq_net
     restart: unless-stopped
-
 
 volumes:
   rabbitmq_data:
