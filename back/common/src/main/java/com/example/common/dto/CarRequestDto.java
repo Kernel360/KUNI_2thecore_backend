@@ -12,6 +12,9 @@ import lombok.*;
 @Builder
 public class CarRequestDto {
     @NotBlank(groups = CreateGroup.class)
+    private String loginId;
+
+    @NotBlank(groups = CreateGroup.class)
     private String brand;
 
     @NotBlank(groups = CreateGroup.class)
