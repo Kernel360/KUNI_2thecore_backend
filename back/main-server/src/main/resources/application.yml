@@ -4,6 +4,7 @@ jwt:
 spring:
   main:
     allow-bean-definition-overriding: true
+    banner-mode: "off" # 콘솔 배너 비활성화
 
   datasource:
     url: ${DB_URL}
@@ -38,6 +39,10 @@ mybatis:
 server:
   address: 0.0.0.0
   port: 8080
+
+# 메인서버 로깅
+logging:
+  config: classpath:logback-spring.xml
 
 #jwt:
 #  secret: my_secret_key_for_hmac_sha256_algorithm_256bit

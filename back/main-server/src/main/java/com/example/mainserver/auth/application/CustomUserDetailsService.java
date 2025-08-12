@@ -22,4 +22,5 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return new AdminPrincipal(admin);
     }
+
 }
