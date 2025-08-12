@@ -26,10 +26,13 @@ public class LogService {
         CarEntity carEntity = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
 
+<<<<<<< HEAD
         EmulatorEntity emulatorEntity = emulatorReader.getById(carEntity.getEmulatorId());
 
         emulatorEntity.setStatus(EmulatorStatus.getEmulatorStatus(powerStatus));
 
+=======
+>>>>>>> 144bb01 ("emulator-code-delete")
         if(powerStatus.equals("ON")) {
             // scheduler 시작
             gpxScheduler.setCarNumber(carNumber);
