@@ -95,6 +95,9 @@ cd /home/ubuntu/2thecore
 
 echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
 
+# 기존 컨테이너 및 관련 자원 완전 정리
+docker compose down --rmi all --volumes --remove-orphans || true
+
 docker compose down
 docker compose pull
 docker compose up -d
