@@ -1,0 +1,116 @@
+pipeline {
+  agent any
+  options { timestamps() }
+
+  environment {
+    IMAGE_NAME = '2thecore-emulator'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout([$class: 'GitSCM',
+          userRemoteConfigs: [[url: 'https://github.com/Kernel360/KUNI_2thecore_backend.git']],
+          branches: [[name: '*/emulator']]
+        ])
+      }
+    }
+
+    stage('Build & Push Image') {
+      steps {
+        withCredentials([
+          usernamePassword(
+            credentialsId: 'docker-hub-token',
+            usernameVariable: 'DOCKERHUB_USER',
+            passwordVariable: 'DOCKERHUB_TOKEN'
+          ),
+          file(credentialsId: '2thecore-env', variable: 'ENV_FILE')
+        ]) {
+          script { env.DOCKER_USER = DOCKERHUB_USER }
+          withEnv(["IMAGE_REPO=${DOCKERHUB_USER}/${IMAGE_NAME}"]) {
+            sh '''
+              set -euo pipefail
+              cd back
+
+              # secret 파일 저장
+              install -m600 "$ENV_FILE" prod.env
+
+              # Docker 로그인
+              echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+              docker info | grep -i '^ Username' || true
+
+              # emulator 이미지 빌드 및 푸시
+              docker build -f emulator-server/Dockerfile -t "${IMAGE_REPO}:emulator" .
+              docker push "${IMAGE_REPO}:emulator"
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Deploy to EC2 via SSH') {
+      steps {
+        withCredentials([
+          usernamePassword(
+            credentialsId: 'docker-hub-token',
+            usernameVariable: 'DOCKERHUB_USER',
+            passwordVariable: 'DOCKERHUB_TOKEN'
+          )
+        ]) {
+          sh '''
+            set -euo pipefail
+
+            DEPLOY_HOST=ec2-3-39-232-29.ap-northeast-2.compute.amazonaws.com
+            SSH_KEY=/var/lib/jenkins/.ssh/server_key
+            REMOTE_DIR=/home/ubuntu/2thecore
+
+            install -d -m700 "$HOME/.ssh"
+            install -m644 /dev/null "$HOME/.ssh/known_hosts" || true
+            SSH_OPTS="-o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
+
+            ssh $SSH_OPTS -i "$SSH_KEY" ubuntu@"$DEPLOY_HOST" "mkdir -p $REMOTE_DIR"
+            scp $SSH_OPTS -i "$SSH_KEY" back/prod.env ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/prod.env"
+
+            ssh $SSH_OPTS -i "$SSH_KEY" \
+              ubuntu@"$DEPLOY_HOST" \
+              "DOCKER_USER=${DOCKERHUB_USER} IMAGE_NAME=${IMAGE_NAME} bash -s" <<'EOS'
+    set -xeuo pipefail
+
+    test -s /home/ubuntu/2thecore/prod.env
+
+    sudo mkdir -p /opt/2thecore
+    sudo mv /home/ubuntu/2thecore/prod.env /opt/2thecore/prod.env
+    sudo chown ubuntu:ubuntu /opt/2thecore/prod.env
+
+    cd /opt/2thecore
+
+    docker network create core-net >/dev/null 2>&1 || true
+
+    docker rm -f emulator >/dev/null 2>&1 || true
+
+    docker pull docker.io/${DOCKER_USER}/${IMAGE_NAME}:emulator
+
+    docker run -d --name emulator \
+      --network core-net \
+      --env-file /opt/2thecore/prod.env \
+      -p 8080:8080 --restart unless-stopped \
+      docker.io/${DOCKER_USER}/${IMAGE_NAME}:emulator
+
+    for i in {1..30}; do
+      status=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/actuator/health || echo 000)
+      [ "$status" = "200" ] && echo "emulator health OK" && break
+      sleep 2
+    done
+
+    docker ps --format "table {{.Names}}\\t{{.Status}}\\t{{.Ports}}"
+    EOS
+            '''
+        }
+      }
+    }
+  }
+
+  post {
+    always { echo "Pipeline finished." }
+  }
+}
