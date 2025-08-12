@@ -35,7 +35,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'docker-hub-token', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_TOKEN')]) {
           script {
             def DEPLOY_HOST = "ec2-43-203-191-246.ap-northeast-2.compute.amazonaws.com"
-            def PEM_PATH = '~/Downloads/kernel-2thecore-ec2.pem'
+            def PEM_PATH = '/var/lib/jenkins/.ssh/yeojin.pem'
             sh """
               scp -i ${PEM_PATH} backend-project.tar ubuntu@${DEPLOY_HOST}:~
               ssh -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} << EOF
