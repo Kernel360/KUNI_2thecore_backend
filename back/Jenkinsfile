@@ -16,98 +16,42 @@ pipeline {
       }
     }
 
-    stage('Build & Push Images') {
+    stage('Build') {
       steps {
-        withCredentials([
-          usernamePassword(
-            credentialsId: 'docker-hub-token',
-            usernameVariable: 'DOCKERHUB_USER',
-            passwordVariable: 'DOCKERHUB_TOKEN'
-          ),
-          file(credentialsId: '2thecore-env', variable: 'ENV_FILE')
-        ]) {
-          script { env.DOCKER_USER = DOCKERHUB_USER }
-          withEnv(["IMAGE_REPO=${DOCKERHUB_USER}/${IMAGE_NAME}"]) {
-            sh '''
-              set -euo pipefail
-              cd back
-
-              # secret 파일 저장
-              install -m600 "$ENV_FILE" prod.env
-
-              # Docker 로그인
-              echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
-              docker info | grep -i '^ Username' || true
-
-             # main 이미지
-             docker build -f main-server/Dockerfile -t "${DOCKERHUB_USER}/main-server-img" .
-             docker push "${DOCKERHUB_USER}/main-server-img"
-
-             # hub 이미지
-             docker build -f hub-server/Dockerfile -t "${DOCKERHUB_USER}/hub-server-img" .
-             docker push "${DOCKERHUB_USER}/hub-server-img"
-            '''
-          }
+        withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
+          sh '''
+            set -euo pipefail
+            ./gradlew clean bootJar -x test
+            tar --exclude='./build' --exclude='./.gradle' -czvf backend-project.tar .
+          '''
         }
       }
     }
 
     stage('Deploy to EC2 via SSH') {
       steps {
-        withCredentials([
-          usernamePassword(
-            credentialsId: 'docker-hub-token',
-            usernameVariable: 'DOCKERHUB_USER',
-            passwordVariable: 'DOCKERHUB_TOKEN'
-          )
-        ]) {
-          sh """
-  set -xeuo pipefail
-  DEPLOY_HOST=ec2-43-203-191-246.ap-northeast-2.compute.amazonaws.com
-  SSH_KEY=/var/lib/jenkins/.ssh/server_key
-  REMOTE_DIR=/home/ubuntu/2thecore
-
-  install -d -m700 "$HOME/.ssh"
-  install -m644 /dev/null "$HOME/.ssh/known_hosts" || true
-  SSH_OPTS="-o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
-
-  ssh \$SSH_OPTS -i "\$SSH_KEY" ubuntu@"\$DEPLOY_HOST" "mkdir -p \$REMOTE_DIR"
-
-  scp \$SSH_OPTS -i "\$SSH_KEY" back/prod.env ubuntu@"\$DEPLOY_HOST":"\$REMOTE_DIR/prod.env"
-  scp \$SSH_OPTS -i "\$SSH_KEY" back/docker/docker-compose.yml ubuntu@"\$DEPLOY_HOST":"\$REMOTE_DIR/docker-compose.yml"
-
-  ssh \$SSH_OPTS -i "\$SSH_KEY" ubuntu@"\$DEPLOY_HOST" bash -s << EOS
-set -xeuo pipefail
-
-export DOCKERHUB_USER=${DOCKERHUB_USER}
-export DOCKERHUB_TOKEN=${DOCKERHUB_TOKEN}
-
-test -s /home/ubuntu/2thecore/prod.env
-
-sudo mkdir -p /opt/2thecore
-sudo mv /home/ubuntu/2thecore/prod.env /opt/2thecore/prod.env
-sudo chown ubuntu:ubuntu /opt/2thecore/prod.env
-
-cd /home/ubuntu/2thecore
-
-echo "\\\$DOCKERHUB_TOKEN" | docker login -u "\\\$DOCKERHUB_USER" --password-stdin
-
-sudo docker rm -f 2thecore-rabbitmq 2thecore-redis 2thecore-main 2thecore-hub || true
-
-docker compose down --rmi all --volumes --remove-orphans || true
-
-docker compose pull
-docker compose up -d
-
-docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-EOS
-"""
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-token', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_TOKEN')]) {
+          script {
+            def DEPLOY_HOST = "ec2-43-203-191-246.ap-northeast-2.compute.amazonaws.com"
+            def PEM_PATH = '~/Downloads/kernel-2thecore-ec2.pem'
+            sh """
+              scp -i ${PEM_PATH} backend-project.tar ubuntu@${DEPLOY_HOST}:~
+              ssh -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} << EOF
+                tar -xzvf backend-project.tar
+                mv -i ./prod.env ./docker/prod.env
+                cd docker
+                docker compose --env-file ./prod.env up -d --build
+              EOF
+            """
+          }
         }
       }
     }
   }
 
   post {
-    always { echo "Pipeline finished." }
+    always {
+      echo "Pipeline finished."
+    }
   }
 }
