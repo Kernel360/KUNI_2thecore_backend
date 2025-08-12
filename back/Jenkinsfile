@@ -39,13 +39,13 @@ pipeline {
               echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
               docker info | grep -i '^ Username' || true
 
-              # main 이미지
-              docker build -f main-server/Dockerfile -t "${IMAGE_REPO}:main" .
-              docker push "${IMAGE_REPO}:main"
+             # main 이미지
+             docker build -f main-server/Dockerfile -t "${DOCKERHUB_USER}/main-server-img" .
+             docker push "${DOCKERHUB_USER}/main-server-img"
 
-              # hub 이미지
-              docker build -f hub-server/Dockerfile -t "${IMAGE_REPO}:hub" .
-              docker push "${IMAGE_REPO}:hub"
+             # hub 이미지
+             docker build -f hub-server/Dockerfile -t "${DOCKERHUB_USER}/hub-server-img" .
+             docker push "${DOCKERHUB_USER}/hub-server-img"
             '''
           }
         }
