@@ -62,48 +62,45 @@ pipeline {
           )
         ]) {
           sh '''
-            set -euo pipefail
+            set -xeuo pipefail
 
             DEPLOY_HOST=ec2-43-203-191-246.ap-northeast-2.compute.amazonaws.com
             SSH_KEY=/var/lib/jenkins/.ssh/server_key
             REMOTE_DIR=/home/ubuntu/2thecore
 
-            # Jenkins 에이전트 홈 기준 known_hosts 준비
             install -d -m700 "$HOME/.ssh"
             install -m644 /dev/null "$HOME/.ssh/known_hosts" || true
             SSH_OPTS="-o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
 
-            # 원격 디렉터리 보장
             ssh $SSH_OPTS -i "$SSH_KEY" ubuntu@"$DEPLOY_HOST" "mkdir -p $REMOTE_DIR"
 
-            # 파일 전송
             scp $SSH_OPTS -i "$SSH_KEY" back/prod.env ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/prod.env"
             scp $SSH_OPTS -i "$SSH_KEY" back/docker/docker-compose.yml ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/docker-compose.yml"
-            # 원격 실행(환경변수 주입)
-            ssh $SSH_OPTS -i "$SSH_KEY" \
-              ubuntu@"$DEPLOY_HOST" \
-              "DOCKER_USER=${DOCKERHUB_USER} IMAGE_NAME=${IMAGE_NAME} DOCKERHUB_USER=${DOCKERHUB_USER} DOCKERHUB_TOKEN=${DOCKERHUB_TOKEN} bash -s" <<'EOS'
-set -xeuo pipefail
 
-test -s /home/ubuntu/2thecore/prod.env
+            ssh $SSH_OPTS -i "$SSH_KEY" ubuntu@"$DEPLOY_HOST" "bash -s" << 'EOS'
+              set -xeuo pipefail
 
-sudo mkdir -p /opt/2thecore
-sudo mv /home/ubuntu/2thecore/prod.env /opt/2thecore/prod.env
-sudo chown ubuntu:ubuntu /opt/2thecore/prod.env
+              test -s /home/ubuntu/2thecore/prod.env
 
-cd /home/ubuntu/2thecore
+              sudo mkdir -p /opt/2thecore
+              sudo mv /home/ubuntu/2thecore/prod.env /opt/2thecore/prod.env
+              sudo chown ubuntu:ubuntu /opt/2thecore/prod.env
 
-echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+              cd /home/ubuntu/2thecore
 
-# 기존 컨테이너 및 관련 자원 완전 정리
-docker compose down --rmi all --volumes --remove-orphans || true
+              echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
 
-docker compose down
-docker compose pull
-docker compose up -d
+              # 기존 컨테이너 강제 삭제
+              sudo docker rm -f 2thecore-rabbitmq 2thecore-redis 2thecore-main 2thecore-hub || true
 
-docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-EOS
+              # 도커 컴포즈 정리 (컨테이너, 네트워크, 볼륨, 이미지)
+              docker compose down --rmi all --volumes --remove-orphans || true
+
+              docker compose pull
+              docker compose up -d
+
+              docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+            EOS
           '''
         }
       }
