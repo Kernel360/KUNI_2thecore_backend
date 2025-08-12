@@ -12,6 +12,8 @@ spring:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
   datasource:
+    hikari:
+      maxLifetime: 27000000  # 27,000,000 밀리초 = 7시간 30분
     url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME}
