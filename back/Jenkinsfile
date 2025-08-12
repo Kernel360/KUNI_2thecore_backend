@@ -78,8 +78,7 @@ pipeline {
 
             # 파일 전송
             scp $SSH_OPTS -i "$SSH_KEY" back/prod.env ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/prod.env"
-            scp $SSH_OPTS -i "$SSH_KEY" docker-compose.yml ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/docker-compose.yml"
-
+            scp $SSH_OPTS -i "$SSH_KEY" back/docker/docker-compose.yml ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/docker-compose.yml"
             # 원격 실행(환경변수 주입)
             ssh $SSH_OPTS -i "$SSH_KEY" \
               ubuntu@"$DEPLOY_HOST" \
