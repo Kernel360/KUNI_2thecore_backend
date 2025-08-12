@@ -95,8 +95,8 @@ cd /home/ubuntu/2thecore
 
 echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
 
-docker-compose pull
-docker-compose up -d
+docker compose pull
+docker compose up -d
 
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 EOS
