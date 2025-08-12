@@ -77,8 +77,11 @@ pipeline {
             scp $SSH_OPTS -i "$SSH_KEY" back/prod.env ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/prod.env"
             scp $SSH_OPTS -i "$SSH_KEY" back/docker/docker-compose.yml ubuntu@"$DEPLOY_HOST":"$REMOTE_DIR/docker-compose.yml"
 
-            ssh $SSH_OPTS -i "$SSH_KEY" ubuntu@"$DEPLOY_HOST" "bash -s" << 'EOS'
+            ssh $SSH_OPTS -i "$SSH_KEY" ubuntu@"$DEPLOY_HOST" bash -s << EOS
               set -xeuo pipefail
+
+              export DOCKERHUB_USER=${DOCKERHUB_USER}
+              export DOCKERHUB_TOKEN=${DOCKERHUB_TOKEN}
 
               test -s /home/ubuntu/2thecore/prod.env
 
@@ -88,7 +91,7 @@ pipeline {
 
               cd /home/ubuntu/2thecore
 
-              echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+              echo "\$DOCKERHUB_TOKEN" | docker login -u "\$DOCKERHUB_USER" --password-stdin
 
               # 기존 컨테이너 강제 삭제
               sudo docker rm -f 2thecore-rabbitmq 2thecore-redis 2thecore-main 2thecore-hub || true
