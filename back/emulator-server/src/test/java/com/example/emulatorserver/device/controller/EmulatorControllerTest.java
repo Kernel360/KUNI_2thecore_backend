@@ -1,6 +1,9 @@
 package com.example.emulatorserver.device.controller;
 
+<<<<<<< HEAD
 import com.example.emulatorserver.device.application.EmulatorService;
+=======
+>>>>>>> 144bb01 ("emulator-code-delete")
 import com.example.emulatorserver.device.controller.dto.*;
 import com.example.common.domain.emulator.EmulatorStatus;
 import com.example.common.domain.emulator.EmulatorEntity;

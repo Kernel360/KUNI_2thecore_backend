@@ -3,7 +3,10 @@ package com.example.emulatorserver.device.application;
 import com.example.common.domain.car.CarEntity;
 import com.example.common.domain.emulator.EmulatorEntity;
 import com.example.common.infrastructure.car.CarRepository;
+<<<<<<< HEAD
 import com.example.emulatorserver.device.controller.dto.EmulatorRequest;
+=======
+>>>>>>> 144bb01 ("emulator-code-delete")
 import com.example.common.domain.emulator.EmulatorStatus;
 import com.example.emulatorserver.device.exception.car.CarErrorCode;
 import com.example.emulatorserver.device.exception.car.CarNotFoundException;
