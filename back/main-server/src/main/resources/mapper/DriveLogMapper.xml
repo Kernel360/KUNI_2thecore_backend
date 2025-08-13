@@ -7,7 +7,7 @@
             resultType="com.example.mainserver.drivelog.dto.DriveLogFilterResponseDto">
 
     SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point
-           ,dl.end_point, dl.drive_dist FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+           ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
     <where>
             <if test="filter.carNumber != null">
                 AND c.car_number = #{filter.carNumber}
@@ -29,6 +29,16 @@
                 AND dl.start_time <![CDATA[<]]>  DATE_ADD(#{filter.endTime}, INTERVAL 1 DAY)
             </if>
     </where>
+    ORDER BY
+        <choose>
+            <when test="filter.sortBy == 'carNumber'">c.car_number</when>
+            <when test="filter.sortBy == 'startTime'">start_time</when>
+            <when test="filter.sortBy == 'endTime'">end_time</when>
+        </choose>
+        <choose>
+        <when test="filter.sortOrder == 'ASC'">ASC</when>
+        <when test="filter.sortOrder == 'DESC'">DESC</when>
+        </choose>
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
