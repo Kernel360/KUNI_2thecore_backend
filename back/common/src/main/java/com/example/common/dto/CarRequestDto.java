@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CarRequestDto {
+
     @NotBlank(groups = CreateGroup.class)
     private String loginId;
 

@@ -52,7 +52,11 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/webjars/**",
                                 "/api/auth/login",
-                                "/api/admin/signup"
+                                "/api/admin/signup",
+                                // Actuator 헬스/인포는 무인증 허용
+                                "/actuator/health",
+                                "/actuator/health/**",
+                                "/actuator/info"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
