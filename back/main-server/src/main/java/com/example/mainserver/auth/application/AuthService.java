@@ -37,13 +37,24 @@ public class AuthService {
             );
 
             String email = authentication.getName();
-            Map<String, Object> claims = Map.of("email", email);
+
+            // 로그인 시 액세스 토큰 생성
+            Map<String, Object> accessClaims = Map.of(
+                    "email", email,
+                    "token_type", "access"
+            );
+
+            // 로그인 시 리프레시 토큰 생성
+            Map<String, Object> refreshclaims = Map.of(
+                    "email", email,
+                    "token_type", "refresh"
+            );
 
             LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_EXPIRE_MINUTES);
             LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS);
 
-            String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
-            String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
+            String accessToken = jwtTokenProvider.generateToken(email, accessClaims, accessExpireAt);
+            String refreshToken = jwtTokenProvider.generateToken(email, refreshclaims, refreshExpireAt);
 
             tokenService.storeRefreshToken(email, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
             tokenService.enforceSingleSession(email, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
@@ -75,8 +86,18 @@ public class AuthService {
         LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_EXPIRE_MINUTES);
         LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS);
 
-        String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
-        String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
+        Map<String, Object> accessClaims = Map.of(
+                "email", email,
+                "token_type", "access"
+        );
+
+        Map<String, Object> refreshClaims = Map.of(
+                "email", email,
+                "token_type", "refresh"
+        );
+
+        String accessToken = jwtTokenProvider.generateToken(email, accessClaims, accessExpireAt);
+        String refreshToken = jwtTokenProvider.generateToken(email, refreshClaims, refreshExpireAt);
 
         tokenService.storeRefreshToken(email, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
         tokenService.enforceSingleSession(email, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());

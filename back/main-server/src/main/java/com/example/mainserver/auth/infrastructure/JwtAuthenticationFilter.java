@@ -73,8 +73,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 sendErrorResponse(response, "이미 로그아웃된 블랙리스트 토큰입니다");
                 return;
             }
+
             // 인증 객체 생성 및 등록
-            String userId = jwtTokenProvider.getSubject(token);
+            var claims = jwtTokenProvider.getClaims(token);
+            String tokenType = claims.get("token_type", String.class);
+
+            // 토큰 타입이 access가 아니면 인증 거부
+            if (!"access".equals(tokenType)) {
+                sendErrorResponse(response, "액세스 토큰이 아닙니다.");
+                return;
+            }
+
+            String userId = claims.getSubject();
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(

@@ -24,6 +24,4 @@ public class HubController {
         log.info("GpsLogDto: {}", gpsLogDto);
         consumerService.gpsConsumerDirect(gpsLogDto);
     }
-
-
 }
