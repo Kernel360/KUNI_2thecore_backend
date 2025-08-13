@@ -37,14 +37,15 @@ pipeline {
             def DEPLOY_HOST = "ec2-43-203-191-246.ap-northeast-2.compute.amazonaws.com"
             def PEM_PATH = '/var/lib/jenkins/.ssh/yeojin.pem'
             sh """
-              scp -i ${PEM_PATH} backend-project.tar ubuntu@${DEPLOY_HOST}:~
-              ssh -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} << EOF
-                tar -xzvf backend-project.tar
-                mv -i ./prod.env ./docker/prod.env
-                cd docker
-                docker compose --env-file ./prod.env up -d --build
-              EOF
-            """
+    scp -o StrictHostKeyChecking=no -i ${PEM_PATH} backend-project.tar ubuntu@${DEPLOY_HOST}:~
+    ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} << 'EOF'
+    set -euo pipefail
+    tar -xzvf backend-project.tar
+    mv -i ./prod.env ./docker/prod.env
+    cd docker
+    docker compose --env-file ./prod.env up -d --build
+    EOF
+    """
           }
         }
       }
