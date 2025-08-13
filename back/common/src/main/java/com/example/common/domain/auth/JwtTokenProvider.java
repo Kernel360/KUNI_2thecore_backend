@@ -52,6 +52,34 @@ public class JwtTokenProvider {
         }
     }
 
+    // 토큰 서명만 확인 (자동 로그인 전용)
+    public boolean validateTokenSignature(String token){
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    // 토큰 만료 여부 확인 (자동 로그인 전용)
+    public boolean isTokenExpired(String token){
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+            return false; // 만료 x
+        } catch (ExpiredJwtException e) {
+            return true; // 만료
+        } catch (JwtException e) {
+            throw new InvalidTokenException("유효하지 않은 토큰입니다.");
+        }
+    }
+
     public String getSubject(String token) {
         return getClaims(token).getSubject();
     }
