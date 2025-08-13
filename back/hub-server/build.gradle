@@ -58,6 +58,10 @@ dependencies {
 
     // .env
     implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+    // 프로메테우스 설정
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 test {
