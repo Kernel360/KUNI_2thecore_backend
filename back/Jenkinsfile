@@ -41,7 +41,8 @@ pipeline {
     ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} << 'EOF'
     set -euo pipefail
     tar -xzvf backend-project.tar
-    mv -i ./prod.env ./docker/prod.env
+    mkdir -p docker
+    install -D -m 600 -T ./prod.env ./docker/prod.env
     cd docker
     docker compose --env-file ./prod.env up -d --build
     EOF
