@@ -1,0 +1,54 @@
+pipeline {
+  agent any
+  options { timestamps() }
+
+  environment {
+    IMAGE_NAME = '2thecore-server'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout([$class: 'GitSCM',
+          userRemoteConfigs: [[url: 'https://github.com/Kernel360/KUNI_2thecore_backend.git']],
+          branches: [[name: '*/dev']]
+        ])
+      }
+    }
+
+    stage('Build') {
+      steps {
+        withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
+          sh '''
+            set -euo pipefail
+            cd $WORKSPACE/back
+            chmod +x ./gradlew
+            ./gradlew clean bootJar -x test
+            tar --exclude='./build' --exclude='./.gradle' -czvf ../backend-project.tar .
+          '''
+        }
+      }
+    }
+
+    stage('Deploy to EC2 via SSH') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-token', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_TOKEN')]) {
+          script {
+            def DEPLOY_HOST = "52.78.122.150"
+            def PEM_PATH    = '/var/lib/jenkins/.ssh/yeojin.pem'
+            sh """
+scp -o StrictHostKeyChecking=no -i ${PEM_PATH} backend-project.tar ubuntu@${DEPLOY_HOST}:~
+ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} 'bash -lc "set -euo pipefail; tar -xzvf backend-project.tar; mkdir -p docker; install -D -m 600 -T ./prod.env ./docker/prod.env; cd docker; docker compose --env-file ./prod.env up -d --build"'
+"""
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo "Pipeline finished."
+    }
+  }
+}
