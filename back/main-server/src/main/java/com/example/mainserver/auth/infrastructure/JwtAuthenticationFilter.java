@@ -35,7 +35,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/swagger-ui")
+        return path.startsWith("/actuator")
+                ||path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-resources")
                 || path.startsWith("/swagger-ui.html")
@@ -65,30 +66,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 토큰 검증
         try {
-            jwtTokenProvider.validateToken(token); // 유효하지 않으면 예외 발생
+            jwtTokenProvider.validateToken(token); // 유효성 검사 (만료, 서명)
+
+            // token_type 확인
+            var claims = jwtTokenProvider.getClaims(token);
+            String tokenType = claims.get("token_type", String.class);
+            if (!"access".equals(tokenType)) {
+                sendErrorResponse(response, "액세스 토큰이 아닙니다.");
+                return;
+            }
 
             // Redis 블랙리스트 체크
             if (tokenService.isAccessTokenBlacklisted(token)){
                 sendErrorResponse(response, "이미 로그아웃된 블랙리스트 토큰입니다");
                 return;
             }
-            // 인증 객체 생성 및 등록
-            String userId = jwtTokenProvider.getSubject(token);
+
+            String userId = claims.getSubject();
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
-                            userId, // userId가 principal
-                            null,   // 비밀번호는 아직 미검증
-                            null    // 권한 처리 필요시 여기에 리스트 전달
+                            userId, null, null
                     );
-
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            // 인증 객체를 SecurityContext에 등록
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (InvalidTokenException | TokenExpiredException e){
+        } catch (InvalidTokenException | TokenExpiredException e) {
             sendErrorResponse(response, e.getMessage());
             return;
         }
+
         // 다음 필터로 넘김
         filterChain.doFilter(request, response);
     }

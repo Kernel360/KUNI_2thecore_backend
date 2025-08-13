@@ -11,10 +11,7 @@ import com.example.mainserver.car.exception.CarErrorCode;
 import com.example.mainserver.car.exception.CarNotFoundException;
 import com.example.mainserver.car.infrastructure.mapper.CarMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -71,7 +68,7 @@ public class CarService {
                 .map(CarSearchDto::EntityToDto)
                 .toList();
 
-        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size), total);
+        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size, Sort.by("carNumber").ascending()), total);
     }
 
 

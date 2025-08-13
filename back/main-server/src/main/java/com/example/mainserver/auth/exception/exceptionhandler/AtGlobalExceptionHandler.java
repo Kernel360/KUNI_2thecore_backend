@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RestControllerAdvice(basePackages = "com.example._thecore_back.auth")
+@RestControllerAdvice(basePackages = "com.example.mainserver.auth")
 @Order(1)  // 높은 우선순위
 public class AtGlobalExceptionHandler {
 

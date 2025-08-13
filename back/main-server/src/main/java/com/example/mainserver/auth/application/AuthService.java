@@ -1,9 +1,8 @@
 package com.example.mainserver.auth.application;
 
 import com.example.common.domain.auth.JwtTokenProvider;
-import com.example.mainserver.auth.domain.LoginRequest;
-import com.example.mainserver.auth.domain.RefreshRequest;
-import com.example.mainserver.auth.domain.TokenDto;
+import com.example.common.dto.ApiResponse;
+import com.example.mainserver.auth.domain.*;
 import com.example.common.exception.InvalidTokenException;
 import com.example.mainserver.auth.exception.LoginFailedException;
 import lombok.RequiredArgsConstructor;
@@ -36,22 +35,32 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getPassword())
             );
 
-            String email = authentication.getName();
-            Map<String, Object> claims = Map.of("email", email);
+            String loginId = authentication.getName();
+
+            // 로그인 시 액세스 토큰 생성
+            Map<String, Object> accessClaims = Map.of(
+                    "loginId", loginId,
+                    "token_type", "access"
+            );
+
+            // 로그인 시 리프레시 토큰 생성
+            Map<String, Object> refreshClaims = Map.of(
+                    "loginId", loginId,
+                    "token_type", "refresh"
+            );
 
             LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_EXPIRE_MINUTES);
             LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS);
 
-            String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
-            String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
+            String accessToken = jwtTokenProvider.generateToken(loginId, accessClaims, accessExpireAt);
+            String refreshToken = jwtTokenProvider.generateToken(loginId, refreshClaims, refreshExpireAt);
 
-            tokenService.storeRefreshToken(email, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
-            tokenService.enforceSingleSession(email, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
+            tokenService.storeRefreshToken(loginId, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
+            tokenService.enforceSingleSession(loginId, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
             return TokenDto.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
-                    .expiredAt(accessExpireAt)
                     .build();
 
         } catch (AuthenticationException e) {
@@ -65,26 +74,71 @@ public class AuthService {
             throw new InvalidTokenException("리프레시 토큰이 유효하지 않습니다.");
         }
 
-        String email = jwtTokenProvider.getSubject(request.getRefreshToken());
+        String loginId = jwtTokenProvider.getSubject(request.getRefreshToken());
 
-        if (!tokenService.validateRefreshToken(email, request.getRefreshToken())) {
+        if (!tokenService.validateRefreshToken(loginId, request.getRefreshToken())) {
             throw new InvalidTokenException("서버에 저장된 리프레시 토큰과 일치하지 않습니다.");
         }
 
-        Map<String, Object> claims = Map.of("email", email);
+        Map<String, Object> claims = Map.of("loginId", loginId);
         LocalDateTime accessExpireAt = LocalDateTime.now().plusMinutes(ACCESS_TOKEN_EXPIRE_MINUTES);
         LocalDateTime refreshExpireAt = LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS);
 
-        String accessToken = jwtTokenProvider.generateToken(email, claims, accessExpireAt);
-        String refreshToken = jwtTokenProvider.generateToken(email, claims, refreshExpireAt);
+        Map<String, Object> accessClaims = Map.of(
+                "loginId", loginId,
+                "token_type", "access"
+        );
 
-        tokenService.storeRefreshToken(email, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
-        tokenService.enforceSingleSession(email, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
+        Map<String, Object> refreshClaims = Map.of(
+                "loginId", loginId,
+                "token_type", "refresh"
+        );
+
+        String accessToken = jwtTokenProvider.generateToken(loginId, accessClaims, accessExpireAt);
+        String refreshToken = jwtTokenProvider.generateToken(loginId, refreshClaims, refreshExpireAt);
+
+        tokenService.storeRefreshToken(loginId, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
+        tokenService.enforceSingleSession(loginId, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
         return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .expiredAt(accessExpireAt)
                 .build();
+    }
+
+    public ApiResponse<AutoLoginResponse> autoLogin(AutoLoginRequest request) {
+        String accessToken = request.getAccessToken();
+        String refreshToken = request.getRefreshToken();
+
+        // 1. Access Token 서명 체크
+        if (!jwtTokenProvider.validateTokenSignature(accessToken)){
+            return ApiResponse.fail("등록된 적 없는 access token 입니다");
+        }
+
+        // 2. Access Token 만료 여부 확인
+        if (!jwtTokenProvider.isTokenExpired(accessToken)){
+            return ApiResponse.success(new AutoLoginResponse(true, "자동 로그인 성공"));
+        }
+
+        // 3. Refresh Token 전체 유효성 체크
+        if (!jwtTokenProvider.validateToken(refreshToken)){
+            return ApiResponse.fail("유효하지 않은 refresh token 입니다");
+        }
+
+        // 4. Redis 저장 토큰과 비교
+        String loginId = jwtTokenProvider.getSubject(accessToken);
+        String savedRefreshToken = tokenService.getRefreshToken(loginId);
+        if (!refreshToken.equals(savedRefreshToken)){
+            return ApiResponse.fail("유효하지 않은 refresh token 입니다");
+        }
+
+        // 5. 새 Access Token 발급
+        Map<String, Object> claims = Map.of("loginId", loginId, "token_type", "access");
+        String newAccessToken = jwtTokenProvider.generateToken(loginId, claims,
+                LocalDateTime.now().plusMinutes(ACCESS_TOKEN_EXPIRE_MINUTES));
+
+        tokenService.enforceSingleSession(loginId, newAccessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
+
+        return ApiResponse.success("엑세스 토큰 재발급 성공", new AutoLoginResponse(true,  newAccessToken));
     }
 }
