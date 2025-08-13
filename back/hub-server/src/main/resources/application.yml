@@ -1,9 +1,9 @@
 server:
-  port: ${HUB_SERVER_PORT}
+  port: ${HUB_SERVER_PORT:8082}
 
 spring:
   rabbitmq:
-    host: ${RABBITMQ_HOST:localhost}
+    host: ${RABBITMQ_HOST}
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
@@ -36,5 +36,13 @@ emulator:
 jwt:
   secret: ${JWT_SECRET_KEY}
 
-dotenv:
-  filename: prod.env
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
