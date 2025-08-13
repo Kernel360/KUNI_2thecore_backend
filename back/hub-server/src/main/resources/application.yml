@@ -1,10 +1,10 @@
 server:
-  port: ${HUB_SERVER_PORT}
+  port: ${HUB_SERVER_PORT:8082}
 
 spring:
   rabbitmq:
-    host: ${RABBITMQ_HOST:localhost}
-    port: ${RABBITMQ_PORT:5672}
+    host: localhost
+    port: 5672
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
   data:
