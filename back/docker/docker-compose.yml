@@ -8,8 +8,9 @@ services:
       - "5672:5672"       # AMQP
       - "15672:15672"     # Management UI
     environment:
-      RABBITMQ_DEFAULT_USER: 2thecore
-      RABBITMQ_DEFAULT_PASS: 2thecore
+      RABBITMQ_DEFAULT_USER: "2thecore"
+      RABBITMQ_DEFAULT_PASS: "2thecore"
+      RABBITMQ_DEFAULT_VHOST: "/"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
@@ -41,6 +42,22 @@ services:
     depends_on:
       - rabbitmq
       - redis
+    env_file:
+      - ./prod.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: ${HUB_SERVER_PORT}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: "5672"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    labels:
+      keep: "true"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
     networks:
       - rabbitmq_net
     restart: unless-stopped
@@ -56,6 +73,22 @@ services:
     depends_on:
       - rabbitmq
       - redis
+    env_file:
+      - ./prod.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: ${SERVER_PORT}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: "5672"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    labels:
+      keep: "true"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
     networks:
       - rabbitmq_net
     restart: unless-stopped
