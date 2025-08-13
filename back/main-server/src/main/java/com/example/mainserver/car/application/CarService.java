@@ -108,11 +108,6 @@ public class CarService {
         CarEntity entity = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
 
-        // 차량 번호가 이미 존재할 경우
-        if(carReader.findByCarNumber(carRequest.getCarNumber()).isPresent()){
-            throw new CarAlreadyExistsException(carRequest.getCarNumber());
-        }
-
         entity.updateInfo(carRequest); // Entity 내부에서 유효성 검사 후 업데이트
 
         return CarDetailDto.EntityToDto(carWriter.save(entity));
