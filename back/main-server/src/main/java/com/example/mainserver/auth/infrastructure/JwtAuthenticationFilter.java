@@ -66,7 +66,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 토큰 검증
         try {
-            jwtTokenProvider.validateToken(token); // 유효하지 않으면 예외 발생
+            jwtTokenProvider.validateToken(token); // 유효성 검사 (만료, 서명)
+
+            // token_type 확인
+            var claims = jwtTokenProvider.getClaims(token);
+            String tokenType = claims.get("token_type", String.class);
+            if (!"access".equals(tokenType)) {
+                sendErrorResponse(response, "액세스 토큰이 아닙니다.");
+                return;
+            }
 
             // Redis 블랙리스트 체크
             if (tokenService.isAccessTokenBlacklisted(token)){
@@ -74,32 +82,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            // 인증 객체 생성 및 등록
-            var claims = jwtTokenProvider.getClaims(token);
-            String tokenType = claims.get("token_type", String.class);
-
-            // 토큰 타입이 access가 아니면 인증 거부
-            if (!"access".equals(tokenType)) {
-                sendErrorResponse(response, "액세스 토큰이 아닙니다.");
-                return;
-            }
-
             String userId = claims.getSubject();
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
-                            userId, // userId가 principal
-                            null,   // 비밀번호는 아직 미검증
-                            null    // 권한 처리 필요시 여기에 리스트 전달
+                            userId, null, null
                     );
-
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            // 인증 객체를 SecurityContext에 등록
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (InvalidTokenException | TokenExpiredException e){
+        } catch (InvalidTokenException | TokenExpiredException e) {
             sendErrorResponse(response, e.getMessage());
             return;
         }
+
         // 다음 필터로 넘김
         filterChain.doFilter(request, response);
     }

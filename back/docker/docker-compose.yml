@@ -38,7 +38,7 @@ services:
       context: ../
       dockerfile: hub-server/Dockerfile
     ports:
-      - "8082:8082"     # 포트 직접 지정
+      - "8082:8082"
     depends_on:
       - rabbitmq
       - redis
@@ -61,7 +61,6 @@ services:
     networks:
       - rabbitmq_net
     restart: unless-stopped
-
 
   main-server:
     image: yeonjin529/main-server-img
