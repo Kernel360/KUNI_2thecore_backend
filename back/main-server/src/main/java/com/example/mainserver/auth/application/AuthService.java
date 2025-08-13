@@ -62,7 +62,6 @@ public class AuthService {
             return TokenDto.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
-                    .expiredAt(accessExpireAt)
                     .build();
 
         } catch (AuthenticationException e) {
@@ -105,7 +104,6 @@ public class AuthService {
         return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .expiredAt(accessExpireAt)
                 .build();
     }
 }
