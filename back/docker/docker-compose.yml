@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   rabbitmq:
     image: rabbitmq:latest
@@ -6,8 +8,9 @@ services:
       - "5672:5672"       # AMQP
       - "15672:15672"     # Management UI
     environment:
-      RABBITMQ_DEFAULT_USER: 2thecore
-      RABBITMQ_DEFAULT_PASS: 2thecore
+      RABBITMQ_DEFAULT_USER: "2thecore"
+      RABBITMQ_DEFAULT_PASS: "2thecore"
+      RABBITMQ_DEFAULT_VHOST: "/"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
@@ -29,41 +32,63 @@ services:
     restart: unless-stopped
 
   hub-server:
-    image: hub-server-img
+    image: yeonjin529/hub-server-img
     container_name: 2thecore-hub
     build:
       context: ../
       dockerfile: hub-server/Dockerfile
     ports:
-      - "8082:8082"     # 포트 직접 지정
+      - "8082:8082"
     depends_on:
       - rabbitmq
       - redis
+    env_file:
+      - ./prod.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: ${HUB_SERVER_PORT}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: "5672"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    labels:
+      keep: "true"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
     networks:
       - rabbitmq_net
     restart: unless-stopped
 
-
   main-server:
-    environment:
-      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
-      SPRING_RABBITMQ_PORT: ${RABBITMQ_PORT}
-      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
-      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-      SPRING_DATA_REDIS_HOST: ${REDIS_HOST}
-      SPRING_DATA_REDIS_PORT: ${REDIS_PORT}
-    image: main-server-img
+    image: yeonjin529/main-server-img
     container_name: 2thecore-main
     build:
       context: ../
       dockerfile: main-server/Dockerfile
-    env_file:
-      - ./prod.env
     ports:
-      - "${MAIN_SERVER_PORT}:${MAIN_SERVER_PORT}"
+      - "8080:8080"
     depends_on:
       - rabbitmq
       - redis
+    env_file:
+      - ./prod.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: ${SERVER_PORT}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: "5672"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    labels:
+      keep: "true"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
     networks:
       - rabbitmq_net
     restart: unless-stopped
