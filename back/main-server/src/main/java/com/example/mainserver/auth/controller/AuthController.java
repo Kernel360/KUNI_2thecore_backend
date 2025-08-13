@@ -3,9 +3,7 @@ package com.example.mainserver.auth.controller;
 import com.example.common.dto.ApiResponse;
 import com.example.mainserver.auth.application.TokenService;
 import com.example.common.domain.auth.JwtTokenProvider;
-import com.example.mainserver.auth.domain.LoginRequest;
-import com.example.mainserver.auth.domain.RefreshRequest;
-import com.example.mainserver.auth.domain.TokenDto;
+import com.example.mainserver.auth.domain.*;
 import com.example.mainserver.auth.application.AuthService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -57,9 +55,9 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<TokenDto>> refresh(@RequestBody RefreshRequest request) {
-        TokenDto tokenDto = authService.refresh(request);
-        return ResponseEntity.ok(ApiResponse.success("엑세스 토큰 갱신 성공", tokenDto));
+    @PostMapping("/verify")
+    public ResponseEntity<ApiResponse<AutoLoginResponse>> autoLogin(@RequestBody AutoLoginRequest request) {
+        ApiResponse<AutoLoginResponse> response = authService.autoLogin(request);
+        return ResponseEntity.ok(response);
     }
 }

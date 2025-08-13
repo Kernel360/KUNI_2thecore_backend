@@ -2172,6 +2172,21 @@ Caused by: java.net.UnknownHostException: 알려진 호스트가 없습니다 (r
 	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
 	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
 	... 1 common frames omitted
+2025-08-13 16:56:28.003  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@26e6f450 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-08-13 16:56:28.021  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=21m25s855ms278µs600ns).
+2025-08-13 16:56:38.026  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7ac8283b (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-08-13 16:56:48.038  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@306c2f73 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-08-13 16:56:58.050  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@8eb85c7 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-08-13 16:57:08.073  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@20730005 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-08-13 16:57:08.080  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@30cc0387 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-08-13 16:57:18.091  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@51b46fe6 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-08-13 16:57:18.092  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@63f5e22d (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+2025-08-13 16:57:18.098  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=50s79ms390µs500ns).
+2025-08-13 17:30:54.720  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 17:30:55.254  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 17:30:55.439  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 17:30:55.447  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 17:30:55.470  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
 2025-08-13 12:19:09.703  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-08-13 12:19:09.705  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
 2025-08-13 12:19:09.826  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'

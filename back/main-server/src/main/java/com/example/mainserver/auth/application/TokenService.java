@@ -36,4 +36,9 @@ public class TokenService {
         }
         redisTemplate.opsForValue().set("access:" + userEmail, accessToken, expirationMs, TimeUnit.MILLISECONDS);
     }
+
+    // Redis 서버에서 리프레시 토큰을 가져오는 메서드 추가
+    public String getRefreshToken(String userEmail){
+        return (String) redisTemplate.opsForValue().get("refresh:" + userEmail);
+    }
 }
