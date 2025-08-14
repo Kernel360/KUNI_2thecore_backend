@@ -25,16 +25,10 @@ public class CarController {
 
     //    @GetMapping("")
 //    public
-    @GetMapping("/{car_number}")
-    public ApiResponse<CarDetailDto> getCar(@PathVariable String car_number) {
+    @GetMapping
+    public ApiResponse<CarDetailDto> getCar(@RequestParam("carNumber") String carNumber) {
 
-        var response = carService.getCar(car_number);
-
-//        return CarResponse.<CarDetailDto>builder()
-//                .result("OK")
-//                .message("find car")
-//                .data(response)
-//                .build();
+        var response = carService.getCar(carNumber);
 
         return ApiResponse.success(response);
     }
@@ -90,9 +84,9 @@ public class CarController {
     }
 
     // 차량 정보 업데이트
-    @PatchMapping("/{car_number}")
+    @PatchMapping
     public ApiResponse<CarDetailDto> updateCar(
-            @PathVariable("car_number")
+            @RequestParam("carNumber")
             String carNumber,
             @RequestBody
             @Validated
