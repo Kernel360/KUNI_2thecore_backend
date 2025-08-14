@@ -147,7 +147,9 @@ public class AuthService {
 
         tokenService.enforceSingleSession(loginId, newAccessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
+
         return ApiResponse.success(new AutoLoginResponse(true, newAccessToken, "엑세스 토큰 재발급 성공"));
+
 
     }
 

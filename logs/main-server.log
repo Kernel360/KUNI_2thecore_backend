@@ -74,6 +74,34 @@ Caused by: java.net.UnknownHostException: 알려진 호스트가 없습니다 (k
 2025-08-13 15:19:57.211  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@443b6765
 2025-08-13 15:19:57.213  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
 2025-08-13 15:19:57.342  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2025-08-13 11:04:12.835  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 11:04:12.859  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 48216 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 11:04:12.860  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 11:04:12.860  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 11:04:13.285  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 11:04:13.286  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 11:04:13.368  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 76 ms. Found 4 JPA repository interfaces.
+2025-08-13 11:04:13.551  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 11:04:13.552  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 11:04:13.563  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:04:13.563  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:04:13.563  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:04:13.563  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-13 11:04:13.856  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 11:04:13.863  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 11:04:13.864  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 11:04:13.864  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 11:04:13.888  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 11:04:13.888  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1006 ms
+2025-08-13 11:04:14.041  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 11:04:14.117  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 11:04:14.152  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 11:04:14.169  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 11:04:14.307  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 11:04:14.321  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 11:04:14.690  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@299dd381
+2025-08-13 11:04:14.691  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 11:04:14.757  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 8.0.42
@@ -113,6 +141,343 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at com.example.mainserver.auth.application.TokenService.storeRefreshToken(TokenService.java:16)
 	at com.example.mainserver.auth.application.AuthService.login(AuthService.java:59)
 	at com.example.mainserver.auth.controller.AuthController.login(AuthController.java:29)
+2025-08-13 11:04:15.188  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 11:04:15.230  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 11:04:15.386  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 11:04:15.402  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 11:04:15.934  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 11:04:16.263  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 11:04:16.269  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 11:04:16.276  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.727 seconds (process running for 4.093)
+2025-08-13 11:34:19.951  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 11:34:19.961  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 11:34:20.086  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 11:34:20.089  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 11:34:20.100  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 11:34:23.058  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 11:34:23.077  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 48998 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 11:34:23.078  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 11:34:23.078  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 11:34:23.423  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 11:34:23.424  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 11:34:23.493  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 64 ms. Found 4 JPA repository interfaces.
+2025-08-13 11:34:23.635  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 11:34:23.635  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 11:34:23.646  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:34:23.646  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:34:23.646  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:34:23.646  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-08-13 11:34:23.936  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 11:34:23.942  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 11:34:23.943  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 11:34:23.943  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 11:34:23.967  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 11:34:23.967  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 870 ms
+2025-08-13 11:34:24.113  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 11:34:24.175  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 11:34:24.202  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 11:34:24.217  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 11:34:24.345  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 11:34:24.358  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 11:34:24.620  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5543d800
+2025-08-13 11:34:24.621  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 11:34:24.684  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-13 11:34:25.105  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 11:34:25.145  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 11:34:25.295  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 11:34:25.310  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 11:34:25.835  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 11:34:26.165  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 11:34:26.171  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 11:34:26.178  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.31 seconds (process running for 3.553)
+2025-08-13 11:34:35.334  [http-nio-0.0.0.0-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-13 11:34:35.334  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-13 11:34:35.335  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-13 11:34:35.735  [http-nio-0.0.0.0-8080-exec-8] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 238 ms
+2025-08-13 11:35:23.260  [http-nio-0.0.0.0-8080-exec-5] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=null, status=null, twoParam=true)
+2025-08-13 11:35:23.323  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-13 11:35:23.330  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-13 11:35:23.347  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 10
+2025-08-13 11:35:23.348  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car
+2025-08-13 11:35:23.348  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 
+2025-08-13 11:35:23.364  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-13 11:35:23.366  [http-nio-0.0.0.0-8080-exec-5] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-08-13 11:36:20.542  [http-nio-0.0.0.0-8080-exec-4] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=소나타, status=null, twoParam=false)
+2025-08-13 11:36:20.555  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c WHERE (brand = ? OR model = ?) ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-13 11:36:20.556  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 소나타(String), 소나타(String), 2(Integer), 0(Integer)
+2025-08-13 11:36:20.572  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 2
+2025-08-13 11:36:20.574  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car WHERE (brand = ? OR model = ?)
+2025-08-13 11:36:20.575  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 소나타(String), 소나타(String)
+2025-08-13 11:36:20.584  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-13 11:36:31.186  [http-nio-0.0.0.0-8080-exec-6] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=소나타, status=null, twoParam=false)
+2025-08-13 11:36:31.205  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c WHERE (brand = ? OR model = ?) ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-13 11:36:31.206  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 소나타(String), 소나타(String), 1(Integer), 0(Integer)
+2025-08-13 11:36:31.216  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 1
+2025-08-13 11:36:31.217  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car WHERE (brand = ? OR model = ?)
+2025-08-13 11:36:31.218  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 소나타(String), 소나타(String)
+2025-08-13 11:36:31.227  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-13 11:37:18.284  [http-nio-0.0.0.0-8080-exec-8] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=null, status=null, twoParam=true)
+2025-08-13 11:37:18.302  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-13 11:37:18.303  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-13 11:37:18.323  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 10
+2025-08-13 11:37:18.324  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car
+2025-08-13 11:37:18.324  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 
+2025-08-13 11:37:18.334  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-13 11:37:47.352  [http-nio-0.0.0.0-8080-exec-9] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=현대, status=null, twoParam=false)
+2025-08-13 11:37:47.361  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c WHERE (brand = ? OR model = ?) ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-13 11:37:47.361  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 현대(String), 현대(String), 10(Integer), 0(Integer)
+2025-08-13 11:37:47.375  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 10
+2025-08-13 11:37:47.376  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car WHERE (brand = ? OR model = ?)
+2025-08-13 11:37:47.377  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 현대(String), 현대(String)
+2025-08-13 11:37:47.386  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-13 11:38:16.272  [http-nio-0.0.0.0-8080-exec-1] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=현대, status=null, twoParam=false)
+2025-08-13 11:38:16.282  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c WHERE (brand = ? OR model = ?) ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-13 11:38:16.282  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 현대(String), 현대(String), 10(Integer), 10(Integer)
+2025-08-13 11:38:16.296  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 7
+2025-08-13 11:38:16.298  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car WHERE (brand = ? OR model = ?)
+2025-08-13 11:38:16.299  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 현대(String), 현대(String)
+2025-08-13 11:38:16.307  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-13 11:38:32.984  [http-nio-0.0.0.0-8080-exec-10] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=투싼, status=null, twoParam=false)
+2025-08-13 11:38:32.999  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c WHERE (brand = ? OR model = ?) ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-13 11:38:33.000  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 투싼(String), 투싼(String), 3(Integer), 0(Integer)
+2025-08-13 11:38:33.014  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 3
+2025-08-13 11:38:33.016  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car WHERE (brand = ? OR model = ?)
+2025-08-13 11:38:33.017  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 투싼(String), 투싼(String)
+2025-08-13 11:38:33.026  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-13 11:38:43.987  [http-nio-0.0.0.0-8080-exec-3] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=투싼, status=null, twoParam=false)
+2025-08-13 11:38:43.998  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c WHERE (brand = ? OR model = ?) ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-13 11:38:43.999  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 투싼(String), 투싼(String), 3(Integer), 3(Integer)
+2025-08-13 11:38:44.009  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 1
+2025-08-13 11:38:44.012  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car WHERE (brand = ? OR model = ?)
+2025-08-13 11:38:44.013  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 투싼(String), 투싼(String)
+2025-08-13 11:38:44.028  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-13 11:45:58.753  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 11:45:58.755  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 11:45:58.873  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 11:45:58.874  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 11:45:58.891  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 11:46:01.592  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 11:46:01.611  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 49505 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 11:46:01.611  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 11:46:01.612  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 11:46:01.944  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 11:46:01.944  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 11:46:02.014  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65 ms. Found 4 JPA repository interfaces.
+2025-08-13 11:46:02.162  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 11:46:02.162  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 11:46:02.173  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:46:02.173  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:46:02.173  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:46:02.173  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-13 11:46:02.451  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 11:46:02.457  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 11:46:02.458  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 11:46:02.458  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 11:46:02.481  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 11:46:02.481  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 850 ms
+2025-08-13 11:46:02.624  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 11:46:02.680  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 11:46:02.707  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 11:46:02.723  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 11:46:02.849  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 11:46:02.863  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 11:46:03.128  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5eb9bf7d
+2025-08-13 11:46:03.129  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 11:46:03.199  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-13 11:46:03.609  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 11:46:03.646  [main] ERROR o.s.o.j.LocalContainerEntityManagerFactoryBean - Failed to initialize JPA EntityManagerFactory: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [memo] in table [drive_log]
+2025-08-13 11:46:03.647  [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [memo] in table [drive_log]
+2025-08-13 11:46:03.647  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 11:46:03.757  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 11:46:03.871  [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-08-13 11:46:03.884  [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-08-13 11:46:03.895  [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [memo] in table [drive_log]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.example.mainserver.MainApplication.main(MainApplication.java:32)
+Caused by: jakarta.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [memo] in table [drive_log]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:431)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 15 common frames omitted
+Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing column [memo] in table [drive_log]
+	at org.hibernate.tool.schema.internal.AbstractSchemaValidator.validateTable(AbstractSchemaValidator.java:149)
+	at org.hibernate.tool.schema.internal.GroupedSchemaValidatorImpl.validateTables(GroupedSchemaValidatorImpl.java:46)
+	at org.hibernate.tool.schema.internal.AbstractSchemaValidator.performValidation(AbstractSchemaValidator.java:99)
+	at org.hibernate.tool.schema.internal.AbstractSchemaValidator.doValidation(AbstractSchemaValidator.java:77)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:289)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:144)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:141)
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37)
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:324)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:463)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1517)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419)
+	... 19 common frames omitted
+2025-08-13 11:46:31.222  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 11:46:31.245  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 49533 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 11:46:31.245  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 11:46:31.245  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 11:46:31.576  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 11:46:31.577  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 11:46:31.653  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 72 ms. Found 4 JPA repository interfaces.
+2025-08-13 11:46:31.811  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 11:46:31.811  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 11:46:31.822  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:46:31.822  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:46:31.822  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 11:46:31.822  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-13 11:46:32.095  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 11:46:32.101  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 11:46:32.102  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 11:46:32.102  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 11:46:32.126  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 11:46:32.126  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 860 ms
+2025-08-13 11:46:32.271  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 11:46:32.324  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 11:46:32.352  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 11:46:32.368  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 11:46:32.492  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 11:46:32.506  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 11:46:32.748  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2fc40856
+2025-08-13 11:46:32.749  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 11:46:32.810  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-13 11:46:33.221  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 11:46:33.266  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 11:46:33.414  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 11:46:33.427  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 11:46:33.937  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 11:46:34.255  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 11:46:34.261  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 11:46:34.268  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.271 seconds (process running for 3.505)
+2025-08-13 12:15:05.490  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 12:15:05.500  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 12:15:05.626  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 12:15:05.629  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 12:15:05.641  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 12:15:08.148  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 12:15:08.169  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 50228 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 12:15:08.169  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 12:15:08.169  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 12:15:08.477  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 12:15:08.477  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 12:15:08.552  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 70 ms. Found 4 JPA repository interfaces.
+2025-08-13 12:15:08.712  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 12:15:08.713  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 12:15:08.723  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:15:08.723  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:15:08.723  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:15:08.723  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-13 12:15:08.997  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 12:15:09.003  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 12:15:09.004  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 12:15:09.004  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 12:15:09.028  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 12:15:09.029  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 840 ms
+2025-08-13 12:15:09.174  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 12:15:09.229  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 12:15:09.255  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 12:15:09.271  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 12:15:09.395  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 12:15:09.408  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 12:15:09.679  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@123d0816
+2025-08-13 12:15:09.680  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 12:15:09.743  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-13 12:15:10.167  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 12:15:10.212  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 12:15:10.359  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 12:15:10.372  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 12:15:10.886  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 12:15:11.212  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 12:15:11.219  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 12:15:11.225  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.293 seconds (process running for 3.736)
+2025-08-13 12:15:29.869  [http-nio-0.0.0.0-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-13 12:15:29.869  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-13 12:15:29.871  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-13 12:16:00.739  [http-nio-0.0.0.0-8080-exec-3] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=start_time, sortOrder=ASC)
+2025-08-13 12:16:00.798  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 12:16:00.805  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-13 12:16:00.883  [http-nio-0.0.0.0-8080-exec-3] ERROR c.e.m.a.e.e.GlobalExceptionHandler - 
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+      
+    ORDER BY
+ ' at line 2
+### The error may exist in file [/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/resources/main/mapper/DriveLogMapper.xml]
+### The error may involve com.example.mainserver.drivelog.infrastructure.mapper.DriveLogMapper.search-Inline
+### The error occurred while setting parameters
+### SQL: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point            ,dl.end_point, dl.drive_dist dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id            ORDER BY          start_time           ASC          LIMIT ? OFFSET ?
+### Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+      
+    ORDER BY
+ ' at line 2
+; bad SQL grammar []
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:246)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:107)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:93)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:347)
+	at jdk.proxy2/jdk.proxy2.$Proxy148.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:194)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:147)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:80)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:141)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at jdk.proxy2/jdk.proxy2.$Proxy157.search(Unknown Source)
+	at com.example.mainserver.drivelog.application.DriveLogService.getDriveLogByFilter(DriveLogService.java:82)
+	at com.example.mainserver.drivelog.controller.DriveLogController.getLogsByFilter(DriveLogController.java:79)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -126,8 +491,8 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
 	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:547)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:527)
 	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:614)
 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
@@ -135,7 +500,7 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110)
 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
@@ -156,7 +521,228 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
 	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at com.example.mainserver.auth.infrastructure.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+      
+    ORDER BY
+ ' at line 2
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:112)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:990)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.execute(ClientPreparedStatement.java:384)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.apache.ibatis.logging.jdbc.PreparedStatementLogger.invoke(PreparedStatementLogger.java:58)
+	at jdk.proxy3/jdk.proxy3.$Proxy198.execute(Unknown Source)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:65)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:80)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:65)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:336)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:158)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:110)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:90)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:333)
+	... 118 common frames omitted
+2025-08-13 12:16:42.599  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 12:16:42.604  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 12:16:42.725  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 12:16:42.727  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 12:16:42.738  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 12:16:44.717  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 12:16:44.736  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 50299 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 12:16:44.736  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 12:16:44.736  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 12:16:45.064  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 12:16:45.065  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 12:16:45.141  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 71 ms. Found 4 JPA repository interfaces.
+2025-08-13 12:16:45.285  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 12:16:45.285  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 12:16:45.299  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:16:45.299  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:16:45.299  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:16:45.299  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2025-08-13 12:16:45.577  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 12:16:45.583  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 12:16:45.584  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 12:16:45.584  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 12:16:45.607  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 12:16:45.608  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 852 ms
+2025-08-13 12:16:45.751  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 12:16:45.806  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 12:16:45.833  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 12:16:45.849  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 12:16:45.975  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 12:16:45.988  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 12:16:46.252  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@299dd381
+2025-08-13 12:16:46.253  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 12:16:46.320  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-13 12:16:46.731  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 12:16:46.768  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 12:16:46.920  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 12:16:46.935  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 12:16:47.450  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 12:16:47.777  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 12:16:47.783  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 12:16:47.790  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.26 seconds (process running for 3.503)
+2025-08-13 12:16:55.244  [http-nio-0.0.0.0-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-13 12:16:55.244  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-13 12:16:55.246  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-08-13 12:16:55.667  [http-nio-0.0.0.0-8080-exec-8] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 232 ms
+2025-08-13 12:17:33.306  [http-nio-0.0.0.0-8080-exec-5] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=start_time, sortOrder=ASC)
+2025-08-13 12:17:33.395  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 12:17:33.402  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-13 12:17:33.422  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 12:17:33.423  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-13 12:17:33.423  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-13 12:17:33.432  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:17:33.434  [http-nio-0.0.0.0-8080-exec-5] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-08-13 12:18:49.116  [http-nio-0.0.0.0-8080-exec-6] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=96차7972, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=start_time, sortOrder=DESC)
+2025-08-13 12:18:49.122  [http-nio-0.0.0.0-8080-exec-6] ERROR c.e.m.a.e.e.GlobalExceptionHandler - 
+org.mybatis.spring.MyBatisSystemException: 
+### Error querying database.  Cause: org.apache.ibatis.builder.BuilderException: Error evaluating expression 'filter.sortOrder == 'DESC'. Cause: org.apache.ibatis.ognl.ExpressionSyntaxException: Malformed OGNL expression: filter.sortOrder == 'DESC [org.apache.ibatis.ognl.TokenMgrError: Lexical error at line 1, column 26.  Encountered: <EOF> (in lexical state 1)]
+### Cause: org.apache.ibatis.builder.BuilderException: Error evaluating expression 'filter.sortOrder == 'DESC'. Cause: org.apache.ibatis.ognl.ExpressionSyntaxException: Malformed OGNL expression: filter.sortOrder == 'DESC [org.apache.ibatis.ognl.TokenMgrError: Lexical error at line 1, column 26.  Encountered: <EOF> (in lexical state 1)]
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:99)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:347)
+	at jdk.proxy2/jdk.proxy2.$Proxy148.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:194)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:147)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:80)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:141)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at jdk.proxy2/jdk.proxy2.$Proxy157.search(Unknown Source)
+	at com.example.mainserver.drivelog.application.DriveLogService.getDriveLogByFilter(DriveLogService.java:82)
+	at com.example.mainserver.drivelog.controller.DriveLogController.getLogsByFilter(DriveLogController.java:79)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:527)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:614)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365)
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125)
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131)
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at com.example.mainserver.auth.infrastructure.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
@@ -550,6 +1136,20 @@ Caused by: java.net.UnknownHostException: 알려진 호스트가 없습니다 (r
 com.example.mainserver.auth.exception.LoginFailedException: 로그인에 실패했습니다.
 	at com.example.mainserver.auth.application.AuthService.login(AuthService.java:70)
 	at com.example.mainserver.auth.controller.AuthController.login(AuthController.java:29)
+Caused by: org.apache.ibatis.builder.BuilderException: Error evaluating expression 'filter.sortOrder == 'DESC'. Cause: org.apache.ibatis.ognl.ExpressionSyntaxException: Malformed OGNL expression: filter.sortOrder == 'DESC [org.apache.ibatis.ognl.TokenMgrError: Lexical error at line 1, column 26.  Encountered: <EOF> (in lexical state 1)]
+	at org.apache.ibatis.scripting.xmltags.OgnlCache.getValue(OgnlCache.java:49)
+	at org.apache.ibatis.scripting.xmltags.ExpressionEvaluator.evaluateBoolean(ExpressionEvaluator.java:32)
+	at org.apache.ibatis.scripting.xmltags.IfSqlNode.apply(IfSqlNode.java:34)
+	at org.apache.ibatis.scripting.xmltags.ChooseSqlNode.apply(ChooseSqlNode.java:35)
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.lambda$apply$0(MixedSqlNode.java:32)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.apply(MixedSqlNode.java:32)
+	at org.apache.ibatis.scripting.xmltags.DynamicSqlSource.getBoundSql(DynamicSqlSource.java:39)
+	at org.apache.ibatis.mapping.MappedStatement.getBoundSql(MappedStatement.java:320)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:88)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -678,6 +1278,56 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at com.example.mainserver.auth.application.TokenService.storeRefreshToken(TokenService.java:16)
 	at com.example.mainserver.auth.application.AuthService.login(AuthService.java:59)
 	at com.example.mainserver.auth.controller.AuthController.login(AuthController.java:29)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:333)
+	... 118 common frames omitted
+Caused by: org.apache.ibatis.ognl.ExpressionSyntaxException: Malformed OGNL expression: filter.sortOrder == 'DESC
+Caused by: org.apache.ibatis.ognl.TokenMgrError: Lexical error at line 1, column 26.  Encountered: <EOF> (in lexical state 1)
+	at org.apache.ibatis.ognl.OgnlParserTokenManager.getNextToken(OgnlParserTokenManager.java:1434)
+	at org.apache.ibatis.ognl.OgnlParser.jj_ntk_f(OgnlParser.java:3287)
+	at org.apache.ibatis.ognl.OgnlParser.unaryExpression(OgnlParser.java:1138)
+	at org.apache.ibatis.ognl.OgnlParser.multiplicativeExpression(OgnlParser.java:1027)
+	at org.apache.ibatis.ognl.OgnlParser.additiveExpression(OgnlParser.java:947)
+	at org.apache.ibatis.ognl.OgnlParser.shiftExpression(OgnlParser.java:793)
+	at org.apache.ibatis.ognl.OgnlParser.relationalExpression(OgnlParser.java:536)
+	at org.apache.ibatis.ognl.OgnlParser.equalityExpression(OgnlParser.java:462)
+	at org.apache.ibatis.ognl.OgnlParser.andExpression(OgnlParser.java:370)
+	at org.apache.ibatis.ognl.OgnlParser.exclusiveOrExpression(OgnlParser.java:314)
+	at org.apache.ibatis.ognl.OgnlParser.inclusiveOrExpression(OgnlParser.java:258)
+	at org.apache.ibatis.ognl.OgnlParser.logicalAndExpression(OgnlParser.java:202)
+	at org.apache.ibatis.ognl.OgnlParser.logicalOrExpression(OgnlParser.java:146)
+	at org.apache.ibatis.ognl.OgnlParser.conditionalTestExpression(OgnlParser.java:106)
+	at org.apache.ibatis.ognl.OgnlParser.assignmentExpression(OgnlParser.java:68)
+	at org.apache.ibatis.ognl.OgnlParser.expression(OgnlParser.java:26)
+	at org.apache.ibatis.ognl.OgnlParser.topLevelExpression(OgnlParser.java:18)
+	at org.apache.ibatis.ognl.Ognl.parseExpression(Ognl.java:138)
+	at org.apache.ibatis.scripting.xmltags.OgnlCache.parseExpression(OgnlCache.java:56)
+	at org.apache.ibatis.scripting.xmltags.OgnlCache.getValue(OgnlCache.java:47)
+	at org.apache.ibatis.scripting.xmltags.ExpressionEvaluator.evaluateBoolean(ExpressionEvaluator.java:32)
+	at org.apache.ibatis.scripting.xmltags.IfSqlNode.apply(IfSqlNode.java:34)
+	at org.apache.ibatis.scripting.xmltags.ChooseSqlNode.apply(ChooseSqlNode.java:35)
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.lambda$apply$0(MixedSqlNode.java:32)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.apache.ibatis.scripting.xmltags.MixedSqlNode.apply(MixedSqlNode.java:32)
+	at org.apache.ibatis.scripting.xmltags.DynamicSqlSource.getBoundSql(DynamicSqlSource.java:39)
+	at org.apache.ibatis.mapping.MappedStatement.getBoundSql(MappedStatement.java:320)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:88)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:154)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:147)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:142)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:333)
+	at jdk.proxy2/jdk.proxy2.$Proxy148.selectList(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectList(SqlSessionTemplate.java:194)
+	at org.apache.ibatis.binding.MapperMethod.executeForMany(MapperMethod.java:147)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:80)
+	at org.apache.ibatis.binding.MapperProxy$PlainMethodInvoker.invoke(MapperProxy.java:141)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at jdk.proxy2/jdk.proxy2.$Proxy157.search(Unknown Source)
+	at com.example.mainserver.drivelog.application.DriveLogService.getDriveLogByFilter(DriveLogService.java:82)
+	at com.example.mainserver.drivelog.controller.DriveLogController.getLogsByFilter(DriveLogController.java:79)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -693,6 +1343,8 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
 	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:547)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:527)
 	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:614)
 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
@@ -701,6 +1353,7 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110)
 	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
 	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
 	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108)
@@ -1401,6 +2054,7 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at org.springframework.data.redis.core.RedisTemplate.hasKey(RedisTemplate.java:578)
 	at com.example.mainserver.auth.application.TokenService.isAccessTokenBlacklisted(TokenService.java:29)
 	at com.example.mainserver.auth.infrastructure.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:71)
+	at com.example.mainserver.auth.infrastructure.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:93)
 	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
 	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
 	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
@@ -1561,6 +2215,39 @@ Caused by: java.net.UnknownHostException: 알려진 호스트가 없습니다 (r
 2025-08-13 17:31:18.044  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7df23848
 2025-08-13 17:31:18.046  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
 2025-08-13 17:31:18.172  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2025-08-13 12:19:09.703  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 12:19:09.705  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 12:19:09.826  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 12:19:09.828  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 12:19:09.840  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 12:19:11.718  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 12:19:11.737  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 50370 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 12:19:11.737  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 12:19:11.737  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 12:19:12.067  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 12:19:12.068  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 12:19:12.136  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 64 ms. Found 4 JPA repository interfaces.
+2025-08-13 12:19:12.285  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 12:19:12.285  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 12:19:12.295  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:19:12.295  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:19:12.295  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:19:12.295  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-08-13 12:19:12.593  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 12:19:12.599  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 12:19:12.599  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 12:19:12.599  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 12:19:12.625  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 12:19:12.625  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 868 ms
+2025-08-13 12:19:12.768  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 12:19:12.830  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 12:19:12.856  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 12:19:12.872  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 12:19:12.996  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 12:19:13.010  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 12:19:13.287  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@34d3409d
+2025-08-13 12:19:13.288  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 12:19:13.355  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 8.0.42
@@ -1580,3 +2267,571 @@ Caused by: java.net.UnknownHostException: 알려진 호스트가 없습니다 (r
 2025-08-13 17:33:22.578  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-08-13 17:33:22.580  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
 2025-08-13 17:33:23.760  [http-nio-0.0.0.0-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 814 ms
+
+2025-08-13 12:19:13.765  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 12:19:13.809  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 12:19:13.961  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 12:19:13.975  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 12:19:14.493  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 12:19:14.815  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 12:19:14.821  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 12:19:14.827  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.296 seconds (process running for 3.543)
+2025-08-13 12:21:01.260  [http-nio-0.0.0.0-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-13 12:21:01.261  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-13 12:21:01.262  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-13 12:21:15.376  [http-nio-0.0.0.0-8080-exec-2] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=96차7972, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=start_time, sortOrder=DESC)
+2025-08-13 12:21:15.434  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number = ? ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 12:21:15.440  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 96차7972(String), 10(Integer), 0(Integer)
+2025-08-13 12:21:15.461  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 6
+2025-08-13 12:21:15.462  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number = ?
+2025-08-13 12:21:15.462  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 96차7972(String)
+2025-08-13 12:21:15.471  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:21:15.474  [http-nio-0.0.0.0-8080-exec-2] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-08-13 12:21:35.471  [http-nio-0.0.0.0-8080-exec-3] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=96차7972, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=start_time, sortOrder=ASC)
+2025-08-13 12:21:35.488  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number = ? ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 12:21:35.490  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 96차7972(String), 10(Integer), 0(Integer)
+2025-08-13 12:21:35.522  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 6
+2025-08-13 12:21:35.523  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number = ?
+2025-08-13 12:21:35.524  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 96차7972(String)
+2025-08-13 12:21:35.550  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:21:54.709  [http-nio-0.0.0.0-8080-exec-4] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=제네시스, model=null, startTime=null, endTime=null, twoParam=false, sortBy=start_time, sortOrder=ASC)
+2025-08-13 12:21:54.721  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 12:21:54.722  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 제네시스(String), 제네시스(String), 10(Integer), 0(Integer)
+2025-08-13 12:21:54.742  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 12:21:54.744  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 12:21:54.745  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 제네시스(String), 제네시스(String)
+2025-08-13 12:21:54.755  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:22:08.213  [http-nio-0.0.0.0-8080-exec-5] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=제네시스, model=null, startTime=null, endTime=null, twoParam=false, sortBy=car_number, sortOrder=ASC)
+2025-08-13 12:22:08.229  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY c.car_number ASC LIMIT ? OFFSET ?
+2025-08-13 12:22:08.230  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 제네시스(String), 제네시스(String), 10(Integer), 0(Integer)
+2025-08-13 12:22:08.250  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 12:22:08.252  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 12:22:08.252  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 제네시스(String), 제네시스(String)
+2025-08-13 12:22:08.263  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:22:38.102  [http-nio-0.0.0.0-8080-exec-7] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=제네시스, model=null, startTime=null, endTime=null, twoParam=false, sortBy=car_number, sortOrder=ASC)
+2025-08-13 12:22:38.121  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY c.car_number ASC LIMIT ? OFFSET ?
+2025-08-13 12:22:38.123  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 제네시스(String), 제네시스(String), 10(Integer), 0(Integer)
+2025-08-13 12:22:38.144  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 12:22:38.145  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 12:22:38.147  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 제네시스(String), 제네시스(String)
+2025-08-13 12:22:38.159  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:22:59.281  [http-nio-0.0.0.0-8080-exec-8] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=제네시스, model=null, startTime=null, endTime=null, twoParam=false, sortBy=car_number, sortOrder=DESC)
+2025-08-13 12:22:59.292  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY c.car_number DESC LIMIT ? OFFSET ?
+2025-08-13 12:22:59.293  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 제네시스(String), 제네시스(String), 4(Integer), 0(Integer)
+2025-08-13 12:22:59.309  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 4
+2025-08-13 12:22:59.311  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 12:22:59.312  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 제네시스(String), 제네시스(String)
+2025-08-13 12:22:59.323  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:23:08.258  [http-nio-0.0.0.0-8080-exec-9] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=제네시스, model=null, startTime=null, endTime=null, twoParam=false, sortBy=car_number, sortOrder=DESC)
+2025-08-13 12:23:08.275  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY c.car_number DESC LIMIT ? OFFSET ?
+2025-08-13 12:23:08.276  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 제네시스(String), 제네시스(String), 7(Integer), 0(Integer)
+2025-08-13 12:23:08.297  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 7
+2025-08-13 12:23:08.298  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 12:23:08.299  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 제네시스(String), 제네시스(String)
+2025-08-13 12:23:08.311  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:23:15.700  [http-nio-0.0.0.0-8080-exec-10] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=제네시스, model=null, startTime=null, endTime=null, twoParam=false, sortBy=car_number, sortOrder=DESC)
+2025-08-13 12:23:15.719  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY c.car_number DESC LIMIT ? OFFSET ?
+2025-08-13 12:23:15.721  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 제네시스(String), 제네시스(String), 10(Integer), 0(Integer)
+2025-08-13 12:23:15.744  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 12:23:15.747  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 12:23:15.749  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 제네시스(String), 제네시스(String)
+2025-08-13 12:23:15.762  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:23:29.432  [http-nio-0.0.0.0-8080-exec-1] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=제네시스, model=null, startTime=null, endTime=null, twoParam=false, sortBy=car_number, sortOrder=ASC)
+2025-08-13 12:23:29.451  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY c.car_number ASC LIMIT ? OFFSET ?
+2025-08-13 12:23:29.452  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 제네시스(String), 제네시스(String), 10(Integer), 0(Integer)
+2025-08-13 12:23:29.468  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 12:23:29.470  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 12:23:29.471  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 제네시스(String), 제네시스(String)
+2025-08-13 12:23:29.483  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:24:20.941  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 12:24:20.943  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 12:24:21.064  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 12:24:21.066  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 12:24:21.079  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 12:24:23.282  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 12:24:23.301  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 50519 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 12:24:23.301  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 12:24:23.301  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 12:24:23.627  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 12:24:23.628  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 12:24:23.697  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65 ms. Found 4 JPA repository interfaces.
+2025-08-13 12:24:23.849  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 12:24:23.850  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 12:24:23.861  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:24:23.861  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:24:23.861  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 12:24:23.861  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-13 12:24:24.148  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 12:24:24.154  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 12:24:24.154  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 12:24:24.154  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 12:24:24.180  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 12:24:24.180  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 859 ms
+2025-08-13 12:24:24.321  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 12:24:24.381  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 12:24:24.407  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 12:24:24.422  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 12:24:24.546  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 12:24:24.559  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 12:24:24.815  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@38e052b2
+2025-08-13 12:24:24.816  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 12:24:24.875  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-13 12:24:25.283  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 12:24:25.319  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 12:24:25.468  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 12:24:25.482  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 12:24:25.997  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 12:24:26.320  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 12:24:26.326  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 12:24:26.333  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.247 seconds (process running for 3.486)
+2025-08-13 12:24:34.511  [http-nio-0.0.0.0-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-13 12:24:34.511  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-13 12:24:34.512  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-13 12:24:55.291  [http-nio-0.0.0.0-8080-exec-2] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=start_time, sortOrder=ASC)
+2025-08-13 12:24:55.342  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 12:24:55.348  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-13 12:24:55.365  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 12:24:55.366  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-13 12:24:55.366  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-13 12:24:55.375  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 12:24:55.378  [http-nio-0.0.0.0-8080-exec-2] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-08-13 13:43:36.231  [http-nio-0.0.0.0-8080-exec-4] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=start_time, sortOrder=DESC)
+2025-08-13 13:43:36.242  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 13:43:36.243  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-13 13:43:36.264  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 13:43:36.266  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-13 13:43:36.266  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-13 13:43:36.275  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 13:43:55.502  [http-nio-0.0.0.0-8080-exec-5] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=현대, model=null, startTime=null, endTime=null, twoParam=true, sortBy=start_time, sortOrder=DESC)
+2025-08-13 13:43:55.521  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.brand = ? ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 13:43:55.522  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 현대(String), 10(Integer), 0(Integer)
+2025-08-13 13:43:55.538  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 13:43:55.540  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.brand = ?
+2025-08-13 13:43:55.540  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 현대(String)
+2025-08-13 13:43:55.549  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 13:44:14.524  [http-nio-0.0.0.0-8080-exec-6] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=소나타, model=null, startTime=null, endTime=null, twoParam=false, sortBy=start_time, sortOrder=DESC)
+2025-08-13 13:44:14.548  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 13:44:14.548  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 소나타(String), 소나타(String), 10(Integer), 0(Integer)
+2025-08-13 13:44:14.568  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 13:44:14.570  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 13:44:14.571  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 소나타(String), 소나타(String)
+2025-08-13 13:44:14.583  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 13:44:25.223  [http-nio-0.0.0.0-8080-exec-7] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=소나타, model=null, startTime=null, endTime=null, twoParam=false, sortBy=start_time, sortOrder=ASC)
+2025-08-13 13:44:25.240  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 13:44:25.242  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 소나타(String), 소나타(String), 10(Integer), 0(Integer)
+2025-08-13 13:44:25.255  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 13:44:25.257  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 13:44:25.257  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 소나타(String), 소나타(String)
+2025-08-13 13:44:25.267  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 13:45:53.039  [http-nio-0.0.0.0-8080-exec-9] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=소나타, model=null, startTime=null, endTime=null, twoParam=false, sortBy=start_time, sortOrder=DESC)
+2025-08-13 13:45:53.053  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 13:45:53.054  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 소나타(String), 소나타(String), 10(Integer), 0(Integer)
+2025-08-13 13:45:53.072  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 13:45:53.075  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 13:45:53.075  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 소나타(String), 소나타(String)
+2025-08-13 13:45:53.086  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 13:48:02.830  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 13:48:02.832  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 13:48:02.970  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 13:48:02.972  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 13:48:02.981  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 13:48:05.567  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 13:48:05.587  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 52515 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 13:48:05.587  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 13:48:05.588  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 13:48:05.916  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 13:48:05.917  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 13:48:05.999  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 4 JPA repository interfaces.
+2025-08-13 13:48:06.154  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 13:48:06.155  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 13:48:06.166  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 13:48:06.166  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 13:48:06.166  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 13:48:06.166  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-13 13:48:06.449  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 13:48:06.456  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 13:48:06.457  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 13:48:06.457  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 13:48:06.481  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 13:48:06.482  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 870 ms
+2025-08-13 13:48:06.623  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 13:48:06.685  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 13:48:06.712  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 13:48:06.728  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 13:48:06.860  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 13:48:06.874  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 13:48:07.229  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7c4a5ef2
+2025-08-13 13:48:07.230  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 13:48:07.310  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-13 13:48:07.717  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 13:48:07.767  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 13:48:07.918  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 13:48:07.932  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 13:48:08.460  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 13:48:08.794  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 13:48:08.800  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 13:48:08.807  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.469 seconds (process running for 3.956)
+2025-08-13 13:48:48.729  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-13 13:48:48.732  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-13 13:48:48.854  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 13:48:48.855  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-13 13:48:48.869  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-13 13:48:51.086  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-13 13:48:51.105  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 52570 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-13 13:48:51.105  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-13 13:48:51.105  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-13 13:48:51.428  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 13:48:51.428  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-13 13:48:51.502  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 68 ms. Found 4 JPA repository interfaces.
+2025-08-13 13:48:51.646  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-13 13:48:51.646  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-13 13:48:51.657  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 13:48:51.657  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 13:48:51.657  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-13 13:48:51.657  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-13 13:48:51.936  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-13 13:48:51.941  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 13:48:51.942  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-13 13:48:51.942  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-13 13:48:51.967  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-13 13:48:51.967  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 843 ms
+2025-08-13 13:48:52.106  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-13 13:48:52.167  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-13 13:48:52.196  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-13 13:48:52.212  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-13 13:48:52.334  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-13 13:48:52.347  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-13 13:48:52.634  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@299dd381
+2025-08-13 13:48:52.635  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-13 13:48:52.708  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-13 13:48:53.143  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-13 13:48:53.189  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-13 13:48:53.337  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-13 13:48:53.351  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-13 13:48:53.865  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-13 13:48:54.187  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-13 13:48:54.193  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-13 13:48:54.200  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.306 seconds (process running for 3.573)
+2025-08-13 13:49:11.823  [http-nio-0.0.0.0-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-13 13:49:11.824  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-13 13:49:11.825  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-13 13:49:12.241  [http-nio-0.0.0.0-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 292 ms
+2025-08-13 13:50:15.889  [http-nio-0.0.0.0-8080-exec-8] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-13 13:50:15.948  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 13:50:15.954  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-13 13:50:15.992  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 13:50:15.993  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-13 13:50:15.993  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-13 13:50:16.007  [http-nio-0.0.0.0-8080-exec-8] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 13:50:16.008  [http-nio-0.0.0.0-8080-exec-8] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-08-13 13:50:24.242  [http-nio-0.0.0.0-8080-exec-10] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-13 13:50:24.254  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 13:50:24.255  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 50(Integer), 0(Integer)
+2025-08-13 13:50:24.285  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 50
+2025-08-13 13:50:24.286  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-13 13:50:24.287  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-13 13:50:24.301  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 13:50:47.376  [http-nio-0.0.0.0-8080-exec-9] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=DESC)
+2025-08-13 13:50:47.395  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 13:50:47.396  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 50(Integer), 0(Integer)
+2025-08-13 13:50:47.430  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 50
+2025-08-13 13:50:47.432  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-13 13:50:47.432  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-13 13:50:47.442  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 13:55:29.233  [http-nio-0.0.0.0-8080-exec-2] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=DESC)
+2025-08-13 13:55:29.253  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 13:55:29.253  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 50(Integer), 0(Integer)
+2025-08-13 13:55:29.275  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 50
+2025-08-13 13:55:29.277  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-13 13:55:29.277  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-13 13:55:29.287  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 14:01:51.909  [http-nio-0.0.0.0-8080-exec-1] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=소나타, model=null, startTime=null, endTime=null, twoParam=false, sortBy=startTime, sortOrder=DESC)
+2025-08-13 14:01:51.931  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?) ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 14:01:51.932  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 소나타(String), 소나타(String), 10(Integer), 0(Integer)
+2025-08-13 14:01:51.960  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 14:01:51.961  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE (c.brand = ? OR c.model = ?)
+2025-08-13 14:01:51.961  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 소나타(String), 소나타(String)
+2025-08-13 14:01:51.971  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 14:14:44.942  [http-nio-0.0.0.0-8080-exec-2] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=IDLE, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-13 14:14:44.963  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-13 14:14:44.965  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: IDLE(String), 10(Integer), 0(Integer)
+2025-08-13 14:14:44.980  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 14:14:44.982  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ?
+2025-08-13 14:14:44.983  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: IDLE(String)
+2025-08-13 14:14:44.994  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 14:15:03.966  [http-nio-0.0.0.0-8080-exec-9] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=IDLE, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=DESC)
+2025-08-13 14:15:03.981  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-13 14:15:03.982  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: IDLE(String), 10(Integer), 0(Integer)
+2025-08-13 14:15:03.996  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 14:15:03.997  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ?
+2025-08-13 14:15:03.998  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: IDLE(String)
+2025-08-13 14:15:04.008  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 14:16:00.551  [http-nio-0.0.0.0-8080-exec-1] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=IDLE, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=carNumber, sortOrder=DESC)
+2025-08-13 14:16:00.605  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? ORDER BY c.car_number DESC LIMIT ? OFFSET ?
+2025-08-13 14:16:00.607  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: IDLE(String), 10(Integer), 0(Integer)
+2025-08-13 14:16:00.678  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 14:16:00.682  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ?
+2025-08-13 14:16:00.684  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: IDLE(String)
+2025-08-13 14:16:00.705  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 14:16:13.687  [http-nio-0.0.0.0-8080-exec-5] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=IDLE, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=carNumber, sortOrder=ASC)
+2025-08-13 14:16:13.702  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? ORDER BY c.car_number ASC LIMIT ? OFFSET ?
+2025-08-13 14:16:13.703  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: IDLE(String), 10(Integer), 0(Integer)
+2025-08-13 14:16:13.720  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 14:16:13.722  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ?
+2025-08-13 14:16:13.723  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: IDLE(String)
+2025-08-13 14:16:13.733  [http-nio-0.0.0.0-8080-exec-5] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 14:16:49.483  [http-nio-0.0.0.0-8080-exec-6] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=IDLE, brand=쏘렌토, model=null, startTime=null, endTime=null, twoParam=false, sortBy=carNumber, sortOrder=ASC)
+2025-08-13 14:16:49.502  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? AND (c.brand = ? OR c.model = ?) ORDER BY c.car_number ASC LIMIT ? OFFSET ?
+2025-08-13 14:16:49.504  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: IDLE(String), 쏘렌토(String), 쏘렌토(String), 10(Integer), 0(Integer)
+2025-08-13 14:16:49.528  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 14:16:49.530  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? AND (c.brand = ? OR c.model = ?)
+2025-08-13 14:16:49.532  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: IDLE(String), 쏘렌토(String), 쏘렌토(String)
+2025-08-13 14:16:49.542  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 14:17:11.305  [http-nio-0.0.0.0-8080-exec-10] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=MAINTENANCE, brand=쏘렌토, model=null, startTime=null, endTime=null, twoParam=false, sortBy=carNumber, sortOrder=ASC)
+2025-08-13 14:17:11.314  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? AND (c.brand = ? OR c.model = ?) ORDER BY c.car_number ASC LIMIT ? OFFSET ?
+2025-08-13 14:17:11.315  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: MAINTENANCE(String), 쏘렌토(String), 쏘렌토(String), 10(Integer), 0(Integer)
+2025-08-13 14:17:11.328  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 0
+2025-08-13 14:17:11.330  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? AND (c.brand = ? OR c.model = ?)
+2025-08-13 14:17:11.331  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: MAINTENANCE(String), 쏘렌토(String), 쏘렌토(String)
+2025-08-13 14:17:11.343  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-13 14:17:31.255  [http-nio-0.0.0.0-8080-exec-7] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=MAINTENANCE, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=carNumber, sortOrder=ASC)
+2025-08-13 14:17:31.267  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ? ORDER BY c.car_number ASC LIMIT ? OFFSET ?
+2025-08-13 14:17:31.268  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: MAINTENANCE(String), 10(Integer), 0(Integer)
+2025-08-13 14:17:31.285  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-13 14:17:31.286  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.status = ?
+2025-08-13 14:17:31.287  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: MAINTENANCE(String)
+2025-08-13 14:17:31.299  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-14 11:50:48.313  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-14 11:50:48.337  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 57665 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-14 11:50:48.337  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-14 11:50:48.337  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-14 11:50:48.734  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-14 11:50:48.734  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-14 11:50:48.812  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73 ms. Found 4 JPA repository interfaces.
+2025-08-14 11:50:49.045  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-14 11:50:49.045  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-14 11:50:49.055  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-14 11:50:49.055  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-14 11:50:49.056  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-14 11:50:49.056  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-08-14 11:50:49.346  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-14 11:50:49.353  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-14 11:50:49.353  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-14 11:50:49.353  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-14 11:50:49.379  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-14 11:50:49.379  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1018 ms
+2025-08-14 11:50:49.600  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-14 11:50:49.664  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-14 11:50:49.693  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-14 11:50:49.712  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-14 11:50:49.864  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-14 11:50:49.879  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-14 11:50:50.181  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4bdbfbc6
+2025-08-14 11:50:50.182  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-14 11:50:50.248  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-14 11:50:50.675  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-14 11:50:50.716  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-14 11:50:50.876  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-14 11:50:50.891  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-14 11:50:51.434  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-14 11:50:51.592  [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-14 11:50:51.907  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-14 11:50:51.919  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-14 11:50:51.931  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 3.938 seconds (process running for 4.328)
+2025-08-14 11:50:52.153  [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2025-08-14 11:50:52.155  [RMI TCP Connection(2)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-14 11:50:52.155  [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-14 11:50:52.156  [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-14 11:50:52.157  [RMI TCP Connection(3)-127.0.0.1] WARN  o.s.b.a.amqp.RabbitHealthIndicator - Rabbit health check failed
+org.springframework.amqp.AmqpConnectException: java.net.ConnectException: Connection refused
+	at org.springframework.amqp.rabbit.support.RabbitExceptionTranslator.convertRabbitAccessException(RabbitExceptionTranslator.java:61)
+	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:632)
+	at org.springframework.amqp.rabbit.connection.CachingConnectionFactory.createConnection(CachingConnectionFactory.java:726)
+	at org.springframework.amqp.rabbit.connection.ConnectionFactoryUtils.createConnection(ConnectionFactoryUtils.java:257)
+	at org.springframework.amqp.rabbit.core.RabbitTemplate.doExecute(RabbitTemplate.java:2262)
+	at org.springframework.amqp.rabbit.core.RabbitTemplate.execute(RabbitTemplate.java:2235)
+	at org.springframework.amqp.rabbit.core.RabbitTemplate.execute(RabbitTemplate.java:2215)
+	at org.springframework.boot.actuate.amqp.RabbitHealthIndicator.getVersion(RabbitHealthIndicator.java:49)
+	at org.springframework.boot.actuate.amqp.RabbitHealthIndicator.doHealthCheck(RabbitHealthIndicator.java:44)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:82)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:76)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:66)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:281)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:814)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor43.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:554)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at com.rabbitmq.client.impl.SocketFrameHandlerFactory.create(SocketFrameHandlerFactory.java:61)
+	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1249)
+	at com.rabbitmq.client.ConnectionFactory.newConnection(ConnectionFactory.java:1198)
+	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connectAddresses(AbstractConnectionFactory.java:678)
+	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.connect(AbstractConnectionFactory.java:647)
+	at org.springframework.amqp.rabbit.connection.AbstractConnectionFactory.createBareConnection(AbstractConnectionFactory.java:593)
+	... 50 common frames omitted
+2025-08-14 11:50:52.336  [RMI TCP Connection(3)-127.0.0.1] WARN  o.s.b.a.d.redis.RedisHealthIndicator - Redis health check failed
+org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1858)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1789)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getNativeConnection(LettuceConnectionFactory.java:1586)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.lambda$getConnection$0(LettuceConnectionFactory.java:1566)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.doInLock(LettuceConnectionFactory.java:1527)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getConnection(LettuceConnectionFactory.java:1563)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getSharedConnection(LettuceConnectionFactory.java:1249)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getConnection(LettuceConnectionFactory.java:1055)
+	at org.springframework.data.redis.core.RedisConnectionUtils.fetchConnection(RedisConnectionUtils.java:195)
+	at org.springframework.data.redis.core.RedisConnectionUtils.doGetConnection(RedisConnectionUtils.java:144)
+	at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:105)
+	at org.springframework.data.redis.core.RedisConnectionUtils.getConnection(RedisConnectionUtils.java:92)
+	at org.springframework.boot.actuate.data.redis.RedisHealthIndicator.doHealthCheck(RedisHealthIndicator.java:49)
+	at org.springframework.boot.actuate.health.AbstractHealthIndicator.health(AbstractHealthIndicator.java:82)
+	at org.springframework.boot.actuate.health.HealthIndicator.getHealth(HealthIndicator.java:37)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:82)
+	at org.springframework.boot.actuate.health.HealthEndpoint.getHealth(HealthEndpoint.java:41)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getLoggedHealth(HealthEndpointSupport.java:172)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:145)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getAggregateContribution(HealthEndpointSupport.java:156)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getContribution(HealthEndpointSupport.java:141)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:110)
+	at org.springframework.boot.actuate.health.HealthEndpointSupport.getHealth(HealthEndpointSupport.java:81)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:76)
+	at org.springframework.boot.actuate.health.HealthEndpoint.health(HealthEndpoint.java:66)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:281)
+	at org.springframework.boot.actuate.endpoint.invoke.reflect.ReflectiveOperationInvoker.invoke(ReflectiveOperationInvoker.java:74)
+	at org.springframework.boot.actuate.endpoint.annotation.AbstractDiscoveredOperation.invoke(AbstractDiscoveredOperation.java:60)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:124)
+	at org.springframework.boot.actuate.endpoint.jmx.EndpointMBean.invoke(EndpointMBean.java:97)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:814)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:802)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1472)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1310)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1405)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:829)
+	at java.base/jdk.internal.reflect.GeneratedMethodAccessor43.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to localhost/<unresolved>:6379
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:63)
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:41)
+	at io.lettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:354)
+	at io.lettuce.core.RedisClient.connect(RedisClient.java:220)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.lambda$getConnection$1(StandaloneConnectionProvider.java:112)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.getConnection(StandaloneConnectionProvider.java:112)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1787)
+	... 54 common frames omitted
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: localhost/127.0.0.1:6379
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:946)
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:336)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:339)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:784)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:732)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:658)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:998)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-08-14 11:52:33.409  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-14 11:52:33.411  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-14 11:52:33.533  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-14 11:52:33.535  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-14 11:52:33.551  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

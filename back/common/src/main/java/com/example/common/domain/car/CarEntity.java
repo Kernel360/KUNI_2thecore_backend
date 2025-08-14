@@ -52,6 +52,10 @@ public class CarEntity {
     private String loginId;
 
     public void updateInfo(CarRequestDto carRequest) {
+        if (carRequest.getCarNumber() != null) {
+            throw new IllegalArgumentException("차량번호는 수정할 수 없습니다.");
+        }
+
         if (carRequest.getBrand() != null && !carRequest.getBrand().isBlank()) {
             setBrand(carRequest.getBrand());
         }
@@ -73,12 +77,12 @@ public class CarEntity {
             setCarType(carRequest.getCarType());
         }
 
-        if(carRequest.getCarNumber() != null && !carRequest.getCarNumber().isBlank()) {
-            setCarNumber(carRequest.getCarNumber());
-        }
-
         if (carRequest.getSumDist() != null && carRequest.getSumDist() >= 0) {
             setSumDist(carRequest.getSumDist());
+        }
+
+        if (carRequest.getLoginId() != null && !carRequest.getLoginId().isBlank()) {
+            setLoginId(carRequest.getLoginId());
         }
     }
 }
