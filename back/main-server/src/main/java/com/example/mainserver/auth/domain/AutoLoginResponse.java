@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class AutoLoginResponse {
     private boolean valid;
     private String newAccessToken; // 새로 발급된 경우
+    private String message;
 }
