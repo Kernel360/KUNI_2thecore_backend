@@ -124,7 +124,7 @@ public class AuthService {
 
         // 2. Access Token 만료 여부 확인
         if (!jwtTokenProvider.isTokenExpired(accessToken)){
-            return ApiResponse.success(new AutoLoginResponse(true, "자동 로그인 성공"));
+            return ApiResponse.success(new AutoLoginResponse(true, accessToken, "자동 로그인 성공"));
         }
 
         // 3. HttpOnly 쿠키에서 Refresh Token 추출
@@ -147,7 +147,7 @@ public class AuthService {
 
         tokenService.enforceSingleSession(loginId, newAccessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
-        return ApiResponse.success("엑세스 토큰 재발급 성공", new AutoLoginResponse(true,  newAccessToken));
+        return ApiResponse.success(new AutoLoginResponse(true, newAccessToken, "엑세스 토큰 재발급 성공"));
 
     }
 
