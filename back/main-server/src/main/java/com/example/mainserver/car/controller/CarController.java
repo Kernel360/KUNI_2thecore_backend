@@ -51,7 +51,7 @@ public class CarController {
     public ApiResponse<Page<CarSearchDto>> getCarsByFilter(
             @ModelAttribute CarFilterRequestDto carFilterRequestDto,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int offset
+            @RequestParam(defaultValue = "50") int offset
     ) {
         log.info("Request DTO: {}", carFilterRequestDto);
 
