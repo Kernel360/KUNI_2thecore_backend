@@ -53,7 +53,7 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/auth/login",
                                 "/api/admin/signup",
-                                "/actuator/prometheus"
+                                "/actuator/prometheus",
                                 "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/info"
