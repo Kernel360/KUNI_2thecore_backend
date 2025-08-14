@@ -56,7 +56,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<ApiResponse<AutoLoginResponse>> autoLogin(@RequestBody AutoLoginRequest request) {
+    public ResponseEntity<ApiResponse<AutoLoginResponse>> autoLogin(HttpServletRequest request) {
         ApiResponse<AutoLoginResponse> response = authService.autoLogin(request);
         return ResponseEntity.ok(response);
     }

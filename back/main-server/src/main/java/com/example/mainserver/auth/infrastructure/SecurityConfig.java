@@ -53,7 +53,7 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/auth/login",
                                 "/api/admin/signup",
-                                // Actuator 헬스/인포는 무인증 허용
+                                "/actuator/prometheus"
                                 "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/info"
