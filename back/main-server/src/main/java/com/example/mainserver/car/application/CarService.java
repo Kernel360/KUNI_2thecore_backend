@@ -94,6 +94,8 @@ public class CarService {
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())
+                .lastLatitude(carRequest.getLastLatitude())
+                .lastLongitude(carRequest.getLastLongitude())
                 .build();
 
         return CarDetailDto.EntityToDto(carWriter.save(entity));
