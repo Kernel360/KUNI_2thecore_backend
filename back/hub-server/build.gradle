@@ -30,6 +30,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.2")
     // Spring Boot Starters
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
@@ -58,6 +59,10 @@ dependencies {
 
     // .env
     implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+    // 프로메테우스 설정
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 test {

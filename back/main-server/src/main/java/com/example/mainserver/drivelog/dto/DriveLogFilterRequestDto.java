@@ -35,5 +35,11 @@ public class DriveLogFilterRequestDto {
     @NotNull
     private boolean twoParam;
 
+    @Builder.Default
+    private String sortBy = "startTime";
+
+    @Builder.Default
+    private String sortOrder = "ASC";
+
 
 }

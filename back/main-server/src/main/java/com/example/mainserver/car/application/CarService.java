@@ -11,10 +11,7 @@ import com.example.mainserver.car.exception.CarErrorCode;
 import com.example.mainserver.car.exception.CarNotFoundException;
 import com.example.mainserver.car.infrastructure.mapper.CarMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -71,7 +68,7 @@ public class CarService {
                 .map(CarSearchDto::EntityToDto)
                 .toList();
 
-        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size), total);
+        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size, Sort.by("carNumber").ascending()), total);
     }
 
 
@@ -110,11 +107,6 @@ public class CarService {
         // 수정하려는 차량이 존재하지 않는 경우
         CarEntity entity = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
-
-        // 차량 번호가 이미 존재할 경우
-        if(carReader.findByCarNumber(carRequest.getCarNumber()).isPresent()){
-            throw new CarAlreadyExistsException(carRequest.getCarNumber());
-        }
 
         entity.updateInfo(carRequest); // Entity 내부에서 유효성 검사 후 업데이트
 
