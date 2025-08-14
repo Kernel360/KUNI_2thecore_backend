@@ -52,7 +52,8 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/webjars/**",
                                 "/api/auth/login",
-                                "/api/admin/signup"
+                                "/api/admin/signup",
+                                "/actuator/prometheus"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
