@@ -8,6 +8,7 @@ import com.example.mainserver.auth.application.AuthService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<TokenDto>> login(@RequestBody LoginRequest request) {
-        TokenDto tokenDto = authService.login(request);
+    public ResponseEntity<ApiResponse<TokenDto>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
+        TokenDto tokenDto = authService.login(request, response);
         return ResponseEntity.ok(ApiResponse.success("로그인 성공", tokenDto));
     }
 
@@ -56,8 +57,8 @@ public class AuthController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<ApiResponse<AutoLoginResponse>> autoLogin(HttpServletRequest request) {
-        ApiResponse<AutoLoginResponse> response = authService.autoLogin(request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<AutoLoginResponse>> autoLogin(HttpServletRequest request, HttpServletResponse response) {
+        ApiResponse<AutoLoginResponse> result = authService.autoLogin(request, response);
+        return ResponseEntity.ok(result);
     }
 }
