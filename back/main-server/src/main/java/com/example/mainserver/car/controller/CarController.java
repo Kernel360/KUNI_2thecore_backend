@@ -33,18 +33,6 @@ public class CarController {
         return ApiResponse.success(response);
     }
 
-    @GetMapping
-    public ApiResponse<Page<CarDetailDto>> getAllCars(@RequestParam(defaultValue = "1") int page,
-                                                      @RequestParam(defaultValue = "10") int size)
-    {
-
-        Pageable pageable = PageRequest.of(page - 1, size);
-
-        var response = carService.getAllCars(pageable);
-
-        return ApiResponse.success(response);
-    }
-
     @GetMapping("/statistics")
     public ApiResponse<CarSummaryDto> getCountByStatus() {
         var response = carService.getCountByStatus();
