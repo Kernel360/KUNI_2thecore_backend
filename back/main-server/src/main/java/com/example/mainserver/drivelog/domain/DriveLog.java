@@ -57,7 +57,7 @@ public class DriveLog {
     @Column(name = "created_at", nullable = false, updatable = false) // 수정 불가
     private LocalDateTime createdAt;
 
-    private String status;
+    private String memo;
 
 
     // JPA만 접근 가능
@@ -68,7 +68,7 @@ public class DriveLog {
     @Builder
     public DriveLog(Long driveLogId, Long carId, String startPoint, String startLatitude, String startLongitude,
                     LocalDateTime startTime, String endPoint, String endLatitude, String endLongitude,
-                    LocalDateTime endTime, BigDecimal driveDist, String speed, LocalDateTime createdAt) {
+                    LocalDateTime endTime, BigDecimal driveDist, String speed, String memo, LocalDateTime createdAt) {
 
         this.driveLogId = driveLogId;
         this.carId = carId;
@@ -82,6 +82,7 @@ public class DriveLog {
         this.endTime = endTime;
         this.driveDist = driveDist;
         this.speed = speed;
+        this.memo = memo;
     }
 
     @PrePersist
