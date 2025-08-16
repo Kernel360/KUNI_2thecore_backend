@@ -30,4 +30,6 @@ public class DriveLogFilterResponseDto {
     private double driveDist;
 
     private CarStatus status;
+
+    private String memo;
 }
