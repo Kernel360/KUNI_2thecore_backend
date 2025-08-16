@@ -1,22 +1,16 @@
+# hub-server/Dockerfile
 FROM gradle:8.4.0-jdk17 AS build
+WORKDIR /workspace
+COPY settings.gradle build.gradle gradlew gradle/ ./
+COPY common/build.gradle common/build.gradle
+COPY hub-server/build.gradle hub-server/build.gradle
+RUN chmod +x ./gradlew && ./gradlew --no-daemon :hub-server:dependencies || true
 
-WORKDIR /app
-
-# gradle wrapper 포함 전체 복사
 COPY . .
+RUN ./gradlew --no-daemon :hub-server:bootJar -x test
 
-# gradlew 실행 권한 부여 (리눅스)
-RUN chmod +x ./gradlew
-
-# hub-server 빌드만 수행
-RUN ./gradlew :hub-server:bootJar -x test
-
-FROM eclipse-temurin:17-jdk
-
+FROM eclipse-temurin:17-jre
 WORKDIR /app
-
-COPY --from=build /app/hub-server/build/libs/*.jar app.jar
-
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY --from=build /workspace/hub-server/build/libs/*.jar app.jar
+EXPOSE 8082
+ENTRYPOINT ["java","-jar","app.jar"]

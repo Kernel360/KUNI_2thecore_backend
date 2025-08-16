@@ -71,13 +71,24 @@ dependencies {
 
 	implementation 'mysql:mysql-connector-java:8.0.33'
 
+	// 프로메테우스 설정
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mockito:mockito-core'
+	testRuntimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+tasks.test {
+	useJUnitPlatform()
+	systemProperty "spring.profiles.active",
+			System.getProperty("spring.profiles.active", "test")
 }
