@@ -498,7 +498,6 @@ org.springframework.jdbc.BadSqlGrammarException:
 	at jdk.proxy2/jdk.proxy2.$Proxy157.search(Unknown Source)
 	at com.example.mainserver.drivelog.application.DriveLogService.getDriveLogByFilter(DriveLogService.java:82)
 	at com.example.mainserver.drivelog.controller.DriveLogController.getLogsByFilter(DriveLogController.java:79)
-
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
