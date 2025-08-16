@@ -7,6 +7,7 @@ import com.example.common.exception.InvalidTokenException;
 import com.example.mainserver.auth.exception.LoginFailedException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +33,7 @@ public class AuthService {
     private static final long REFRESH_TOKEN_EXPIRE_DAYS = 7L; // 7일
 
     // 로그인
-    public TokenDto login(LoginRequest request) {
+    public TokenDto login(LoginRequest request, HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getLoginId(), request.getPassword())
@@ -56,12 +57,21 @@ public class AuthService {
             String accessToken = jwtTokenProvider.generateToken(loginId, accessClaims, accessExpireAt);
             String refreshToken = jwtTokenProvider.generateToken(loginId, refreshClaims, refreshExpireAt);
 
+            // Redis 저장
             tokenService.storeRefreshToken(loginId, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
             tokenService.enforceSingleSession(loginId, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
+            // HttpOnly, Secure 쿠키로 Refresh Token 전송
+            Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
+            refreshCookie.setHttpOnly(true);
+            refreshCookie.setSecure(true); // HTTPS 환경에서만
+            refreshCookie.setPath("/");
+            refreshCookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
+            response.addCookie(refreshCookie);
+
             return TokenDto.builder()
                     .accessToken(accessToken)
-                    .refreshToken(refreshToken)
+                    .refreshToken(null) // 클라이언트 JS에서 못 보게 null 반환
                     .build();
 
         } catch (AuthenticationException e) {
@@ -71,7 +81,7 @@ public class AuthService {
     }
 
     // 리프레시 토큰으로 토큰 갱신
-    public TokenDto refresh(RefreshRequest request) {
+    public TokenDto refresh(HttpServletResponse response, RefreshRequest request) {
         if (!jwtTokenProvider.validateToken(request.getRefreshToken())) {
             throw new InvalidTokenException("리프레시 토큰이 유효하지 않습니다.");
         }
@@ -99,37 +109,43 @@ public class AuthService {
                 loginId, refreshClaims, LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS)
         );
 
+        // Redis 갱신
         tokenService.storeRefreshToken(loginId, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
         tokenService.enforceSingleSession(loginId, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
+        // 쿠키 갱신
+        Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setSecure(true);
+        refreshCookie.setPath("/");
+        refreshCookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
+        response.addCookie(refreshCookie);
+
         return TokenDto.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .refreshToken(null)
                 .build();
     }
 
     // 자동 로그인
-    public ApiResponse<AutoLoginResponse> autoLogin(HttpServletRequest request) {
+    public ApiResponse<AutoLoginResponse> autoLogin(HttpServletRequest request, HttpServletResponse response) {
 
         String accessToken = extractAccessTokenFromHeader(request);
 
-        // 0. Access Token 존재 여부 확인
         if (accessToken == null) {
             return ApiResponse.fail("Access Token이 없습니다.");
         }
 
-        // 1. Access Token 서명 체크
         if (!jwtTokenProvider.validateTokenSignature(accessToken)) {
             return ApiResponse.fail("등록된 적 없는 access token 입니다.");
         }
 
-        // 2. Access Token 만료 여부 확인
+        // 만료되지 않은 경우
         if (!jwtTokenProvider.isTokenExpired(accessToken)) {
-            // 만료되지 않은 경우 data에는 새 토큰 없이 valid만 true
             return ApiResponse.success("엑세스 토큰 유효", new AutoLoginResponse(true, null));
         }
 
-        // 3. HttpOnly 쿠키에서 Refresh Token 추출
+        // HttpOnly 쿠키에서 Refresh Token 추출
         String refreshToken = extractRefreshTokenFromCookie(request, "refreshToken");
         if (!jwtTokenProvider.validateToken(refreshToken)) {
             return ApiResponse.fail("리프레시 토큰이 유효하지 않습니다.");
@@ -137,12 +153,11 @@ public class AuthService {
 
         String loginId = jwtTokenProvider.getSubject(refreshToken);
 
-        // 4. Redis에 저장된 Refresh Token과 일치 여부 확인
         if (!tokenService.validateRefreshToken(loginId, refreshToken)) {
             return ApiResponse.fail("서버에 저장된 리프레시 토큰과 일치하지 않습니다.");
         }
 
-        // 5. 만료된 경우 새 Access Token 발급
+        // 만료된 경우 새 Access Token 발급
         Map<String, Object> claims = Map.of("loginId", loginId, "token_type", "access");
         String newAccessToken = jwtTokenProvider.generateToken(
                 loginId, claims, LocalDateTime.now().plusMinutes(ACCESS_TOKEN_EXPIRE_MINUTES)
