@@ -34,6 +34,19 @@
             <when test="filter.sortBy == 'carNumber'">c.car_number</when>
             <when test="filter.sortBy == 'startTime'">start_time</when>
             <when test="filter.sortBy == 'endTime'">end_time</when>
+            <when test="filter.sortBy == 'brand'">c.brand</when>
+            <when test="filter.sortBy == 'model'">c.model</when>
+            <when test="filter.sortBy == 'startPoint'">start_point</when>
+            <when test="filter.sortBy == 'endPoint'">end_point</when>
+            <when test="filter.sortBy == 'driveDist'">dl.drive_dist</when>
+            <when test="filter.sortBy == 'status'">
+                CASE c.status
+                    WHEN 'IDLE' THEN 1
+                    WHEN 'MAINTENANCE' THEN 2
+                    WHEN 'DRIVING' THEN 3
+                    ELSE 4
+                END
+            </when>
         </choose>
         <choose>
         <when test="filter.sortOrder == 'ASC'">ASC</when>
