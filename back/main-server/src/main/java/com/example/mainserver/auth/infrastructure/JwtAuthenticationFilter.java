@@ -45,7 +45,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.startsWith("/api/auth/login")
                 || path.startsWith("/api/admin/signup")
                 || path.startsWith("/actuator/prometheus");
-
     }
 
     @Override

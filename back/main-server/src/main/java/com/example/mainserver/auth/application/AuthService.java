@@ -142,7 +142,8 @@ public class AuthService {
 
         // 만료되지 않은 경우
         if (!jwtTokenProvider.isTokenExpired(accessToken)) {
-            return ApiResponse.success("엑세스 토큰 유효", new AutoLoginResponse(true, null));
+            return ApiResponse.success("엑세스 토큰 유효", new AutoLoginResponse(null));
+
         }
 
         // HttpOnly 쿠키에서 Refresh Token 추출
@@ -164,10 +165,7 @@ public class AuthService {
         );
 
         tokenService.enforceSingleSession(loginId, newAccessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
-
-
-        return ApiResponse.success("엑세스 토큰 재발급 성공", new AutoLoginResponse(true, newAccessToken));
-
+        return ApiResponse.success("엑세스 토큰 재발급 성공", new AutoLoginResponse(newAccessToken));
 
     }
 
