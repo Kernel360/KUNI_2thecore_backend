@@ -1,6 +1,9 @@
 pipeline {
   agent any
-  options { timestamps() }
+  options {
+      disableConcurrentBuilds()                 // 같은 Job의 동시 실행 금지
+      timestamps()
+   }
 
   environment {
     IMAGE_NAME = '2thecore-server'
