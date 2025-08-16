@@ -3479,3 +3479,64 @@ Caused by: java.net.ConnectException: Connection refused
 2025-08-14 11:52:33.533  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-08-14 11:52:33.535  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-08-14 11:52:33.551  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-16 19:24:22.573  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-16 19:24:22.597  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 67646 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-16 19:24:22.598  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-16 19:24:22.598  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-16 19:24:23.028  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-16 19:24:23.029  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-16 19:24:23.108  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 74 ms. Found 4 JPA repository interfaces.
+2025-08-16 19:24:23.345  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-16 19:24:23.345  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-16 19:24:23.355  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-16 19:24:23.355  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-16 19:24:23.355  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-16 19:24:23.355  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-08-16 19:24:23.646  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-16 19:24:23.653  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-16 19:24:23.654  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-16 19:24:23.654  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-16 19:24:23.681  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-16 19:24:23.682  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1056 ms
+2025-08-16 19:24:23.900  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-16 19:24:23.963  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-16 19:24:23.992  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-16 19:24:24.008  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-16 19:24:24.155  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-16 19:24:24.170  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-16 19:24:24.782  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6250d33c
+2025-08-16 19:24:24.784  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-16 19:24:24.866  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-16 19:24:25.300  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-16 19:24:25.342  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-16 19:24:25.512  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-16 19:24:25.527  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-16 19:24:26.072  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-16 19:24:26.227  [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-16 19:24:26.553  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-16 19:24:26.560  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-16 19:24:26.571  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 4.233 seconds (process running for 4.555)
+2025-08-16 19:24:26.704  [RMI TCP Connection(2)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-16 19:24:26.704  [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-16 19:24:26.705  [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-16 19:24:26.705  [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2025-08-16 19:24:26.737  [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#74b795da:0/SimpleConnection@5e83df15 [delegate=amqp://2thecore@127.0.0.1:5672/, localPort=64924]
+2025-08-16 19:24:32.996  [http-nio-0.0.0.0-8080-exec-8] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 222 ms
+2025-08-16 19:25:21.867  [http-nio-0.0.0.0-8080-exec-4] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-16 19:25:21.928  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-16 19:25:21.934  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-16 19:25:21.951  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-16 19:25:21.952  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-16 19:25:21.952  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-16 19:25:21.960  [http-nio-0.0.0.0-8080-exec-4] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-16 19:25:21.961  [http-nio-0.0.0.0-8080-exec-4] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+

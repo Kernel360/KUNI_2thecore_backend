@@ -2,9 +2,11 @@ package com.example.mainserver.drivelog.dto;
 
 
 import com.example.common.domain.car.CarStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -19,9 +21,12 @@ public class DriveLogFilterResponseDto {
 
     private String model;
 
-    private LocalDate startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private OffsetDateTime startTime;
 
-    private LocalDate endTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private OffsetDateTime endTime;
+
 
     private String startPoint;
 
