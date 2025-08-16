@@ -164,7 +164,6 @@ public class AuthService {
         );
 
         tokenService.enforceSingleSession(loginId, newAccessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
-
         return ApiResponse.success("엑세스 토큰 재발급 성공", new AutoLoginResponse(newAccessToken));
     }
 

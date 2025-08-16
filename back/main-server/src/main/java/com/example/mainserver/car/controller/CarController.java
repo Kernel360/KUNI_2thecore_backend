@@ -29,28 +29,10 @@ public class CarController {
 
     //    @GetMapping("")
 //    public
-    @GetMapping("/{car_number}")
-    public ApiResponse<CarDetailDto> getCar(@PathVariable String car_number) {
-
-        var response = carService.getCar(car_number);
-
-//        return CarResponse.<CarDetailDto>builder()
-//                .result("OK")
-//                .message("find car")
-//                .data(response)
-//                .build();
-
-        return ApiResponse.success(response);
-    }
-
     @GetMapping
-    public ApiResponse<Page<CarDetailDto>> getAllCars(@RequestParam(defaultValue = "1") int page,
-                                                      @RequestParam(defaultValue = "10") int size)
-    {
+    public ApiResponse<CarDetailDto> getCar(@RequestParam("carNumber") String carNumber) {
 
-        Pageable pageable = PageRequest.of(page - 1, size);
-
-        var response = carService.getAllCars(pageable);
+        var response = carService.getCar(carNumber);
 
         return ApiResponse.success(response);
     }
@@ -73,7 +55,7 @@ public class CarController {
     public ApiResponse<Page<CarSearchDto>> getCarsByFilter(
             @ModelAttribute CarFilterRequestDto carFilterRequestDto,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int offset
+            @RequestParam(defaultValue = "50") int offset
     ) {
         log.info("Request DTO: {}", carFilterRequestDto);
 
@@ -94,9 +76,9 @@ public class CarController {
     }
 
     // 차량 정보 업데이트
-    @PatchMapping("/{car_number}")
+    @PatchMapping
     public ApiResponse<CarDetailDto> updateCar(
-            @PathVariable("car_number")
+            @RequestParam("carNumber")
             String carNumber,
             @RequestBody
             @Validated

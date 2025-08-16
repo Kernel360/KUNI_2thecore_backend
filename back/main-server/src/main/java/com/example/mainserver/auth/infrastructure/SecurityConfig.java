@@ -53,7 +53,11 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/auth/login",
                                 "/api/admin/signup",
-                                "/actuator/prometheus"
+                                "/actuator/prometheus",
+                                "/actuator/health",
+                                "/actuator/health/**",
+                                "/actuator/info"
+
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -65,9 +69,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
         configuration.setExposedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
