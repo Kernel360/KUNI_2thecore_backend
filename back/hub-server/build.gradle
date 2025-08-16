@@ -41,6 +41,8 @@ dependencies {
     // Swagger(OpenAPI)
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5' // spring-webmvc 포함
 
+    // Spring security 추가
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Servlet API
     implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
