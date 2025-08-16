@@ -1,5 +1,10 @@
 package com.example.mainserver.auth.application;
 
+import com.example.common.exception.InvalidTokenException;
+import com.example.mainserver.auth.domain.TokenDto;
+import com.example.common.domain.auth.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -11,13 +16,14 @@ import java.util.concurrent.TimeUnit;
 public class TokenService {
 
     private final RedisTemplate<String, Object> redisTemplate;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public void storeRefreshToken(String userEmail, String refreshToken, long expirationMs) {
-        redisTemplate.opsForValue().set("refresh:" + userEmail, refreshToken, expirationMs, TimeUnit.MILLISECONDS);
+    public void storeRefreshToken(String loginId, String refreshToken, long expirationMs) {
+        redisTemplate.opsForValue().set("refresh:" + loginId, refreshToken, expirationMs, TimeUnit.MILLISECONDS);
     }
 
-    public boolean validateRefreshToken(String userEmail, String refreshToken) {
-        String savedToken = (String) redisTemplate.opsForValue().get("refresh:" + userEmail);
+    public boolean validateRefreshToken(String loginId, String refreshToken) {
+        String savedToken = (String) redisTemplate.opsForValue().get("refresh:" + loginId);
         return refreshToken.equals(savedToken);
     }
 
@@ -29,16 +35,40 @@ public class TokenService {
         return redisTemplate.hasKey("blacklist:" + accessToken);
     }
 
-    public void enforceSingleSession(String userEmail, String accessToken, long expirationMs) {
-        String previousToken = (String) redisTemplate.opsForValue().get("access:" + userEmail);
+    public void enforceSingleSession(String loginId, String accessToken, long expirationMs) {
+        String previousToken = (String) redisTemplate.opsForValue().get("access:" + loginId);
         if (previousToken != null) {
             blacklistAccessToken(previousToken, expirationMs);
         }
-        redisTemplate.opsForValue().set("access:" + userEmail, accessToken, expirationMs, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set("access:" + loginId, accessToken, expirationMs, TimeUnit.MILLISECONDS);
     }
 
-    // Redis 서버에서 리프레시 토큰을 가져오는 메서드 추가
-    public String getRefreshToken(String userEmail){
-        return (String) redisTemplate.opsForValue().get("refresh:" + userEmail);
+    public String getRefreshToken(String loginId){
+        return (String) redisTemplate.opsForValue().get("refresh:" + loginId);
+    }
+
+    public String extractRefreshTokenFromRequest(HttpServletRequest request){
+        if (request.getCookies() != null){
+            for (Cookie cookie : request.getCookies()){
+                if ("refreshToken".equals(cookie.getName())){
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    public TokenDto reissueAccessToken(String refreshToken){
+        String loginId = jwtTokenProvider.getLoginIdFromToken(refreshToken);
+        String savedToken = getRefreshToken(loginId);
+
+        if (savedToken == null || !savedToken.equals(refreshToken)){
+            throw new InvalidTokenException("리프레시 토큰이 유효하지 않습니다.");
+        }
+
+        String newAccessToken = jwtTokenProvider.createAccessToken(loginId);
+        enforceSingleSession(loginId, newAccessToken, jwtTokenProvider.getAccessTokenValidity());
+
+        return new TokenDto(newAccessToken, refreshToken);
     }
 }

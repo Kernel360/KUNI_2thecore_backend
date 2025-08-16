@@ -4,6 +4,7 @@ import com.example.mainserver.auth.application.TokenService;
 import com.example.common.exception.InvalidTokenException;
 import com.example.common.exception.TokenExpiredException;
 import com.example.common.domain.auth.JwtTokenProvider;
+import com.example.mainserver.auth.domain.TokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.common.dto.ApiResponse;
 import jakarta.servlet.FilterChain;
@@ -24,90 +25,77 @@ import java.io.IOException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Profile("!test") // ⬅ 테스트 프로필에서는 빈 등록 안 함!
-// 헤딩 클래스는 헤더 추출, JWT 유효성 검사, 사용자 식별자 추출, 인증 객체 생성, Spring Security 인증 등록 기능
+@Profile("!test")
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final TokenService tokenService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/swagger-ui")
-                || path.startsWith("/v3/api-docs")
-                || path.startsWith("/swagger-resources")
-                || path.startsWith("/swagger-ui.html")
-                || path.startsWith("/webjars")
-                || path.startsWith("/api/auth/login")
-                || path.startsWith("/api/admin/signup")
-                || path.startsWith("/actuator/prometheus");
+        return path.startsWith("/swagger-ui") || path.startsWith("/v3/api-docs")
+                || path.startsWith("/api/auth/login") || path.startsWith("/api/admin/signup");
     }
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-        // 요청 헤더에서 JWT 추출
-        String authToken = request.getHeader("Authorization");
-
-        // 헤더가 없거나 Bearer 형식이 아닌 경우
-        if (authToken == null || !authToken.startsWith("Bearer ")) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             sendErrorResponse(response, "Authorization 헤더가 없거나 Bearer 형식이 아닙니다.");
             return;
         }
 
-        // "Bearer " 제거 후 토큰만 추출
-        String token = authToken.substring(7);
+        String accessToken = authHeader.substring(7);
 
-        // 토큰 검증
         try {
-            jwtTokenProvider.validateToken(token); // 유효성 검사 (만료, 서명)
+            jwtTokenProvider.validateToken(accessToken);
 
-            // token_type 확인
-            var claims = jwtTokenProvider.getClaims(token);
-            String tokenType = claims.get("token_type", String.class);
-            if (!"access".equals(tokenType)) {
-                sendErrorResponse(response, "액세스 토큰이 아닙니다.");
+            String loginId = jwtTokenProvider.getLoginIdFromToken(accessToken);
+
+            if (tokenService.isAccessTokenBlacklisted(accessToken)) {
+                sendErrorResponse(response, "이미 로그아웃된 토큰입니다.");
                 return;
             }
-
-            // Redis 블랙리스트 체크
-            if (tokenService.isAccessTokenBlacklisted(token)){
-                sendErrorResponse(response, "이미 로그아웃된 블랙리스트 토큰입니다");
-                return;
-            }
-
-            String userId = claims.getSubject();
 
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userId, null, null
-                    );
+                    new UsernamePasswordAuthenticationToken(loginId, null, null);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (InvalidTokenException | TokenExpiredException e) {
-            sendErrorResponse(response, e.getMessage());
-            return;
-        }
 
-        // 다음 필터로 넘김
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+
+        } catch (TokenExpiredException e) {
+            try {
+                String refreshToken = tokenService.extractRefreshTokenFromRequest(request);
+                if (refreshToken == null || !jwtTokenProvider.validateToken(refreshToken)) {
+                    sendErrorResponse(response, "리프레시 토큰이 유효하지 않습니다.");
+                    return;
+                }
+
+                TokenDto newTokens = tokenService.reissueAccessToken(refreshToken);
+                sendSuccessResponse(response, "새로운 액세스 토큰 발급", newTokens);
+
+            } catch (Exception ex) {
+                sendErrorResponse(response, "토큰 재발급 실패: " + ex.getMessage());
+            }
+        } catch (InvalidTokenException e) {
+            sendErrorResponse(response, e.getMessage());
+        }
     }
 
-    // ApiResponse.fail() 기반 JSON 에러 응답 전송 메서드
     private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(ApiResponse.fail(message)));
+    }
 
-        ApiResponse<?> apiResponse = ApiResponse.fail(message);
-        String json = objectMapper.writeValueAsString(apiResponse);
-
-        response.getWriter().write(json);
+    private void sendSuccessResponse(HttpServletResponse response, String message, TokenDto tokenDto) throws IOException {
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(ApiResponse.success(message, tokenDto)));
     }
 }
