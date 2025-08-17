@@ -155,14 +155,20 @@ public class AuthService {
         return null;
     }
 
-    // 쿠키 전송 통합
+    // 쿠키 전송 통합 (HTTP 환경 대응)
     private void sendRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
-        cookie.setSecure(true);  // HTTPS 환경에서는 항상 Secure
-        // cookie.setDomain 제거: S3 정적 사이트에서는 Domain 지정하면 쿠키가 저장되지 않음
-        response.addCookie(cookie);
+
+        cookie.setSecure(false); // HTTP 환경에서는 Secure=false
+        cookie.setDomain(null);   // S3 크로스 도메인에서는 도메인 지정 제거
+        // SameSite 설정 Lax로 변경
+        response.addHeader("Set-Cookie",
+                String.format("refreshToken=%s; Path=/; Max-Age=%d; HttpOnly; SameSite=Lax",
+                        refreshToken,
+                        Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds()
+                ));
     }
 }
