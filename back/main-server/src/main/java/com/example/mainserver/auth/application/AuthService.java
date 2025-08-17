@@ -64,15 +64,10 @@ public class AuthService {
             // HttpOnly, Secure 쿠키로 Refresh Token 전송
             Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
             refreshCookie.setHttpOnly(true);
-            refreshCookie.setSecure(false); // 개발 환경용 - 운영에서는 true로 변경 필요
+            refreshCookie.setSecure(true); // HTTPS 환경에서만
             refreshCookie.setPath("/");
             refreshCookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
             response.addCookie(refreshCookie);
-            
-            // SameSite 속성 추가를 위한 헤더 직접 설정
-            response.addHeader("Set-Cookie", 
-                String.format("refreshToken=%s; Path=/; HttpOnly; Max-Age=%d; SameSite=None", 
-                    refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds()));
 
             return TokenDto.builder()
                     .accessToken(accessToken)
@@ -121,15 +116,10 @@ public class AuthService {
         // 쿠키 갱신
         Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
         refreshCookie.setHttpOnly(true);
-        refreshCookie.setSecure(false); // 개발 환경용 - 운영에서는 true로 변경 필요
+        refreshCookie.setSecure(true);
         refreshCookie.setPath("/");
         refreshCookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
         response.addCookie(refreshCookie);
-        
-        // SameSite 속성 추가를 위한 헤더 직접 설정
-        response.addHeader("Set-Cookie", 
-            String.format("refreshToken=%s; Path=/; HttpOnly; Max-Age=%d; SameSite=None", 
-                refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds()));
 
         return TokenDto.builder()
                 .accessToken(accessToken)
