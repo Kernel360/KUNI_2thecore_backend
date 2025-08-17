@@ -61,18 +61,4 @@ public class AuthController {
         ApiResponse<AutoLoginResponse> result = authService.autoLogin(request, response);
         return ResponseEntity.ok(result);
     }
-
-    // ---------- 추가된 테스트용 GET 로그인 ---------- //
-    // 브라우저에서 GET으로 로그인 시도할 때 사용 (보안상 실제 서비스에서는 사용 금지)
-    @GetMapping("/login")
-    public ResponseEntity<ApiResponse<TokenDto>> loginGet(
-            @RequestParam String loginId,
-            @RequestParam String password,
-            HttpServletResponse response) {
-
-        LoginRequest request = new LoginRequest(loginId, password); // GET 파라미터를 LoginRequest로 변환
-        TokenDto tokenDto = authService.login(request, response);
-
-        return ResponseEntity.ok(ApiResponse.success("GET 로그인 성공 (테스트용)", tokenDto));
-    }
 }
