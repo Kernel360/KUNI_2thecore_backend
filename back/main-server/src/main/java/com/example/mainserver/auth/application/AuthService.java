@@ -157,18 +157,12 @@ public class AuthService {
 
     // 쿠키 전송 통합
     private void sendRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
-        String domain = System.getenv("COOKIE_DOMAIN");
-        if (domain == null || domain.isBlank()) domain = "localhost";
-
-        boolean isLocal = domain.contains("localhost");
-
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
-        cookie.setSecure(!isLocal);
-        if (!isLocal) cookie.setDomain(domain);
-
+        cookie.setSecure(true);  // HTTPS 환경에서는 항상 Secure
+        // cookie.setDomain 제거: S3 정적 사이트에서는 Domain 지정하면 쿠키가 저장되지 않음
         response.addCookie(cookie);
     }
 }
