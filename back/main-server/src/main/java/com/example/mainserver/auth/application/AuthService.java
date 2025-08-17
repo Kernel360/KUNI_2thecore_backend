@@ -61,13 +61,15 @@ public class AuthService {
             tokenService.storeRefreshToken(loginId, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
             tokenService.enforceSingleSession(loginId, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
-            // HttpOnly, Secure 쿠키로 Refresh Token 전송
-            Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
-            refreshCookie.setHttpOnly(true);
-            refreshCookie.setSecure(true); // HTTPS 환경에서만
-            refreshCookie.setPath("/");
-            refreshCookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
-            response.addCookie(refreshCookie);
+            // HttpOnly 쿠키로 Refresh Token 전송 (개발환경용 설정)
+            String cookieValue = String.format(
+                    "refreshToken=%s; Path=/; HttpOnly; Max-Age=%d; SameSite=Lax",
+                    refreshToken,
+                    Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds()
+            );
+            response.addHeader("Set-Cookie", cookieValue);
+
+            log.info("RefreshToken 쿠키 설정 완료: loginId={}", loginId);
 
             return TokenDto.builder()
                     .accessToken(accessToken)
@@ -113,13 +115,15 @@ public class AuthService {
         tokenService.storeRefreshToken(loginId, refreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toMillis());
         tokenService.enforceSingleSession(loginId, accessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
 
-        // 쿠키 갱신
-        Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
-        refreshCookie.setHttpOnly(true);
-        refreshCookie.setSecure(true);
-        refreshCookie.setPath("/");
-        refreshCookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
-        response.addCookie(refreshCookie);
+        // 쿠키 갱신 (개발환경용 설정)
+        String cookieValue = String.format(
+                "refreshToken=%s; Path=/; HttpOnly; Max-Age=%d; SameSite=Lax",
+                refreshToken,
+                Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds()
+        );
+        response.addHeader("Set-Cookie", cookieValue);
+
+        log.info("RefreshToken 쿠키 갱신 완료: loginId={}", loginId);
 
         return TokenDto.builder()
                 .accessToken(accessToken)
@@ -164,7 +168,6 @@ public class AuthService {
         );
 
         tokenService.enforceSingleSession(loginId, newAccessToken, Duration.ofMinutes(ACCESS_TOKEN_EXPIRE_MINUTES).toMillis());
-
         return ApiResponse.success("엑세스 토큰 재발급 성공", new AutoLoginResponse(newAccessToken));
     }
 

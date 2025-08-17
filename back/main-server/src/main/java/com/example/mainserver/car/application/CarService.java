@@ -58,7 +58,7 @@ public class CarService {
         var resultToDto = result.stream()
                 .map(CarSearchDto::EntityToDto)
                 .toList();
-        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size), total);
+        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size, Sort.by("carNumber").ascending()), total);
     }
 
     public CarDetailDto createCar(CarRequestDto carRequest, String loginId) {
@@ -77,6 +77,8 @@ public class CarService {
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())
+                .lastLatitude(carRequest.getLastLatitude())
+                .lastLongitude(carRequest.getLastLongitude())
                 .build();
 
         return CarDetailDto.EntityToDto(carWriter.save(entity));
@@ -85,10 +87,7 @@ public class CarService {
     public CarDetailDto updateCar(CarRequestDto carRequest, String carNumber) {
         CarEntity entity = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
-        if(carReader.findByCarNumber(carRequest.getCarNumber()).isPresent()){
-            throw new CarAlreadyExistsException(carRequest.getCarNumber());
-        }
-        entity.updateInfo(carRequest);
+        entity.updateInfo(carRequest); // Entity 내부에서 유효성 검사 후 업데이트
         return CarDetailDto.EntityToDto(carWriter.save(entity));
     }
 
