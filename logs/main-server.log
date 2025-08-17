@@ -63,6 +63,8 @@ Caused by: java.net.UnknownHostException: 알려진 호스트가 없습니다 (k
 2025-08-16 13:04:41.427  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 66 ms
 2025-08-16 13:04:45.314  [http-nio-0.0.0.0-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 3284 ms
 2025-08-16 13:05:10.263  [http-nio-0.0.0.0-8080-exec-10] ERROR c.e.m.a.e.e.AtGlobalExceptionHandler - Unhandled exception in auth package
+<<<<<<< HEAD
+=======
 2025-08-13 09:58:13.852  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12h25m10s915ms414µs900ns).
 2025-08-13 15:19:51.605  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
 2025-08-13 15:19:51.674  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.15 with PID 6996 (C:\project\KUNI_2thecore_backend\back\main-server\build\classes\java\main started by seung in C:\project\KUNI_2thecore_backend)
@@ -140,6 +142,7 @@ Caused by: java.net.UnknownHostException: 알려진 호스트가 없습니다 (k
 2025-08-13 15:20:12.265  [http-nio-0.0.0.0-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
 2025-08-13 15:20:13.568  [http-nio-0.0.0.0-8080-exec-8] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 978 ms
 2025-08-13 15:20:32.123  [http-nio-0.0.0.0-8080-exec-5] ERROR c.e.m.a.e.e.GlobalExceptionHandler - 
+>>>>>>> 1ab3768c4f3370c8742d1025b98d10311c2e35ed
 org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
 	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1858)
 	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1789)
@@ -159,6 +162,8 @@ org.springframework.data.redis.RedisConnectionFailureException: Unable to connec
 	at com.example.mainserver.auth.application.TokenService.storeRefreshToken(TokenService.java:16)
 	at com.example.mainserver.auth.application.AuthService.login(AuthService.java:61)
 	at com.example.mainserver.auth.controller.AuthController.login(AuthController.java:28)
+<<<<<<< HEAD
+=======
 	at com.example.mainserver.auth.application.AuthService.login(AuthService.java:59)
 	at com.example.mainserver.auth.controller.AuthController.login(AuthController.java:29)
 2025-08-13 11:04:15.188  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
@@ -498,6 +503,7 @@ org.springframework.jdbc.BadSqlGrammarException:
 	at jdk.proxy2/jdk.proxy2.$Proxy157.search(Unknown Source)
 	at com.example.mainserver.drivelog.application.DriveLogService.getDriveLogByFilter(DriveLogService.java:82)
 	at com.example.mainserver.drivelog.controller.DriveLogController.getLogsByFilter(DriveLogController.java:79)
+>>>>>>> 1ab3768c4f3370c8742d1025b98d10311c2e35ed
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -880,6 +886,8 @@ Caused by: java.net.UnknownHostException: 알려진 호스트가 없습니다 (r
 	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
 	... 1 common frames omitted
 2025-08-16 14:00:48.054  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@32e2f831 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+<<<<<<< HEAD
+=======
 2025-08-13 15:21:09.924  [http-nio-0.0.0.0-8080-exec-4] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
 org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
 	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1858)
@@ -3540,3 +3548,4 @@ Caused by: java.net.ConnectException: Connection refused
 	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
 	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
 
+>>>>>>> 1ab3768c4f3370c8742d1025b98d10311c2e35ed
