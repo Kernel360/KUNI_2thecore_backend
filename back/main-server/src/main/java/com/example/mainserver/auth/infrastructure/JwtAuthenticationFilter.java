@@ -84,7 +84,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
                 TokenDto newTokens = tokenService.reissueAccessToken(refreshToken);
-                sendSuccessResponse(response, "새로운 액세스 토큰 발급", newTokens);
+                
+                // 새 토큰으로 인증 설정하고 요청 계속 처리
+                String loginId = jwtTokenProvider.getLoginIdFromToken(newTokens.getAccessToken());
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(loginId, null, null);
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                
+                // 응답 헤더에 새 토큰 추가
+                response.setHeader("New-Access-Token", newTokens.getAccessToken());
+                
+                filterChain.doFilter(request, response);
 
             } catch (Exception ex) {
                 sendErrorResponse(response, "토큰 재발급 실패: " + ex.getMessage());
