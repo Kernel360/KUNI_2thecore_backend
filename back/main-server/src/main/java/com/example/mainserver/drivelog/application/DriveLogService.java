@@ -80,15 +80,14 @@ public class DriveLogService {
 
     public Page<DriveLogFilterResponseDto> getDriveLogByFilter(DriveLogFilterRequestDto driveLogFilterRequestDto,
                                                                int page, int size) {
-//        int offset = (page - 1) * size;
-//
-//        var result = driveLogMapper.search(driveLogFilterRequestDto, offset, size);
-//
-//        var total = driveLogMapper.countByFilter(driveLogFilterRequestDto);
+        int offset = (page - 1) * size;
 
-        var cached = driveLogFilterCache.getDriveLogFiltersCache(driveLogFilterRequestDto, page, size);
+        var result = driveLogMapper.search(driveLogFilterRequestDto, offset, size);
 
-        return new PageImpl<>(cached.getItems(), PageRequest.of(page - 1, size), cached.getTotalCount());
+        var total = driveLogMapper.countByFilter(driveLogFilterRequestDto);
+
+
+        return new PageImpl<>(result, PageRequest.of(page - 1, size), total);
 
 
 
