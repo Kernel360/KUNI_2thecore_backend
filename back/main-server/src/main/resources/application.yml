@@ -1,5 +1,5 @@
 jwt:
-  secret: ${JWT_SECRET_KEY}
+  secret: my_secret_key_for_hmac_sha256_algorithm_256bit_my_secret_key_for_hmac_sha256_algorithm_256bit
 
 management:
   endpoints:
