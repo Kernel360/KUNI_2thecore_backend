@@ -58,4 +58,12 @@ server:
 
 # 메인서버 로깅
 logging:
-  config: classpath:logback-spring.xml
+  level:
+    org.springframework.cache.interceptor.CacheAspectSupport: TRACE
+    org.springframework.cache.interceptor.CacheInterceptor: TRACE
+    org.springframework.cache.interceptor: TRACE
+    org.springframework.cache: DEBUG
+
+    org.springframework.data.redis.cache: TRACE
+    org.springframework.data.redis.core: DEBUG
+    org.springframework.data.redis.connection: DEBUG
