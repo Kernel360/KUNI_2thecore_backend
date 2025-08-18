@@ -3,13 +3,12 @@ package com.example.mainserver.auth.controller;
 import com.example.common.dto.ApiResponse;
 import com.example.mainserver.auth.application.TokenService;
 import com.example.common.domain.auth.JwtTokenProvider;
-import com.example.mainserver.auth.domain.LoginRequest;
-import com.example.mainserver.auth.domain.RefreshRequest;
-import com.example.mainserver.auth.domain.TokenDto;
+import com.example.mainserver.auth.domain.*;
 import com.example.mainserver.auth.application.AuthService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +24,8 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<TokenDto>> login(@RequestBody LoginRequest request) {
-        TokenDto tokenDto = authService.login(request);
+    public ResponseEntity<ApiResponse<TokenDto>> login(@RequestBody LoginRequest request, HttpServletResponse response) {
+        TokenDto tokenDto = authService.login(request, response);
         return ResponseEntity.ok(ApiResponse.success("로그인 성공", tokenDto));
     }
 
@@ -57,9 +56,9 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<TokenDto>> refresh(@RequestBody RefreshRequest request) {
-        TokenDto tokenDto = authService.refresh(request);
-        return ResponseEntity.ok(ApiResponse.success("엑세스 토큰 갱신 성공", tokenDto));
+    @PostMapping("/verify")
+    public ResponseEntity<ApiResponse<AutoLoginResponse>> autoLogin(HttpServletRequest request, HttpServletResponse response) {
+        ApiResponse<AutoLoginResponse> result = authService.autoLogin(request, response);
+        return ResponseEntity.ok(result);
     }
 }

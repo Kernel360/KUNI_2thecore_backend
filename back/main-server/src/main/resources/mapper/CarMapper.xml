@@ -1,30 +1,3 @@
-<!-- resources/mappers/CarMapper.xml -->
-<!--<!DOCTYPE mapper-->
-<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
-<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
-
-<!--<mapper namespace="com.example.mainserver.car.infrastructure.mapper.CarMapper">-->
-<!--    <select id="search" resultType="CarEntity">-->
-<!--        SELECT *-->
-<!--        FROM car-->
-<!--        <where>-->
-<!--            <if test="carNumber != null">-->
-<!--                AND car_number = #{carNumber}-->
-<!--            </if>-->
-<!--            <if test="model != null">-->
-<!--                AND model = #{model}-->
-<!--            </if>-->
-<!--            <if test="brand != null">-->
-<!--                AND brand = #{brand}-->
-<!--            </if>-->
-<!--            <if test="status != null">-->
-<!--                AND status = #{status}-->
-<!--            </if>-->
-<!--        </where>-->
-<!--    </select>-->
-
-<!--</mapper>-->
-
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -34,7 +7,7 @@
     <select id="search" parameterType="map"
             resultType="com.example.common.domain.car.CarEntity">
         SELECT *
-        FROM car
+        FROM car c
         <where>
             <if test="filter.carNumber != null">
                 AND car_number = #{filter.carNumber}
@@ -52,6 +25,7 @@
                 AND (brand = #{filter.brand} OR model = #{filter.brand})
             </if>
         </where>
+        ORDER BY car_number ASC
         LIMIT #{limit} OFFSET #{offset}
     </select>
 

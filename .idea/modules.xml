@@ -3,10 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/2thecore_back.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/2thecore_back.common.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/emulator-server/2thecore_back.emulator-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/emulator-server/2thecore_back.emulator-server.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/hub-server/2thecore_back.hub-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/hub-server/2thecore_back.hub-server.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/main-server/2thecore_back.main-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/main-server/2thecore_back.main-server.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/KUNI_2thecore_backend-drivelog.iml" filepath="$PROJECT_DIR$/.idea/KUNI_2thecore_backend-drivelog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/KUNI_2thecore_backend.iml" filepath="$PROJECT_DIR$/.idea/KUNI_2thecore_backend.iml" />
     </modules>
   </component>
 </project>

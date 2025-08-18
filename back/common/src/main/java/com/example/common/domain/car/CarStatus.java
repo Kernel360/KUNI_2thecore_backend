@@ -1,12 +1,15 @@
 package com.example.common.domain.car;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
 public enum CarStatus {
     DRIVING("운행"),        // 운행 중
     IDLE("대기"),          // 대기 중
-    MAINTENANCE("수리");   // 수리 중
+    MAINTENANCE("수리"); // 수리 중
+
 
     private final String displayName;
 
@@ -14,6 +17,12 @@ public enum CarStatus {
         this.displayName = displayName;
     }
 
+    @JsonValue
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    @JsonCreator
     // 한글 문자열로부터 enum 얻는 메서드
     public static CarStatus fromDisplayName(String displayName) {
         for (CarStatus status : values()) {

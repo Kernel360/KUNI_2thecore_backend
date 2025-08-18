@@ -20,13 +20,13 @@ public class GpsLogEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String gpsLatitude;
+    private String latitude;
 
-    private String gpsLongitude;
+    private String longitude;
 
     private LocalDateTime createdAt;
 
-    private int emulatorId;
+    private String carNumber;
 
 
 }
