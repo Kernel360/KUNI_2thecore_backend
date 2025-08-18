@@ -69,8 +69,8 @@ pipeline {
             cp back/hub-server/build/libs/*.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
 
             # 런타임용 Dockerfile/compose 포함
-            cp Dockerfile.main ${BUNDLE_DIR}/Dockerfile.main
-            cp Dockerfile.hub  ${BUNDLE_DIR}/Dockerfile.hub
+            cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
+            cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
             cp docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
             # prod.env 주입(Secret file)
