@@ -56,7 +56,9 @@ public class SecurityConfig {
                                 "/actuator/prometheus",
                                 "/actuator/health",
                                 "/actuator/health/**",
-                                "/actuator/info"
+                                "/actuator/info",
+                                //테스트를 위한 로그인 우회
+                                "/api/logs/**"
 
                         ).permitAll()
                         .anyRequest().authenticated()
