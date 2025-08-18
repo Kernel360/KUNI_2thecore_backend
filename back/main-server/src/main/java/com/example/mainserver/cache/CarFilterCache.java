@@ -24,7 +24,7 @@ public class CarFilterCache {
             "#page, #size, 'carNumber:ASC')",
             sync = true  )
     public PageWrapper<CarSearchDto> getCarByFilterCached(CarFilterRequestDto carFilterRequestDto, int page, int size){
-        log.info("[DB FETCH] getCarByFilterCached page={}, size={}", page, size);
+        log.info("getCarByFilterCached page={}, size={}", page, size);
         int offset = (page - 1) * size;
         var result =  carMapper.search(carFilterRequestDto, offset, size);
         var total = carMapper.countByFilter(carFilterRequestDto);
