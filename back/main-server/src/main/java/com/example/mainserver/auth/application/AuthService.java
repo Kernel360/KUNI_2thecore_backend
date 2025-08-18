@@ -51,6 +51,7 @@ public class AuthService {
             );
 
             String refreshToken = jwtTokenProvider.generateToken(
+
                     loginId,
                     Map.of("loginId", loginId, "token_type", "refresh"),
                     LocalDateTime.now().plusDays(REFRESH_TOKEN_EXPIRE_DAYS)
