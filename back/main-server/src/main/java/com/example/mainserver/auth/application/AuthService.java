@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -158,20 +159,14 @@ public class AuthService {
 
 
     private void sendRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
-        Cookie cookie = new Cookie("refreshToken", refreshToken);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+                .httpOnly(true)
+                .secure(false) // HTTPS 환경이면 true
+                .path("/")
+                .maxAge(Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS))
+                .sameSite("Lax") // cross-site 요청이면 "None" 필요
+                .build();
 
-        cookie.setSecure(false); // HTTP 환경에서는 Secure=false
-        cookie.setDomain(null);   // S3 크로스 도메인에서는 도메인 지정 제거
-        // SameSite 설정 Lax로 변경
-        response.addHeader("Set-Cookie",
-                String.format("refreshToken=%s; Path=/; Max-Age=%d; HttpOnly; SameSite=Lax",
-                        refreshToken,
-                        Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds()
-                ));
+        response.addHeader("Set-Cookie", cookie.toString());
     }
-
-
 }
