@@ -73,8 +73,8 @@ pipeline {
             cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
             cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
 
-            # docker-compose.yml 포함 (실제 경로: back/docker-compose.yml)
-            cp back/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
+            # docker-compose.yml
+            cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
             # prod.env 주입(Secret file)
             install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
