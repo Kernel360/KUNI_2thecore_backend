@@ -155,7 +155,7 @@ public class AuthService {
         return null;
     }
 
-    /*쿠키 전송 통합
+
     private void sendRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
@@ -170,23 +170,7 @@ public class AuthService {
                         refreshToken,
                         Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds()
                 ));
-    } httpOnly로만 보낼 때*/
-
-    // httpOnly 제거(임시 테스트)
-    private void sendRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
-        Cookie cookie = new Cookie("refreshToken", refreshToken);
-        cookie.setHttpOnly(false);  // 테스트용으로 HttpOnly 끔
-        cookie.setPath("/");
-        cookie.setMaxAge((int) Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds());
-        cookie.setSecure(false);
-        cookie.setDomain(null);
-
-        // 헤더 문자열에서도 HttpOnly 제거
-        response.addHeader("Set-Cookie",
-                String.format("refreshToken=%s; Path=/; Max-Age=%d; SameSite=Lax",
-                        refreshToken,
-                        Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).getSeconds()
-                ));
     }
+
 
 }
