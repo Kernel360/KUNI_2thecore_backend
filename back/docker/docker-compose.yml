@@ -46,8 +46,6 @@ services:
       - ./prod.env
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SERVER_PORT: ${HUB_SERVER_PORT}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: "5672"
       REDIS_HOST: redis
@@ -77,8 +75,6 @@ services:
       - ./prod.env
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SERVER_PORT: ${SERVER_PORT}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: "5672"
       REDIS_HOST: redis

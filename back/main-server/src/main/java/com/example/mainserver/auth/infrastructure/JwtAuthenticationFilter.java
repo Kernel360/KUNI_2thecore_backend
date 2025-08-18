@@ -4,10 +4,12 @@ import com.example.mainserver.auth.application.TokenService;
 import com.example.common.exception.InvalidTokenException;
 import com.example.common.exception.TokenExpiredException;
 import com.example.common.domain.auth.JwtTokenProvider;
+import com.example.mainserver.auth.domain.TokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.common.dto.ApiResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,88 +22,141 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Profile("!test") // ⬅ 테스트 프로필에서는 빈 등록 안 함!
-// 헤딩 클래스는 헤더 추출, JWT 유효성 검사, 사용자 식별자 추출, 인증 객체 생성, Spring Security 인증 등록 기능
+@Profile("!test")
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final TokenService tokenService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
         return path.startsWith("/actuator")
-                ||path.startsWith("/swagger-ui")
+                || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-resources")
                 || path.startsWith("/swagger-ui.html")
                 || path.startsWith("/webjars")
                 || path.startsWith("/api/auth/login")
-                || path.startsWith("/api/admin/signup");
+                || path.startsWith("/api/admin/signup")
+                || path.startsWith("/actuator/prometheus");
     }
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-        // 요청 헤더에서 JWT 추출
-        String authToken = request.getHeader("Authorization");
+        log.debug("Request URI: {}", request.getRequestURI());
+        log.debug("Authorization Header: {}", request.getHeader("Authorization"));
+        log.debug("Cookies: {}", request.getCookies() != null ? Arrays.toString(request.getCookies()) : "none");
 
-        // 헤더가 없거나 Bearer 형식이 아닌 경우
-        if (authToken == null || !authToken.startsWith("Bearer ")) {
-            sendErrorResponse(response, "Authorization 헤더가 없거나 Bearer 형식이 아닙니다.");
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null) {
+            log.warn("401 Unauthorized: Authorization 헤더 없음");
+            sendErrorResponse(response, "Authorization 헤더가 없습니다.", "NO_AUTH_HEADER");
             return;
         }
 
-        // "Bearer " 제거 후 토큰만 추출
-        String token = authToken.substring(7);
+        if (!authHeader.startsWith("Bearer ")) {
+            log.warn("401 Unauthorized: Bearer 형식 아님");
+            sendErrorResponse(response, "Authorization 헤더 형식이 잘못되었습니다.", "INVALID_BEARER_FORMAT");
+            return;
+        }
 
-        // 토큰 검증
+        String accessToken = authHeader.substring(7);
+
         try {
-            jwtTokenProvider.validateToken(token); // 유효하지 않으면 예외 발생
+            jwtTokenProvider.validateToken(accessToken);
+            log.debug("Access token 유효함");
 
-            // Redis 블랙리스트 체크
-            if (tokenService.isAccessTokenBlacklisted(token)){
-                sendErrorResponse(response, "이미 로그아웃된 블랙리스트 토큰입니다");
+            if (tokenService.isAccessTokenBlacklisted(accessToken)) {
+                log.warn("401 Unauthorized: 블랙리스트 토큰");
+                sendErrorResponse(response, "이미 로그아웃된 토큰입니다.", "BLACKLISTED_TOKEN");
                 return;
             }
-            // 인증 객체 생성 및 등록
-            String userId = jwtTokenProvider.getSubject(token);
+
+            String loginId = jwtTokenProvider.getLoginIdFromToken(accessToken);
+            log.debug("Access token에서 loginId 추출: {}", loginId);
 
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userId, // userId가 principal
-                            null,   // 비밀번호는 아직 미검증
-                            null    // 권한 처리 필요시 여기에 리스트 전달
-                    );
-
+                    new UsernamePasswordAuthenticationToken(loginId, null, null);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            // 인증 객체를 SecurityContext에 등록
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (InvalidTokenException | TokenExpiredException e){
-            sendErrorResponse(response, e.getMessage());
-            return;
+
+            filterChain.doFilter(request, response);
+
+        } catch (TokenExpiredException e) {
+            log.warn("Access token 만료됨");
+            try {
+                String refreshToken = extractRefreshTokenFromRequest(request);
+
+                if (refreshToken == null) {
+                    log.warn("401 Unauthorized: 쿠키에 refreshToken 없음");
+                    sendErrorResponse(response, "리프레시 토큰이 존재하지 않습니다.", "NO_REFRESH_TOKEN");
+                    return;
+                }
+
+                if (!jwtTokenProvider.validateToken(refreshToken)) {
+                    log.warn("401 Unauthorized: refreshToken 유효하지 않음");
+                    sendErrorResponse(response, "리프레시 토큰이 유효하지 않습니다.", "INVALID_REFRESH_TOKEN");
+                    return;
+                }
+
+                TokenDto newTokens = tokenService.reissueAccessToken(refreshToken);
+                log.debug("새 액세스 토큰 발급 성공");
+
+                String loginId = jwtTokenProvider.getLoginIdFromToken(newTokens.getAccessToken());
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(loginId, null, null);
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                response.setHeader("New-Access-Token", newTokens.getAccessToken());
+                response.setHeader("Access-Control-Expose-Headers", "New-Access-Token");
+
+                filterChain.doFilter(request, response);
+
+            } catch (Exception ex) {
+                log.error("토큰 재발급 실패: {}", ex.getMessage());
+                sendErrorResponse(response, "토큰 재발급 실패: " + ex.getMessage(), "REISSUE_FAILED");
+            }
+        } catch (InvalidTokenException e) {
+            log.warn("401 Unauthorized: Invalid token - {}", e.getMessage());
+            sendErrorResponse(response, e.getMessage(), "INVALID_TOKEN");
+        } catch (Exception e) {
+            log.error("JWT 필터 처리 중 예외 발생", e);
+            sendErrorResponse(response, "서버 오류: " + e.getMessage(), "SERVER_ERROR");
         }
-        // 다음 필터로 넘김
-        filterChain.doFilter(request, response);
     }
 
-    // ApiResponse.fail() 기반 JSON 에러 응답 전송 메서드
-    private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+    private String extractRefreshTokenFromRequest(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("refreshToken".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    private void sendErrorResponse(HttpServletResponse response, String message, String reasonCode) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=UTF-8");
 
-        ApiResponse<?> apiResponse = ApiResponse.fail(message);
-        String json = objectMapper.writeValueAsString(apiResponse);
+        Map<String, Object> body = new HashMap<>();
+        body.put("success", false);
+        body.put("message", message);
+        body.put("reasonCode", reasonCode);
 
-        response.getWriter().write(json);
+        response.getWriter().write(objectMapper.writeValueAsString(body));
     }
 }

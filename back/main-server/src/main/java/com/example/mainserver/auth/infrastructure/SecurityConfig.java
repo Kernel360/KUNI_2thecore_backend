@@ -53,10 +53,13 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/auth/login",
                                 "/api/admin/signup",
-                                // Actuator 헬스/인포는 무인증 허용
+                                "/actuator/prometheus",
                                 "/actuator/health",
                                 "/actuator/health/**",
-                                "/actuator/info"
+                                "/actuator/info",
+                                //테스트를 위한 로그인 우회
+                                "/api/logs/**"
+
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -68,10 +71,21 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://localhost:3001",
+                "http://localhost:3002",
+                "http://localhost:3003",
+                "http://localhost:3004",
+                "http://localhost:3005",
+                "http://localhost:3006",
+                "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com", // 배포 도메인
+                "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com" // 배포 도메인 2
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(List.of("Set-Cookie"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

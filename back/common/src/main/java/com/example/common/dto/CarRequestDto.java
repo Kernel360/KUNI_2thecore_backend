@@ -11,10 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CarRequestDto {
-
-    @NotBlank(groups = CreateGroup.class)
-    private String loginId;
-
     @NotBlank(groups = CreateGroup.class)
     private String brand;
 
@@ -33,4 +29,10 @@ public class CarRequestDto {
 
     // @NotNull(groups = CreateGroup.class)
     private Double sumDist = 0.00;
+
+    @NotBlank(groups = CreateGroup.class)
+    private String lastLatitude;
+
+    @NotBlank(groups = CreateGroup.class)
+    private String lastLongitude;
 }

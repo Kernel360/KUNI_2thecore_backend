@@ -6,8 +6,8 @@ import com.example.common.group.CreateGroup;
 import com.example.mainserver.car.application.CarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -23,30 +23,13 @@ public class CarController {
 
     private final CarService carService;
 
+
     //    @GetMapping("")
 //    public
-    @GetMapping("/{car_number}")
-    public ApiResponse<CarDetailDto> getCar(@PathVariable String car_number) {
-
-        var response = carService.getCar(car_number);
-
-//        return CarResponse.<CarDetailDto>builder()
-//                .result("OK")
-//                .message("find car")
-//                .data(response)
-//                .build();
-
-        return ApiResponse.success(response);
-    }
-
     @GetMapping
-    public ApiResponse<Page<CarDetailDto>> getAllCars(@RequestParam(defaultValue = "1") int page,
-                                                      @RequestParam(defaultValue = "10") int size)
-    {
+    public ApiResponse<CarDetailDto> getCar(@RequestParam("carNumber") String carNumber) {
 
-        Pageable pageable = PageRequest.of(page - 1, size);
-
-        var response = carService.getAllCars(pageable);
+        var response = carService.getCar(carNumber);
 
         return ApiResponse.success(response);
     }
@@ -69,7 +52,7 @@ public class CarController {
     public ApiResponse<Page<CarSearchDto>> getCarsByFilter(
             @ModelAttribute CarFilterRequestDto carFilterRequestDto,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int offset
+            @RequestParam(defaultValue = "50") int offset
     ) {
         log.info("Request DTO: {}", carFilterRequestDto);
 
@@ -77,22 +60,22 @@ public class CarController {
         return ApiResponse.success(response);
     }
 
-    // 차량 등록
+    // 차량 등록 (token 기반)
     @PostMapping
     public ApiResponse<CarDetailDto> createCar(
-            @RequestBody
-            @Validated(CreateGroup.class)
-            CarRequestDto carRequest
-    ){
-        var response = carService.createCar(carRequest);
+            @RequestBody @Validated(CreateGroup.class) CarRequestDto carRequest) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loginId = authentication.getName(); // JwtAuthenticationFilter에서 세팅한 loginId
+
+        var response = carService.createCar(carRequest, loginId);
         return ApiResponse.success("차량 등록이 성공적으로 완료되었습니다.", response);
     }
 
     // 차량 정보 업데이트
-    @PatchMapping("/{car_number}")
+    @PatchMapping
     public ApiResponse<CarDetailDto> updateCar(
-            @PathVariable("car_number")
+            @RequestParam("carNumber")
             String carNumber,
             @RequestBody
             @Validated
@@ -140,6 +123,4 @@ public class CarController {
         String message = status + " 차량 조회 완료";
         return ApiResponse.success(message, locations);
     }
-
-
 }
