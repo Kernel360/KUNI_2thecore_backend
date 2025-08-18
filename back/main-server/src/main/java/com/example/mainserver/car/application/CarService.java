@@ -3,6 +3,7 @@ package com.example.mainserver.car.application;
 
 import com.example.common.domain.car.CarEntity;
 import com.example.common.dto.CarRequestDto;
+import com.example.mainserver.cache.CarFilterCache;
 import com.example.mainserver.car.controller.dto.*;
 import com.example.common.domain.car.CarReader;
 import com.example.mainserver.car.domain.CarWriter;
@@ -11,6 +12,10 @@ import com.example.mainserver.car.exception.CarErrorCode;
 import com.example.mainserver.car.exception.CarNotFoundException;
 import com.example.mainserver.car.infrastructure.mapper.CarMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -30,18 +35,19 @@ public class CarService {
     private final CarReader carReader;
     private final CarWriter carWriter;
     private final CarMapper carMapper;
+    private final CarFilterCache carFilterCache;
 
+
+    @Cacheable(cacheNames = "cars:Detail", key = "#carNumber")
     public CarDetailDto getCar(String carNumber){
+        log.info("[DB FETCH] getCar = {}", carNumber);
         var entity =  carReader.findByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
         return CarDetailDto.EntityToDto(entity);
     }
 
-    public Page<CarDetailDto> getAllCars(Pageable pageable){
 
-        return carReader.findAll(pageable).map(CarDetailDto::EntityToDto);
 
-    }
-
+    @Cacheable(cacheNames = "cars:Summary", key = "'status'")
     public CarSummaryDto getCountByStatus(){
 
         Map<CarStatus, Long> result = carReader.getCountByStatus();
@@ -58,21 +64,18 @@ public class CarService {
 
     public Page<CarSearchDto> getCarsByFilter(CarFilterRequestDto carFilterRequestDto, int page, int size) {
 
-        int offset = (page - 1) * size;
+        var cached = carFilterCache.getCarByFilterCached(carFilterRequestDto, page, size);
 
-        var result = carMapper.search(carFilterRequestDto, offset, size);
-
-        var total = carMapper.countByFilter(carFilterRequestDto);
-
-        var resultToDto =  result.stream()
-                .map(CarSearchDto::EntityToDto)
-                .toList();
-
-        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size, Sort.by("carNumber").ascending()), total);
+        return new PageImpl<>(cached.getItems(), PageRequest.of(page - 1, size, Sort.by("carNumber").ascending()), cached.getTotalCount());
     }
 
 
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "cars:Summary", key = "'status'"),
+            @CacheEvict(cacheNames = "cars:Filter", allEntries = true)
+    })
+    @CachePut(cacheNames = "cars:Detail", key = "#result.carNumber")
     public CarDetailDto createCar( // 차량 등록
                                    CarRequestDto carRequest
     ) {
@@ -101,7 +104,11 @@ public class CarService {
         return CarDetailDto.EntityToDto(carWriter.save(entity));
     }
 
-
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "cars:Filter", allEntries = true),
+            @CacheEvict(cacheNames = "cars:Summary", key = "'status'")
+    })
+    @CachePut(cacheNames = "cars:Detail", key = "#carNumber")
     public CarDetailDto updateCar( // 차량 정보 업데이트
                                    CarRequestDto carRequest,
                                    String carNumber
@@ -116,6 +123,11 @@ public class CarService {
     }
 
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "cars:Summary", key = "'status'"),
+            @CacheEvict(cacheNames = "cars:Detail", key = "#carNumber"),
+            @CacheEvict(cacheNames = "cars:Filter", allEntries = true)
+    })
     public CarDeleteDto deleteCar( // 차량 삭제
                                    String carNumber
     ){
@@ -127,6 +139,7 @@ public class CarService {
         return CarDeleteDto.EntityToDto(entity);
     }
 
+    @CacheEvict(cacheNames = "cars:Detail", key = "#carNumber")
     public void updateLastLocation(String carNumber, String latitude, String longitude) {
         var car = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new RuntimeException("차량 없음"));
@@ -141,6 +154,8 @@ public class CarService {
      * 상태 문자열에 따라 차량 리스트 조회
      * statusStr == null -> DRIVING, IDLE, MAINTENANCE 모두 조회
      */
+
+
     public List<CarEntity> getCarsByStatusString(String statusStr) {
         if (statusStr == null || statusStr.isBlank()) {
             List<CarStatus> allStatuses = List.of(CarStatus.DRIVING, CarStatus.IDLE, CarStatus.MAINTENANCE);
