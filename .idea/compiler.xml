@@ -1,38 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <annotationProcessing>
-      <profile name="Gradle Imported" enabled="true">
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
-        </processorPath>
-        <module name="2thecore_back.emulator-server.main" />
-      </profile>
-      <profile name="Gradle Imported" enabled="true">
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.30/f195ee86e6c896ea47a1d39defbe20eb59cd149d/lombok-1.18.30.jar" />
-        </processorPath>
-        <module name="2thecore_back.hub-server.main" />
-        <module name="2thecore_back.main-server.main" />
-        <module name="2thecore_back.common.main" />
-      </profile>
-    </annotationProcessing>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="2thecore_back.emulator-server" options="-parameters" />
-      <module name="2thecore_back.emulator-server.main" options="-parameters" />
-      <module name="2thecore_back.emulator-server.test" options="-parameters" />
-      <module name="2thecore_back.hub-server" options="-parameters" />
-      <module name="2thecore_back.hub-server.main" options="-parameters" />
-      <module name="2thecore_back.hub-server.test" options="-parameters" />
-      <module name="2thecore_back.main" options="-parameters" />
-      <module name="2thecore_back.main-server" options="-parameters" />
-      <module name="2thecore_back.main-server.main" options="-parameters" />
-      <module name="2thecore_back.main-server.test" options="-parameters" />
-      <module name="2thecore_back.test" options="-parameters" />
-    </option>
+    <bytecodeTargetLevel>
+      <module name="2thecore_back.common" target="17" />
+      <module name="2thecore_back.common.main" target="17" />
+      <module name="2thecore_back.common.test" target="17" />
+      <module name="2thecore_back.hub-server" target="17" />
+      <module name="2thecore_back.hub-server.main" target="17" />
+      <module name="2thecore_back.hub-server.test" target="17" />
+      <module name="2thecore_back.main-server" target="17" />
+      <module name="2thecore_back.main-server.main" target="17" />
+      <module name="2thecore_back.main-server.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
