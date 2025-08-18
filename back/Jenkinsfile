@@ -71,7 +71,7 @@ pipeline {
             # 런타임용 Dockerfile/compose 포함
             cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
             cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
-            cp docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
+            cp docker/docker-compose.yml deploy/docker-compose.yml
 
             # prod.env 주입(Secret file)
             install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
