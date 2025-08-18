@@ -71,7 +71,7 @@ public class CarService {
     })
     @CachePut(cacheNames = "cars:Detail", key = "#result.carNumber")
     public CarDetailDto createCar( // 차량 등록
-                                   CarRequestDto carRequest
+                                   CarRequestDto carRequest, String loginId
     ) {
         boolean isCarNumberExists = carReader.findByCarNumber(carRequest.getCarNumber()).isPresent();
         if (isCarNumberExists) {

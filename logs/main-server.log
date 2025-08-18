@@ -1,0 +1,86 @@
+2025-08-18 13:51:15.204  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-18 13:51:15.227  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 71231 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-18 13:51:15.227  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-18 13:51:15.227  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-18 13:51:15.656  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-18 13:51:15.656  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-18 13:51:15.739  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 78 ms. Found 4 JPA repository interfaces.
+2025-08-18 13:51:15.996  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-18 13:51:15.997  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-18 13:51:16.008  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-18 13:51:16.008  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-18 13:51:16.008  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-18 13:51:16.008  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-18 13:51:16.327  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-18 13:51:16.334  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-18 13:51:16.335  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-18 13:51:16.335  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-18 13:51:16.360  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-18 13:51:16.360  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1108 ms
+2025-08-18 13:51:16.599  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-18 13:51:16.658  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-18 13:51:16.687  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-18 13:51:16.709  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-18 13:51:16.855  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-18 13:51:16.869  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-18 13:51:17.303  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2530baf6
+2025-08-18 13:51:17.304  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-18 13:51:17.370  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-18 13:51:17.799  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-18 13:51:17.845  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18 13:51:18.025  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-18 13:51:18.116  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-18 13:51:18.614  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-18 13:51:18.786  [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-18 13:51:19.142  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-18 13:51:19.148  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-18 13:51:19.160  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 4.174 seconds (process running for 4.561)
+2025-08-18 13:51:19.333  [RMI TCP Connection(4)-10.223.117.101] INFO  o.s.a.r.c.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2025-08-18 13:51:19.333  [RMI TCP Connection(2)-10.223.117.101] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-18 13:51:19.333  [RMI TCP Connection(2)-10.223.117.101] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-18 13:51:19.335  [RMI TCP Connection(2)-10.223.117.101] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-08-18 13:51:19.371  [RMI TCP Connection(4)-10.223.117.101] INFO  o.s.a.r.c.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#68ba2801:0/SimpleConnection@5461eb8f [delegate=amqp://2thecore@127.0.0.1:5672/, localPort=51070]
+2025-08-18 13:51:19.394  [RMI TCP Connection(4)-10.223.117.101] DEBUG o.s.d.r.core.RedisConnectionUtils - Fetching Redis Connection from RedisConnectionFactory
+2025-08-18 13:51:19.592  [RMI TCP Connection(4)-10.223.117.101] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
+2025-08-18 13:51:48.256  [http-nio-0.0.0.0-8080-exec-8] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 399 ms
+2025-08-18 13:52:21.952  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Fetching Redis Connection from RedisConnectionFactory
+2025-08-18 13:52:21.959  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
+2025-08-18 13:52:21.959  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Fetching Redis Connection from RedisConnectionFactory
+2025-08-18 13:52:21.961  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
+2025-08-18 13:52:21.961  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Fetching Redis Connection from RedisConnectionFactory
+2025-08-18 13:52:21.962  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
+2025-08-18 13:53:09.723  [http-nio-0.0.0.0-8080-exec-1] DEBUG o.s.d.r.core.RedisConnectionUtils - Fetching Redis Connection from RedisConnectionFactory
+2025-08-18 13:53:09.727  [http-nio-0.0.0.0-8080-exec-1] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
+2025-08-18 13:53:09.730  [http-nio-0.0.0.0-8080-exec-1] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=null, status=null, twoParam=true)
+2025-08-18 13:53:09.738  [http-nio-0.0.0.0-8080-exec-1] TRACE o.s.c.interceptor.CacheInterceptor - Computed cache key 'v1|brand=|model=|status=|twoParam=true|page=1|size=10|sort=carNumber:ASC' for operation Builder[public com.example.common.wrapper.PageWrapper com.example.mainserver.cache.CarFilterCache.getCarByFilterCached(com.example.mainserver.car.controller.dto.CarFilterRequestDto,int,int)] caches=[cars:Filter] | key='T(String).format('v1|brand=%s|model=%s|status=%s|twoParam=%s|page=%d|size=%d|sort=%s', (#carFilterRequestDto?.brand?:''), (#carFilterRequestDto?.model?:''), (#carFilterRequestDto?.status?.name()?:''), (#carFilterRequestDto?.twoParam?:false), #page, #size, 'carNumber:ASC')' | keyGenerator='' | cacheManager='' | cacheResolver='' | condition='' | unless='' | sync='true'
+2025-08-18 13:53:09.741  [http-nio-0.0.0.0-8080-exec-1] INFO  c.e.mainserver.cache.CarFilterCache - getCarByFilterCached page=1, size=10
+2025-08-18 13:53:09.796  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==>  Preparing: SELECT * FROM car c ORDER BY car_number ASC LIMIT ? OFFSET ?
+2025-08-18 13:53:09.804  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.mapper.CarMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-18 13:53:09.822  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.mapper.CarMapper.search - <==      Total: 10
+2025-08-18 13:53:09.823  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM car
+2025-08-18 13:53:09.823  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - ==> Parameters: 
+2025-08-18 13:53:09.835  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.c.i.m.CarMapper.countByFilter - <==      Total: 1
+2025-08-18 13:53:09.848  [http-nio-0.0.0.0-8080-exec-1] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-08-18 13:53:24.089  [http-nio-0.0.0.0-8080-exec-2] DEBUG o.s.d.r.core.RedisConnectionUtils - Fetching Redis Connection from RedisConnectionFactory
+2025-08-18 13:53:24.093  [http-nio-0.0.0.0-8080-exec-2] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
+2025-08-18 13:53:24.096  [http-nio-0.0.0.0-8080-exec-2] INFO  c.e.m.car.controller.CarController - Request DTO: CarFilterRequestDto(carNumber=null, model=null, brand=null, status=null, twoParam=true)
+2025-08-18 13:53:24.096  [http-nio-0.0.0.0-8080-exec-2] TRACE o.s.c.interceptor.CacheInterceptor - Computed cache key 'v1|brand=|model=|status=|twoParam=true|page=1|size=10|sort=carNumber:ASC' for operation Builder[public com.example.common.wrapper.PageWrapper com.example.mainserver.cache.CarFilterCache.getCarByFilterCached(com.example.mainserver.car.controller.dto.CarFilterRequestDto,int,int)] caches=[cars:Filter] | key='T(String).format('v1|brand=%s|model=%s|status=%s|twoParam=%s|page=%d|size=%d|sort=%s', (#carFilterRequestDto?.brand?:''), (#carFilterRequestDto?.model?:''), (#carFilterRequestDto?.status?.name()?:''), (#carFilterRequestDto?.twoParam?:false), #page, #size, 'carNumber:ASC')' | keyGenerator='' | cacheManager='' | cacheResolver='' | condition='' | unless='' | sync='true'
+2025-08-18 13:53:47.794  [http-nio-0.0.0.0-8080-exec-3] DEBUG o.s.d.r.core.RedisConnectionUtils - Fetching Redis Connection from RedisConnectionFactory
+2025-08-18 13:53:47.797  [http-nio-0.0.0.0-8080-exec-3] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
+2025-08-18 13:53:47.803  [http-nio-0.0.0.0-8080-exec-3] TRACE o.s.c.interceptor.CacheInterceptor - Computed cache key 'status' for operation Builder[public com.example.mainserver.car.controller.dto.CarSummaryDto com.example.mainserver.car.application.CarService.getCountByStatus()] caches=[cars:Summary] | key=''status'' | keyGenerator='' | cacheManager='' | cacheResolver='' | condition='' | unless='' | sync='false'
+2025-08-18 13:53:47.806  [http-nio-0.0.0.0-8080-exec-3] TRACE o.s.c.interceptor.CacheInterceptor - No cache entry for key 'status' in cache(s) [cars:Summary]
+2025-08-18 13:53:47.849  [http-nio-0.0.0.0-8080-exec-3] TRACE o.s.c.interceptor.CacheInterceptor - Creating cache entry for key 'status' in cache(s) [cars:Summary]
+2025-08-18 13:53:49.659  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Fetching Redis Connection from RedisConnectionFactory
+2025-08-18 13:53:49.663  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
+2025-08-18 13:53:49.664  [http-nio-0.0.0.0-8080-exec-6] TRACE o.s.c.interceptor.CacheInterceptor - Computed cache key 'status' for operation Builder[public com.example.mainserver.car.controller.dto.CarSummaryDto com.example.mainserver.car.application.CarService.getCountByStatus()] caches=[cars:Summary] | key=''status'' | keyGenerator='' | cacheManager='' | cacheResolver='' | condition='' | unless='' | sync='false'
+2025-08-18 13:53:49.667  [http-nio-0.0.0.0-8080-exec-6] TRACE o.s.c.interceptor.CacheInterceptor - Cache entry for key 'status' found in cache(s) [cars:Summary]
