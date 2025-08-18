@@ -1,5 +1,5 @@
 jwt:
-  secret: ${JWT_SECRET_KEY:ThisIsAVeryLongSecretKeyForJWTThatIsAtLeast256BitsLongToMeetTheSecurityRequirements}
+  secret: ${JWT_SECRET_KEY}
 
 management:
   endpoints:
@@ -23,10 +23,10 @@ spring:
   datasource:
     hikari:
       maxLifetime: 27000000  # 27,000,000 밀리초 = 7시간 30분
-    url: ${DB_URL:jdbc:mysql://localhost:3306/test?createDatabaseIfNotExist=true}
+    url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:root}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -43,8 +43,8 @@ spring:
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
-    username: ${RABBITMQ_USERNAME:guest}
-    password: ${RABBITMQ_PASSWORD:guest}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
 
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
