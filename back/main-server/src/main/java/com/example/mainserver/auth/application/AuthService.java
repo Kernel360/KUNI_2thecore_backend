@@ -32,7 +32,7 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final TokenService tokenService;
 
-    private static final long ACCESS_TOKEN_EXPIRE_MINUTES = 1L; // 실험용
+    private static final long ACCESS_TOKEN_EXPIRE_MINUTES = 1000L; // 실험용
     private static final long REFRESH_TOKEN_EXPIRE_DAYS = 7L;
 
     // 로그인
