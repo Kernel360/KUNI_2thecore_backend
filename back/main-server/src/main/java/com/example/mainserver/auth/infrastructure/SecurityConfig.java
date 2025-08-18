@@ -79,7 +79,8 @@ public class SecurityConfig {
                 "http://localhost:3004",
                 "http://localhost:3005",
                 "http://localhost:3006",
-                "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com" // 배포 도메인
+                "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com", // 배포 도메인
+                "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com" // 배포 도메인 2
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
