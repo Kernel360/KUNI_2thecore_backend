@@ -1,4 +1,5 @@
 package com.example.mainserver.car.controller;
+import com.example.common.domain.auth.JwtTokenProvider;
 import com.example.common.dto.ApiResponse;
 import com.example.common.dto.CarRequestDto;
 import com.example.mainserver.car.controller.dto.*;
@@ -8,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 public class CarController {
 
     private final CarService carService;
+
 
     //    @GetMapping("")
 //    public
@@ -59,15 +63,15 @@ public class CarController {
         return ApiResponse.success(response);
     }
 
-    // 차량 등록
+    // 차량 등록 (token 기반)
     @PostMapping
     public ApiResponse<CarDetailDto> createCar(
-            @RequestBody
-            @Validated(CreateGroup.class)
-            CarRequestDto carRequest
-    ){
-        var response = carService.createCar(carRequest);
+            @RequestBody @Validated(CreateGroup.class) CarRequestDto carRequest) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loginId = authentication.getName(); // JwtAuthenticationFilter에서 세팅한 loginId
+
+        var response = carService.createCar(carRequest, loginId);
         return ApiResponse.success("차량 등록이 성공적으로 완료되었습니다.", response);
     }
 

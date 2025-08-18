@@ -3,6 +3,9 @@ pipeline {
   options {
       disableConcurrentBuilds()                 // 같은 Job의 동시 실행 금지
       timestamps()
+      // 오래된 빌드/아티팩트 자동 정리 (필요시 숫자 조정)
+      buildDiscarder(logRotator(daysToKeepStr: '14', numToKeepStr: '20',
+                                artifactDaysToKeepStr: '7', artifactNumToKeepStr: '10'))
    }
 
   environment {
@@ -24,10 +27,17 @@ pipeline {
         withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
           sh '''
             set -euo pipefail
-            cd $WORKSPACE/back
+            cd "$WORKSPACE/back"
             chmod +x ./gradlew
             ./gradlew clean bootJar -x test
-            tar --exclude='./build' --exclude='./.gradle' -czvf ../backend-project.tar .
+
+            # 이전 잔재 tar 제거 후 생성
+            rm -f ../backend-project.tar ../backend-project.tgz || true
+
+            # tar 실패 방지 옵션 추가(--ignore-failed-read, --warning=no-file-changed)
+            tar --exclude='./build' --exclude='./.gradle' \
+                --warning=no-file-changed --ignore-failed-read \
+                -czvf ../backend-project.tar .
           '''
         }
       }
@@ -41,7 +51,21 @@ pipeline {
             def PEM_PATH    = '/var/lib/jenkins/.ssh/yeojin.pem'
             sh """
 scp -o StrictHostKeyChecking=no -i ${PEM_PATH} backend-project.tar ubuntu@${DEPLOY_HOST}:~
-ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} 'bash -lc "set -euo pipefail; tar -xzvf backend-project.tar; mkdir -p docker; install -D -m 600 -T ./prod.env ./docker/prod.env; cd docker; docker compose --env-file ./prod.env up -d --build"'
+ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} 'bash -lc "
+  set -euo pipefail
+  # 기존 tar 있으면 교체되므로, 과거 잔재 tar 제거(안전)
+  rm -f backend-project.tar.old || true
+  # 압축 해제
+  tar -xzvf backend-project.tar
+  # 환경파일 배치
+  mkdir -p docker
+  install -D -m 600 -T ./prod.env ./docker/prod.env
+  cd docker
+  docker compose --env-file ./prod.env up -d --build
+  # 디스크 보호: 사용 끝난 tar 파일 삭제(원격)
+  cd ..
+  rm -f backend-project.tar || true
+"'
 """
           }
         }
@@ -51,6 +75,14 @@ ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} 'bash -lc "
 
   post {
     always {
+      // 로컬 워크스페이스 정리(대용량 임시물/캐시)
+      sh '''
+        set -e
+        rm -f backend-project.tar backend-project.tgz || true
+        find . -type d -name build  -prune -exec rm -rf {} + || true
+        find . -type d -name .gradle -prune -exec rm -rf {} + || true
+        find . -maxdepth 2 -type f \\( -name "*.tar" -o -name "*.tgz" -o -name "*.zip" -o -name "*.jar" \\) -size +50M -delete || true
+      '''
       echo "Pipeline finished."
     }
   }

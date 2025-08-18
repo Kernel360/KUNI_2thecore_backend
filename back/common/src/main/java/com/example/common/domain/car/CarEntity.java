@@ -81,8 +81,5 @@ public class CarEntity {
             setSumDist(carRequest.getSumDist());
         }
 
-        if (carRequest.getLoginId() != null && !carRequest.getLoginId().isBlank()) {
-            setLoginId(carRequest.getLoginId());
-        }
     }
 }
