@@ -91,10 +91,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(loginId, null, null);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                
-                // 응답 헤더에 새 토큰 추가
+
+                // 응답 헤더에 새 액세스 토큰 추가
                 response.setHeader("New-Access-Token", newTokens.getAccessToken());
-                
+
+                // CORS 환경에서 SPA가 헤더를 읽도록 노출
+                response.setHeader("Access-Control-Expose-Headers", "New-Access-Token");
+
+
+
+
                 filterChain.doFilter(request, response);
 
             } catch (Exception ex) {
