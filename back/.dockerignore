@@ -1,0 +1,27 @@
+# Git / IDE
+.git
+.gitignore
+.vscode
+.idea
+*.iml
+
+# OS / Misc
+.DS_Store
+Thumbs.db
+
+# Gradle / Build
+.gradle
+build/
+out/
+target/
+
+# Archives
+*.tar
+*.zip
+*.gz
+
+# Logs
+*.log
+
+# Test artifacts
+test-output

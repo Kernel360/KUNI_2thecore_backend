@@ -1,0 +1,102 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: 2thecore-rabbitmq
+    ports:
+      - "5672:5672"     # AMQP
+      - "15672:15672"   # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: "2thecore"
+      RABBITMQ_DEFAULT_PASS: "2thecore"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - rabbitmq_net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: 2thecore-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - rabbitmq_net
+    restart: unless-stopped
+    # 선택: 간단 헬스체크
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  hub-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.hub
+    image: yeonjin529/hub-server-img:latest
+    container_name: 2thecore-hub
+    ports:
+      - "8082:8082"
+    depends_on:
+      - rabbitmq
+      - redis
+    env_file:
+      - ./prod.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: "5672"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    labels:
+      keep: "true"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+      - rabbitmq_net
+    restart: unless-stopped
+
+  main-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.main
+    image: yeonjin529/main-server-img:latest
+    container_name: 2thecore-main
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+      - redis
+    env_file:
+      - ./prod.env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: "5672"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    labels:
+      keep: "true"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+      - rabbitmq_net
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:
+
+networks:
+  rabbitmq_net:
