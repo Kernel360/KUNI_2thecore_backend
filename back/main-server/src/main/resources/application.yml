@@ -22,10 +22,12 @@ spring:
 
   datasource:
     hikari:
+
       maxLifetime: 1800000   # 30분 (MySQL timeout 보다 확실히 짧게)
       idleTimeout: 600000    # 10분
       keepaliveTime: 300000  # 5분마다 ping (Spring Boot 2.3+ 가능)
       connectionTimeout: 30000
+
     url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME}
@@ -44,10 +46,10 @@ spring:
       implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
 
   rabbitmq:
-    host: ${RABBITMQ_HOST:52.78.122.150}
+    host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
-    username: ${RABBITMQ_USERNAME:2thecore}
-    password: ${RABBITMQ_PASSWORD:2thecore}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
 
   data:
     redis:
