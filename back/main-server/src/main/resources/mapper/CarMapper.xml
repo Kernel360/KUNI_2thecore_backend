@@ -16,13 +16,15 @@
                 AND status = #{filter.status}
             </if>
             <if test="filter.brand != null and filter.twoParam == true">
-                AND brand = #{filter.brand}
+                AND brand LIKE CONCAT('%', #{filter.brand}, '%')
             </if>
             <if test="filter.model != null and filter.twoParam == true">
-                AND model = #{filter.model}
+                AND model LIKE CONCAT('%', #{filter.model}, '%')
             </if>
             <if test="filter.brand != null and filter.twoParam == false">
-                AND (brand = #{filter.brand} OR model = #{filter.brand})
+                AND (brand LIKE CONCAT('%', #{filter.brand}, '%') 
+                     OR model LIKE CONCAT('%', #{filter.brand}, '%')
+                     OR CONCAT(brand, model) LIKE CONCAT('%', #{filter.brand}, '%'))
             </if>
         </where>
         ORDER BY car_number ASC
@@ -43,13 +45,15 @@
                 AND status = #{filter.status}
             </if>
             <if test="filter.brand != null and filter.twoParam == true">
-                AND brand = #{filter.brand}
+                AND brand LIKE CONCAT('%', #{filter.brand}, '%')
             </if>
             <if test="filter.model != null and filter.twoParam == true">
-                AND model = #{filter.model}
+                AND model LIKE CONCAT('%', #{filter.model}, '%')
             </if>
             <if test="filter.brand != null and filter.twoParam == false">
-                AND (brand = #{filter.brand} OR model = #{filter.brand})
+                AND (brand LIKE CONCAT('%', #{filter.brand}, '%') 
+                     OR model LIKE CONCAT('%', #{filter.brand}, '%')
+                     OR CONCAT(brand, model) LIKE CONCAT('%', #{filter.brand}, '%'))
             </if>
         </where>
     </select>
