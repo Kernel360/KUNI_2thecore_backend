@@ -6,15 +6,16 @@ import com.example.common.infrastructure.car.CarRepository;
 import hub.domain.GpsLogEntity;
 import hub.domain.GpsLogRepository;
 import hub.domain.dto.GpsLogDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
@@ -24,86 +25,50 @@ public class ConsumerService {
     private final GpsLogRepository gpsLogRepository;
     private final CarRepository carRepository;
 
+    @Async
+    @Transactional
     @RabbitListener(queues = "gps.data.queue", errorHandler = "gpsConsumerErrorHandler")
     public void gpsConsumer(GpsLogDto gpsLogDto) {
+        log.info("Async processing started for car: {}", gpsLogDto.getCarNumber());
 
-        log.info("Message received from RabbitMQ: {}", gpsLogDto);
-
-        // 주기(60초,120초,180초) 단위 DB 저장
-        List<GpsLogEntity> gpsLogEntities = gpsLogDto.getLogList().stream()
-            .map(gps -> new GpsLogEntity(
-                gpsLogDto.getCarNumber(),
-                gps.getLatitude(),
-                gps.getLongitude(),
-                gps.getTimestamp()))
-            .collect(Collectors.toList());
-
-        gpsLogRepository.saveAll(gpsLogEntities);
-
-        // Car table의 칼럼 last_latitude, last_longitude 갱신
-        String carNumber = gpsLogDto.getCarNumber();
-        Optional<CarEntity> optionalCar = carRepository.findByCarNumber(carNumber);
-
-        if (optionalCar.isPresent()) {
-            CarEntity carEntity = optionalCar.get();
-
-            // 수신된 GPS 데이터 중 가장 최신 timestamp를 가진 데이터 조회
-            Optional<GpsLogDto.Gps> latestReceivedGps = gpsLogDto.getLogList().stream()
-                    .max(Comparator.comparing(GpsLogDto.Gps::getTimestamp));
-
-            //cartable 수정
-            if (latestReceivedGps.isPresent()) {
-                GpsLogDto.Gps receivedGps = latestReceivedGps.get();
-
-                carEntity.setLastLatitude(receivedGps.getLatitude());
-                carEntity.setLastLongitude(receivedGps.getLongitude());
-                carRepository.save(carEntity);
-                log.info("Car {} last_latitude, last_longitude updated to {}, {}", carNumber, receivedGps.getLatitude(), receivedGps.getLongitude());
-            }
-        } else {
-            log.warn("Car with carNumber {} not found. Cannot update last_latitude and last_longitude.", carNumber);
+        Optional<CarEntity> optionalCar = carRepository.findByCarNumber(gpsLogDto.getCarNumber());
+        if (optionalCar.isEmpty()) {
+            log.warn("Car with carNumber {} not found.", gpsLogDto.getCarNumber());
+            return;
         }
+        CarEntity carEntity = optionalCar.get();
 
+        //timestamp 기준 정렬
+        List<GpsLogDto.Gps> sortedGpsList = gpsLogDto.getLogList().stream()
+                .sorted(Comparator.comparing(GpsLogDto.Gps::getTimestamp))
+                .toList();
 
-    }
-
-    public void gpsConsumerDirect(GpsLogDto gpsLogDto) {
-        log.info("Message received from mainserver no rabbit: {}", gpsLogDto);
-
-        // 주기(60초,120초,180초) 단위 DB 저장
-        List<GpsLogEntity> gpsLogEntities = gpsLogDto.getLogList().stream()
-                .map(gps -> new GpsLogEntity(
+        //정렬된 리스트 차례로 저장
+        for (GpsLogDto.Gps gps : sortedGpsList) {
+            try {
+                GpsLogEntity gpsLogEntity = new GpsLogEntity(
                         gpsLogDto.getCarNumber(),
                         gps.getLatitude(),
                         gps.getLongitude(),
-                        gps.getTimestamp()))
-                .collect(Collectors.toList());
+                        gps.getTimestamp()
+                );
+                gpsLogRepository.save(gpsLogEntity);
 
-        gpsLogRepository.saveAll(gpsLogEntities);
-
-        // Car table의 칼럼 last_latitude, last_longitude 갱신
-        String carNumber = gpsLogDto.getCarNumber();
-        Optional<CarEntity> optionalCar = carRepository.findByCarNumber(carNumber);
-
-        if (optionalCar.isPresent()) {
-            CarEntity carEntity = optionalCar.get();
-
-            // 수신된 GPS 데이터 중 가장 최신 timestamp를 가진 데이터 조회
-            Optional<GpsLogDto.Gps> latestReceivedGps = gpsLogDto.getLogList().stream()
-                    .max(Comparator.comparing(GpsLogDto.Gps::getTimestamp));
-
-            //cartable 수정
-            if (latestReceivedGps.isPresent()) {
-                GpsLogDto.Gps receivedGps = latestReceivedGps.get();
-
-                carEntity.setLastLatitude(receivedGps.getLatitude());
-                carEntity.setLastLongitude(receivedGps.getLongitude());
+                carEntity.setLastLatitude(gps.getLatitude());
+                carEntity.setLastLongitude(gps.getLongitude());
                 carRepository.save(carEntity);
-                log.info("Car {} last_latitude, last_longitude updated to {}, {}", carNumber, receivedGps.getLatitude(), receivedGps.getLongitude());
-            }
-        } else {
-            log.warn("Car with carNumber {} not found. Cannot update last_latitude and last_longitude.", carNumber);
-        }
-    }
 
+                log.info("Updated car {} position to lat: {}, lon: {}. Waiting 1 second.",
+                        gpsLogDto.getCarNumber(), gps.getLatitude(), gps.getLongitude());
+
+                Thread.sleep(1000);
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                log.error("Thread interrupted during 1-second delay.", e);
+                break;
+            }
+        }
+        log.info("Finished processing all GPS logs for car: {}", gpsLogDto.getCarNumber());
+    }
 }

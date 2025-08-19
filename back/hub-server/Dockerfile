@@ -1,16 +1,10 @@
-# hub-server/Dockerfile
-FROM gradle:8.4.0-jdk17 AS build
-WORKDIR /workspace
-COPY settings.gradle build.gradle gradlew gradle/ ./
-COPY common/build.gradle common/build.gradle
-COPY hub-server/build.gradle hub-server/build.gradle
-RUN chmod +x ./gradlew && ./gradlew --no-daemon :hub-server:dependencies || true
-
-COPY . .
-RUN ./gradlew --no-daemon :hub-server:bootJar -x test
-
-FROM eclipse-temurin:17-jre
+# Dockerfile.hub
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=build /workspace/hub-server/build/libs/*.jar app.jar
+
+# Jenkins에서 미리 빌드된 JAR 복사
+COPY release/hub-server/app.jar app.jar
+
+ENV JAVA_TOOL_OPTIONS="-Xms256m -Xmx1024m -Dfile.encoding=UTF-8"
 EXPOSE 8082
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]

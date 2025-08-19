@@ -1,5 +1,4 @@
 package com.example.mainserver.car.controller;
-import com.example.common.domain.auth.JwtTokenProvider;
 import com.example.common.dto.ApiResponse;
 import com.example.common.dto.CarRequestDto;
 import com.example.mainserver.car.controller.dto.*;
@@ -7,8 +6,6 @@ import com.example.common.group.CreateGroup;
 import com.example.mainserver.car.application.CarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -26,9 +23,6 @@ public class CarController {
 
     private final CarService carService;
 
-
-    //    @GetMapping("")
-//    public
     @GetMapping
     public ApiResponse<CarDetailDto> getCar(@RequestParam("carNumber") String carNumber) {
 
@@ -126,6 +120,4 @@ public class CarController {
         String message = status + " 차량 조회 완료";
         return ApiResponse.success(message, locations);
     }
-
-
 }

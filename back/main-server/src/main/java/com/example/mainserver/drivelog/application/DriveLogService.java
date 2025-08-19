@@ -1,5 +1,6 @@
 package com.example.mainserver.drivelog.application;
 
+import com.example.mainserver.cache.DriveLogFilterCache;
 import com.example.mainserver.drivelog.domain.DriveLog;
 import com.example.mainserver.drivelog.domain.DriveLogRepository;
 import com.example.mainserver.drivelog.dto.DriveLogFilterRequestDto;
@@ -19,6 +20,8 @@ import java.util.List;
 public class DriveLogService {
 
     private final DriveLogRepository driveLogRepository;
+
+    private final DriveLogFilterCache driveLogFilterCache;
 
     private final DriveLogMapper driveLogMapper;
 
@@ -82,6 +85,7 @@ public class DriveLogService {
         var result = driveLogMapper.search(driveLogFilterRequestDto, offset, size);
 
         var total = driveLogMapper.countByFilter(driveLogFilterRequestDto);
+
 
         return new PageImpl<>(result, PageRequest.of(page - 1, size), total);
 
