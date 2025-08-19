@@ -1345,3 +1345,52 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2025-08-18 13:53:49.663  [http-nio-0.0.0.0-8080-exec-6] DEBUG o.s.d.r.core.RedisConnectionUtils - Closing Redis Connection
 2025-08-18 13:53:49.664  [http-nio-0.0.0.0-8080-exec-6] TRACE o.s.c.interceptor.CacheInterceptor - Computed cache key 'status' for operation Builder[public com.example.mainserver.car.controller.dto.CarSummaryDto com.example.mainserver.car.application.CarService.getCountByStatus()] caches=[cars:Summary] | key=''status'' | keyGenerator='' | cacheManager='' | cacheResolver='' | condition='' | unless='' | sync='false'
 2025-08-18 13:53:49.667  [http-nio-0.0.0.0-8080-exec-6] TRACE o.s.c.interceptor.CacheInterceptor - Cache entry for key 'status' found in cache(s) [cars:Summary]
+2025-08-18 23:37:41.087  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-18 23:37:41.108  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 85179 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-18 23:37:41.109  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-18 23:37:41.109  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-18 23:37:41.535  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-18 23:37:41.535  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-18 23:37:41.609  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 69 ms. Found 4 JPA repository interfaces.
+2025-08-18 23:37:41.843  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-18 23:37:41.843  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-18 23:37:41.853  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-18 23:37:41.854  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-18 23:37:41.854  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-18 23:37:41.854  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-08-18 23:37:42.146  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-18 23:37:42.152  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-18 23:37:42.152  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-18 23:37:42.152  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-18 23:37:42.184  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-18 23:37:42.184  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1055 ms
+2025-08-18 23:37:42.420  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-18 23:37:42.487  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-18 23:37:42.514  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-18 23:37:42.531  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-18 23:37:42.666  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-18 23:37:42.680  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-18 23:37:43.138  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@35d145fb
+2025-08-18 23:37:43.139  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-18 23:37:43.229  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-18 23:37:43.654  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-18 23:37:43.655  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18 23:37:43.821  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-18 23:37:43.917  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-18 23:37:44.410  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-18 23:37:44.581  [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-18 23:37:44.945  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-18 23:37:44.951  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-18 23:37:44.964  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 4.075 seconds (process running for 4.384)
+2025-08-18 23:37:45.316  [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2025-08-18 23:37:45.316  [RMI TCP Connection(4)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-18 23:37:45.316  [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-18 23:37:45.317  [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-18 23:37:45.350  [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#7e41e1e4:0/SimpleConnection@707fc76e [delegate=amqp://2thecore@127.0.0.1:5672/, localPort=60217]

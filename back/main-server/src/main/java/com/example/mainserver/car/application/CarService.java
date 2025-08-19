@@ -36,14 +36,14 @@ public class CarService {
     private final CarFilterCache carFilterCache;
 
 
-    @Cacheable(cacheNames = "cars:Detail", key = "#carNumber")
+
     public CarDetailDto getCar(String carNumber){
         log.info("[DB FETCH] getCar = {}", carNumber);
         var entity =  carReader.findByCarNumber(carNumber).orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
         return CarDetailDto.EntityToDto(entity);
     }
 
-    @Cacheable(cacheNames = "cars:Summary", key = "'status'")
+
     public CarSummaryDto getCountByStatus(){
         Map<CarStatus, Long> result = carReader.getCountByStatus();
         return CarSummaryDto.builder()
@@ -58,18 +58,17 @@ public class CarService {
 
     public Page<CarSearchDto> getCarsByFilter(CarFilterRequestDto carFilterRequestDto, int page, int size) {
 
-        var cached = carFilterCache.getCarByFilterCached(carFilterRequestDto, page, size);
+        int offset = (page - 1) * size;
+        var result = carMapper.search(carFilterRequestDto, offset, size);
+        var total = carMapper.countByFilter(carFilterRequestDto);
+        var resultToDto = result.stream()
+                .map(CarSearchDto::EntityToDto)
+                .toList();
+        return new PageImpl<>(resultToDto, PageRequest.of(page - 1, size, Sort.by("carNumber").ascending()), total);
 
-        return new PageImpl<>(cached.getItems(), PageRequest.of(page - 1, size, Sort.by("carNumber").ascending()), cached.getTotalCount());
     }
 
 
-
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "cars:Summary", key = "'status'"),
-            @CacheEvict(cacheNames = "cars:Filter", allEntries = true)
-    })
-    @CachePut(cacheNames = "cars:Detail", key = "#result.carNumber")
     public CarDetailDto createCar( // 차량 등록
                                    CarRequestDto carRequest, String loginId
     ) {
@@ -95,11 +94,6 @@ public class CarService {
         return CarDetailDto.EntityToDto(carWriter.save(entity));
     }
 
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "cars:Filter", allEntries = true),
-            @CacheEvict(cacheNames = "cars:Summary", key = "'status'")
-    })
-    @CachePut(cacheNames = "cars:Detail", key = "#carNumber")
     public CarDetailDto updateCar( // 차량 정보 업데이트
                                    CarRequestDto carRequest,
                                    String carNumber
@@ -111,12 +105,6 @@ public class CarService {
         return CarDetailDto.EntityToDto(carWriter.save(entity));
     }
 
-
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "cars:Summary", key = "'status'"),
-            @CacheEvict(cacheNames = "cars:Detail", key = "#carNumber"),
-            @CacheEvict(cacheNames = "cars:Filter", allEntries = true)
-    })
     public CarDeleteDto deleteCar( // 차량 삭제
                                    String carNumber
     ){
@@ -126,7 +114,7 @@ public class CarService {
         return CarDeleteDto.EntityToDto(entity);
     }
 
-    @CacheEvict(cacheNames = "cars:Detail", key = "#carNumber")
+
     public void updateLastLocation(String carNumber, String latitude, String longitude) {
         var car = carReader.findByCarNumber(carNumber)
                 .orElseThrow(() -> new RuntimeException("차량 없음"));
