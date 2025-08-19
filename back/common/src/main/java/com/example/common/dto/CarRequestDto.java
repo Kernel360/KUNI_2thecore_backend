@@ -2,6 +2,7 @@ package com.example.common.dto;
 
 import com.example.common.group.CreateGroup;
 import jakarta.validation.constraints.*;
+import jakarta.validation.groups.Default;
 import lombok.*;
 import java.time.Year;
 
@@ -30,7 +31,7 @@ public class CarRequestDto {
     private String carNumber;
 
     // @NotNull(groups = CreateGroup.class)
-    @Min(value = 0, message = "주행 거리는 0 이상이어야 합니다.", groups = CreateGroup.class)
+    @Min(value = 0, message = "주행 거리는 0 이상이어야 합니다.", groups = {CreateGroup.class, Default.class})
     @Builder.Default
     private Double sumDist = 0.00;
 
@@ -38,7 +39,7 @@ public class CarRequestDto {
 
     private String lastLongitude;
 
-    @AssertTrue(message = "차량 연식이 올바르지 않습니다.", groups = CreateGroup.class)
+    @AssertTrue(message = "차량 연식이 올바르지 않습니다.", groups = {CreateGroup.class, Default.class})
     private boolean isCarYearValid(){
         if (carYear == null){
             return true;
