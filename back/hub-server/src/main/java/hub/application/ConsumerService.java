@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,16 +25,10 @@ public class ConsumerService {
     private final GpsLogRepository gpsLogRepository;
     private final CarRepository carRepository;
 
-    @RabbitListener(queues = "gps.data.queue", errorHandler = "gpsConsumerErrorHandler")
-    public void gpsConsumer(GpsLogDto gpsLogDto) {
-        log.info("gpsRabbitmq");
-        processGpsLogAsync(gpsLogDto);
-    }
-
-    // 1초에 1번 갱신되도록
     @Async
     @Transactional
-    public void processGpsLogAsync(GpsLogDto gpsLogDto) {
+    @RabbitListener(queues = "gps.data.queue", errorHandler = "gpsConsumerErrorHandler")
+    public void gpsConsumer(GpsLogDto gpsLogDto) {
         log.info("Async processing started for car: {}", gpsLogDto.getCarNumber());
 
         Optional<CarEntity> optionalCar = carRepository.findByCarNumber(gpsLogDto.getCarNumber());
@@ -48,7 +41,7 @@ public class ConsumerService {
         //timestamp 기준 정렬
         List<GpsLogDto.Gps> sortedGpsList = gpsLogDto.getLogList().stream()
                 .sorted(Comparator.comparing(GpsLogDto.Gps::getTimestamp))
-                .collect(Collectors.toList());
+                .toList();
 
         //정렬된 리스트 차례로 저장
         for (GpsLogDto.Gps gps : sortedGpsList) {
@@ -78,11 +71,4 @@ public class ConsumerService {
         }
         log.info("Finished processing all GPS logs for car: {}", gpsLogDto.getCarNumber());
     }
-
-    //rabbitmq 거치지 않은 메소드
-    public void gpsConsumerDirect(GpsLogDto gpsLogDto) {
-        log.info("gpsConsumerDirect");
-        processGpsLogAsync(gpsLogDto);
-    }
-
 }
