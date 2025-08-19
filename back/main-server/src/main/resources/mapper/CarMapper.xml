@@ -10,7 +10,7 @@
         FROM car c
         <where>
             <if test="filter.carNumber != null">
-                AND car_number = #{filter.carNumber}
+                AND car_number LIKE CONCAT('%', #{filter.carNumber}, '%')
             </if>
             <if test="filter.status != null">
                 AND status = #{filter.status}
