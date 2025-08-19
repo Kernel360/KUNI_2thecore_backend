@@ -1,10 +1,9 @@
 package com.example.common.dto;
 
 import com.example.common.group.CreateGroup;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import java.time.Year;
 
 @Getter
 @Setter
@@ -19,7 +18,6 @@ public class CarRequestDto {
     @NotBlank(groups = CreateGroup.class)
     private String model;
 
-    @Min(value = 0, message = "차량 연식은 0 이상이어야 합니다.", groups = CreateGroup.class)
     private Integer carYear;
 
     private String status;
@@ -33,9 +31,19 @@ public class CarRequestDto {
 
     // @NotNull(groups = CreateGroup.class)
     @Min(value = 0, message = "주행 거리는 0 이상이어야 합니다.", groups = CreateGroup.class)
+    @Builder.Default
     private Double sumDist = 0.00;
 
     private String lastLatitude;
 
     private String lastLongitude;
+
+    @AssertTrue(message = "차량 연식이 올바르지 않습니다.", groups = CreateGroup.class)
+    private boolean isCarYearValid(){
+        if (carYear == null){
+            return true;
+        }
+
+        return carYear >= 1886 && carYear <= Year.now().getValue();
+    }
 }
