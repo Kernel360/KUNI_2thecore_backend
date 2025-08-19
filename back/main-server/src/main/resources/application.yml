@@ -22,7 +22,12 @@ spring:
 
   datasource:
     hikari:
-      maxLifetime: 27000000  # 27,000,000 밀리초 = 7시간 30분
+
+      maxLifetime: 1800000   # 30분 (MySQL timeout 보다 확실히 짧게)
+      idleTimeout: 600000    # 10분
+      keepaliveTime: 300000  # 5분마다 ping (Spring Boot 2.3+ 가능)
+      connectionTimeout: 30000
+
     url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME}

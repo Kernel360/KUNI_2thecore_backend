@@ -22,10 +22,7 @@ import java.util.stream.Collectors;
 public class CarController {
 
     private final CarService carService;
-
-
-    //    @GetMapping("")
-//    public
+  
     @GetMapping
     public ApiResponse<CarDetailDto> getCar(@RequestParam("carNumber") String carNumber) {
 
