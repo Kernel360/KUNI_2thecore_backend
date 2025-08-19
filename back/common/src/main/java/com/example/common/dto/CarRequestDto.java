@@ -31,7 +31,6 @@ public class CarRequestDto {
     private String carNumber;
 
     // @NotNull(groups = CreateGroup.class)
-    @Min(value = 0, message = "주행 거리는 0 이상이어야 합니다.", groups = {CreateGroup.class, Default.class})
     @Builder.Default
     private Double sumDist = 0.00;
 
