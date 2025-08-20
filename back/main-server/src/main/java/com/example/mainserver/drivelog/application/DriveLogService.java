@@ -88,8 +88,5 @@ public class DriveLogService {
 
 
         return new PageImpl<>(result, PageRequest.of(page - 1, size), total);
-
-
-
     }
 }
