@@ -49,7 +49,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.startsWith("/api/admin/signup")
                 || path.startsWith("/actuator/prometheus")
                 || path.startsWith("/api/logs/gps")
-                || path.startsWith("/api/logs/gps-direct");
+                || path.startsWith("/api/logs/gps-direct")
+                // Emulator/collector integration: allow without auth
+                || path.startsWith("/api/drivelogs/start")
+                || path.startsWith("/api/drivelogs/end")
+                || path.startsWith("/api/logs");
     }
 
     @Override

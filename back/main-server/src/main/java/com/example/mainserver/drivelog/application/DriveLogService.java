@@ -147,7 +147,7 @@ public class DriveLogService {
         driveLog.setEndLongitude(request.getEndLongitude());
         driveLog.setEndTime(request.getEndTime());
         driveLog.setEndPoint(endPoint);
-
-        return driveLog;
+      
+        return driveLogRepository.save(driveLog);
     }
 }
