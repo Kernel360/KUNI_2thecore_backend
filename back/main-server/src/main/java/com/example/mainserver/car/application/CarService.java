@@ -139,4 +139,21 @@ public class CarService {
                 .map(CarLocationDto::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 주행기록 추가 시 차량의 sumDist를 자동으로 업데이트합니다.
+     * @param carId 차량 ID
+     * @param additionalDistance 추가할 주행거리 (km)
+     */
+    public void updateSumDist(Long carId, double additionalDistance) {
+        var car = carReader.findById(carId.intValue())
+                .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND, String.valueOf(carId)));
+        
+        double newSumDist = car.getSumDist() + additionalDistance;
+        car.setSumDist(newSumDist);
+        carWriter.save(car);
+        
+        log.info("Car {} sumDist updated: +{} km, total: {} km", 
+                car.getCarNumber(), additionalDistance, newSumDist);
+    }
 }

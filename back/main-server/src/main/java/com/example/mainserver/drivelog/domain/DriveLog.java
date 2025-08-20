@@ -1,5 +1,6 @@
 package com.example.mainserver.drivelog.domain;
 
+import com.example.mainserver.drivelog.util.DistanceCalculator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "drive_log")
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class DriveLog {
 
     @Id
@@ -60,10 +62,6 @@ public class DriveLog {
     private String memo;
 
 
-    // JPA만 접근 가능
-    protected DriveLog() {
-    }
-
     // 생성자
     @Builder
     public DriveLog(Long driveLogId, Long carId, String startPoint, String startLatitude, String startLongitude,
@@ -83,6 +81,22 @@ public class DriveLog {
         this.driveDist = driveDist;
         this.speed = speed;
         this.memo = memo;
+    }
+
+    /**
+     * 시작점과 종료점 좌표를 기반으로 주행거리를 자동 계산합니다.
+     */
+    public void calculateDriveDist() {
+        if (startLatitude != null && startLongitude != null && 
+            endLatitude != null && endLongitude != null) {
+            
+            double distance = DistanceCalculator.calculateDistance(
+                startLatitude, startLongitude, endLatitude, endLongitude
+            );
+            this.driveDist = BigDecimal.valueOf(distance);
+        } else {
+            this.driveDist = BigDecimal.ZERO;
+        }
     }
 
     @PrePersist

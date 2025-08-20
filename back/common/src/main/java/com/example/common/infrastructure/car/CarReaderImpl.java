@@ -28,6 +28,11 @@ public class CarReaderImpl implements CarReader {
         return carRepository.findByCarNumber(carNumber);
     }
 
+    @Override
+    public Optional<CarEntity> findById(Integer carId) {
+        return carRepository.findById(carId);
+    }
+
 //    public List<CarEntity> findAll(){
 //        return carRepository.findAll();
 //    }

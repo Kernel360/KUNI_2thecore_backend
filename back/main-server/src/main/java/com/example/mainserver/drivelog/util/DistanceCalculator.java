@@ -1,4 +1,4 @@
-package hub.util;
+package com.example.mainserver.drivelog.util;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,10 +10,10 @@ public class DistanceCalculator {
     /**
      * Haversine 공식을 사용하여 두 GPS 좌표 간의 거리를 계산합니다.
      * 
-     * @param lat1 첫 번째 위치의 위도
-     * @param lon1 첫 번째 위치의 경도
-     * @param lat2 두 번째 위치의 위도
-     * @param lon2 두 번째 위치의 경도
+     * @param lat1 시작 위치의 위도
+     * @param lon1 시작 위치의 경도
+     * @param lat2 종료 위치의 위도
+     * @param lon2 종료 위치의 경도
      * @return 두 지점 간의 거리 (km)
      */
     public static double calculateDistance(String lat1, String lon1, String lat2, String lon2) {
@@ -36,22 +36,11 @@ public class DistanceCalculator {
             log.debug("Distance calculated: {} km from ({},{}) to ({},{})", 
                      distance, lat1, lon1, lat2, lon2);
 
-            return distance;
+            return Math.round(distance * 100.0) / 100.0; // 소수점 2자리까지
         } catch (NumberFormatException e) {
             log.error("Invalid GPS coordinates: lat1={}, lon1={}, lat2={}, lon2={}", 
                      lat1, lon1, lat2, lon2, e);
             return 0.0;
         }
-    }
-
-    /**
-     * 거리가 유효한 범위인지 확인합니다 (비정상적으로 큰 이동 방지)
-     * 
-     * @param distance 계산된 거리 (km)
-     * @return 유효한 거리인지 여부
-     */
-    public static boolean isValidDistance(double distance) {
-        // 5분간 최대 이동 가능 거리: 200km/h 기준 약 16.7km
-        return distance >= 0 && distance <= 20.0;
     }
 }

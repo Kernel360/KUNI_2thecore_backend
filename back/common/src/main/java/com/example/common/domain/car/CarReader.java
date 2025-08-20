@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface CarReader  {
     Optional<CarEntity> findByCarNumber(String carNumber);
 
+    Optional<CarEntity> findById(Integer carId);
+
     Page<CarEntity> findAll(Pageable pageable);
 
     Map<CarStatus, Long> getCountByStatus();
