@@ -24,6 +24,5 @@ public class DriveLogResponse {
     private String endLongitude;
     private LocalDateTime endTime;
     private BigDecimal driveDist;
-    private String speed;
     private LocalDateTime createdAt;
 }
