@@ -30,8 +30,11 @@ public class CollectorService {
             throw new GpsLogNotFoundException();
         }
 
+        log.info("gpslog가 발행되었습니다. :{}", gpsLogDto);
         // db 저장후 event를 발생시킨다 rabbitmq 메세지 삽입
         gpsLogProducer.sendLogs(gpsLogDto);
+
+        log.info("gpslog가 RabbitMQ에 발행되었습니다. : {}", gpsLogDto);
 
         return GpsLogResponseDto.builder()
                 .carNumber(gpsLogDto.getCarNumber())
@@ -49,7 +52,7 @@ public class CollectorService {
 
         log.info(request.toString());
 
-        var url = "http://localhost:8082/api/hub/gps-direct";
+        var url = "http://52.78.122.150:8082/api/hub/gps-direct";
 
         var response = restTemplate.postForEntity(url, request, String.class);
 
@@ -58,9 +61,5 @@ public class CollectorService {
         return GpsLogResponseDto.builder()
                 .carNumber(gpsLogDto.getCarNumber())
                 .build();
-
-
-
     }
-
 }
