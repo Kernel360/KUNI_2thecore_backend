@@ -60,8 +60,6 @@ dependencies {
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-
-
 	// Servlet API
 	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
@@ -78,6 +76,8 @@ dependencies {
 	//
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
+	// http
+	implementation("org.apache.httpcomponents.client5:httpclient5")
 
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
