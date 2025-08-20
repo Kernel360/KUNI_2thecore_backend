@@ -57,7 +57,9 @@ public class SecurityConfig {
                                 "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/info",
-                                //테스트를 위한 로그인 우회
+                                // 에뮬레이터 연동용: 주행 시작/종료, GPS 로그 수집 화이트리스트
+                                "/api/drivelogs/start",
+                                "/api/drivelogs/end",
                                 "/api/logs/**"
 
                         ).permitAll()
@@ -81,7 +83,8 @@ public class SecurityConfig {
                 "http://localhost:3006",
                 "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com", // 배포 도메인
                 "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com", // 배포 도메인 2
-                "http://15.165.171.174:8081" //emulator-server
+                "http://15.165.171.174:8081", //emulator-server
+                "http://localhost:8081"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
