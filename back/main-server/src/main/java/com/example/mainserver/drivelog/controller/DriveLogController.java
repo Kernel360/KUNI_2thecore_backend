@@ -3,10 +3,8 @@ package com.example.mainserver.drivelog.controller;
 import com.example.common.dto.ApiResponse;
 import com.example.mainserver.drivelog.application.DriveLogService;
 import com.example.mainserver.drivelog.domain.DriveLog;
-import com.example.mainserver.drivelog.dto.DriveLogFilterRequestDto;
-import com.example.mainserver.drivelog.dto.DriveLogFilterResponseDto;
-import com.example.mainserver.drivelog.dto.DriveLogRequest;
-import com.example.mainserver.drivelog.dto.DriveLogResponse;
+import com.example.mainserver.drivelog.dto.*;
+import com.google.protobuf.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,6 +29,18 @@ public class DriveLogController {
     public ResponseEntity<ApiResponse<DriveLogResponse>> createDriveLog(@RequestBody DriveLogRequest request) {
         DriveLog saved = driveLogService.save(request);
         return ResponseEntity.ok(ApiResponse.success("주행기록 저장 완료", toResponse(saved)));
+    }
+
+    @PostMapping("/start")// 주행 시작 후 end정보 비어있는 주행 기록 생성하는 API
+    public ResponseEntity<ApiResponse<DriveLogResponse>> startDrive(@RequestBody StartDriveRequestDto request) {
+        DriveLog saved = driveLogService.startDrive(request);
+        return ResponseEntity.ok(ApiResponse.success("주행기록 생성 완료", toResponse(saved)));
+    }
+
+    @PatchMapping("/end")// 주행 종료 후 주행 기록의 비어있는 필드 채우는 API
+    public ResponseEntity<ApiResponse<DriveLogResponse>> endDrive(@RequestBody EndDriveRequestDto request) {
+        DriveLog saved = driveLogService.endDrive(request);
+        return ResponseEntity.ok(ApiResponse.success("주행기록 수정 완료", toResponse(saved)));
     }
 
 //    @GetMapping
@@ -100,7 +110,6 @@ public class DriveLogController {
                 .endLongitude(log.getEndLongitude())
                 .endTime(log.getEndTime())
                 .driveDist(log.getDriveDist())
-                .speed(log.getSpeed())
                 .createdAt(log.getCreatedAt())
                 .build();
     }

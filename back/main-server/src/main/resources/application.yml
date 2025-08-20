@@ -69,4 +69,10 @@ server:
 # 메인서버 로깅
 logging:
   config: classpath:logback-spring.xml
+  level:
+    com.example.mainserver.drivelog: DEBUG
+
+kakao:
+  api:
+    key: ${KAKAO_REST_API_KEY}
 

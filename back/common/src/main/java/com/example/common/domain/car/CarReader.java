@@ -18,4 +18,6 @@ public interface CarReader  {
 
     List<CarEntity> findAll();
 
+    Integer getIdfromNumber(String number);
+
 }
