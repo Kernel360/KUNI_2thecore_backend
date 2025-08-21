@@ -20,7 +20,9 @@ public class LastPositionUpdator {
 
     public void scheduleEverySecond(String carNumber, List<GpsLogDto.Gps> sorted) {
 
-        final int CHUNK = 3;
+        log.info("청크 부분 시작 carNumber : {}, logDto : {}", carNumber, sorted);
+
+        final int CHUNK = 5;
 
         var latestPerChunk = new ArrayList<GpsLogDto.Gps>();
 
@@ -45,7 +47,7 @@ public class LastPositionUpdator {
             carPostionWriterImpl.updateOnce(carNumber, g.getLatitude(), g.getLongitude());
         };
 
-        var f = scheduledExecutorService.scheduleAtFixedRate(task, 0, 3, java.util.concurrent.TimeUnit.SECONDS);
+        var f = scheduledExecutorService.scheduleAtFixedRate(task, 0, 5, java.util.concurrent.TimeUnit.SECONDS);
 
         ref.set(f);
 

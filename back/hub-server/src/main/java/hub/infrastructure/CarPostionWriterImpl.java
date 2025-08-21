@@ -28,7 +28,6 @@ public class CarPostionWriterImpl implements CarPositionWriter {
 
     @Override
     @Transactional
-    @Async
     public void updateOnce(String carNumber, String lat, String lon) {
 
         Optional<CarEntity> optionalCar = carRepository.findByCarNumber(carNumber);
@@ -85,7 +84,7 @@ public class CarPostionWriterImpl implements CarPositionWriter {
         }
         
         try {
-            String url = "http://localhost:8080/api/drivelogs/update-location";
+            String url = "http://52.78.122.150:8080/api/drivelogs/update-location";
             
             // 요청 DTO 생성 (간단한 Map 사용)
             var request = new java.util.HashMap<String, Object>();
