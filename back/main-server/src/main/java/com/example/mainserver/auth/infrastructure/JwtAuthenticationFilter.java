@@ -6,7 +6,6 @@ import com.example.common.exception.TokenExpiredException;
 import com.example.common.domain.auth.JwtTokenProvider;
 import com.example.mainserver.auth.domain.TokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.common.dto.ApiResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -53,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // Emulator/collector integration: allow without auth
                 || path.startsWith("/api/drivelogs/start")
                 || path.startsWith("/api/drivelogs/end")
+                || path.startsWith("/api/drivelogs/update-location")
                 || path.startsWith("/api/logs");
     }
 
