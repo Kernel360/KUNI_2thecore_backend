@@ -16,6 +16,11 @@ management:
 
 
 spring:
+
+  jackson:
+    time-zone: Asia/Seoul
+
+
   main:
     allow-bean-definition-overriding: true
     banner-mode: "off" # 콘솔 배너 비활성화
