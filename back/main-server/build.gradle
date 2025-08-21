@@ -79,6 +79,9 @@ dependencies {
 	// http
 	implementation("org.apache.httpcomponents.client5:httpclient5")
 
+	// 엑셀 다운로드
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mockito:mockito-core'

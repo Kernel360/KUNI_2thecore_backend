@@ -17,10 +17,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.math.BigDecimal;
+import java.io.OutputStream;
 import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
 
 @Slf4j
 @Service
@@ -140,6 +142,11 @@ public class DriveLogService {
         return new PageImpl<>(result, PageRequest.of(page - 1, size), total);
     }
 
+    public List<DriveLogFilterResponseDto> getFilteredDriveLogs(DriveLogFilterRequestDto filterDto) {
+        // 페이징 없이 전체 조회 (Excel용)
+        return driveLogMapper.search(filterDto, 0, Integer.MAX_VALUE);
+    }
+
     @Transactional
     public DriveLog startDrive(StartDriveRequestDto request){
         if(request.getCarNumber() == null) {
@@ -192,13 +199,35 @@ public class DriveLogService {
         driveLog.setEndTime(request.getEndTime());
         driveLog.setEndPoint(endPoint);
 
-        // 거리 자동 계산 및 sumDist 업데이트
-        driveLog.calculateDriveDist();
-        double additionalDistance = driveLog.getDriveDist().doubleValue();
-        if (additionalDistance > 0) {
-            carService.updateSumDist(carId, additionalDistance);
-        }
+        // 주행 종료 시에는 실시간으로 이미 누적된 거리를 유지
+        // calculateDriveDist()를 호출하지 않음 - 실시간 누적 거리 보존
 
         return driveLogRepository.save(driveLog);
+    }
+
+    public void writeDriveLogsToExcel(OutputStream os, List<DriveLogFilterResponseDto> dtos) throws Exception {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("주행기록");
+            String[] headers = {"차량번호", "브랜드", "모델", "주행시작일", "주행종료일", "출발지", "도착지", "주행거리", "상태", "메모"};
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < headers.length; i++) {
+                headerRow.createCell(i).setCellValue(headers[i]);
+            }
+            for (int rowIdx = 0; rowIdx < dtos.size(); rowIdx++) {
+                DriveLogFilterResponseDto dto = dtos.get(rowIdx);
+                Row row = sheet.createRow(rowIdx + 1);
+                row.createCell(0).setCellValue(dto.getCarNumber());
+                row.createCell(1).setCellValue(dto.getBrand());
+                row.createCell(2).setCellValue(dto.getModel());
+                row.createCell(3).setCellValue(dto.getStartTime() != null ? dto.getStartTime().toString() : "");
+                row.createCell(4).setCellValue(dto.getEndTime() != null ? dto.getEndTime().toString() : "");
+                row.createCell(5).setCellValue(dto.getStartPoint());
+                row.createCell(6).setCellValue(dto.getEndPoint());
+                row.createCell(7).setCellValue(dto.getDriveDist());
+                row.createCell(8).setCellValue(dto.getStatus() != null ? dto.getStatus().name() : "");
+                row.createCell(9).setCellValue(dto.getMemo() != null ? dto.getMemo() : "");
+            }
+            workbook.write(os);
+        }
     }
 }
