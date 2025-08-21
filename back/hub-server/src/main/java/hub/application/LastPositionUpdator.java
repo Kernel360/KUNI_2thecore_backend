@@ -20,6 +20,8 @@ public class LastPositionUpdator {
 
     public void scheduleEverySecond(String carNumber, List<GpsLogDto.Gps> sorted) {
 
+        log.info("청크 부분 시작 carNumber : {}, logDto : {}", carNumber, sorted);
+
         final int CHUNK = 5;
 
         var latestPerChunk = new ArrayList<GpsLogDto.Gps>();

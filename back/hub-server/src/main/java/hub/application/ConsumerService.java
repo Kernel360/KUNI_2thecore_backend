@@ -51,6 +51,8 @@ public class ConsumerService {
 
         gpsLogRepository.saveAll(entities);
 
+
+        log.info("청크 시작 전 carNumber : {}, logDto : {}", carEntity.getCarNumber(), sortedGpsList);
         lastPositionUpdator.scheduleEverySecond(carEntity.getCarNumber(), sortedGpsList);
 //        //정렬된 리스트 차례로 저장
 //        for (GpsLogDto.Gps gps : sortedGpsList) {
