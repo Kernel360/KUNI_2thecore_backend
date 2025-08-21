@@ -37,7 +37,7 @@ public class DriveLogController {
         return ResponseEntity.ok(ApiResponse.success("주행기록 생성 완료", toResponse(saved)));
     }
 
-    @PatchMapping("/end")// 주행 종료 후 주행 기록의 비어있는 필드 채우는 API
+    @PostMapping("/end")// 주행 종료 후 주행 기록의 비어있는 필드 채우는 API
     public ResponseEntity<ApiResponse<DriveLogResponse>> endDrive(@RequestBody EndDriveRequestDto request) {
         DriveLog saved = driveLogService.endDrive(request);
         return ResponseEntity.ok(ApiResponse.success("주행기록 수정 완료", toResponse(saved)));
