@@ -76,6 +76,10 @@ public class CarService {
         if (isCarNumberExists) {
             throw new CarAlreadyExistsException(carRequest.getCarNumber());
         }
+
+        String latitude = String.format("%.4f", Double.parseDouble(carRequest.getLastLatitude()));
+        String longitude = String.format("%.4f", Double.parseDouble(carRequest.getLastLongitude()));
+
         var entity = CarEntity.builder()
                 .loginId(loginId)
                 .brand(carRequest.getBrand())
@@ -87,8 +91,8 @@ public class CarService {
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())
-                .lastLatitude(carRequest.getLastLatitude())
-                .lastLongitude(carRequest.getLastLongitude())
+                .lastLatitude(latitude)
+                .lastLongitude(longitude)
                 .build();
 
         return CarDetailDto.EntityToDto(carWriter.save(entity));

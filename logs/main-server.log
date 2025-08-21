@@ -2419,3 +2419,191 @@ Caused by: java.time.temporal.UnsupportedTemporalTypeException: Unsupported fiel
 	at com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:760)
 	... 156 common frames omitted
 2025-08-20 16:33:31.304  [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Retrograde clock change detected (housekeeper delta=29s753ms), soft-evicting connections from pool.
+2025-08-21 11:25:12.973  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-21 11:25:13.019  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 5723 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-21 11:25:13.019  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-21 11:25:13.020  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-21 11:25:13.496  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-21 11:25:13.496  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-21 11:25:13.583  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 82 ms. Found 4 JPA repository interfaces.
+2025-08-21 11:25:13.846  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-21 11:25:13.847  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-21 11:25:13.859  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-21 11:25:13.860  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-21 11:25:13.860  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-21 11:25:13.860  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-21 11:25:14.182  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-21 11:25:14.188  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-21 11:25:14.189  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-21 11:25:14.189  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-21 11:25:14.213  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-21 11:25:14.214  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1170 ms
+2025-08-21 11:25:14.450  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-21 11:25:14.512  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-21 11:25:14.540  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-21 11:25:14.556  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-21 11:25:14.705  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-21 11:25:14.720  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-21 11:25:15.057  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1315befe
+2025-08-21 11:25:15.058  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-21 11:25:15.120  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-21 11:25:15.540  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-21 11:25:15.542  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-21 11:25:15.711  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-21 11:25:15.811  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-21 11:25:16.313  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-21 11:25:16.506  [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-21 11:25:16.869  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-21 11:25:16.876  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-21 11:25:16.887  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 4.456 seconds (process running for 4.942)
+2025-08-21 11:25:17.270  [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2025-08-21 11:25:17.271  [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-21 11:25:17.271  [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-21 11:25:17.274  [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-08-21 11:25:17.312  [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#5bf52832:0/SimpleConnection@48b29bfb [delegate=amqp://2thecore@127.0.0.1:5672/, localPort=59945]
+2025-08-21 11:25:47.181  [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-21 11:25:47.185  [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-21 11:25:47.318  [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-21 11:25:47.320  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-21 11:25:47.330  [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-21 11:25:54.792  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.2.Final
+2025-08-21 11:25:54.824  [main] INFO  c.example.mainserver.MainApplication - Starting MainApplication using Java 17.0.16 with PID 5758 (/Users/chyopriushy/Desktop/Project/KUNI_2thecore/back/main-server/build/classes/java/main started by chyopriushy in /Users/chyopriushy/Desktop/Project/KUNI_2thecore)
+2025-08-21 11:25:54.825  [main] DEBUG c.example.mainserver.MainApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-08-21 11:25:54.825  [main] INFO  c.example.mainserver.MainApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-21 11:25:55.308  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-21 11:25:55.309  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-21 11:25:55.390  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 76 ms. Found 4 JPA repository interfaces.
+2025-08-21 11:25:55.689  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-21 11:25:55.690  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-21 11:25:55.701  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.admin.infrastructure.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-21 11:25:55.702  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.collector.infrastructure.GpsLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-21 11:25:55.702  [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.mainserver.drivelog.domain.DriveLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-21 11:25:55.702  [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-08-21 11:25:56.218  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-21 11:25:56.227  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-21 11:25:56.228  [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-21 11:25:56.228  [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-08-21 11:25:56.263  [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-21 11:25:56.263  [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1413 ms
+2025-08-21 11:25:56.596  [main] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-21 11:25:56.656  [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-21 11:25:56.682  [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-08-21 11:25:56.697  [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-21 11:25:56.842  [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-21 11:25:56.857  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-21 11:25:57.137  [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7d76d72a
+2025-08-21 11:25:57.138  [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-21 11:25:57.208  [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.42
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-21 11:25:57.668  [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-21 11:25:57.669  [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-21 11:25:57.841  [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2025-08-21 11:25:57.945  [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-21 11:25:58.460  [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-21 11:25:58.628  [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2025-08-21 11:25:58.997  [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2025-08-21 11:25:59.003  [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-08-21 11:25:59.015  [main] INFO  c.example.mainserver.MainApplication - Started MainApplication in 4.431 seconds (process running for 4.808)
+2025-08-21 11:25:59.520  [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Attempting to connect to: [localhost:5672]
+2025-08-21 11:25:59.523  [RMI TCP Connection(4)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-21 11:25:59.523  [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-21 11:25:59.524  [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-21 11:25:59.556  [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.a.r.c.CachingConnectionFactory - Created new connection: rabbitConnectionFactory#10e4bfa5:0/SimpleConnection@551c8a3f [delegate=amqp://2thecore@127.0.0.1:5672/, localPort=59980]
+2025-08-21 11:29:16.276  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Request URI: /
+2025-08-21 11:29:16.277  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Authorization Header: null
+2025-08-21 11:29:16.278  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Cookies: [jakarta.servlet.http.Cookie@614b4846{refreshToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NTU2NzUxNDEsImV4cCI6MTc1NjI3OTk0MX0.sAtwAcQRlj1UATOuwI2SRl7Y3irDjig9CBpjdury-gk,null}, jakarta.servlet.http.Cookie@20d8c{m=,null}, jakarta.servlet.http.Cookie@aa7eaf7b{JSESSIONID=B35903BB97B21B2D322CF73AB9749DC7,null}]
+2025-08-21 11:29:16.278  [http-nio-0.0.0.0-8080-exec-1] WARN  c.e.m.a.i.JwtAuthenticationFilter - 401 Unauthorized: Authorization 헤더 없음
+2025-08-21 11:29:16.313  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Request URI: /favicon.ico
+2025-08-21 11:29:16.313  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Authorization Header: null
+2025-08-21 11:29:16.314  [http-nio-0.0.0.0-8080-exec-2] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Cookies: [jakarta.servlet.http.Cookie@614b4846{refreshToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NTU2NzUxNDEsImV4cCI6MTc1NjI3OTk0MX0.sAtwAcQRlj1UATOuwI2SRl7Y3irDjig9CBpjdury-gk,null}, jakarta.servlet.http.Cookie@20d8c{m=,null}, jakarta.servlet.http.Cookie@aa7eaf7b{JSESSIONID=B35903BB97B21B2D322CF73AB9749DC7,null}]
+2025-08-21 11:29:16.314  [http-nio-0.0.0.0-8080-exec-2] WARN  c.e.m.a.i.JwtAuthenticationFilter - 401 Unauthorized: Authorization 헤더 없음
+2025-08-21 11:29:17.747  [http-nio-0.0.0.0-8080-exec-10] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 300 ms
+2025-08-21 11:29:51.520  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Request URI: /api/drivelogs
+2025-08-21 11:29:51.521  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Authorization Header: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTc1NTc0MzM2NywiZXhwIjoxNzU1ODAzMzY3fQ.RRo38gpE2m9PE6-IHAKZotrSNbUTxlQr9ni7cFyrQKU
+2025-08-21 11:29:51.521  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Cookies: [jakarta.servlet.http.Cookie@5065b6b5{refreshToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NTU3NDMzNjgsImV4cCI6MTc1NjM0ODE2OH0.91ECzQBXOs46-4AREfD3iclLG3yvr-oxq6Qgx3tqagc,null}, jakarta.servlet.http.Cookie@20d8c{m=,null}, jakarta.servlet.http.Cookie@aa7eaf7b{JSESSIONID=B35903BB97B21B2D322CF73AB9749DC7,null}]
+2025-08-21 11:29:51.542  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token 유효함
+2025-08-21 11:29:51.547  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token에서 loginId 추출: dev
+2025-08-21 11:29:51.584  [http-nio-0.0.0.0-8080-exec-7] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-21 11:29:51.645  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-21 11:29:51.652  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-21 11:29:51.673  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-21 11:29:51.674  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-21 11:29:51.674  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-21 11:29:51.687  [http-nio-0.0.0.0-8080-exec-7] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-21 11:29:51.689  [http-nio-0.0.0.0-8080-exec-7] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-08-21 11:30:14.388  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Request URI: /api/drivelogs
+2025-08-21 11:30:14.390  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Authorization Header: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTc1NTc0MzM2NywiZXhwIjoxNzU1ODAzMzY3fQ.RRo38gpE2m9PE6-IHAKZotrSNbUTxlQr9ni7cFyrQKU
+2025-08-21 11:30:14.390  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Cookies: [jakarta.servlet.http.Cookie@5065b6b5{refreshToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NTU3NDMzNjgsImV4cCI6MTc1NjM0ODE2OH0.91ECzQBXOs46-4AREfD3iclLG3yvr-oxq6Qgx3tqagc,null}, jakarta.servlet.http.Cookie@20d8c{m=,null}, jakarta.servlet.http.Cookie@aa7eaf7b{JSESSIONID=B35903BB97B21B2D322CF73AB9749DC7,null}]
+2025-08-21 11:30:14.392  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token 유효함
+2025-08-21 11:30:14.396  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token에서 loginId 추출: dev
+2025-08-21 11:30:14.400  [http-nio-0.0.0.0-8080-exec-6] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=38하6511, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-21 11:30:14.517  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number LIKE CONCAT('%', ?, '%') ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-21 11:30:14.518  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 38하6511(String), 10(Integer), 0(Integer)
+2025-08-21 11:30:14.538  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-21 11:30:14.540  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number LIKE CONCAT('%', ?, '%')
+2025-08-21 11:30:14.540  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 38하6511(String)
+2025-08-21 11:30:14.552  [http-nio-0.0.0.0-8080-exec-6] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-21 11:30:50.161  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Request URI: /api/drivelogs
+2025-08-21 11:30:50.162  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Authorization Header: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTc1NTc0MzM2NywiZXhwIjoxNzU1ODAzMzY3fQ.RRo38gpE2m9PE6-IHAKZotrSNbUTxlQr9ni7cFyrQKU
+2025-08-21 11:30:50.163  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Cookies: [jakarta.servlet.http.Cookie@5065b6b5{refreshToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NTU3NDMzNjgsImV4cCI6MTc1NjM0ODE2OH0.91ECzQBXOs46-4AREfD3iclLG3yvr-oxq6Qgx3tqagc,null}, jakarta.servlet.http.Cookie@20d8c{m=,null}, jakarta.servlet.http.Cookie@aa7eaf7b{JSESSIONID=B35903BB97B21B2D322CF73AB9749DC7,null}]
+2025-08-21 11:30:50.166  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token 유효함
+2025-08-21 11:30:50.171  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token에서 loginId 추출: dev
+2025-08-21 11:30:50.174  [http-nio-0.0.0.0-8080-exec-9] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=38하6511, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-21 11:30:50.192  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number LIKE CONCAT('%', ?, '%') ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-21 11:30:50.193  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 38하6511(String), 10(Integer), 0(Integer)
+2025-08-21 11:30:50.210  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-21 11:30:50.211  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number LIKE CONCAT('%', ?, '%')
+2025-08-21 11:30:50.212  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 38하6511(String)
+2025-08-21 11:30:50.223  [http-nio-0.0.0.0-8080-exec-9] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-21 11:31:05.252  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Request URI: /api/drivelogs
+2025-08-21 11:31:05.253  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Authorization Header: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTc1NTc0MzM2NywiZXhwIjoxNzU1ODAzMzY3fQ.RRo38gpE2m9PE6-IHAKZotrSNbUTxlQr9ni7cFyrQKU
+2025-08-21 11:31:05.253  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Cookies: [jakarta.servlet.http.Cookie@5065b6b5{refreshToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NTU3NDMzNjgsImV4cCI6MTc1NjM0ODE2OH0.91ECzQBXOs46-4AREfD3iclLG3yvr-oxq6Qgx3tqagc,null}, jakarta.servlet.http.Cookie@20d8c{m=,null}, jakarta.servlet.http.Cookie@aa7eaf7b{JSESSIONID=B35903BB97B21B2D322CF73AB9749DC7,null}]
+2025-08-21 11:31:05.256  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token 유효함
+2025-08-21 11:31:05.261  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token에서 loginId 추출: dev
+2025-08-21 11:31:05.265  [http-nio-0.0.0.0-8080-exec-10] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=null, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-21 11:31:05.285  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-21 11:31:05.286  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 10(Integer), 0(Integer)
+2025-08-21 11:31:05.299  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 10
+2025-08-21 11:31:05.301  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id
+2025-08-21 11:31:05.301  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 
+2025-08-21 11:31:05.312  [http-nio-0.0.0.0-8080-exec-10] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-21 11:31:18.307  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Request URI: /api/drivelogs
+2025-08-21 11:31:18.309  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Authorization Header: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTc1NTc0MzM2NywiZXhwIjoxNzU1ODAzMzY3fQ.RRo38gpE2m9PE6-IHAKZotrSNbUTxlQr9ni7cFyrQKU
+2025-08-21 11:31:18.309  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Cookies: [jakarta.servlet.http.Cookie@5065b6b5{refreshToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NTU3NDMzNjgsImV4cCI6MTc1NjM0ODE2OH0.91ECzQBXOs46-4AREfD3iclLG3yvr-oxq6Qgx3tqagc,null}, jakarta.servlet.http.Cookie@20d8c{m=,null}, jakarta.servlet.http.Cookie@aa7eaf7b{JSESSIONID=B35903BB97B21B2D322CF73AB9749DC7,null}]
+2025-08-21 11:31:18.312  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token 유효함
+2025-08-21 11:31:18.317  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token에서 loginId 추출: dev
+2025-08-21 11:31:18.320  [http-nio-0.0.0.0-8080-exec-1] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=42카2240, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=ASC)
+2025-08-21 11:31:18.342  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number LIKE CONCAT('%', ?, '%') ORDER BY start_time ASC LIMIT ? OFFSET ?
+2025-08-21 11:31:18.343  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 42카2240(String), 10(Integer), 0(Integer)
+2025-08-21 11:31:18.359  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 5
+2025-08-21 11:31:18.360  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number LIKE CONCAT('%', ?, '%')
+2025-08-21 11:31:18.361  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 42카2240(String)
+2025-08-21 11:31:18.372  [http-nio-0.0.0.0-8080-exec-1] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
+2025-08-21 11:31:38.007  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Request URI: /api/drivelogs
+2025-08-21 11:31:38.008  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Authorization Header: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6ImFjY2VzcyIsImlhdCI6MTc1NTc0MzM2NywiZXhwIjoxNzU1ODAzMzY3fQ.RRo38gpE2m9PE6-IHAKZotrSNbUTxlQr9ni7cFyrQKU
+2025-08-21 11:31:38.008  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Cookies: [jakarta.servlet.http.Cookie@5065b6b5{refreshToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXYiLCJsb2dpbklkIjoiZGV2IiwidG9rZW5fdHlwZSI6InJlZnJlc2giLCJpYXQiOjE3NTU3NDMzNjgsImV4cCI6MTc1NjM0ODE2OH0.91ECzQBXOs46-4AREfD3iclLG3yvr-oxq6Qgx3tqagc,null}, jakarta.servlet.http.Cookie@20d8c{m=,null}, jakarta.servlet.http.Cookie@aa7eaf7b{JSESSIONID=B35903BB97B21B2D322CF73AB9749DC7,null}]
+2025-08-21 11:31:38.010  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token 유효함
+2025-08-21 11:31:38.013  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.a.i.JwtAuthenticationFilter - Access token에서 loginId 추출: dev
+2025-08-21 11:31:38.016  [http-nio-0.0.0.0-8080-exec-3] INFO  c.e.m.d.c.DriveLogController - Request DTO: DriveLogFilterRequestDto(carNumber=42카2240, status=null, brand=null, model=null, startTime=null, endTime=null, twoParam=true, sortBy=startTime, sortOrder=DESC)
+2025-08-21 11:31:38.034  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==>  Preparing: SELECT c.car_number, c.brand, c.model, c.status, dl.start_time, dl.end_time, dl.start_point ,dl.end_point, dl.drive_dist, dl.memo FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number LIKE CONCAT('%', ?, '%') ORDER BY start_time DESC LIMIT ? OFFSET ?
+2025-08-21 11:31:38.035  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.DriveLogMapper.search - ==> Parameters: 42카2240(String), 10(Integer), 0(Integer)
+2025-08-21 11:31:38.051  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.DriveLogMapper.search - <==      Total: 5
+2025-08-21 11:31:38.053  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.D.countByFilter - ==>  Preparing: SELECT COUNT(*) FROM drive_log dl JOIN car c ON dl.car_id = c.car_id WHERE c.car_number LIKE CONCAT('%', ?, '%')
+2025-08-21 11:31:38.053  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.D.countByFilter - ==> Parameters: 42카2240(String)
+2025-08-21 11:31:38.063  [http-nio-0.0.0.0-8080-exec-3] DEBUG c.e.m.d.i.m.D.countByFilter - <==      Total: 1
