@@ -4,7 +4,7 @@ import com.example.common.dto.ApiResponse;
 import com.example.mainserver.drivelog.application.DriveLogService;
 import com.example.mainserver.drivelog.domain.DriveLog;
 import com.example.mainserver.drivelog.dto.*;
-import com.google.protobuf.Api;
+import com.example.mainserver.drivelog.dto.LocationUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -95,7 +95,26 @@ public class DriveLogController {
         return ApiResponse.success(response);
     }
 
-
+    @PostMapping("/update-location")
+    public ResponseEntity<ApiResponse<String>> updateRealTimeLocation(@RequestBody LocationUpdateRequest request) {
+        try {
+            // 현재 진행 중인 드라이브 로그를 찾아서 업데이트
+            DriveLog updatedLog = driveLogService.updateCurrentDriveLogLocation(
+                    request.getCarId(), 
+                    request.getNewLatitude(), 
+                    request.getNewLongitude()
+            );
+            
+            if (updatedLog != null) {
+                return ResponseEntity.ok(ApiResponse.success("실시간 위치 업데이트 완료"));
+            } else {
+                return ResponseEntity.ok(ApiResponse.success("진행 중인 드라이브 로그 없음"));
+            }
+        } catch (Exception e) {
+            log.error("실시간 위치 업데이트 실패: {}", e.getMessage());
+            return ResponseEntity.ok(ApiResponse.success("업데이트 실패: " + e.getMessage()));
+        }
+    }
 
     private DriveLogResponse toResponse(DriveLog log) {
         return DriveLogResponse.builder()

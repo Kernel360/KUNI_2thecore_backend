@@ -57,10 +57,13 @@ public class SecurityConfig {
                                 "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/info",
-                                // 에뮬레이터 연동용: 주행 시작/종료, GPS 로그 수집 화이트리스트
+                                //테스트를 위한 로그인 우회
+                                "/api/logs/**",
+                                // 에뮬레이터 연동용: 주행 시작/종료 화이트리스트
                                 "/api/drivelogs/start",
                                 "/api/drivelogs/end",
-                                "/api/logs/**"
+                                // 허브 서버에서 호출하는 실시간 위치 업데이트 API
+                                "/api/drivelogs/update-location"
 
                         ).permitAll()
                         .anyRequest().authenticated()

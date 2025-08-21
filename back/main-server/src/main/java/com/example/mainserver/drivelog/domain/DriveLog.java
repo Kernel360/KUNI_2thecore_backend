@@ -1,5 +1,6 @@
 package com.example.mainserver.drivelog.domain;
 
+import com.example.mainserver.drivelog.util.DistanceCalculator;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class DriveLog {
 
     @Id
@@ -58,10 +60,6 @@ public class DriveLog {
     private String brand;
 
 
-    // JPA만 접근 가능
-    protected DriveLog() {
-    }
-
     // 생성자
     @Builder
     public DriveLog(Long driveLogId, Long carId, String startPoint, String startLatitude, String startLongitude,
@@ -80,6 +78,32 @@ public class DriveLog {
         this.endTime = endTime;
         this.driveDist = driveDist;
         this.memo = memo;
+        this.createdAt = createdAt;
+    }
+
+    // 시작/종료 좌표 기반으로 전체 거리 계산 (초기 생성 시)
+    public void calculateDriveDist() {
+        if (startLatitude != null && startLongitude != null && 
+            endLatitude != null && endLongitude != null) {
+            double distance = DistanceCalculator.calculateDistance(
+                    startLatitude, startLongitude, endLatitude, endLongitude);
+            this.driveDist = BigDecimal.valueOf(distance);
+        } else {
+            this.driveDist = BigDecimal.ZERO;
+        }
+    }
+
+    // 새 좌표가 들어올 때마다 driveDist를 업데이트
+    public double updateWithNewLocation(String newLatitude, String newLongitude) {
+        double additionalDist = DistanceCalculator.calculateDistance(
+                this.endLatitude != null ? this.endLatitude : startLatitude,
+                this.endLongitude != null ? this.endLongitude : startLongitude,
+                newLatitude, newLongitude
+        );
+        this.driveDist = this.driveDist.add(BigDecimal.valueOf(additionalDist));
+        this.endLatitude = newLatitude;
+        this.endLongitude = newLongitude;
+        return additionalDist;
     }
 
     @PrePersist
