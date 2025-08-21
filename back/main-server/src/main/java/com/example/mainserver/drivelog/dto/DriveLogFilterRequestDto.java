@@ -32,8 +32,8 @@ public class DriveLogFilterRequestDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate endTime;
 
-    @NotNull
-    private boolean twoParam;
+    @Builder.Default
+    private boolean twoParam = true;
 
     @Builder.Default
     private String sortBy = "startTime";
