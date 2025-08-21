@@ -58,7 +58,9 @@ public class SecurityConfig {
                                 "/actuator/health/**",
                                 "/actuator/info",
                                 //테스트를 위한 로그인 우회
-                                "/api/logs/**"
+                                "/api/logs/**",
+                                // 허브 서버에서 호출하는 실시간 위치 업데이트 API
+                                "/api/drivelogs/update-location"
 
                         ).permitAll()
                         .anyRequest().authenticated()

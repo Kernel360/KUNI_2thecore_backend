@@ -81,22 +81,32 @@ public class DriveLog {
         this.driveDist = driveDist;
         this.speed = speed;
         this.memo = memo;
+        this.createdAt = createdAt;
     }
 
-    /**
-     * 시작점과 종료점 좌표를 기반으로 주행거리를 자동 계산합니다.
-     */
+    // 시작/종료 좌표 기반으로 전체 거리 계산 (초기 생성 시)
     public void calculateDriveDist() {
         if (startLatitude != null && startLongitude != null && 
             endLatitude != null && endLongitude != null) {
-            
             double distance = DistanceCalculator.calculateDistance(
-                startLatitude, startLongitude, endLatitude, endLongitude
-            );
+                    startLatitude, startLongitude, endLatitude, endLongitude);
             this.driveDist = BigDecimal.valueOf(distance);
         } else {
             this.driveDist = BigDecimal.ZERO;
         }
+    }
+
+    // 새 좌표가 들어올 때마다 driveDist를 업데이트
+    public double updateWithNewLocation(String newLatitude, String newLongitude) {
+        double additionalDist = DistanceCalculator.calculateDistance(
+                this.endLatitude != null ? this.endLatitude : startLatitude,
+                this.endLongitude != null ? this.endLongitude : startLongitude,
+                newLatitude, newLongitude
+        );
+        this.driveDist = this.driveDist.add(BigDecimal.valueOf(additionalDist));
+        this.endLatitude = newLatitude;
+        this.endLongitude = newLongitude;
+        return additionalDist;
     }
 
     @PrePersist

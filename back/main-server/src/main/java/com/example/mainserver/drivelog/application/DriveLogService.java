@@ -48,7 +48,7 @@ public class DriveLogService {
                 .speed(request.getSpeed())
                 .build();
 
-        // 좌표 기반으로 주행거리 자동 계산
+        // driveDist 계산
         driveLog.calculateDriveDist();
         
         log.info("Calculated driveDist for car {}: {} km", 
@@ -64,6 +64,53 @@ public class DriveLogService {
         }
 
         return savedLog;
+    }
+
+    // 차량ID로 현재 진행 중인 드라이브 로그 찾아서 실시간 위치 업데이트
+    @Transactional
+    public DriveLog updateCurrentDriveLogLocation(Long carId, String newLatitude, String newLongitude) {
+        // 현재 진행 중인 드라이브 로그 찾기 (endTime이 null인 가장 최근 기록)
+        List<DriveLog> activeLogs = driveLogRepository.findByCarId(carId);
+        
+        DriveLog currentLog = activeLogs.stream()
+                .filter(log -> log.getEndTime() == null)
+                .max((log1, log2) -> log1.getStartTime().compareTo(log2.getStartTime()))
+                .orElse(null);
+        
+        if (currentLog == null) {
+            log.debug("No active drive log found for car {}", carId);
+            return null;
+        }
+        
+        // 실시간 위치 업데이트 및 거리 누적
+        double additionalDist = currentLog.updateWithNewLocation(newLatitude, newLongitude);
+        log.info("Updated current drive log {} for car {}: +{} km", 
+                currentLog.getDriveLogId(), carId, additionalDist);
+        
+        // 차량 sumDist 업데이트
+        if (additionalDist > 0) {
+            carService.updateSumDist(carId, additionalDist);
+        }
+        
+        return driveLogRepository.save(currentLog);
+    }
+
+    // 실시간 좌표 업데이트 + driveDist 누적 + 차량 sumDist 업데이트
+    @Transactional
+    public DriveLog addRealTimeLocation(Long driveLogId, String newLatitude, String newLongitude) {
+        DriveLog driveLog = driveLogRepository.findById(driveLogId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 주행 기록이 없습니다: " + driveLogId));
+
+        // 새 좌표로 거리 계산 후 driveDist 누적
+        double additionalDist = driveLog.updateWithNewLocation(newLatitude, newLongitude);
+        log.info("Updated driveDist for driveLog {}: +{} km", driveLogId, additionalDist);
+
+        // 차량 sumDist 업데이트
+        if (additionalDist > 0){
+            carService.updateSumDist(driveLog.getCarId(), additionalDist);
+        }
+
+        return driveLog;
     }
 
     public List<DriveLog> getAllLogs() {
