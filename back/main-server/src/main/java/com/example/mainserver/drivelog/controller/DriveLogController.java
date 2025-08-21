@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -131,5 +131,16 @@ public class DriveLogController {
                 .driveDist(log.getDriveDist())
                 .createdAt(log.getCreatedAt())
                 .build();
+    }
+    @GetMapping("/excel")
+    public void downloadDriveLogsExcel(
+            DriveLogFilterRequestDto filterDto, // 프론트와 동일한 방식의 요청 파라미터
+            HttpServletResponse response) throws Exception {
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=drive_logs.xlsx");
+
+        // 원하는 조건의 리스트 조회. (페이징 없이 전체, 혹은 화면 리스트)
+        List<DriveLogFilterResponseDto> dtos = driveLogService.getFilteredDriveLogs(filterDto);
+        driveLogService.writeDriveLogsToExcel(response.getOutputStream(), dtos);
     }
 }
