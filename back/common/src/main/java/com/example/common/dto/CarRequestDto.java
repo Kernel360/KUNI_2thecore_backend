@@ -34,8 +34,10 @@ public class CarRequestDto {
     @Builder.Default
     private Double sumDist = 0.00;
 
+    @NotNull(groups = CreateGroup.class)
     private String lastLatitude;
 
+    @NotNull(groups = CreateGroup.class)
     private String lastLongitude;
 
     @AssertTrue(message = "차량 연식이 올바르지 않습니다.", groups = {CreateGroup.class, Default.class})
