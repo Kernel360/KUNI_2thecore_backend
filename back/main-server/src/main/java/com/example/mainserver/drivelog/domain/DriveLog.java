@@ -2,10 +2,7 @@ package com.example.mainserver.drivelog.domain;
 
 import com.example.mainserver.drivelog.util.DistanceCalculator;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "drive_log")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DriveLog {
@@ -53,20 +51,20 @@ public class DriveLog {
     @Column(name = "drive_dist", precision = 10, scale = 2, nullable = false)
     private BigDecimal driveDist;
 
-    @Column(length = 45, nullable = false)
-    private String speed;
-
     @Column(name = "created_at", nullable = false, updatable = false) // 수정 불가
     private LocalDateTime createdAt;
 
     private String memo;
+
+    private String model;
+    private String brand;
 
 
     // 생성자
     @Builder
     public DriveLog(Long driveLogId, Long carId, String startPoint, String startLatitude, String startLongitude,
                     LocalDateTime startTime, String endPoint, String endLatitude, String endLongitude,
-                    LocalDateTime endTime, BigDecimal driveDist, String speed, String memo, LocalDateTime createdAt) {
+                    LocalDateTime endTime, BigDecimal driveDist, String memo, LocalDateTime createdAt) {
 
         this.driveLogId = driveLogId;
         this.carId = carId;
@@ -79,7 +77,6 @@ public class DriveLog {
         this.endLongitude = endLongitude;
         this.endTime = endTime;
         this.driveDist = driveDist;
-        this.speed = speed;
         this.memo = memo;
         this.createdAt = createdAt;
     }

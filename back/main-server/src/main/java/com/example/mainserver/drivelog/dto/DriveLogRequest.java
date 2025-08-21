@@ -23,6 +23,5 @@ public class DriveLogRequest {
     private String endLongitude;
     private LocalDateTime endTime;
     private BigDecimal driveDist;
-    private String speed;
     // createdAt은 요청하는 값이 아니므로 제외
 }

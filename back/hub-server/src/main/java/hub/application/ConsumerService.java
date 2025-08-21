@@ -44,13 +44,13 @@ public class ConsumerService {
                 .sorted(Comparator.comparing(GpsLogDto.Gps::getTimestamp))
                 .toList();
 
+        lastPositionUpdator.scheduleEverySecond(carEntity.getCarNumber(), sortedGpsList);
+
         var entities = sortedGpsList.stream()
                 .map(g -> new GpsLogEntity(gpsLogDto.getCarNumber(), g.getLatitude(), g.getLongitude(), g.getTimestamp()))
                 .toList();
 
         gpsLogRepository.saveAll(entities);
-
-        lastPositionUpdator.scheduleEverySecond(carEntity.getCarNumber(), sortedGpsList);
 
 //        //정렬된 리스트 차례로 저장
 //        for (GpsLogDto.Gps gps : sortedGpsList) {

@@ -63,4 +63,11 @@ public class CarReaderImpl implements CarReader {
         return List.of();
     }
 
+    @Override
+    public Integer getIdfromNumber(String carNumber) {
+        return carRepository.findByCarNumber(carNumber)
+                .map(CarEntity::getId)
+                .orElse(null); // 또는 0 같은 특별한 기본값
+    }
+
 }
