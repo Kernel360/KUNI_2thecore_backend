@@ -63,7 +63,9 @@ public class SecurityConfig {
                                 "/api/drivelogs/start",
                                 "/api/drivelogs/end",
                                 // 허브 서버에서 호출하는 실시간 위치 업데이트 API
-                                "/api/drivelogs/update-location"
+                                "/api/drivelogs/update-location",
+                                // 엑셀 다운로드 API
+                                "/api/drivelogs/excel"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
