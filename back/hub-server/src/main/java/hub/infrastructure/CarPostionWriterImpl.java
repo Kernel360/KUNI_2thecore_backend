@@ -28,7 +28,6 @@ public class CarPostionWriterImpl implements CarPositionWriter {
 
     @Override
     @Transactional
-    @Async
     public void updateOnce(String carNumber, String lat, String lon) {
 
         Optional<CarEntity> optionalCar = carRepository.findByCarNumber(carNumber);

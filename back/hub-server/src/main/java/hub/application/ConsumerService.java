@@ -26,6 +26,7 @@ public class ConsumerService {
     private final CarRepository carRepository;
     private final LastPositionUpdator lastPositionUpdator;
 
+    @Async
     @Transactional
     @RabbitListener(queues = "gps.data.queue", errorHandler = "gpsConsumerErrorHandler")
     public void gpsConsumer(GpsLogDto gpsLogDto) {
