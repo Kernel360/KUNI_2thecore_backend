@@ -95,23 +95,6 @@ public class DriveLogService {
         return driveLogRepository.save(currentLog);
     }
 
-    // 실시간 좌표 업데이트 + driveDist 누적 + 차량 sumDist 업데이트
-    @Transactional
-    public DriveLog addRealTimeLocation(Long driveLogId, String newLatitude, String newLongitude) {
-        DriveLog driveLog = driveLogRepository.findById(driveLogId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 주행 기록이 없습니다: " + driveLogId));
-
-        // 새 좌표로 거리 계산 후 driveDist 누적
-        double additionalDist = driveLog.updateWithNewLocation(newLatitude, newLongitude);
-        log.info("Updated driveDist for driveLog {}: +{} km", driveLogId, additionalDist);
-
-        // 차량 sumDist 업데이트
-        if (additionalDist > 0){
-            carService.updateSumDist(driveLog.getCarId(), additionalDist);
-        }
-
-        return driveLog;
-    }
 
     public List<DriveLog> getAllLogs() {
         return driveLogRepository.findAll();
