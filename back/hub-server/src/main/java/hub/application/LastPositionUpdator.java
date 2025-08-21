@@ -20,7 +20,7 @@ public class LastPositionUpdator {
 
     public void scheduleEverySecond(String carNumber, List<GpsLogDto.Gps> sorted) {
 
-        final int CHUNK = 5;
+        final int CHUNK = 3;
 
         var latestPerChunk = new ArrayList<GpsLogDto.Gps>();
 
@@ -37,7 +37,7 @@ public class LastPositionUpdator {
             if (i >= latestPerChunk.size()) {
                 var f = ref.get();
                 if (f != null) f.cancel(false);
-                log.info("car {} 5s pacing done ({} chunks)", carNumber, latestPerChunk.size());
+                log.info("car {} pacing done ({} chunks)", carNumber, latestPerChunk.size());
                 return;
             }
             var g = latestPerChunk.get(i);
@@ -45,12 +45,11 @@ public class LastPositionUpdator {
             carPostionWriterImpl.updateOnce(carNumber, g.getLatitude(), g.getLongitude());
         };
 
-        var f = scheduledExecutorService.scheduleAtFixedRate(task, 0, 5, java.util.concurrent.TimeUnit.SECONDS);
+        var f = scheduledExecutorService.scheduleAtFixedRate(task, 0, 3, java.util.concurrent.TimeUnit.SECONDS);
+
         ref.set(f);
+
         log.info("car {} scheduled {} chunked updates (every 5s)", carNumber, latestPerChunk.size());
-
     }
-
-
 }
 
