@@ -28,26 +28,30 @@ public class CollectorService {
 
     public GpsLogResponseDto getGpsLog(GpsLogDto gpsLogDto) {
 
+        log.info("consumer 시작 차량 번호 : {}, gpslogdto: {}", gpsLogDto.getCarNumber(), gpsLogDto.getLogList());
+
         if (gpsLogDto.getLogList().isEmpty()) {
             throw new GpsLogNotFoundException();
         }
 
         String carNumber = gpsLogDto.getCarNumber();
-        List<GpsLogDto.Gps> validGpsData = new ArrayList<>();
+//        List<GpsLogDto.Gps> validGpsData = new ArrayList<>();
+//
+//        for (GpsLogDto.Gps gps : gpsLogDto.getLogList()) {
+//            // Deletion은 이벤트 감지용으로만 사용하며, 데이터 자체를 필터링하지 않음
+//            gpxExceptionHandler.isDeletion(gps, carNumber);
+//
+//            // Spike나 Freeze가 아닌 유효한 데이터만 리스트에 추가
+//            if (!gpxExceptionHandler.isSpike(gps, carNumber) && !gpxExceptionHandler.isFreeze(gps, carNumber)) {
+//                validGpsData.add(gps);
+//            }
+//            // 다음 비교를 위해 항상 현재 포인트를 이전 포인트로 업데이트
+//            gpxExceptionHandler.updatePreviousPoint(gps, carNumber);
+//        }
 
-        for (GpsLogDto.Gps gps : gpsLogDto.getLogList()) {
-            // Deletion은 이벤트 감지용으로만 사용하며, 데이터 자체를 필터링하지 않음
-            gpxExceptionHandler.isDeletion(gps, carNumber);
+        log.info("valid consumer 시작 차량 번호 : {}, gpslogdto: {}", gpsLogDto.getCarNumber(), gpsLogDto.getLogList());
 
-            // Spike나 Freeze가 아닌 유효한 데이터만 리스트에 추가
-            if (!gpxExceptionHandler.isSpike(gps, carNumber) && !gpxExceptionHandler.isFreeze(gps, carNumber)) {
-                validGpsData.add(gps);
-            }
-            // 다음 비교를 위해 항상 현재 포인트를 이전 포인트로 업데이트
-            gpxExceptionHandler.updatePreviousPoint(gps, carNumber);
-        }
-
-        gpsLogDto.setLogList(validGpsData);
+//        gpsLogDto.setLogList();
 
         log.info("gpslog가 발행되었습니다. :{}", gpsLogDto);
         // db 저장후 event를 발생시킨다 rabbitmq 메세지 삽입
