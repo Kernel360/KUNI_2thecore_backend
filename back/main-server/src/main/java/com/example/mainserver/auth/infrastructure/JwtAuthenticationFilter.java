@@ -126,8 +126,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                response.setHeader("New-Access-Token", newTokens.getAccessToken());
-                response.setHeader("Access-Control-Expose-Headers", "New-Access-Token");
+                response.setHeader("new-access-token", newTokens.getAccessToken());
+                response.setHeader("Access-Control-Expose-Headers", "new-access-token");
 
                 filterChain.doFilter(request, response);
 
