@@ -52,8 +52,8 @@ public class CollectorService {
         log.info("valid consumer 시작 차량 번호 : {}, gpslogdto: {}", gpsLogDto.getCarNumber(), gpsLogDto.getLogList());
 
 //        gpsLogDto.setLogList();
-
         log.info("gpslog가 발행되었습니다. :{}", gpsLogDto);
+      
         // db 저장후 event를 발생시킨다 rabbitmq 메세지 삽입
         gpsLogProducer.sendLogs(gpsLogDto);
 
