@@ -185,47 +185,34 @@ public class DriveLogService {
 
         Long carId = Long.valueOf(carReader.getIdfromNumber(request.getCarNumber()));
         
-        // 위도 경도 endpoint(역지오코딩)
-        String endPoint = reverseGeoCodingService.reverseGeoCoding(request.getEndLongitude(), request.getEndLatitude());
-        
-        log.info("Attempting to end drive for car {}: endTime={}", request.getCarNumber(), request.getEndTime());
-        
-        // 직접 UPDATE 쿼리로 활성 DriveLog 업데이트 (동시성 안전)
-        int updatedRows = driveLogRepository.updateEndTimeForActiveDriveLog(
-            carId, 
-            request.getEndLatitude(),
-            request.getEndLongitude(), 
-            request.getEndTime(),
-            endPoint
-        );
-        
-        if (updatedRows == 0) {
+        // 활성 로그 찾기 (startTime 방식과 동일)
+        DriveLog driveLog = driveLogRepository.findActiveLogByCarId(carId)
+                .orElse(null);
+
+        if (driveLog == null) {
             throw new IllegalArgumentException("해당 차량의 진행 중 주행기록이 없습니다: " + request.getCarNumber());
         }
+
+        log.info("Found active drive log for car {}: driveLogId={}, startTime={}", 
+                request.getCarNumber(), driveLog.getDriveLogId(), driveLog.getStartTime());
+
+        // 위도 경도 endpoint(역지오코딩)
+        String endPoint = reverseGeoCodingService.reverseGeoCoding(request.getEndLongitude(), request.getEndLatitude());
+
+        // end 정보 삽입 (startTime 방식과 동일)
+        driveLog.setEndLatitude(request.getEndLatitude());
+        driveLog.setEndLongitude(request.getEndLongitude());
+        driveLog.setEndTime(request.getEndTime());
+        driveLog.setEndPoint(endPoint);
+
+        // 주행 종료 시에는 실시간으로 이미 누적된 거리를 유지
+        // calculateDriveDist()를 호출하지 않음 - 실시간 누적 거리 보존
+
+        DriveLog savedLog = driveLogRepository.save(driveLog);
         
-        log.info("Updated {} rows for car {}", updatedRows, request.getCarNumber());
+        log.info("Drive ended for car {}: endTime={}", request.getCarNumber(), savedLog.getEndTime());
         
-        // 업데이트된 레코드를 다시 조회
-        DriveLog updatedLog = driveLogRepository.findActiveLogByCarId(carId)
-                .orElse(null);
-                
-        // 만약 업데이트 후에도 활성 로그가 없다면 (endTime이 설정되어 활성이 아님), 가장 최근 로그 조회
-        if (updatedLog == null) {
-            List<DriveLog> allLogs = driveLogRepository.findByCarId(carId);
-            updatedLog = allLogs.stream()
-                    .filter(log -> log.getEndTime() != null && log.getEndTime().equals(request.getEndTime()))
-                    .max((log1, log2) -> log1.getStartTime().compareTo(log2.getStartTime()))
-                    .orElse(null);
-        }
-        
-        if (updatedLog == null) {
-            throw new IllegalStateException("업데이트 후 DriveLog 조회 실패: " + request.getCarNumber());
-        }
-        
-        log.info("Drive ended successfully for car {}: driveLogId={}, endTime={}", 
-                request.getCarNumber(), updatedLog.getDriveLogId(), updatedLog.getEndTime());
-        
-        return updatedLog;
+        return savedLog;
     }
 
     public void writeDriveLogsToExcel(OutputStream os, List<DriveLogFilterResponseDto> dtos) throws Exception {
