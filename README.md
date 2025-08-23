@@ -50,7 +50,7 @@
 
 ## 시스템 아키텍처
 
-<img width="1481" height="954" alt="image" src="https://github.com/user-attachments/assets/1dd4a264-768b-47af-a69e-34fcc0e85905" />
+<img width="1383" height="1049" alt="image" src="https://github.com/user-attachments/assets/cb5c72aa-2f5e-4fb0-b655-5b79fcfe112b" />
 
 
 - **Jenkins를 이용한 자동배포**
