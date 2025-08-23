@@ -159,14 +159,13 @@ public class AuthService {
 
 
     private void sendRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
-                .httpOnly(true)
-                .secure(false) // HTTPS 환경이면 true
-                .path("/")
-                .maxAge(Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS))
-                .sameSite("Lax") // cross-site 요청이면 "None" 필요
-                .build();
-
-        response.addHeader("Set-Cookie", cookie.toString());
+        // Cross-origin 환경을 위한 쿠키 설정 (SameSite 제거)
+        String cookieValue = String.format(
+            "refreshToken=%s; Path=/; Max-Age=%d; HttpOnly",
+            refreshToken,
+            Duration.ofDays(REFRESH_TOKEN_EXPIRE_DAYS).toSeconds()
+        );
+        
+        response.addHeader("Set-Cookie", cookieValue);
     }
 }

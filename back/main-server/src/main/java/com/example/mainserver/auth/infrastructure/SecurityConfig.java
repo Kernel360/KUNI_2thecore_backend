@@ -58,8 +58,14 @@ public class SecurityConfig {
                                 "/actuator/health/**",
                                 "/actuator/info",
                                 //테스트를 위한 로그인 우회
-                                "/api/logs/**"
-
+                                "/api/logs/**",
+                                // 에뮬레이터 연동용: 주행 시작/종료 화이트리스트
+                                "/api/drivelogs/start",
+                                "/api/drivelogs/end",
+                                // 허브 서버에서 호출하는 실시간 위치 업데이트 API
+                                "/api/drivelogs/update-location",
+                                // 엑셀 다운로드 API
+                                "/api/drivelogs/excel"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -81,12 +87,13 @@ public class SecurityConfig {
                 "http://localhost:3006",
                 "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com", // 배포 도메인
                 "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com", // 배포 도메인 2
-                "http://15.165.171.174:8081" //emulator-server
+                "http://15.165.171.174:8081", //emulator-server
+                "http://localhost:8081"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(List.of("Set-Cookie"));
+        configuration.setExposedHeaders(List.of("Set-Cookie", "new-access-token", "Content-Disposition"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

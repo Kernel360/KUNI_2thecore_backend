@@ -17,14 +17,16 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.example.mainserver.car.domain",
 		"com.example.common.domain",
 		"com.example.mainserver.collector.domain",
-		"com.example.mainserver.drivelog.domain"
+		"com.example.mainserver.drivelog.domain",
+		"com.example.mainserver.dashboard.domain"
 })
 @EnableJpaRepositories(basePackages = {
 		"com.example.mainserver.admin.infrastructure",
 		"com.example.mainserver.car.infrastructure",
 		"com.example.common.infrastructure",
 		"com.example.mainserver.collector.infrastructure",
-		"com.example.mainserver.drivelog.domain"
+		"com.example.mainserver.drivelog.domain",
+		"com.example.mainserver.dashboard.infrastructure"
 })
 public class MainApplication {
 

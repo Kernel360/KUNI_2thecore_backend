@@ -11,6 +11,7 @@ import lombok.*;
 @ToString
 @Entity(name = "Car")
 @Table(name = "car")
+@Getter
 
 public class CarEntity {
     @Id

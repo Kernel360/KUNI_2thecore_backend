@@ -24,6 +24,7 @@ public class ConsumerService {
 
     private final GpsLogRepository gpsLogRepository;
     private final CarRepository carRepository;
+    private final LastPositionUpdator lastPositionUpdator;
 
     @Async
     @Transactional
@@ -43,32 +44,43 @@ public class ConsumerService {
                 .sorted(Comparator.comparing(GpsLogDto.Gps::getTimestamp))
                 .toList();
 
-        //정렬된 리스트 차례로 저장
-        for (GpsLogDto.Gps gps : sortedGpsList) {
-            try {
-                GpsLogEntity gpsLogEntity = new GpsLogEntity(
-                        gpsLogDto.getCarNumber(),
-                        gps.getLatitude(),
-                        gps.getLongitude(),
-                        gps.getTimestamp()
-                );
-                gpsLogRepository.save(gpsLogEntity);
 
-                carEntity.setLastLatitude(gps.getLatitude());
-                carEntity.setLastLongitude(gps.getLongitude());
-                carRepository.save(carEntity);
+        var entities = sortedGpsList.stream()
+                .map(g -> new GpsLogEntity(gpsLogDto.getCarNumber(), g.getLatitude(), g.getLongitude(), g.getTimestamp()))
+                .toList();
 
-                log.info("Updated car {} position to lat: {}, lon: {}. Waiting 1 second.",
-                        gpsLogDto.getCarNumber(), gps.getLatitude(), gps.getLongitude());
+        gpsLogRepository.saveAll(entities);
 
-                Thread.sleep(1000);
 
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                log.error("Thread interrupted during 1-second delay.", e);
-                break;
-            }
-        }
-        log.info("Finished processing all GPS logs for car: {}", gpsLogDto.getCarNumber());
+        log.info("청크 시작 전 carNumber : {}, logDto : {}", carEntity.getCarNumber(), sortedGpsList);
+        lastPositionUpdator.scheduleEverySecond(carEntity.getCarNumber(), sortedGpsList);
+//        //정렬된 리스트 차례로 저장
+//        for (GpsLogDto.Gps gps : sortedGpsList) {
+//            try {
+//                GpsLogEntity gpsLogEntity = new GpsLogEntity(
+//                        gpsLogDto.getCarNumber(),
+//                        gps.getLatitude(),
+//                        gps.getLongitude(),
+//                        gps.getTimestamp()
+//                );
+//                gpsLogRepository.save(gpsLogEntity);
+//
+//                carEntity.setLastLatitude(gps.getLatitude());
+//                carEntity.setLastLongitude(gps.getLongitude());
+//                carRepository.save(carEntity);
+//
+//                log.info("Updated car {} position to lat: {}, lon: {}. Waiting 1 second.",
+//                        gpsLogDto.getCarNumber(), gps.getLatitude(), gps.getLongitude());
+//
+//                Thread.sleep(1000);
+//
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//                log.error("Thread interrupted during 1-second delay.", e);
+//                break;
+//            }
+//        }
+//        log.info("Finished processing all GPS logs for car: {}", gpsLogDto.getCarNumber());
+//    }
     }
 }

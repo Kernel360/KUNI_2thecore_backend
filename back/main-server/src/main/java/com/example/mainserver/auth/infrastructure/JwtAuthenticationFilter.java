@@ -6,7 +6,6 @@ import com.example.common.exception.TokenExpiredException;
 import com.example.common.domain.auth.JwtTokenProvider;
 import com.example.mainserver.auth.domain.TokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.common.dto.ApiResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -49,7 +48,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.startsWith("/api/admin/signup")
                 || path.startsWith("/actuator/prometheus")
                 || path.startsWith("/api/logs/gps")
-                || path.startsWith("/api/logs/gps-direct");
+                || path.startsWith("/api/logs/gps-direct")
+                // Emulator/collector integration: allow without auth
+                || path.startsWith("/api/drivelogs/start")
+                || path.startsWith("/api/drivelogs/end")
+                || path.startsWith("/api/drivelogs/update-location")
+                || path.startsWith("/api/logs")
+                || path.equals("/api/drivelogs/excel");
     }
 
     @Override
@@ -121,8 +126,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                response.setHeader("New-Access-Token", newTokens.getAccessToken());
-                response.setHeader("Access-Control-Expose-Headers", "New-Access-Token");
+                response.setHeader("new-access-token", newTokens.getAccessToken());
+                response.setHeader("Access-Control-Expose-Headers", "new-access-token");
 
                 filterChain.doFilter(request, response);
 

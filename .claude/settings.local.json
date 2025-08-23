@@ -8,7 +8,9 @@
       "Bash(curl:*)",
       "Bash(./gradlew:*)",
       "Bash(java:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(docker logs:*)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []

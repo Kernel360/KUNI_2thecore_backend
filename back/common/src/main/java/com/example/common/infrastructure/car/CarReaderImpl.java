@@ -28,6 +28,11 @@ public class CarReaderImpl implements CarReader {
         return carRepository.findByCarNumber(carNumber);
     }
 
+    @Override
+    public Optional<CarEntity> findById(Integer carId) {
+        return carRepository.findById(carId);
+    }
+
 //    public List<CarEntity> findAll(){
 //        return carRepository.findAll();
 //    }
@@ -56,6 +61,13 @@ public class CarReaderImpl implements CarReader {
     @Override
     public List<CarEntity> findAll() {
         return List.of();
+    }
+
+    @Override
+    public Integer getIdfromNumber(String carNumber) {
+        return carRepository.findByCarNumber(carNumber)
+                .map(CarEntity::getId)
+                .orElse(null); // 또는 0 같은 특별한 기본값
     }
 
 }

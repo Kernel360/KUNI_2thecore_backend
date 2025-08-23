@@ -76,6 +76,10 @@ public class CarService {
         if (isCarNumberExists) {
             throw new CarAlreadyExistsException(carRequest.getCarNumber());
         }
+
+        String latitude = String.format("%.4f", Double.parseDouble(carRequest.getLastLatitude()));
+        String longitude = String.format("%.4f", Double.parseDouble(carRequest.getLastLongitude()));
+
         var entity = CarEntity.builder()
                 .loginId(loginId)
                 .brand(carRequest.getBrand())
@@ -87,8 +91,8 @@ public class CarService {
                 .carType(carRequest.getCarType())
                 .carNumber(carRequest.getCarNumber())
                 .sumDist(carRequest.getSumDist())
-                .lastLatitude(carRequest.getLastLatitude())
-                .lastLongitude(carRequest.getLastLongitude())
+                .lastLatitude(latitude)
+                .lastLongitude(longitude)
                 .build();
 
         return CarDetailDto.EntityToDto(carWriter.save(entity));
@@ -138,5 +142,22 @@ public class CarService {
         return cars.stream()
                 .map(CarLocationDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 주행기록 추가 시 차량의 sumDist를 자동으로 업데이트합니다.
+     * @param carId 차량 ID
+     * @param additionalDistance 추가할 주행거리 (km)
+     */
+    public void updateSumDist(Long carId, double additionalDistance) {
+        var car = carReader.findById(carId.intValue())
+                .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND, String.valueOf(carId)));
+        
+        double newSumDist = car.getSumDist() + additionalDistance;
+        car.setSumDist(newSumDist);
+        carWriter.save(car);
+        
+        log.info("Car {} sumDist updated: +{} km, total: {} km", 
+                car.getCarNumber(), additionalDistance, newSumDist);
     }
 }

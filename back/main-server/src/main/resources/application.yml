@@ -16,6 +16,11 @@ management:
 
 
 spring:
+
+  jackson:
+    time-zone: Asia/Seoul
+
+
   main:
     allow-bean-definition-overriding: true
     banner-mode: "off" # 콘솔 배너 비활성화
@@ -69,4 +74,10 @@ server:
 # 메인서버 로깅
 logging:
   config: classpath:logback-spring.xml
+  level:
+    com.example.mainserver.drivelog: DEBUG
+
+kakao:
+  api:
+    key: ${KAKAO_REST_API_KEY}
 
