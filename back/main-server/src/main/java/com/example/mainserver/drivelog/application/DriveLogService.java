@@ -208,10 +208,23 @@ public class DriveLogService {
         driveLog.setEndTime(request.getEndTime());
         driveLog.setEndPoint(endPoint);
 
+        // 저장 전 상태 로깅
+        log.info("Before save - DriveLog {}: endTime={}", driveLog.getDriveLogId(), driveLog.getEndTime());
+
         // 주행 종료 시에는 실시간으로 이미 누적된 거리를 유지
         // calculateDriveDist()를 호출하지 않음 - 실시간 누적 거리 보존
 
         DriveLog savedLog = driveLogRepository.save(driveLog);
+        
+        // 저장 후 상태 로깅
+        log.info("After save - DriveLog {}: endTime={}", savedLog.getDriveLogId(), savedLog.getEndTime());
+        
+        // DB에서 다시 조회해서 실제 저장 확인
+        DriveLog verifyLog = driveLogRepository.findById(savedLog.getDriveLogId()).orElse(null);
+        log.info("DB verification - DriveLog {}: endTime={}", 
+                verifyLog != null ? verifyLog.getDriveLogId() : "null", 
+                verifyLog != null ? verifyLog.getEndTime() : "null");
+        
         log.info("Drive ended for car {}: endTime={}", request.getCarNumber(), savedLog.getEndTime());
         
         return savedLog;
