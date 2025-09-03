@@ -10,7 +10,6 @@ pipeline {
 
   environment {
     DEPLOY_HOST = '43.203.110.104'   // EC2 퍼블릭 IP 또는 DNS
-    PEM_PATH    = '/var/lib/jenkins/.ssh/kernel-2thecore.pem'
     BUNDLE_DIR  = 'deploy'
   }
 
@@ -80,27 +79,31 @@ pipeline {
 
     stage('Deploy to EC2 via SSH') {
       steps {
-        sh '''#!/bin/bash
-        # 번들 전송
-        scp -o StrictHostKeyChecking=no -i ${PEM_PATH} backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
-
-        # 원격 배포
-        ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} 'bash -lc "
+        sshagent(credentials: ['2thecore-ec2']) {
+          sh '''#!/bin/bash
           set -euo pipefail
-          rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
-          tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
 
-          cd ~/backend-deploy
+          # 번들 전송
+          scp backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
 
-          docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
-          docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
-          docker compose down --remove-orphans 2>/dev/null || true
+          # 원격 배포
+          ssh ubuntu@${DEPLOY_HOST} 'bash -lc "
+            set -euo pipefail
+            rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
+            tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
 
-          docker compose --env-file ./prod.env up -d --build
+            cd ~/backend-deploy
 
-          rm -f ~/backend-bundle.tar || true
-        "'
-        '''
+            docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
+            docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
+            docker compose down --remove-orphans 2>/dev/null || true
+
+            docker compose --env-file ./prod.env up -d --build
+
+            rm -f ~/backend-bundle.tar || true
+          "'
+          '''
+        }
       }
     }
   }
