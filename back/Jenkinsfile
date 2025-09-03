@@ -11,7 +11,7 @@ pipeline {
 
   environment {
     DEPLOY_HOST = '43.203.110.104'
-    PEM_PATH    = '/var/lib/jenkins/.ssh/yeojin.pem'
+    PEM_PATH    = '/var/lib/jenkins/.ssh/kernel-2thecore.pem'
     BUNDLE_DIR  = 'deploy'     // 배포 번들 작업 디렉토리
   }
 
