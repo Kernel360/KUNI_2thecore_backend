@@ -27,10 +27,10 @@ spring:
 
   datasource:
     hikari:
-
-      maxLifetime: 1800000   # 30분 (MySQL timeout 보다 확실히 짧게)
-      idleTimeout: 600000    # 10분
-      keepaliveTime: 300000  # 5분마다 ping (Spring Boot 2.3+ 가능)
+      maximum-pool-size: 10
+      maxLifetime: 1800000
+      idleTimeout: 600000
+      keepaliveTime: 300000
       connectionTimeout: 30000
 
     url: ${DB_URL}

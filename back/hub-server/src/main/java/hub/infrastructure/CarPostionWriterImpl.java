@@ -84,7 +84,7 @@ public class CarPostionWriterImpl implements CarPositionWriter {
         }
         
         try {
-            String url = "http://52.78.122.150:8080/api/drivelogs/update-location";
+            String url = "http://43.203.110.104:8080/api/drivelogs/update-location";
             
             // 요청 DTO 생성 (간단한 Map 사용)
             var request = new java.util.HashMap<String, Object>();

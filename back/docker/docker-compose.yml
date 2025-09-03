@@ -68,8 +68,8 @@ services:
 
   main-server:
     build:
-      context: .
-      dockerfile: Dockerfile.main
+      context: ../main-server
+      dockerfile: Dockerfile
     image: yeonjin529/main-server-img:latest
     container_name: 2thecore-main
     ports:

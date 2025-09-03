@@ -92,7 +92,7 @@ public class CollectorService {
 
         log.info(request.toString());
 
-        var url = "http://52.78.122.150:8082/api/hub/gps-direct";
+        var url = "http://43.203.110.104:8082/api/hub/gps-direct";
 
         var response = restTemplate.postForEntity(url, request, String.class);
 
