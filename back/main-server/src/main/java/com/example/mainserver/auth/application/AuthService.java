@@ -117,7 +117,7 @@ public class AuthService {
         String accessToken = extractAccessTokenFromHeader(request);
 
         if (accessToken != null && jwtTokenProvider.validateTokenSignature(accessToken) && !jwtTokenProvider.isTokenExpired(accessToken)) {
-            return ApiResponse.success("엑세스 토큰 유효", new AutoLoginResponse(accessToken));
+            return ApiResponse.success("엑세스 토큰 유효합니다.", new AutoLoginResponse(accessToken));
         }
 
         String refreshToken = extractRefreshTokenFromCookie(request, "refreshToken");
