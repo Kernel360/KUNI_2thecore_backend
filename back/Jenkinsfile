@@ -52,7 +52,7 @@ pipeline {
         '''
       }
     }
-
+       // 젠킨스 확인
     stage('Assemble deploy bundle') {
       steps {
         // prod.env 를 Jenkins Credentials(Secret file)에서 가져와 번들에 포함
