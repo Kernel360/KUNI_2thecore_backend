@@ -10,7 +10,7 @@ pipeline {
 
   environment {
     DEPLOY_HOST = '43.203.110.104'
-    BUNDLE_DIR  = 'deploy'     // 배포 번들 작업 디렉토리
+    BUNDLE_DIR  = 'deploy'
   }
 
   stages {
@@ -37,16 +37,16 @@ pipeline {
 
     stage('Build JARs (main, hub)') {
       steps {
-        sh '''
-          set -e
-          cd back
-          chmod +x gradlew
+        sh '''#!/bin/bash
+        set -e
+        cd back
+        chmod +x gradlew
 
-          ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
-            :main-server:bootJar -x test
+        ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
+          :main-server:bootJar -x test
 
-          ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
-            :hub-server:bootJar -x test
+        ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
+          :hub-server:bootJar -x test
         '''
       }
     }
@@ -54,25 +54,28 @@ pipeline {
     stage('Assemble deploy bundle') {
       steps {
         withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
-          sh '''
-            set -e
+          sh '''#!/bin/bash
+          set -e
 
-            rm -rf ${BUNDLE_DIR}
-            mkdir -p ${BUNDLE_DIR}/release/main-server
-            mkdir -p ${BUNDLE_DIR}/release/hub-server
+          rm -rf ${BUNDLE_DIR}
+          mkdir -p ${BUNDLE_DIR}
 
-            cp back/main-server/build/libs/main-server-0.0.1-SNAPSHOT.jar ${BUNDLE_DIR}/release/main-server/app.jar
-            cp back/hub-server/build/libs/hub-server-0.0.1-SNAPSHOT.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
+          # JAR 파일을 번들 루트에 배치
+          cp back/main-server/build/libs/main-server-0.0.1-SNAPSHOT.jar ${BUNDLE_DIR}/app.main.jar
+          cp back/hub-server/build/libs/hub-server-0.0.1-SNAPSHOT.jar   ${BUNDLE_DIR}/app.hub.jar
 
-            cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
-            cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
+          # Dockerfile 복사
+          cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
+          cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
 
-            cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
+          # docker-compose.yml
+          cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
-            install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
+          # prod.env
+          install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
 
-            tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
-            echo "[OK] backend-bundle.tar 생성"
+          tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
+          echo "[OK] backend-bundle.tar 생성"
           '''
         }
       }
@@ -80,7 +83,7 @@ pipeline {
 
     stage('Deploy to EC2 via SSH') {
       steps {
-        sshagent(credentials: ['2thecore-ec2']) {
+        sshagent (credentials: ['2thecore-ec2']) {
           sh '''
             scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
 
@@ -88,7 +91,6 @@ pipeline {
               set -e
               rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
               tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
-
               cd ~/backend-deploy
 
               docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true

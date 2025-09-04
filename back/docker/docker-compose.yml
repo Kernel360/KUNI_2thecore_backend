@@ -5,8 +5,8 @@ services:
     image: rabbitmq:3.13-management
     container_name: 2thecore-rabbitmq
     ports:
-      - "5672:5672"     # AMQP
-      - "15672:15672"   # Management UI
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: "2thecore"
       RABBITMQ_DEFAULT_PASS: "2thecore"
@@ -30,7 +30,6 @@ services:
     networks:
       - rabbitmq_net
     restart: unless-stopped
-    # 선택: 간단 헬스체크
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
@@ -68,8 +67,8 @@ services:
 
   main-server:
     build:
-      context: ../main-server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.main
     image: yeonjin529/main-server-img:latest
     container_name: 2thecore-main
     ports:
@@ -100,3 +99,4 @@ volumes:
 
 networks:
   rabbitmq_net:
+
