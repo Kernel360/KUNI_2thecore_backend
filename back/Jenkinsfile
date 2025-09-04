@@ -9,7 +9,7 @@ pipeline {
   }
 
   environment {
-    DEPLOY_HOST = '43.203.110.104'
+    DEPLOY_HOST = '43.203.110.104'   // EC2 퍼블릭 IP
     BUNDLE_DIR  = 'deploy'
   }
 
@@ -25,7 +25,7 @@ pipeline {
 
     stage('Prepare known_hosts') {
       steps {
-        sh '''#!/bin/bash
+        sh '''
           set -e
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
           ssh-keygen -R ${DEPLOY_HOST} || true
@@ -37,8 +37,9 @@ pipeline {
 
     stage('Build JARs (main, hub)') {
       steps {
-        sh '''#!/bin/bash
-          set -euo pipefail
+        sh '''
+          #!/bin/bash
+          set -e
           cd back
           chmod +x gradlew
 
@@ -54,23 +55,27 @@ pipeline {
     stage('Assemble deploy bundle') {
       steps {
         withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
-          sh '''#!/bin/bash
-            set -euo pipefail
+          sh '''
+            #!/bin/bash
+            set -e
 
             rm -rf ${BUNDLE_DIR}
             mkdir -p ${BUNDLE_DIR}/release/main-server
             mkdir -p ${BUNDLE_DIR}/release/hub-server
 
-            cp back/main-server/build/libs/*.jar ${BUNDLE_DIR}/release/main-server/app.jar
-            cp back/hub-server/build/libs/*.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
+            # JAR 복사 (정확한 이름 매칭 → app.jar로 변경)
+            cp back/main-server/build/libs/main-server-*.jar ${BUNDLE_DIR}/release/main-server/app.jar
+            cp back/hub-server/build/libs/hub-server-*.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
 
+            # Dockerfile, compose 복사
             cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
             cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
-
             cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
+            # prod.env 추가
             install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
 
+            # 최종 tar 번들 생성
             tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
             echo "[OK] backend-bundle.tar 생성"
           '''
@@ -80,25 +85,28 @@ pipeline {
 
     stage('Deploy to EC2 via SSH') {
       steps {
-        sshagent(credentials: ['2thecore-ec2']) {
-          sh '''#!/bin/bash
-            set -euo pipefail
+        sshagent(credentials: ['ubuntu']) {
+          sh '''
+            #!/bin/bash
+            set -e
 
             # 번들 전송
             scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
 
             # 원격 배포
             ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_HOST} 'bash -lc "
-              set -euo pipefail
+              set -e
               rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
               tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
 
               cd ~/backend-deploy
 
+              # 기존 컨테이너 정리
               docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
               docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
               docker compose down --remove-orphans 2>/dev/null || true
 
+              # 새 빌드 실행
               docker compose --env-file ./prod.env up -d --build
 
               rm -f ~/backend-bundle.tar || true
@@ -111,7 +119,8 @@ pipeline {
 
   post {
     always {
-      sh '''#!/bin/bash
+      sh '''
+        #!/bin/bash
         set -e
         rm -f backend-bundle.tar || true
         rm -rf ${BUNDLE_DIR} || true
