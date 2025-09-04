@@ -29,12 +29,12 @@ pipeline {
     stage('Prepare known_hosts') {
       steps {
         timestamps {
-          sh '''
-            set -e
-            mkdir -p ~/.ssh && chmod 700 ~/.ssh
-            ssh-keygen -R ${DEPLOY_HOST} || true
-            ssh-keyscan -H ${DEPLOY_HOST} >> ~/.ssh/known_hosts 2>/dev/null
-            chmod 600 ~/.ssh/known_hosts
+          sh '''#!/bin/bash
+          set -e
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          ssh-keygen -R ${DEPLOY_HOST} || true
+          ssh-keyscan -H ${DEPLOY_HOST} >> ~/.ssh/known_hosts 2>/dev/null
+          chmod 600 ~/.ssh/known_hosts
           '''
         }
       }
@@ -43,16 +43,16 @@ pipeline {
     stage('Build JARs (main, hub)') {
       steps {
         timestamps {
-          sh '''
-            set -euo pipefail
-            cd back
-            chmod +x gradlew
+          sh '''#!/bin/bash
+          set -euo pipefail
+          cd back
+          chmod +x gradlew
 
-            ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
-              :main-server:bootJar -x test
+          ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
+            :main-server:bootJar -x test
 
-            ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
-              :hub-server:bootJar -x test
+          ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
+            :hub-server:bootJar -x test
           '''
         }
       }
@@ -62,24 +62,24 @@ pipeline {
       steps {
         timestamps {
           withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
-            sh '''
-              set -euo pipefail
+            sh '''#!/bin/bash
+            set -euo pipefail
 
-              rm -rf ${BUNDLE_DIR}
-              mkdir -p ${BUNDLE_DIR}/release/main-server
-              mkdir -p ${BUNDLE_DIR}/release/hub-server
+            rm -rf ${BUNDLE_DIR}
+            mkdir -p ${BUNDLE_DIR}/release/main-server
+            mkdir -p ${BUNDLE_DIR}/release/hub-server
 
-              cp $(ls -t back/main-server/build/libs/*SNAPSHOT.jar | head -n1) ${BUNDLE_DIR}/release/main-server/app.jar
-              cp $(ls -t back/hub-server/build/libs/*SNAPSHOT.jar   | head -n1) ${BUNDLE_DIR}/release/hub-server/app.jar
+            cp $(ls -t back/main-server/build/libs/*SNAPSHOT.jar | head -n1) ${BUNDLE_DIR}/release/main-server/app.jar
+            cp $(ls -t back/hub-server/build/libs/*SNAPSHOT.jar   | head -n1) ${BUNDLE_DIR}/release/hub-server/app.jar
 
-              cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
-              cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
-              cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
+            cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
+            cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
+            cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
-              install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
+            install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
 
-              tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
-              echo "[OK] backend-bundle.tar 생성"
+            tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
+            echo "[OK] backend-bundle.tar 생성"
             '''
           }
         }
@@ -89,24 +89,28 @@ pipeline {
     stage('Deploy to EC2 via SSH') {
       steps {
         timestamps {
-          sh '''
-            scp -o StrictHostKeyChecking=no -i ${PEM_PATH} backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
+          sh '''#!/bin/bash
+          set -euo pipefail
 
-            ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} 'bash -lc "
-              set -euo pipefail
-              rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
-              tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
+          # 번들 전송
+          scp -o StrictHostKeyChecking=no -i ${PEM_PATH} backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
 
-              cd ~/backend-deploy
+          # 원격 배포
+          ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} 'bash -lc "
+            set -euo pipefail
+            rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
+            tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
 
-              docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
-              docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
-              docker compose down --remove-orphans 2>/dev/null || true
+            cd ~/backend-deploy
 
-              docker compose --env-file ./prod.env up -d --build
+            docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
+            docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
+            docker compose down --remove-orphans 2>/dev/null || true
 
-              rm -f ~/backend-bundle.tar || true
-            "'
+            docker compose --env-file ./prod.env up -d --build
+
+            rm -f ~/backend-bundle.tar || true
+          "'
           '''
         }
       }
@@ -116,10 +120,10 @@ pipeline {
   post {
     always {
       timestamps {
-        sh '''
-          set -e
-          rm -f backend-bundle.tar || true
-          rm -rf ${BUNDLE_DIR} || true
+        sh '''#!/bin/bash
+        set -e
+        rm -f backend-bundle.tar || true
+        rm -rf ${BUNDLE_DIR} || true
         '''
         echo "Pipeline finished."
       }
