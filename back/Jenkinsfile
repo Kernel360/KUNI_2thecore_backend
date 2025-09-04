@@ -38,7 +38,6 @@ pipeline {
     stage('Build JARs (main, hub)') {
       steps {
         sh '''
-          #!/bin/bash
           set -e
           cd back
           chmod +x gradlew
@@ -56,7 +55,6 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
           sh '''
-            #!/bin/bash
             set -e
 
             rm -rf ${BUNDLE_DIR}
@@ -82,15 +80,10 @@ pipeline {
 
     stage('Deploy to EC2 via SSH') {
       steps {
-        sshagent(credentials: ['kernel-2thecore']) {   // ✅ Credential ID 수정
+        sshagent(credentials: ['2thecore-ec2']) {
           sh '''
-            #!/bin/bash
-            set -e
-
-            # 번들 전송
             scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
 
-            # 원격 배포
             ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_HOST} 'bash -lc "
               set -e
               rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
