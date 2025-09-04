@@ -3,13 +3,15 @@ pipeline {
 
   options {
     disableConcurrentBuilds()
+    timestamps()
     buildDiscarder(logRotator(daysToKeepStr: '14', numToKeepStr: '20',
                               artifactDaysToKeepStr: '7', artifactNumToKeepStr: '10'))
     timeout(time: 30, unit: 'MINUTES')
   }
 
   environment {
-    DEPLOY_HOST = '43.203.110.104'   // EC2 퍼블릭 IP
+    DEPLOY_HOST = '43.203.110.104'
+    PEM_PATH    = '/var/lib/jenkins/.ssh/kernel-2thecore.pem'  // EC2에 저장된 PEM 키 경로
     BUNDLE_DIR  = 'deploy'
   }
 
@@ -25,26 +27,29 @@ pipeline {
 
     stage('Prepare known_hosts') {
       steps {
-        sh '''#!/bin/bash
-        set -e
-        mkdir -p ~/.ssh && chmod 700 ~/.ssh
-        ssh-keygen -R ${DEPLOY_HOST} || true
-        ssh-keyscan -H ${DEPLOY_HOST} >> ~/.ssh/known_hosts 2>/dev/null
-        chmod 600 ~/.ssh/known_hosts
+        sh '''
+          set -e
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          ssh-keygen -R ${DEPLOY_HOST} || true
+          ssh-keyscan -H ${DEPLOY_HOST} >> ~/.ssh/known_hosts 2>/dev/null
+          chmod 600 ~/.ssh/known_hosts
         '''
       }
     }
 
     stage('Build JARs (main, hub)') {
       steps {
-        sh '''#!/bin/bash
-        set -euo pipefail
+        sh '''
+          set -euo pipefail
+          cd back
+          chmod +x gradlew   ### 수정됨: 실행 권한 보장
 
-        cd back                     ### 수정됨: gradlew, 모듈들이 back/ 디렉토리에 있음
-        chmod +x gradlew            ### 수정됨: gradlew 실행권한 추가
+          # Gradle 빌드
+          ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
+            :main-server:bootJar -x test
 
-        ./gradlew clean :main-server:bootJar -x test
-        ./gradlew clean :hub-server:bootJar -x test
+          ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
+            :hub-server:bootJar -x test
         '''
       }
     }
@@ -52,26 +57,28 @@ pipeline {
     stage('Assemble deploy bundle') {
       steps {
         withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
-          sh '''#!/bin/bash
-          set -euo pipefail
+          sh '''
+            set -euo pipefail
 
-          rm -rf ${BUNDLE_DIR}
-          mkdir -p ${BUNDLE_DIR}/release/main-server
-          mkdir -p ${BUNDLE_DIR}/release/hub-server
+            rm -rf ${BUNDLE_DIR}
+            mkdir -p ${BUNDLE_DIR}/release/main-server
+            mkdir -p ${BUNDLE_DIR}/release/hub-server
 
-          # JAR 복사 (back/ 안에서 가져오기) ### 수정됨: 경로 back/ 추가
-          cp back/main-server/build/libs/*.jar ${BUNDLE_DIR}/release/main-server/app.jar
-          cp back/hub-server/build/libs/*.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
+            # 최신 실행 JAR만 복사 (plain.jar 제외) ### 수정됨
+            cp $(ls -t back/main-server/build/libs/*SNAPSHOT.jar | head -n1) ${BUNDLE_DIR}/release/main-server/app.jar
+            cp $(ls -t back/hub-server/build/libs/*SNAPSHOT.jar   | head -n1) ${BUNDLE_DIR}/release/hub-server/app.jar
 
-          cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main   ### 수정됨: 경로 back/ 추가
-          cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub    ### 수정됨: 경로 back/ 추가
+            # Dockerfile & docker-compose.yml
+            cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
+            cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
+            cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
-          cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml   ### 수정됨: 경로 back/ 추가
+            # prod.env
+            install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
 
-          install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
-
-          tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
-          echo "[OK] backend-bundle.tar 생성"
+            # 번들 압축
+            tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
+            echo "[OK] backend-bundle.tar 생성"
           '''
         }
       }
@@ -79,41 +86,40 @@ pipeline {
 
     stage('Deploy to EC2 via SSH') {
       steps {
-        sshagent(credentials: ['2thecore-ec2']) {
-          sh '''#!/bin/bash
-          set -euo pipefail
-
+        sh '''
           # 번들 전송
-          scp backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
+          scp -o StrictHostKeyChecking=no -i ${PEM_PATH} backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
 
           # 원격 배포
-          ssh ubuntu@${DEPLOY_HOST} 'bash -lc "
+          ssh -o StrictHostKeyChecking=no -i ${PEM_PATH} ubuntu@${DEPLOY_HOST} 'bash -lc "
             set -euo pipefail
             rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
             tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
 
             cd ~/backend-deploy
 
+            # 기존 컨테이너 정리
             docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
             docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
             docker compose down --remove-orphans 2>/dev/null || true
 
+            # 새로 실행
             docker compose --env-file ./prod.env up -d --build
 
+            # 청소
             rm -f ~/backend-bundle.tar || true
           "'
-          '''
-        }
+        '''
       }
     }
   }
 
   post {
     always {
-      sh '''#!/bin/bash
-      set -e
-      rm -f backend-bundle.tar || true
-      rm -rf ${BUNDLE_DIR} || true
+      sh '''
+        set -e
+        rm -f backend-bundle.tar || true
+        rm -rf ${BUNDLE_DIR} || true
       '''
       echo "Pipeline finished."
     }
