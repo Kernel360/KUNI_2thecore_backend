@@ -9,7 +9,7 @@ pipeline {
   }
 
   environment {
-    DEPLOY_HOST = '43.203.110.104'   // EC2 퍼블릭 IP 또는 DNS
+    DEPLOY_HOST = '43.203.110.104'   // EC2 퍼블릭 IP
     BUNDLE_DIR  = 'deploy'
   }
 
@@ -39,13 +39,15 @@ pipeline {
       steps {
         sh '''#!/bin/bash
         set -euo pipefail
-        cd back
 
-        ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
-          :main-server:bootJar -x test
+        # gradlew 실행권한 보장
+        chmod +x gradlew
 
-        ./gradlew --no-daemon --max-workers=1 -Dorg.gradle.jvmargs="-Xms256m -Xmx1024m" \
-          :hub-server:bootJar -x test
+        # main-server 빌드
+        ./gradlew clean :main-server:bootJar -x test
+
+        # hub-server 빌드
+        ./gradlew clean :hub-server:bootJar -x test
         '''
       }
     }
@@ -60,13 +62,14 @@ pipeline {
           mkdir -p ${BUNDLE_DIR}/release/main-server
           mkdir -p ${BUNDLE_DIR}/release/hub-server
 
-          cp back/main-server/build/libs/*.jar ${BUNDLE_DIR}/release/main-server/app.jar
-          cp back/hub-server/build/libs/*.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
+          # JAR 복사 (back/ 제거)
+          cp main-server/build/libs/*.jar ${BUNDLE_DIR}/release/main-server/app.jar
+          cp hub-server/build/libs/*.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
 
-          cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
-          cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
+          cp main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
+          cp hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
 
-          cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
+          cp docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
           install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
 
