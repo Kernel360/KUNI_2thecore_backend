@@ -40,13 +40,10 @@ pipeline {
         sh '''#!/bin/bash
         set -euo pipefail
 
-        # gradlew 실행권한 보장
-        chmod +x gradlew
+        cd back                     ### 수정됨: gradlew, 모듈들이 back/ 디렉토리에 있음
+        chmod +x gradlew            ### 수정됨: gradlew 실행권한 추가
 
-        # main-server 빌드
         ./gradlew clean :main-server:bootJar -x test
-
-        # hub-server 빌드
         ./gradlew clean :hub-server:bootJar -x test
         '''
       }
@@ -62,14 +59,14 @@ pipeline {
           mkdir -p ${BUNDLE_DIR}/release/main-server
           mkdir -p ${BUNDLE_DIR}/release/hub-server
 
-          # JAR 복사 (back/ 제거)
-          cp main-server/build/libs/*.jar ${BUNDLE_DIR}/release/main-server/app.jar
-          cp hub-server/build/libs/*.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
+          # JAR 복사 (back/ 안에서 가져오기) ### 수정됨: 경로 back/ 추가
+          cp back/main-server/build/libs/*.jar ${BUNDLE_DIR}/release/main-server/app.jar
+          cp back/hub-server/build/libs/*.jar   ${BUNDLE_DIR}/release/hub-server/app.jar
 
-          cp main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
-          cp hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
+          cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main   ### 수정됨: 경로 back/ 추가
+          cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub    ### 수정됨: 경로 back/ 추가
 
-          cp docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
+          cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml   ### 수정됨: 경로 back/ 추가
 
           install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
 
