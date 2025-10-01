@@ -6,12 +6,19 @@ import com.example.common.exception.TokenExpiredException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -86,6 +93,20 @@ public class JwtTokenProvider {
 
     public String getSubject(String token) {
         return getClaims(token).getSubject();
+    }
+
+    public Authentication getAuthentication(String accessToken) {
+        // 기존에 만드신 getClaims 메서드를 호출합니다.
+        Claims claims = getClaims(accessToken);
+
+        // 토큰에 별도의 권한 정보가 없으므로, 기본 권한을 부여합니다.
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+        // UserDetails 객체를 생성합니다.
+        UserDetails principal = new User(claims.getSubject(), "", authorities);
+
+        // Authentication 객체를 생성하여 반환합니다.
+        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
 }
