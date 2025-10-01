@@ -84,32 +84,32 @@ pipeline {
     }
 
     stage('Deploy to EC2 via SSH') {
-      steps {
-        sshagent (credentials: ['2thecore-ec2']) {
-          sh '''
-            scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
+        steps {
+            sshagent(credentials: ['ubuntu']) {
+                sh """
+                    scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@43.203.110.104:~
+                    ssh -o StrictHostKeyChecking=no ubuntu@43.203.110.104 bash -lc "
+                        set -e
+                        rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
+                        tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
+                        cd ~/backend-deploy
 
-            ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_HOST} 'bash -lc "
-              set -e
-              rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
-              tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
-              cd ~/backend-deploy
+                        docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
+                        docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
+                        docker compose down --remove-orphans 2>/dev/null || true
 
-              docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
-              docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
-              docker compose down --remove-orphans 2>/dev/null || true
+                        # ${env.BUILD_TIMESTAMP}가 Jenkins에 의해 값으로 치환된 후 원격 서버로 전달됩니다.
+                        docker compose build --no-cache \
+                                         --build-arg JAR_NAME=app.main.${env.BUILD_TIMESTAMP}.jar main-server \
+                                         --build-arg JAR_NAME=app.hub.${env.BUILD_TIMESTAMP}.jar hub-server
 
-              docker compose build --no-cache \
-                              --build-arg JAR_NAME=app.main.${BUILD_TIMESTAMP}.jar main-server
-                              --build-arg JAR_NAME=app.hub.${BUILD_TIMESTAMP}.jar hub-server
+                        docker compose --env-file ./prod.env up -d --remove-orphans
 
-              docker compose --env-file ./prod.env up -d --remove-orphans
-
-              rm -f ~/backend-bundle.tar || true
-            "'
-          '''
+                        rm -f ~/backend-bundle.tar || true
+                    "
+                """
+            }
         }
-      }
     }
   }
 
