@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
     private static final String LIVE_LOCATION_EXCHANGE = "live.location.exchange";
-    private static final String LIVE_LOCATION_QUEUE = "live.location.queue";
+    private static final String LIVE_LOCATION_QUEUE = "live.location.queue.main-server";
 
     @Bean
     public FanoutExchange liveLocationExchange() {
