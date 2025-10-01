@@ -85,7 +85,7 @@ pipeline {
 
     stage('Deploy to EC2 via SSH') {
         steps {
-            sshagent(credentials: ['ubuntu']) {
+            sshagent(credentials: ['2thecore-ec2']) {
                 sh """
                     scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@43.203.110.104:~
                     ssh -o StrictHostKeyChecking=no ubuntu@43.203.110.104 bash -lc "
