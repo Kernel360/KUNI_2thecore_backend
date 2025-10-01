@@ -1,57 +1,46 @@
 package hub.application;
 
 import hub.domain.dto.GpsLogDto;
-import hub.infrastructure.CarPostionWriterImpl;
+import com.example.common.dto.LiveLocationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class LastPositionUpdator {
 
-    private final CarPostionWriterImpl carPostionWriterImpl;
-    private final ScheduledExecutorService scheduledExecutorService;
+    private final RabbitTemplate rabbitTemplate;
+    private static final String LIVE_LOCATION_EXCHANGE_NAME = "live.location.exchange";
 
-    public void scheduleEverySecond(String carNumber, List<GpsLogDto.Gps> sorted) {
+    @Async
+    public void replayGpsData(String carNumber, List<GpsLogDto.Gps> sortedGpsList) {
+        log.info("Starting GPS data replay for car: {}", carNumber);
 
-        log.info("청크 부분 시작 carNumber : {}, logDto : {}", carNumber, sorted);
+        // 60개의 GPS 데이터가 담긴 리스트를 처음부터 끝까지 하나씩 순회
+        for (GpsLogDto.Gps gps : sortedGpsList) {
+            try {
+                // 현재 순회 중인 gps 데이터로 실시간 전송용 DTO 객체를 만듦
+                LiveLocationDto liveLocationDto = new LiveLocationDto(carNumber, gps.getLatitude(), gps.getLongitude());
 
-        final int CHUNK = 3;
+                // RabbitTemplate을 사용해서 Exchange에 메시지를 보냄
+                rabbitTemplate.convertAndSend(LIVE_LOCATION_EXCHANGE_NAME, "", liveLocationDto);
+                log.trace("Published live location for car {}: {}", carNumber, liveLocationDto);
 
-        var latestPerChunk = new ArrayList<GpsLogDto.Gps>();
-
-        for(int i = 0; i < sorted.size(); i += CHUNK){
-            var to = Math.min(i + CHUNK, sorted.size());
-            latestPerChunk.add(sorted.subList(i, to).get(to - i - 1));
-        }
-
-        var idx = new java.util.concurrent.atomic.AtomicInteger(0);
-        var ref = new java.util.concurrent.atomic.AtomicReference<java.util.concurrent.ScheduledFuture<?>>();
-
-        Runnable task = () -> {
-            int i = idx.getAndIncrement();
-            if (i >= latestPerChunk.size()) {
-                var f = ref.get();
-                if (f != null) f.cancel(false);
-                log.info("car {} pacing done ({} chunks)", carNumber, latestPerChunk.size());
-                return;
+                Thread.sleep(1000); // 1초 대기
+            } catch (InterruptedException e) {
+                // sleep 도중 스레드에 중단 요청이 오면 발생하는 예외 처리
+                Thread.currentThread().interrupt();
+                log.error("GPS replay interrupted for car: {}", carNumber, e);
+                break; // 문제 발생하면 반복 중단
             }
-            var g = latestPerChunk.get(i);
-            // 트랜잭션은 CarPositionWriter가 보장
-            carPostionWriterImpl.updateOnce(carNumber, g.getLatitude(), g.getLongitude());
-        };
-
-        var f = scheduledExecutorService.scheduleWithFixedDelay(task, 0, 3, java.util.concurrent.TimeUnit.SECONDS);
-
-        ref.set(f);
-
-        log.info("car {} scheduled {} chunked updates (every 5s)", carNumber, latestPerChunk.size());
+        }
+        log.info("Finished GPS data replay for car: {}", carNumber);
     }
 }
 
