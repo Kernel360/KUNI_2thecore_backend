@@ -1,9 +1,9 @@
 package com.example.mainserver.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,8 +26,34 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public Binding binding(Queue liveLocationQueue, FanoutExchange liveLocationExchange) {
+    public Binding liveLocationBinding(Queue liveLocationQueue, FanoutExchange liveLocationExchange) {
         // Exchange와 Queue 바인딩
         return BindingBuilder.bind(liveLocationQueue).to(liveLocationExchange);
+    }
+
+    // main server -> hub server 설정
+    private static final String EXCHANGE_NAME = "gps.data.exchange";
+    private static final String QUEUE_NAME = "gps.data.queue";
+    private static final String ROUTING_KEY = "gps.data.*";
+
+    @Bean
+    public TopicExchange gpsLogExchange() {
+        return new TopicExchange(EXCHANGE_NAME);
+    }
+
+    @Bean
+    public Queue gpsLogQueue() {
+        return new Queue(QUEUE_NAME);
+    }
+
+    @Bean
+    public Binding gpsLogBinding(Queue gpsLogQueue, TopicExchange gpsLogExchange) {
+        return BindingBuilder.bind(gpsLogQueue).to(gpsLogExchange).with(ROUTING_KEY);
+    }
+
+    // 객체 -> json(byte) / (byte)json -> 객체 자동 변환
+    @Bean
+    public MessageConverter messageConverter(ObjectMapper objectMapper){
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
 }
