@@ -97,9 +97,8 @@ pipeline {
                         docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
                         docker compose down --remove-orphans 2>/dev/null || true
 
-                        docker compose build --no-cache \\
-                                         --build-arg JAR_NAME=app.main.${BUILD_TIMESTAMP}.jar main-server \\
-                                         --build-arg JAR_NAME=app.hub.${BUILD_TIMESTAMP}.jar hub-server
+                        docker compose build --no-cache --build-arg JAR_NAME=app.main.${BUILD_TIMESTAMP}.jar main-server
+                        docker compose build --no-cache --build-arg JAR_NAME=app.hub.${BUILD_TIMESTAMP}.jar hub-server
 
                         docker compose --env-file ./prod.env up -d --remove-orphans
 
