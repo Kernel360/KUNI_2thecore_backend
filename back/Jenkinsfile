@@ -67,8 +67,8 @@ pipeline {
             cp back/hub-server/build/libs/hub-server-0.0.1-SNAPSHOT.jar   ${BUNDLE_DIR}/app.hub.${BUILD_TIMESTAMP}.jar
 
             # Dockerfile 복사 (Dockerfile 내용도 JAR 파일 이름에 맞춰 수정해야 함!)
-            cp back/main-server/Dockerfile.main ${BUNDLE_DIR}/Dockerfile
-            cp back/hub-server/Dockerfile.hub  ${BUNDLE_DIR}/Dockerfile
+            cp back/main-server/Dockerfile.main ${BUNDLE_DIR}/Dockerfile.main
+            cp back/hub-server/Dockerfile.hub  ${BUNDLE_DIR}/Dockerfile.hub
 
             # docker-compose.yml
             cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
@@ -99,7 +99,9 @@ pipeline {
               docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
               docker compose down --remove-orphans 2>/dev/null || true
 
-              docker compose build --no-cache main-server
+              docker compose build --no-cache \
+                              --build-arg JAR_NAME=app.main.${BUILD_TIMESTAMP}.jar main-server \
+                              --build-arg JAR_NAME=app.hub.${BUILD_TIMESTAMP}.jar hub-server
 
               docker compose --env-file ./prod.env up -d --remove-orphans
 
