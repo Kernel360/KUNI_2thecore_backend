@@ -97,10 +97,8 @@ pipeline {
               docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
               docker compose down --remove-orphans 2>/dev/null || true
 
-              // 1. 캐시 없이 강제로 이미지 재빌드 (메인 서버만 재빌드)
               docker compose build --no-cache main-server
 
-              // 2. 재빌드된 이미지로 컨테이너 실행
               docker compose --env-file ./prod.env up -d --remove-orphans
 
               rm -f ~/backend-bundle.tar || true
