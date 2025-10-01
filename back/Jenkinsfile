@@ -55,28 +55,30 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
           sh '''#!/bin/bash
-          set -e
+            set -e
 
-          rm -rf ${BUNDLE_DIR}
-          mkdir -p ${BUNDLE_DIR}
+            rm -rf ${BUNDLE_DIR}
+            mkdir -p ${BUNDLE_DIR}
 
-          # JAR 파일을 번들 루트에 배치
-          cp back/main-server/build/libs/main-server-0.0.1-SNAPSHOT.jar ${BUNDLE_DIR}/app.main.jar
-          cp back/hub-server/build/libs/hub-server-0.0.1-SNAPSHOT.jar   ${BUNDLE_DIR}/app.hub.jar
+            BUILD_TIMESTAMP=$(date +%s)
 
-          # Dockerfile 복사
-          cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
-          cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
+            # JAR 파일을 번들 루트에 배치
+            cp back/main-server/build/libs/main-server-0.0.1-SNAPSHOT.jar ${BUNDLE_DIR}/app.main.${BUILD_TIMESTAMP}.jar
+            cp back/hub-server/build/libs/hub-server-0.0.1-SNAPSHOT.jar   ${BUNDLE_DIR}/app.hub.${BUILD_TIMESTAMP}.jar
 
-          # docker-compose.yml
-          cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
+            # Dockerfile 복사 (Dockerfile 내용도 JAR 파일 이름에 맞춰 수정해야 함!)
+            cp back/main-server/Dockerfile.main ${BUNDLE_DIR}/Dockerfile.main
+            cp back/hub-server/Dockerfile.hub  ${BUNDLE_DIR}/Dockerfile.hub
 
-          # prod.env
-          install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
+            # docker-compose.yml
+            cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
-          tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
-          echo "[OK] backend-bundle.tar 생성"
-          '''
+            # prod.env
+            install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
+
+            tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
+            echo "[OK] backend-bundle.tar 생성"
+            '''
         }
       }
     }
