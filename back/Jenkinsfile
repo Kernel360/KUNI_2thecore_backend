@@ -11,6 +11,7 @@ pipeline {
   environment {
     DEPLOY_HOST = '43.203.110.104'
     BUNDLE_DIR  = 'deploy'
+    BUILD_TIMESTAMP = "${new Date().format('yyyyMMddHHmmss')}"
   }
 
   stages {
@@ -60,13 +61,11 @@ pipeline {
             rm -rf ${BUNDLE_DIR}
             mkdir -p ${BUNDLE_DIR}
 
-            BUILD_TIMESTAMP=$(date +%s)
-
             # JAR 파일을 번들 루트에 배치
             cp back/main-server/build/libs/main-server-0.0.1-SNAPSHOT.jar ${BUNDLE_DIR}/app.main.${BUILD_TIMESTAMP}.jar
             cp back/hub-server/build/libs/hub-server-0.0.1-SNAPSHOT.jar   ${BUNDLE_DIR}/app.hub.${BUILD_TIMESTAMP}.jar
 
-            # Dockerfile 복사 (Dockerfile 내용도 JAR 파일 이름에 맞춰 수정해야 함!)
+            # Dockerfile 복사
             cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
             cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
 
@@ -87,8 +86,8 @@ pipeline {
         steps {
             sshagent(credentials: ['2thecore-ec2']) {
                 sh """
-                    scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@43.203.110.104:~
-                    ssh -o StrictHostKeyChecking=no ubuntu@43.203.110.104 bash -lc "
+                    scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
+                    ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_HOST} bash -lc "
                         set -e
                         rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
                         tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
@@ -98,10 +97,9 @@ pipeline {
                         docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
                         docker compose down --remove-orphans 2>/dev/null || true
 
-                        # ${env.BUILD_TIMESTAMP}가 Jenkins에 의해 값으로 치환된 후 원격 서버로 전달됩니다.
-                        docker compose build --no-cache \
-                                         --build-arg JAR_NAME=app.main.${env.BUILD_TIMESTAMP}.jar main-server \
-                                         --build-arg JAR_NAME=app.hub.${env.BUILD_TIMESTAMP}.jar hub-server
+                        docker compose build --no-cache \\
+                                         --build-arg JAR_NAME=app.main.${BUILD_TIMESTAMP}.jar main-server \\
+                                         --build-arg JAR_NAME=app.hub.${BUILD_TIMESTAMP}.jar hub-server
 
                         docker compose --env-file ./prod.env up -d --remove-orphans
 
