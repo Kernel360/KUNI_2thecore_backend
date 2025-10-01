@@ -96,16 +96,12 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String accessToken) {
-        // 기존에 만드신 getClaims 메서드를 호출합니다.
         Claims claims = getClaims(accessToken);
 
-        // 토큰에 별도의 권한 정보가 없으므로, 기본 권한을 부여합니다.
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 
-        // UserDetails 객체를 생성합니다.
         UserDetails principal = new User(claims.getSubject(), "", authorities);
 
-        // Authentication 객체를 생성하여 반환합니다.
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
