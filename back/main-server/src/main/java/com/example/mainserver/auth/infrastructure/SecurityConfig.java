@@ -85,10 +85,13 @@ public class SecurityConfig {
                 "http://localhost:3004",
                 "http://localhost:3005",
                 "http://localhost:3006",
-                "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com", // 배포 도메인
-                "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com", // 배포 도메인 2
-                "http://15.165.171.174:8081", //emulator-server
-                "http://localhost:8081"
+                "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com",
+                "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com",
+                "http://15.165.171.174:8081", // emulator-server
+                "http://localhost:8081",
+                "https://2thecore.site",            // 새 추가
+                "https://api.2thecore.site",        // 새 추가
+                "https://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com" // HTTPS S3
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
