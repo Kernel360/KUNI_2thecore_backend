@@ -1,8 +1,9 @@
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# Jenkins에서 전달된 JAR 복사
-COPY app.hub.jar app.jar
+ARG JAR_NAME=app.hub.jar
+
+COPY ${JAR_NAME} app.jar
 
 ENV JAVA_TOOL_OPTIONS="-Xms256m -Xmx1024m -Dfile.encoding=UTF-8"
 ENTRYPOINT ["java", "-jar", "app.jar"]

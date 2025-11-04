@@ -51,9 +51,10 @@ public class ConsumerService {
 
         gpsLogRepository.saveAll(entities);
 
-
+        // DB에 60개 로그 저장이 끝난 후, 로그 남김
         log.info("청크 시작 전 carNumber : {}, logDto : {}", carEntity.getCarNumber(), sortedGpsList);
-        lastPositionUpdator.scheduleEverySecond(carEntity.getCarNumber(), sortedGpsList);
+
+        lastPositionUpdator.replayGpsData(carEntity.getCarNumber(), sortedGpsList);
 //        //정렬된 리스트 차례로 저장
 //        for (GpsLogDto.Gps gps : sortedGpsList) {
 //            try {

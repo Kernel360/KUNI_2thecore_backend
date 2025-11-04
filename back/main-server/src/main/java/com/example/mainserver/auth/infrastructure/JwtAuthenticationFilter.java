@@ -54,7 +54,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.startsWith("/api/drivelogs/end")
                 || path.startsWith("/api/drivelogs/update-location")
                 || path.startsWith("/api/logs")
-                || path.equals("/api/drivelogs/excel");
+                || path.equals("/api/drivelogs/excel")
+                || path.startsWith("/ws/**");
     }
 
     @Override

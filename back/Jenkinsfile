@@ -11,6 +11,7 @@ pipeline {
   environment {
     DEPLOY_HOST = '43.203.110.104'
     BUNDLE_DIR  = 'deploy'
+    BUILD_TIMESTAMP = "${new Date().format('yyyyMMddHHmmss')}"
   }
 
   stages {
@@ -18,7 +19,7 @@ pipeline {
       steps {
         checkout([$class: 'GitSCM',
           userRemoteConfigs: [[url: 'https://github.com/Kernel360/KUNI_2thecore_backend.git']],
-          branches: [[name: '*/dev']]
+          branches: [[name: '*/websocket']]
         ])
       }
     }
@@ -55,55 +56,57 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: '2thecore-env', variable: 'ENV_FILE')]) {
           sh '''#!/bin/bash
-          set -e
+            set -e
 
-          rm -rf ${BUNDLE_DIR}
-          mkdir -p ${BUNDLE_DIR}
+            rm -rf ${BUNDLE_DIR}
+            mkdir -p ${BUNDLE_DIR}
 
-          # JAR 파일을 번들 루트에 배치
-          cp back/main-server/build/libs/main-server-0.0.1-SNAPSHOT.jar ${BUNDLE_DIR}/app.main.jar
-          cp back/hub-server/build/libs/hub-server-0.0.1-SNAPSHOT.jar   ${BUNDLE_DIR}/app.hub.jar
+            # JAR 파일을 번들 루트에 배치
+            cp back/main-server/build/libs/main-server-0.0.1-SNAPSHOT.jar ${BUNDLE_DIR}/app.main.${BUILD_TIMESTAMP}.jar
+            cp back/hub-server/build/libs/hub-server-0.0.1-SNAPSHOT.jar   ${BUNDLE_DIR}/app.hub.${BUILD_TIMESTAMP}.jar
 
-          # Dockerfile 복사
-          cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
-          cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
+            # Dockerfile 복사
+            cp back/main-server/Dockerfile ${BUNDLE_DIR}/Dockerfile.main
+            cp back/hub-server/Dockerfile  ${BUNDLE_DIR}/Dockerfile.hub
 
-          # docker-compose.yml
-          cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
+            # docker-compose.yml
+            cp back/docker/docker-compose.yml ${BUNDLE_DIR}/docker-compose.yml
 
-          # prod.env
-          install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
+            # prod.env
+            install -D -m 600 -T "$ENV_FILE" ${BUNDLE_DIR}/prod.env
 
-          tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
-          echo "[OK] backend-bundle.tar 생성"
-          '''
+            tar -czf backend-bundle.tar -C ${BUNDLE_DIR} .
+            echo "[OK] backend-bundle.tar 생성"
+            '''
         }
       }
     }
 
     stage('Deploy to EC2 via SSH') {
-      steps {
-        sshagent (credentials: ['2thecore-ec2']) {
-          sh '''
-            scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
+        steps {
+            sshagent(credentials: ['2thecore-ec2']) {
+                sh """
+                    scp -o StrictHostKeyChecking=no backend-bundle.tar ubuntu@${DEPLOY_HOST}:~
+                    ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_HOST} bash -lc "
+                        set -e
+                        rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
+                        tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
+                        cd ~/backend-deploy
 
-            ssh -o StrictHostKeyChecking=no ubuntu@${DEPLOY_HOST} 'bash -lc "
-              set -e
-              rm -rf ~/backend-deploy && mkdir -p ~/backend-deploy
-              tar -xzf ~/backend-bundle.tar -C ~/backend-deploy
-              cd ~/backend-deploy
+                        docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
+                        docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
+                        docker compose down --remove-orphans 2>/dev/null || true
 
-              docker rm -f 2thecore-redis 2thecore-rabbitmq 2thecore-hub 2thecore-main 2>/dev/null || true
-              docker network rm backend-deploy_rabbitmq_net 2>/dev/null || true
-              docker compose down --remove-orphans 2>/dev/null || true
+                        docker compose build --no-cache --build-arg JAR_NAME=app.main.${BUILD_TIMESTAMP}.jar main-server
+                        docker compose build --no-cache --build-arg JAR_NAME=app.hub.${BUILD_TIMESTAMP}.jar hub-server
 
-              docker compose --env-file ./prod.env up -d --build
+                        docker compose --env-file ./prod.env up -d --remove-orphans
 
-              rm -f ~/backend-bundle.tar || true
-            "'
-          '''
+                        rm -f ~/backend-bundle.tar || true
+                    "
+                """
+            }
         }
-      }
     }
   }
 
