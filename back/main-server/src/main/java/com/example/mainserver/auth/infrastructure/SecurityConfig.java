@@ -42,13 +42,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(withDefaults())
+                //cors Bean 명시적 연결
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                SWAGGER_WHITELIST
-                        ).permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(
                                 "/api/auth/login",
                                 "/api/admin/signup",
@@ -56,17 +55,12 @@ public class SecurityConfig {
                                 "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/info",
-                                // 테스트용 로그인 우회
                                 "/api/logs/**",
-                                // 에뮬레이터 연동용: 주행 시작/종료 화이트리스트
                                 "/api/drivelogs/start",
                                 "/api/drivelogs/end",
-                                // 허브 서버에서 호출하는 실시간 위치 업데이트 API
                                 "/api/drivelogs/update-location",
-                                // 엑셀 다운로드 API
                                 "/api/drivelogs/excel"
                         ).permitAll()
-                        //추가: 프리플라이트 OPTIONS 요청 항상 허용
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -74,6 +68,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
