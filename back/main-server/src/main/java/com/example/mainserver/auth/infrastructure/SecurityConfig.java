@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,18 +47,16 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/swagger-ui.html",
-                                "/webjars/**",
+                                SWAGGER_WHITELIST
+                        ).permitAll()
+                        .requestMatchers(
                                 "/api/auth/login",
                                 "/api/admin/signup",
                                 "/actuator/prometheus",
                                 "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/info",
-                                //테스트를 위한 로그인 우회
+                                // 테스트용 로그인 우회
                                 "/api/logs/**",
                                 // 에뮬레이터 연동용: 주행 시작/종료 화이트리스트
                                 "/api/drivelogs/start",
@@ -65,10 +64,10 @@ public class SecurityConfig {
                                 // 허브 서버에서 호출하는 실시간 위치 업데이트 API
                                 "/api/drivelogs/update-location",
                                 // 엑셀 다운로드 API
-                                "/api/drivelogs/excel",
-                                // 웹 소켓
-                                "/ws/**"
+                                "/api/drivelogs/excel"
                         ).permitAll()
+                        //추가: 프리플라이트 OPTIONS 요청 항상 허용
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -79,28 +78,31 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-                "https://43.203.110.104",
-                "http://43.203.110.104",
-                "http://localhost:3000",
-                "http://localhost:3001",
-                "http://localhost:3002",
-                "http://localhost:3003",
-                "http://localhost:3004",
-                "http://localhost:3005",
-                "http://localhost:3006",
-                "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com",
-                "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com",
-                "http://15.165.171.174:8081", // emulator-server
-                "http://localhost:8081",
-                "https://2thecore.site",            // 새 추가
-                "https://api.2thecore.site",        // 새 추가
-                "https://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com" // HTTPS S3
+
+        //수정: setAllowedOrigins → setAllowedOriginPatterns 로 변경
+        configuration.setAllowedOriginPatterns(List.of(
+                "http://localhost:*",
+                "https://2thecore.site",
+                "https://api.2thecore.site",
+                "https://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com"
         ));
+
+        //수정: 허용 메서드 정리
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
+
+        //수정: 허용 헤더 명시적 지정 (CORS preflight 문제 방지)
+        configuration.setAllowedHeaders(List.of(
+                "Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin"
+        ));
+
+        //유지: 자격 증명(쿠키) 허용
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(List.of("Authorization", "Set-Cookie", "new-access-token", "Content-Disposition"));
+
+        //유지: 브라우저에서 노출할 응답 헤더 지정
+        configuration.setExposedHeaders(List.of(
+                "Authorization", "Set-Cookie", "new-access-token", "Content-Disposition"
+        ));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
