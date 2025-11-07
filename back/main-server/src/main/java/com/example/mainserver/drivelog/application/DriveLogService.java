@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.OutputStream;
 import java.util.List;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -186,14 +187,18 @@ public class DriveLogService {
         Long carId = Long.valueOf(carReader.getIdfromNumber(request.getCarNumber()));
         
         // 활성 로그 찾기 (startTime 방식과 동일)
-        DriveLog driveLog = driveLogRepository.findActiveLogByCarId(carId)
-                .orElse(null);
+//        DriveLog driveLog = driveLogRepository.findActiveLogByCarId(carId)
+//                .orElse(null);
 
-        if (driveLog == null) {
+        Optional<DriveLog> currDriveLog = driveLogRepository.findFirstByCarIdAndEndTimeIsNullOrderByStartTimeDesc(carId.intValue());
+
+        if (currDriveLog.isEmpty()) {
             throw new IllegalArgumentException("해당 차량의 진행 중 주행기록이 없습니다: " + request.getCarNumber());
         }
 
-        log.info("Found active drive log for car {}: driveLogId={}, startTime={}", 
+        var driveLog = currDriveLog.get();
+
+        log.info("Found active drive log for car {}: driveLogId={}, startTime={}",
                 request.getCarNumber(), driveLog.getDriveLogId(), driveLog.getStartTime());
 
         // 위도 경도 endpoint(역지오코딩)
@@ -209,9 +214,9 @@ public class DriveLogService {
         // calculateDriveDist()를 호출하지 않음 - 실시간 누적 거리 보존
 
         DriveLog savedLog = driveLogRepository.save(driveLog);
-        
+
         log.info("Drive ended for car {}: endTime={}", request.getCarNumber(), savedLog.getEndTime());
-        
+
         return savedLog;
     }
 

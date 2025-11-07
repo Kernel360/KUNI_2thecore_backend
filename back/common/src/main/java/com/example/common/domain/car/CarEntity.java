@@ -14,6 +14,10 @@ import lombok.*;
 @Getter
 
 public class CarEntity {
+
+    @Version
+    private long version;
+
     @Id
     @Column(name = "car_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

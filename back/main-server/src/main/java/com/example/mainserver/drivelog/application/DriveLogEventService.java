@@ -53,7 +53,7 @@ public class DriveLogEventService {
         }
         else if("OFF".equals(driveLogEventDto.getStatus())){
 
-            Optional<DriveLog> driveLog = driveLogRepository.findByCarIdAndEndTimeIsNull(carId);
+            Optional<DriveLog> driveLog = driveLogRepository.findFirstByCarIdAndEndTimeIsNullOrderByStartTimeDesc(carId);
 
             if(driveLog.isPresent()){
                 var currentLog = driveLog.get();

@@ -22,6 +22,7 @@ public class LastPositionUpdator {
 
     private final CarRepository carRepository;
     private final RabbitTemplate rabbitTemplate;
+    private final CarLocationUpdateService carLocationUpdateService;
     private static final String LIVE_LOCATION_EXCHANGE_NAME = "live.location.exchange";
 
     @Async("replayTaskExecutor")
@@ -39,10 +40,12 @@ public class LastPositionUpdator {
                 // 현재 순회 중인 gps 데이터로 실시간 전송용 DTO 객체를 만듦
                 LiveLocationDto liveLocationDto = new LiveLocationDto(carNumber, gps.getLatitude(), gps.getLongitude());
 
-                car.setLastLatitude(gps.getLatitude());
-                car.setLastLongitude(gps.getLongitude());
+//                car.setLastLatitude(gps.getLatitude());
+//                car.setLastLongitude(gps.getLongitude());
+//
+//                carRepository.save(car);
 
-                carRepository.save(car);
+                carLocationUpdateService.updateLastLocation(carNumber, gps.getLatitude(), gps.getLongitude());
 
                 // RabbitTemplate을 사용해서 Exchange에 메시지를 보냄
                 rabbitTemplate.convertAndSend(LIVE_LOCATION_EXCHANGE_NAME, "", liveLocationDto);
