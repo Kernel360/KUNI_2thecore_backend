@@ -20,6 +20,8 @@ public interface DriveLogRepository extends JpaRepository<DriveLog, Long> {
     DriveLog getByCarId(Long carId);
 
     DriveLog findByCarIdAndStartTime(Long carId, LocalDateTime startTime);
+
+    Optional<DriveLog> findByCarIdAndEndTimeIsNull(int carId);
     
     // 특정 차량의 현재 진행 중인 주행기록 조회 (endTime이 null인 가장 최근 기록)
     @Query("SELECT d FROM DriveLog d WHERE d.carId = :carId AND d.endTime IS NULL ORDER BY d.startTime DESC")
@@ -33,4 +35,6 @@ public interface DriveLogRepository extends JpaRepository<DriveLog, Long> {
                                        @Param("endLon") String endLongitude, 
                                        @Param("endTime") LocalDateTime endTime,
                                        @Param("endPoint") String endPoint);
+
+
 }

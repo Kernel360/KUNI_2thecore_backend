@@ -24,7 +24,7 @@ public class LocationBroadcastService {
 
         // SimpMessageingTemplate 이용해 해당 주제 구독하는 클라이언트에게 메세지 전송
         messagingTemplate.convertAndSend(destination, locationDto);
-        log.info("{}로 전송 완료 - 차량 번호: {}, 위도: {}, 경도: {}", locationDto.getCarNumber(), locationDto.getLatitude(), locationDto.getLongitude());
+        log.info("{}로 전송 완료 - 차량 번호: {}, 위도: {}, 경도: {}", locationDto.getCarNumber(), locationDto.getCarNumber(), locationDto.getLatitude(), locationDto.getLongitude());
     }
 
 }

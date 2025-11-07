@@ -53,8 +53,9 @@ public class CollectorService {
 
 //        gpsLogDto.setLogList();
         log.info("gpslog가 발행되었습니다. :{}", gpsLogDto);
-      
-        // db 저장후 event를 발생시킨다 rabbitmq 메세지 삽입
+
+
+
         gpsLogProducer.sendLogs(gpsLogDto);
 
         log.info("gpslog가 RabbitMQ에 발행되었습니다. : {}", gpsLogDto);

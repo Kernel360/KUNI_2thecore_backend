@@ -21,4 +21,27 @@ public class AsyncConfig {
         executor.initialize();
         return executor;
     }
+
+    @Bean(name = "consumerTaskExecutor")
+    public Executor consumerTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+
+        executor.setCorePoolSize(100);
+        executor.setMaxPoolSize(200);
+        executor.setQueueCapacity(200);
+        executor.setThreadNamePrefix("GpsConsumer-");
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean(name = "replayTaskExecutor")
+    public Executor replayTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(100);
+        executor.setMaxPoolSize(200);
+        executor.setQueueCapacity(200);
+        executor.setThreadNamePrefix("Replay-");
+        executor.initialize();
+        return executor;
+    }
 }
