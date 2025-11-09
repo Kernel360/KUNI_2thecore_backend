@@ -29,6 +29,15 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/webjars/**"
+    };
+
+    // ✅ 완전히 OPTIONS를 시큐리티 체인 바깥으로 빼기
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(HttpMethod.OPTIONS, "/**");
@@ -39,24 +48,37 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(headers -> headers.frameOptions(frame -> frame.disable())) // X-Frame-Options: DENY 제거
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight 통과
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                        .requestMatchers(
+                                "/api/auth/login",
+                                "/api/admin/signup",
+                                "/actuator/**",
+                                "/api/logs/**",
+                                "/api/drivelogs/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
+    // ✅ 전역 CORS 정책 (완화)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern("*");
+        config.setAllowedOriginPatterns(List.of("*")); // 임시로 모든 origin 허용 (테스트용)
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
-        config.setExposedHeaders(List.of("Authorization", "Set-Cookie", "new-access-token", "Content-Disposition"));
-        config.setMaxAge(3600L);
+        config.setExposedHeaders(List.of(
+                "Authorization", "Set-Cookie", "new-access-token", "Content-Disposition"
+        ));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
