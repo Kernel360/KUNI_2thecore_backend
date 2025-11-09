@@ -37,6 +37,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
+        // 수정: 모든 OPTIONS 요청은 이 필터 우회 (CORS 프리플라이트를 허용)
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) return true;
+
         String path = request.getRequestURI();
         return path.startsWith("/actuator")
                 || path.startsWith("/swagger-ui")
