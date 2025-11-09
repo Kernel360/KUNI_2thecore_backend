@@ -14,12 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Profile("!test")
 @EnableWebSecurity
@@ -29,20 +27,11 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    // Swagger 관련 경로 화이트리스트
-    private static final String[] SWAGGER_WHITELIST = {
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/swagger-resources/**",
-            "/swagger-ui.html",
-            "/webjars/**"
-    };
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(withDefaults())
                 .csrf(csrf -> csrf.disable())
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class) // ✅ CORS 필터 선적용
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -53,18 +42,11 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/auth/login",
                                 "/api/admin/signup",
-                                "/actuator/prometheus",
-                                "/actuator/health",
-                                "/actuator/health/**",
-                                "/actuator/info",
-                                //테스트를 위한 로그인 우회
+                                "/actuator/**",
                                 "/api/logs/**",
-                                // 에뮬레이터 연동용: 주행 시작/종료 화이트리스트
                                 "/api/drivelogs/start",
                                 "/api/drivelogs/end",
-                                // 허브 서버에서 호출하는 실시간 위치 업데이트 API
                                 "/api/drivelogs/update-location",
-                                // 엑셀 다운로드 API
                                 "/api/drivelogs/excel"
                         ).permitAll()
                         .anyRequest().authenticated()
@@ -75,33 +57,24 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000",
-                "http://localhost:3001",
-                "http://localhost:3002",
-                "http://localhost:3003",
-                "http://localhost:3004",
-                "http://localhost:3005",
-                "http://localhost:3006",
-                "http://2thecore20250809.s3-website.ap-northeast-2.amazonaws.com",
-                "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com",
-                "http://15.165.171.174:8081", // emulator-server
-                "http://localhost:8081",
-                "https://2thecore.site",            // 새 추가
-                "https://api.2thecore.site",        // 새 추가
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOriginPatterns(List.of(
+                "https://2thecore.site",
+                "https://api.2thecore.site",
                 "https://43.203.110.104",
                 "http://43.203.110.104",
-                "https://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com" // HTTPS S3
+                "http://localhost:3000",
+                "http://localhost:8081",
+                "https://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com"
         ));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(List.of("Authorization", "Set-Cookie", "new-access-token", "Content-Disposition"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("Authorization", "Set-Cookie", "new-access-token", "Content-Disposition"));
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
     @Bean
