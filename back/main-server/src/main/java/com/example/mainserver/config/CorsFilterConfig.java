@@ -1,4 +1,4 @@
-package com.example.mainserver.auth.infrastructure;
+package com.example.mainserver.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
