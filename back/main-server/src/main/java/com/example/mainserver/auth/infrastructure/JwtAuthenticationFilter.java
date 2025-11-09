@@ -49,7 +49,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.startsWith("/actuator/prometheus")
                 || path.startsWith("/api/logs/gps")
                 || path.startsWith("/api/logs/gps-direct")
-                // Emulator/collector integration: allow without auth
                 || path.startsWith("/api/drivelogs/start")
                 || path.startsWith("/api/drivelogs/end")
                 || path.startsWith("/api/drivelogs/update-location")
@@ -61,6 +60,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         log.debug("Request URI: {}", request.getRequestURI());
         log.debug("Authorization Header: {}", request.getHeader("Authorization"));
