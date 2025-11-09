@@ -91,6 +91,8 @@ public class SecurityConfig {
                 "http://localhost:8081",
                 "https://2thecore.site",            // 새 추가
                 "https://api.2thecore.site",        // 새 추가
+                "https://43.203.110.104",
+                "http://43.203.110.104",
                 "https://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com" // HTTPS S3
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
