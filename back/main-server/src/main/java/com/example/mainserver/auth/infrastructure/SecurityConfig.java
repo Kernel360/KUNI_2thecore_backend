@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,22 +25,32 @@ import java.util.List;
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
-@Order(0)  // CORS 필터가 항상 제일 먼저 등록되도록 설정
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(0)
+    public SecurityFilterChain preflightChain(HttpSecurity http) throws Exception {
         http
-                //  cors 설정을 가장 먼저 적용
+                .securityMatcher(HttpMethod.OPTIONS, "/**")
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .requestCache(cache -> cache.disable())
+                .securityContext(context -> context.disable())
+                .sessionManagement(session -> session.disable());
+        return http.build();
+    }
+
+    @Bean
+    @Order(1)
+    public SecurityFilterChain appChain(HttpSecurity http) throws Exception {
+        http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // OPTIONS 요청은 항상 허용
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-                        // 화이트리스트
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
@@ -79,7 +90,6 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-
         return source;
     }
 
