@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    // ✅ Preflight OPTIONS 요청 전용 체인
+    // Preflight OPTIONS 요청 전용 체인
     @Bean
     @Order(0)
     public SecurityFilterChain preflightChain(HttpSecurity http) throws Exception {
@@ -47,7 +47,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ 나머지 일반 요청용 체인
+    //나머지 일반 요청용 체인
     @Bean
     @Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -78,7 +78,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ CORS 전역 설정
+    // CORS 전역 설정
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
