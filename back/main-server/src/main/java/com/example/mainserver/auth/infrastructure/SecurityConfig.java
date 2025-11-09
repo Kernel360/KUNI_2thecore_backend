@@ -20,8 +20,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Profile("!test")
 @EnableWebSecurity
 @Configuration
@@ -46,20 +44,14 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // 반드시 위쪽에 위치해야 함
                         .requestMatchers(
-                                "/api/auth/login",
+                                "/api/auth/**",
                                 "/api/admin/signup",
-                                "/actuator/prometheus",
-                                "/actuator/health",
-                                "/actuator/health/**",
-                                "/actuator/info",
+                                "/actuator/**",
                                 "/api/logs/**",
-                                "/api/drivelogs/start",
-                                "/api/drivelogs/end",
-                                "/api/drivelogs/update-location",
-                                "/api/drivelogs/excel"
+                                "/api/drivelogs/**"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -70,9 +62,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOriginPattern("*"); // 모든 Origin 허용
+        configuration.addAllowedOriginPattern("*"); // ✅ 모든 Origin 허용 (임시)
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
         configuration.setExposedHeaders(List.of("Authorization", "Set-Cookie", "new-access-token", "Content-Disposition"));
         configuration.setMaxAge(3600L);
