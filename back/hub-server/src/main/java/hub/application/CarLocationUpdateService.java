@@ -2,6 +2,8 @@ package hub.application;
 
 import com.example.common.domain.car.CarEntity;
 import com.example.common.infrastructure.car.CarRepository;
+import com.example.mainserver.car.exception.CarErrorCode;
+import com.example.mainserver.car.exception.CarNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -26,15 +28,15 @@ public class CarLocationUpdateService {
     public void updateLastLocation(String carNumber, String latitude, String longitude) {
         try {
             CarEntity car = carRepository.findByCarNumber(carNumber)
-                    .orElseThrow(() -> new RuntimeException("Car not found"));
+                    .orElseThrow(() -> new CarNotFoundException(CarErrorCode.CAR_NOT_FOUND_BY_NUMBER, carNumber));
 
             car.setLastLatitude(latitude);
             car.setLastLongitude(longitude);
 
-            carRepository.save(car); // ⬅️ 0.1초 만에 끝나는 짧은 트랜잭션
+            carRepository.save(car);
 
         } catch(OptimisticLockingFailureException e) {
-            log.warn("위치 업데이트 락 충돌 (재시도 진행 중): {}", carNumber);
+            log.warn("위치 optimistic lock 충돌 : {}", carNumber);
             throw e;
         }
     }
