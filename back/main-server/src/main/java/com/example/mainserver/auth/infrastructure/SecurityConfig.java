@@ -15,6 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Profile("!test")
 @EnableWebSecurity
@@ -24,34 +29,27 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    /**
-     * ✅ 1. Preflight (OPTIONS) 요청 전용 체인
-     *  - CORS 프리플라이트 요청은 인증 없이 통과
-     *  - WebConfig에서 이미 CORS 설정 중이므로 여기선 enable만 함
-     */
+    // 1. Preflight OPTIONS 전용 체인
     @Bean
     @Order(0)
     public SecurityFilterChain preflightChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(request -> "OPTIONS".equalsIgnoreCase(request.getMethod()))
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .cors(cors -> cors.disable()) // WebConfig에서 이미 처리
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.disable())
+                .requestCache(cache -> cache.disable())
                 .securityContext(context -> context.disable())
-                .requestCache(cache -> cache.disable());
+                .sessionManagement(session -> session.disable());
         return http.build();
     }
 
-    /**
-     * ✅ 2. 일반 요청용 Security 필터 체인
-     *  - WebConfig의 addCorsMappings()를 그대로 사용하도록 cors()만 활성화
-     */
+    //2. 나머지 일반 요청용 체인
     @Bean
     @Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> {}) // WebMvcConfigurer의 CORS 설정 사용
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
@@ -76,17 +74,32 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /**
-     * ✅ 3. AuthenticationManager (JWT 인증용)
-     */
+    // 3. 전역 CORS 설정
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(List.of(
+                "https://2thecore.site",
+                "http://2thecore.site",
+                "https://api.2thecore.site",
+                "http://localhost:3000",
+                "http://localhost:8081",
+                "https://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com"
+        ));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization", "Set-Cookie", "new-access-token", "Content-Disposition"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    /**
-     * ✅ 4. PasswordEncoder
-     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
