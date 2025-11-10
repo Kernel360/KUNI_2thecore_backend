@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     /*
-     * ⚠️ 주의:
+     *
      * 기존 addCorsMappings() 메서드는 제거했습니다.
      * 이유:
      *  - Spring Security에서 이미 전역 CORS를 처리하고 있음

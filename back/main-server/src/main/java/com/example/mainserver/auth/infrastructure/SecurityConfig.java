@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    // ✅ 1. Preflight OPTIONS 전용 체인
+    // 1. Preflight OPTIONS 전용 체인
     @Bean
     @Order(0)
     public SecurityFilterChain preflightChain(HttpSecurity http) throws Exception {
@@ -44,7 +44,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ 2. 나머지 일반 요청용 체인
+    //2. 나머지 일반 요청용 체인
     @Bean
     @Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -74,13 +74,14 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ 3. 전역 CORS 설정
+    // 3. 전역 CORS 설정
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOriginPatterns(List.of(
+        configuration.setAllowedOrigins(List.of(
                 "https://2thecore.site",
+                "http://2thecore.site",
                 "https://api.2thecore.site",
                 "http://localhost:3000",
                 "http://localhost:8081",
