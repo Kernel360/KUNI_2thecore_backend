@@ -19,6 +19,8 @@ public class WebConfig implements WebMvcConfigurer {
                         // 허용할 출처(Origin) 목록
                         "http://localhost:3000",
                         "http://localhost:3001",
+                        "http://2thecore.site",
+                        "https://2thecore.site",
                         "http://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com",
                         "http://43.203.110.104:8080" // Swagger UI 접속 주소
                 )
