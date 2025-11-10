@@ -29,25 +29,22 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    //프리플라이트(OPTIONS) 요청 전용 SecurityFilterChain
+    // Preflight OPTIONS 요청 전용 체인
     @Bean
     @Order(0)
     public SecurityFilterChain preflightChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/**")
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .anyRequest().permitAll()
-                )
+                .securityMatcher(request -> HttpMethod.OPTIONS.matches(request.getMethod()))
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .requestCache(cache -> cache.disable())
+                .sessionManagement(session -> session.disable())
                 .securityContext(context -> context.disable())
-                .sessionManagement(session -> session.disable());
+                .requestCache(cache -> cache.disable());
         return http.build();
     }
 
-    //실제 요청 처리용 SecurityFilterChain
+    // 일반 요청용 체인
     @Bean
     @Order(1)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -71,15 +68,13 @@ public class SecurityConfig {
                                 "/api/drivelogs/update-location",
                                 "/api/drivelogs/excel"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ✅ 이 라인도 필수
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
-    // 전역 CORS 설정
+    //전역 CORS 설정
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
