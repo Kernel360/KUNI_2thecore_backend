@@ -66,7 +66,8 @@ public class SecurityConfig {
                                 "/api/drivelogs/start",
                                 "/api/drivelogs/end",
                                 "/api/drivelogs/update-location",
-                                "/api/drivelogs/excel"
+                                "/api/drivelogs/excel",
+                                "/ws/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
