@@ -85,6 +85,7 @@ public class SecurityConfig {
                 "http://2thecore.site",
                 "https://api.2thecore.site",
                 "http://localhost:3000",
+                "http://localhost:3001",
                 "http://localhost:8081",
                 "https://2thecore-fe.s3-website.ap-northeast-2.amazonaws.com"
         ));
