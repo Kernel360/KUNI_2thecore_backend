@@ -20,7 +20,7 @@ public class LocationBroadcastService {
     @RabbitListener(queues = LIVE_LOCATION_QUEUE)
     public void broadcastLocation(LiveLocationDto locationDto) {
         // 웹소켓 동적 주제 생성
-        String destination = "/location/" + locationDto.getCarNumber();
+        String destination = "/location/cars/" + locationDto.getCarNumber();
 
         // SimpMessageingTemplate 이용해 해당 주제 구독하는 클라이언트에게 메세지 전송
         messagingTemplate.convertAndSend(destination, locationDto);
