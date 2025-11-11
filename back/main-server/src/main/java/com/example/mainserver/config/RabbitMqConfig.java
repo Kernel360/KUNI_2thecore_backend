@@ -29,8 +29,9 @@ public class RabbitMqConfig {
     @Bean
     public Queue liveLocationQueue() {
         // Exchange로부터 수신할 큐 생성
-        // 서버 재시작될 때마다 새로운 큐 생성, 연결이 끊어지면 자동 삭제
-        return new Queue(LIVE_LOCATION_QUEUE, false, false, true);
+        // durable: true -> 큐를 영속적으로 만듦
+        // autoDelete: false -> 마지막 소비자가 연결을 끊어도 큐가 삭제되지 않음
+        return new Queue(LIVE_LOCATION_QUEUE, true, false, false);
     }
 
     @Bean
